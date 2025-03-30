@@ -1,23 +1,83 @@
 import { Tabs } from "expo-router";
-import { View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from "@/context/ThemeContext";
+import { View, ImageBackground, TouchableOpacity, Text } from "react-native";
+import useColors from "hooks/useColors";
+import {
+  GridOutlineIcon,
+  WalletOutlineIcon,
+  AddIcon,
+  StatsChartOutlineIcon,
+  PersonOutlineIcon,
+} from "components/Icons";
+import AppTitle from "components/AppTitle";
+import { useTheme } from "context/ThemeContext";
 
 export default function TabsLayout() {
-  const { isDarkMode } = useTheme();
+  const colors = useColors();
+  const { toggleTheme } = useTheme();
 
   return (
     <Tabs
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: isDarkMode ? "#1A1A1A" : "#FFFFFF",
+          backgroundColor: colors.background,
           borderTopWidth: 0,
           elevation: 0,
           height: 60,
           paddingBottom: 8,
         },
-        tabBarActiveTintColor: "#3B82F6",
-        tabBarInactiveTintColor: "#6B7280",
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textSecondary,
+        headerBackground: () => (
+          <View style={{ flex: 1 }}>
+            <ImageBackground
+              source={require("assets/images/header-bg.jpg")}
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+            />
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "rgba(0, 0, 0, 0.6)",
+              }}
+            />
+          </View>
+        ),
+        headerStyle: {
+          backgroundColor: "transparent",
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        headerTitleStyle: {
+          color: colors.text,
+          fontWeight: "bold",
+        },
+        headerTitle: "",
+        headerLeft: () => <AppTitle />,
+        headerRight: () => (
+          <View style={{ paddingRight: 16, flexDirection: "row", gap: 16 }}>
+            <TouchableOpacity
+              onPress={toggleTheme}
+              style={{
+                backgroundColor: colors.primary,
+                padding: 8,
+                borderRadius: 8,
+              }}
+            >
+              <Text style={{ color: "white", fontWeight: "bold" }}>
+                Cambiar Tema
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <PersonOutlineIcon size={24} color={colors.text} />
+            </TouchableOpacity>
+          </View>
+        ),
       }}
     >
       <Tabs.Screen
@@ -25,7 +85,7 @@ export default function TabsLayout() {
         options={{
           title: "Dashboard",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="grid-outline" size={size} color={color} />
+            <GridOutlineIcon size={size} color={color} />
           ),
         }}
       />
@@ -34,7 +94,7 @@ export default function TabsLayout() {
         options={{
           title: "Wallet",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="wallet-outline" size={size} color={color} />
+            <WalletOutlineIcon size={size} color={color} />
           ),
         }}
       />
@@ -45,13 +105,13 @@ export default function TabsLayout() {
           tabBarIcon: ({ color }) => (
             <View
               style={{
-                backgroundColor: "#3B82F6",
+                backgroundColor: colors.primary,
                 borderRadius: 30,
                 padding: 12,
                 marginTop: -20,
               }}
             >
-              <Ionicons name="add" size={30} color="white" />
+              <AddIcon color="white" />
             </View>
           ),
         }}
@@ -61,7 +121,7 @@ export default function TabsLayout() {
         options={{
           title: "Stats",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="stats-chart-outline" size={size} color={color} />
+            <StatsChartOutlineIcon size={size} color={color} />
           ),
         }}
       />
@@ -70,10 +130,10 @@ export default function TabsLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" size={size} color={color} />
+            <PersonOutlineIcon size={size} color={color} />
           ),
         }}
       />
     </Tabs>
   );
-} 
+}
