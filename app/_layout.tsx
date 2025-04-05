@@ -1,9 +1,9 @@
 import { ThemeProvider } from "context/ThemeContext";
 import { Stack } from "expo-router";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import useColors from "hooks/useColors";
-import "./globals.css";
 import { StatusBar } from "expo-status-bar";
+import useColors from "hooks/useColors";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import "./globals.css";
 
 function RootLayoutNav() {
   const colors = useColors();
@@ -18,7 +18,19 @@ function RootLayoutNav() {
       }}
     >
       <Stack.Screen
+        name="(auth)"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="(tabs)"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="(admin)"
         options={{
           headerShown: false,
         }}
@@ -31,7 +43,7 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
-        <StatusBar style="auto" />
+        <StatusBar style="light" />
         <RootLayoutNav />
       </ThemeProvider>
     </SafeAreaProvider>
