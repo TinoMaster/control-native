@@ -1,10 +1,14 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useTheme } from "context/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "context/ThemeContext";
+import useColors from "hooks/useColors";
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import colors from "styles/colors";
+import ui from "styles/ui";
 
 const ExpenseCard = () => {
   const { isDarkMode } = useTheme();
+  const colors = useColors();
 
   return (
     <View
@@ -19,7 +23,7 @@ const ExpenseCard = () => {
         <View style={styles.textContainer}>
           <Text
             style={[
-              styles.title,
+              ui.card.title,
               { color: isDarkMode ? "#FFFFFF" : "#1F2937" },
             ]}
           >
@@ -31,16 +35,9 @@ const ExpenseCard = () => {
         </View>
         <View style={styles.imageContainer}>
           <View style={styles.cube}>
-            <Ionicons
-              name="cube-outline"
-              size={24}
-              color={isDarkMode ? "#FFFFFF" : "#1F2937"}
-            />
+            <Ionicons name="cube-outline" size={24} color="#FFFFFF" />
           </View>
-          <View style={[styles.coin, { backgroundColor: "#FFB800" }]}>
-            <Text style={styles.coinText}>$</Text>
-          </View>
-          <View style={[styles.coin, { backgroundColor: "#3B82F6" }]}>
+          <View style={[styles.coin, { backgroundColor: colors.secondary }]}>
             <Text style={styles.coinText}>$</Text>
           </View>
         </View>
@@ -63,12 +60,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 12,
+    fontSize: ui.card.title.fontSize,
+    fontWeight: ui.card.title.fontWeight,
+    marginBottom: ui.card.title.marginBottom,
   },
   button: {
-    backgroundColor: "#3B82F6",
+    backgroundColor: colors.secondary.dark,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
@@ -87,7 +84,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 20,
     left: 20,
-    backgroundColor: "#3B82F6",
+    backgroundColor: colors.secondary.dark,
     padding: 12,
     borderRadius: 12,
   },
@@ -105,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExpenseCard; 
+export default ExpenseCard;

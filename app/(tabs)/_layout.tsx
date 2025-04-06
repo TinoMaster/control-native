@@ -73,9 +73,6 @@ export default function TabsLayout() {
                 Cambiar Tema
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <PersonOutlineIcon size={24} color={colors.text} />
-            </TouchableOpacity>
           </View>
         ),
       }}
@@ -107,8 +104,11 @@ export default function TabsLayout() {
               style={{
                 backgroundColor: colors.primary,
                 borderRadius: 30,
-                padding: 12,
                 marginTop: -20,
+                width: 50,
+                height: 50,
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               <AddIcon color="white" />
@@ -126,7 +126,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="profile/index"
         options={{
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
