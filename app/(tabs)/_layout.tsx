@@ -125,6 +125,15 @@ export default function TabsLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="entries"
+        options={{
+          title: "Entries",
+          tabBarIcon: ({ color, size }) => (
+            <WalletOutlineIcon size={size} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

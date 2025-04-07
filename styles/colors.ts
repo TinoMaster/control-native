@@ -8,8 +8,8 @@ const colors = {
     dark: "#015c68",
   },
   secondary: {
-    light: "#03dac6",
-    dark: "#01b4c6",
+    light: "#029E83",
+    dark: "#029E83",
   },
   darkMode: {
     text: {

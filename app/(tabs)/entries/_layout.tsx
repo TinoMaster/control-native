@@ -8,7 +8,7 @@ const menuItems: { label: string; path: `/(tabs)/entries${string}`; icon: string
   { label: "Gastos", path: "/(tabs)/entries/expenses", icon: "arrow-up-circle-outline" },
   { label: "Transfer", path: "/(tabs)/entries/transfers", icon: "swap-horizontal-outline" },
   { label: "Categorías", path: "/(tabs)/entries/categories", icon: "pricetags-outline" },
-  { label: "Configuración", path: "/(tabs)/entries/settings", icon: "settings-outline" },
+  { label: "Config", path: "/(tabs)/entries/settings", icon: "settings-outline" },
 ];
 
 export default function EntriesLayout() {
