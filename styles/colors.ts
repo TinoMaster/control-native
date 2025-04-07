@@ -1,15 +1,25 @@
 const colors = {
   background: {
-    light: "#FFFFFF",
-    dark: "#1A1A1A",
+    light: {
+      primary: "#FFFFFF",
+      secondary: "#F5F5F5",
+    },
+    dark: {
+      primary: "#1A1A1A",
+      secondary: "#2D2D2D",
+    },
   },
   primary: {
     light: "#027483",
     dark: "#015c68",
   },
   secondary: {
-    light: "#029E83",
-    dark: "#029E83",
+    light: "#FF6B6B",
+    dark: "#E64A4A",
+  },
+  third: {
+    light: "#4CAF50",
+    dark: "#388E3C",
   },
   darkMode: {
     text: {

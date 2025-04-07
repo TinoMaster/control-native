@@ -29,7 +29,10 @@ export default function NavigationMenu({ items }: NavigationMenuProps) {
       {items.map((item) => (
         <LinearGradient
           key={item.path}
-          colors={[colors.primary.light, colors.primary.dark]}
+          colors={[
+            colors.background.dark.secondary,
+            colors.background.dark.primary,
+          ]}
           start={{ x: 1, y: 0 }}
           end={{ x: 0, y: 0 }}
           style={styles.button}
@@ -76,15 +79,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   activeButton: {
-    borderColor: "#ffffff",
-    borderWidth: 1,
+    borderColor: colors.third.dark,
+    borderWidth: 2,
   },
   inactiveButton: {
-    borderColor: colors.secondary.dark,
-    borderWidth: 1,
+    borderColor: colors.background.dark.secondary,
+    borderWidth: 2,
   },
   text: {
-    fontSize: 10,
+    fontSize: 8,
     fontWeight: "500",
     marginTop: 4,
   },
