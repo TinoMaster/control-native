@@ -18,7 +18,7 @@ export default function ServicesScreen() {
       service={service}
       onPress={() => {
         if (service.id) {
-          router.push(`/(tabs)/entries/services/${service.id}/index` as any);
+          router.push(`/(tabs)/entries/services/${service.id}` as any);
         }
       }}
     />

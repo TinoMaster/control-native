@@ -20,6 +20,10 @@ export const useService = () => {
     enabled: !!businessId,
   });
 
+  const getServiceById = (id: number) => {
+    return services.find((service) => service.id === id);
+  };
+
   const { mutate: saveService } = useMutation({
     mutationFn: (service: ServiceModel) => serviceService.saveService(service),
     onSuccess: () => {
@@ -51,6 +55,7 @@ export const useService = () => {
   return {
     services,
     loadingServices,
+    getServiceById,
     saveService,
     deleteService,
   };
