@@ -1,7 +1,7 @@
 import AppTitle from "components/AppTitle";
 import {
-  AddIcon,
   GridOutlineIcon,
+  InputIcon,
   PersonOutlineIcon,
   StatsChartOutlineIcon,
   WalletOutlineIcon,
@@ -92,18 +92,11 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="add"
+        name="entries"
         options={{
-          title: "",
-          tabBarIcon: ({ color }) => (
-            <View
-              className="rounded-full -mt-5 w-[50px] h-[50px] justify-center items-center"
-              style={{
-                backgroundColor: colors.primary,
-              }}
-            >
-              <AddIcon color="white" />
-            </View>
+          title: "Entries",
+          tabBarIcon: ({ color, size }) => (
+            <InputIcon size={size} color={color} />
           ),
         }}
       />
@@ -122,15 +115,6 @@ export default function TabsLayout() {
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
             <PersonOutlineIcon size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="entries"
-        options={{
-          title: "Entries",
-          tabBarIcon: ({ color, size }) => (
-            <WalletOutlineIcon size={size} color={color} />
           ),
         }}
       />

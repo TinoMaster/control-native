@@ -1,9 +1,5 @@
-import { View, Text } from "react-native";
+import { Redirect } from "expo-router";
 
-export default function EntriesScreen() {
-  return (
-    <View className="flex-1 items-center justify-center">
-      <Text className="text-lg font-bold">Todos los movimientos</Text>
-    </View>
-  );
-} 
+export default function Index() {
+  return <Redirect href={"/(tabs)/entries/services" as any} />;
+}

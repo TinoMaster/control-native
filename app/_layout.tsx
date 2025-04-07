@@ -1,4 +1,7 @@
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "config/react-query.config";
 import { ThemeProvider } from "context/ThemeContext";
+import { NotificationProvider } from "contexts/NotificationContext";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import useColors from "hooks/useColors";
@@ -41,11 +44,15 @@ function RootLayoutNav() {
 
 export default function RootLayout() {
   return (
-    <SafeAreaProvider>
-      <ThemeProvider>
-        <StatusBar style="light" />
-        <RootLayoutNav />
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          <NotificationProvider>
+            <StatusBar style="light" />
+            <RootLayoutNav />
+          </NotificationProvider>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }

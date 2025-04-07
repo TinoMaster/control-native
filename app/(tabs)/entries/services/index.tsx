@@ -1,0 +1,87 @@
+import useColors from "hooks/useColors";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import GenericList from "components/GenericList";
+import { ServiceModel } from "models/api/service.model";
+import { useRouter } from "expo-router";
+import { useService } from "hooks/api/useServices";
+import LoadingPage from "components/LoadingPage";
+
+export default function ServicesScreen() {
+  const colors = useColors();
+  const router = useRouter();
+  const { services, loadingServices } = useService();
+
+  const renderService = (service: ServiceModel) => (
+    <View style={[styles.serviceItem, { backgroundColor: colors.background }]}>
+      <Text style={[styles.serviceName, { color: colors.text }]}>
+        {service.name}
+      </Text>
+      <Text style={[styles.servicePrice, { color: colors.text }]}>
+        ${service.price}
+      </Text>
+    </View>
+  );
+
+  if (loadingServices) {
+    return <LoadingPage />;
+  }
+
+  return (
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <GenericList
+        data={services}
+        renderItem={renderService}
+        keyExtractor={(item) => item.id?.toString() || ""}
+        emptyListMessage="No hay servicios registrados"
+      />
+      <TouchableOpacity
+        style={[styles.fab, { backgroundColor: colors.primary }]}
+        onPress={() =>
+          router.push("/(tabs)/entries/services/create/index" as any)
+        }
+      >
+        <Ionicons name="add" size={24} color={colors.background} />
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  serviceItem: {
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 8,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  serviceName: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  servicePrice: {
+    fontSize: 16,
+  },
+  fab: {
+    position: "absolute",
+    right: 16,
+    bottom: 16,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+});

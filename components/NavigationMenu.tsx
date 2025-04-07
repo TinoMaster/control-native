@@ -11,19 +11,14 @@ interface NavigationMenuProps {
     path: `/(tabs)/entries${string}`;
     icon: string;
   }[];
-  activePath: string;
 }
 
-export default function NavigationMenu({
-  items,
-  activePath,
-}: NavigationMenuProps) {
+export default function NavigationMenu({ items }: NavigationMenuProps) {
   const router = useRouter();
   const defaultColors = useColors();
   const pathname = usePathname();
 
-  console.log(pathname);
-  console.log(activePath);
+  const activePath = pathname.split("/").pop() || "";
 
   return (
     <ScrollView
@@ -69,20 +64,16 @@ export default function NavigationMenu({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    borderBottomWidth: 1,
     paddingHorizontal: 5,
-    borderBottomColor: "#e5e7eb",
-    paddingVertical: 8,
+    paddingVertical: 16,
   },
   button: {
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
     borderRadius: 35,
-    marginHorizontal: 4,
+    marginHorizontal: 6,
     alignItems: "center",
     justifyContent: "center",
-    borderColor: colors.secondary.dark,
-    borderWidth: 1,
   },
   activeButton: {
     borderColor: "#ffffff",
@@ -93,7 +84,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   text: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: "500",
     marginTop: 4,
   },
