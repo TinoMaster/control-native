@@ -1,15 +1,15 @@
-import { Tabs } from "expo-router";
-import { View, ImageBackground, TouchableOpacity, Text } from "react-native";
-import useColors from "hooks/useColors";
-import {
-  GridOutlineIcon,
-  WalletOutlineIcon,
-  AddIcon,
-  StatsChartOutlineIcon,
-  PersonOutlineIcon,
-} from "components/Icons";
 import AppTitle from "components/AppTitle";
+import {
+  AddIcon,
+  GridOutlineIcon,
+  PersonOutlineIcon,
+  StatsChartOutlineIcon,
+  WalletOutlineIcon,
+} from "components/Icons";
 import { useTheme } from "context/ThemeContext";
+import { Tabs } from "expo-router";
+import useColors from "hooks/useColors";
+import { ImageBackground, Pressable, Text, View } from "react-native";
 
 export default function TabsLayout() {
   const colors = useColors();
@@ -37,12 +37,8 @@ export default function TabsLayout() {
               }}
             />
             <View
+              className="absolute top-0 left-0 right-0 bottom-0"
               style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
                 backgroundColor: "rgba(0, 0, 0, 0.6)",
               }}
             />
@@ -61,7 +57,7 @@ export default function TabsLayout() {
         headerLeft: () => <AppTitle />,
         headerRight: () => (
           <View style={{ paddingRight: 16, flexDirection: "row", gap: 16 }}>
-            <TouchableOpacity
+            <Pressable
               onPress={toggleTheme}
               style={{
                 backgroundColor: colors.primary,
@@ -72,7 +68,7 @@ export default function TabsLayout() {
               <Text style={{ color: "white", fontWeight: "bold" }}>
                 Cambiar Tema
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         ),
       }}
@@ -101,14 +97,9 @@ export default function TabsLayout() {
           title: "",
           tabBarIcon: ({ color }) => (
             <View
+              className="rounded-full -mt-5 w-[50px] h-[50px] justify-center items-center"
               style={{
                 backgroundColor: colors.primary,
-                borderRadius: 30,
-                marginTop: -20,
-                width: 50,
-                height: 50,
-                justifyContent: "center",
-                alignItems: "center",
               }}
             >
               <AddIcon color="white" />
