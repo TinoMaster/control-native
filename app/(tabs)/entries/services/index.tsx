@@ -6,6 +6,7 @@ import { ServiceModel } from "models/api/service.model";
 import { useRouter } from "expo-router";
 import { useService } from "hooks/api/useServices";
 import LoadingPage from "components/LoadingPage";
+import ServiceCard from "components/ServiceCard";
 
 export default function ServicesScreen() {
   const colors = useColors();
@@ -13,14 +14,14 @@ export default function ServicesScreen() {
   const { services, loadingServices } = useService();
 
   const renderService = (service: ServiceModel) => (
-    <View style={[styles.serviceItem, { backgroundColor: colors.background }]}>
-      <Text style={[styles.serviceName, { color: colors.text }]}>
-        {service.name}
-      </Text>
-      <Text style={[styles.servicePrice, { color: colors.text }]}>
-        ${service.price}
-      </Text>
-    </View>
+    <ServiceCard
+      service={service}
+      onPress={() => {
+        if (service.id) {
+          router.push(`/(tabs)/entries/services/${service.id}/index` as any);
+        }
+      }}
+    />
   );
 
   if (loadingServices) {
