@@ -23,8 +23,8 @@ const colors = {
   },
   darkMode: {
     text: {
-      light: "#1F2937",
-      dark: "#FFFFFF",
+      light: "#FFFFFF",
+      dark: "#FEFEFE",
     },
     textSecondary: {
       light: "#6B7280",
@@ -33,8 +33,8 @@ const colors = {
   },
   lightMode: {
     text: {
-      light: "#1F2937",
-      dark: "#FFFFFF",
+      light: "#2D2D2D",
+      dark: "#1A1A1A",
     },
     textSecondary: {
       light: "#6B7280",

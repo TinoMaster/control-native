@@ -9,7 +9,7 @@ export const useConsumables = () => {
   const queryClient = useQueryClient();
   const { showNotification } = useNotification();
 
-  const { data: consumables = [] } = useQuery({
+  const { data: consumables = [], isLoading: loadingConsumables } = useQuery({
     queryKey: ["consumables", businessId],
     queryFn: async () => {
       const response = await consumableService.getConsumablesByBusinessId(
@@ -53,5 +53,6 @@ export const useConsumables = () => {
     consumables,
     onSaveConsumable,
     onDeleteConsumable,
+    loadingConsumables,
   };
 };
