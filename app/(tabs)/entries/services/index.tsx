@@ -39,7 +39,7 @@ export default function ServicesScreen() {
       <TouchableOpacity
         style={[styles.fab, { backgroundColor: colors.primary }]}
         onPress={() =>
-          router.push("/(tabs)/entries/services/create/index" as any)
+          router.push("/(tabs)/entries/services/create" as any)
         }
       >
         <Ionicons name="add" size={24} color={colors.background} />

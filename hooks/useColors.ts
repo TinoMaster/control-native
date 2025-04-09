@@ -1,4 +1,4 @@
-import { useTheme } from "context/ThemeContext";
+import { useTheme } from "contexts/ThemeContext";
 import colors from "styles/colors";
 
 export default function useColors() {

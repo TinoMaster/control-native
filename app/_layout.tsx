@@ -1,6 +1,6 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "config/react-query.config";
-import { ThemeProvider } from "context/ThemeContext";
+import { ThemeProvider } from "contexts/ThemeContext";
 import { NotificationProvider } from "contexts/NotificationContext";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";

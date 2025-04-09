@@ -8,7 +8,7 @@ import {
 import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
-import { authService } from "services/authService";
+import { authService } from "services/auth.service";
 import { useAuthStore } from "store/auth.store";
 
 export default function LoginScreen() {

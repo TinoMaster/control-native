@@ -6,7 +6,7 @@ import {
   StatsChartOutlineIcon,
   WalletOutlineIcon,
 } from "components/Icons";
-import { useTheme } from "context/ThemeContext";
+import { useTheme } from "contexts/ThemeContext";
 import { Tabs } from "expo-router";
 import useColors from "hooks/useColors";
 import { ImageBackground, Pressable, Text, View } from "react-native";

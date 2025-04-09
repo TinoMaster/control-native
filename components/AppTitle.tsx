@@ -104,8 +104,6 @@ export default function AppTitle() {
                 key={b.id}
                 style={{
                   padding: 12,
-                  borderBottomWidth: 1,
-                  borderBottomColor: colors.background.dark.secondary,
                 }}
                 onPress={() => {
                   onChangeBusiness(b.id!);

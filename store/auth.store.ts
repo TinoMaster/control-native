@@ -1,11 +1,11 @@
+import * as SecureStore from "expo-secure-store";
 import { ERole, TRole, UserModel } from "models/api";
 import { EmployeeModel } from "models/api/employee.model";
-import { employeeService } from "services/employeeService";
-import { userService } from "services/userService";
+import { employeeService } from "services/employee.service";
+import { userService } from "services/user.service";
 import { decodeJWT } from "utilities/helpers/jwtDecode";
 import { create } from "zustand";
 import { useBusinessStore } from "./business.store";
-import * as SecureStore from "expo-secure-store";
 
 interface AuthState {
   user: UserModel | undefined;
@@ -37,7 +37,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         SecureStore.getItemAsync("token"),
         SecureStore.getItemAsync("role"),
       ]);
-      
+
       set({
         token,
         role: role as TRole,

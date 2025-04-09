@@ -2,7 +2,7 @@ import { apiConfig } from "config/api.config";
 import { EmployeeModel } from "models/api/employee.model";
 import { IResponse } from "types/request.types";
 import { handleFetchError } from "utilities/helpers/errorManager";
-import { requestService } from "./RequestService";
+import { requestService } from "./request.service";
 
 class EmployeeService {
   private urlAdmin = apiConfig.adminUrl;

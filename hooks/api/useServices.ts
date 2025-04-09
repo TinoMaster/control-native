@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNotification } from "contexts/NotificationContext";
 import { ServiceModel } from "models/api";
-import { serviceService } from "services/servicesService";
+import { serviceService } from "services/services.service";
 import { useBusinessStore } from "store/business.store";
 
 export const useService = () => {
