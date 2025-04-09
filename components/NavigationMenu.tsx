@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   activeButton: {
-    borderColor: colors.third.dark,
+    borderColor: colors.primary.light,
     borderWidth: 2,
   },
   inactiveButton: {
