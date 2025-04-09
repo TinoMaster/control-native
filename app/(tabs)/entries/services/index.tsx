@@ -7,9 +7,10 @@ import { useRouter } from "expo-router";
 import { useService } from "hooks/api/useServices";
 import LoadingPage from "components/LoadingPage";
 import ServiceCard from "components/ServiceCard";
+import colors from "styles/colors";
 
 export default function ServicesScreen() {
-  const colors = useColors();
+  const defaultColors = useColors();
   const router = useRouter();
   const { services, loadingServices } = useService();
 
@@ -29,7 +30,9 @@ export default function ServicesScreen() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <View
+      style={[styles.container, { backgroundColor: defaultColors.background }]}
+    >
       <GenericList
         data={services}
         renderItem={renderService}
@@ -37,12 +40,10 @@ export default function ServicesScreen() {
         emptyListMessage="No hay servicios registrados"
       />
       <TouchableOpacity
-        style={[styles.fab, { backgroundColor: colors.primary }]}
-        onPress={() =>
-          router.push("/(tabs)/entries/services/create" as any)
-        }
+        style={[styles.fab, { backgroundColor: defaultColors.primary }]}
+        onPress={() => router.push("/(tabs)/entries/services/create" as any)}
       >
-        <Ionicons name="add" size={24} color={colors.background} />
+        <Ionicons name="add" size={28} color={colors.darkMode.text.light} />
       </TouchableOpacity>
     </View>
   );
@@ -71,9 +72,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 16,
     bottom: 16,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
     elevation: 4,

@@ -1,17 +1,25 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import useColors from "hooks/useColors";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useService } from "hooks/api/useServices";
 import LoadingPage from "components/LoadingPage";
 import { useNotification } from "contexts/NotificationContext";
+import colors from "styles/colors";
 
 export default function ServiceDetailScreen() {
   const { id } = useLocalSearchParams();
-  const colors = useColors();
+  const defaultColors = useColors();
   const router = useRouter();
   const { showNotification } = useNotification();
-  const { services, loadingServices, getServiceById } = useService();
+  const { services, loadingServices, getServiceById, deleteService } =
+    useService();
 
   if (loadingServices) {
     return <LoadingPage message="Cargando detalles del servicio..." />;
@@ -25,8 +33,22 @@ export default function ServiceDetailScreen() {
     return null;
   }
 
+  const onDeleteService = (serviceId: number) => {
+    deleteService(serviceId, {
+      onSuccess: () => {
+        showNotification("Servicio eliminado", "success");
+        router.back();
+      },
+      onError: () => {
+        showNotification("Error al eliminar el servicio", "error");
+      },
+    });
+  };
+
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <View
+      style={[styles.container, { backgroundColor: defaultColors.background }]}
+    >
       <ScrollView style={styles.scrollView}>
         {/* Header */}
         <View style={styles.header}>
@@ -34,60 +56,81 @@ export default function ServiceDetailScreen() {
             onPress={() => router.back()}
             style={styles.backButton}
           >
-            <Ionicons name="arrow-back" size={24} color={colors.text} />
+            <Ionicons name="arrow-back" size={24} color={defaultColors.text} />
           </TouchableOpacity>
-          <Text style={[styles.title, { color: colors.text }]}>
+          <Text style={[styles.title, { color: defaultColors.text }]}>
             Detalles del Servicio
           </Text>
         </View>
 
         {/* Información Principal */}
-        <View style={[styles.card, { backgroundColor: colors.background }]}>
-          <Text style={[styles.serviceName, { color: colors.text }]}>
+        <View
+          style={[styles.card, { backgroundColor: defaultColors.background }]}
+        >
+          <Text style={[styles.serviceName, { color: defaultColors.text }]}>
             {service.name}
           </Text>
-          <Text style={[styles.price, { color: colors.primary }]}>
+          <Text style={[styles.price, { color: defaultColors.primary }]}>
             ${service.price.toFixed(2)}
           </Text>
           {service.description && (
-            <Text style={[styles.description, { color: colors.textSecondary }]}>
+            <Text
+              style={[
+                styles.description,
+                { color: defaultColors.textSecondary },
+              ]}
+            >
               {service.description}
             </Text>
           )}
         </View>
 
         {/* Información del Negocio */}
-        <View style={[styles.card, { backgroundColor: colors.background }]}>
+        <View
+          style={[styles.card, { backgroundColor: defaultColors.background }]}
+        >
           <View style={styles.sectionHeader}>
             <Ionicons
               name="business-outline"
               size={24}
-              color={colors.primary}
+              color={defaultColors.primary}
             />
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>
+            <Text style={[styles.sectionTitle, { color: defaultColors.text }]}>
               Información del Negocio
             </Text>
           </View>
-          <Text style={[styles.infoText, { color: colors.textSecondary }]}>
+          <Text
+            style={[styles.infoText, { color: defaultColors.textSecondary }]}
+          >
             ID del Negocio: {service.business}
           </Text>
         </View>
 
         {/* Costos Asociados */}
         {service.costs && service.costs.length > 0 && (
-          <View style={[styles.card, { backgroundColor: colors.background }]}>
+          <View
+            style={[styles.card, { backgroundColor: defaultColors.background }]}
+          >
             <View style={styles.sectionHeader}>
-              <Ionicons name="cash-outline" size={24} color={colors.primary} />
-              <Text style={[styles.sectionTitle, { color: colors.text }]}>
+              <Ionicons
+                name="cash-outline"
+                size={24}
+                color={defaultColors.primary}
+              />
+              <Text
+                style={[styles.sectionTitle, { color: defaultColors.text }]}
+              >
                 Costos Asociados ({service.costs.length})
               </Text>
             </View>
             {service.costs.map((cost, index) => (
               <View key={index} style={styles.costItem}>
-                <Text style={[styles.costName, { color: colors.text }]}>
+                <Text style={[styles.costName, { color: defaultColors.text }]}>
                   {cost.consumable.name}
                 </Text>
-                <Text style={[styles.costAmount, { color: colors.primary }]}>
+                <Text
+                  style={[styles.costAmount, { color: defaultColors.primary }]}
+                >
                   {cost.quantity} x ${cost.consumable.price.toFixed(2)}
                 </Text>
               </View>
@@ -96,24 +139,30 @@ export default function ServiceDetailScreen() {
         )}
 
         {/* Información Adicional */}
-        <View style={[styles.card, { backgroundColor: colors.background }]}>
+        <View
+          style={[styles.card, { backgroundColor: defaultColors.background }]}
+        >
           <View style={styles.sectionHeader}>
             <Ionicons
               name="information-circle-outline"
               size={24}
-              color={colors.primary}
+              color={defaultColors.primary}
             />
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>
+            <Text style={[styles.sectionTitle, { color: defaultColors.text }]}>
               Información Adicional
             </Text>
           </View>
           {service.createdAt && (
-            <Text style={[styles.infoText, { color: colors.textSecondary }]}>
+            <Text
+              style={[styles.infoText, { color: defaultColors.textSecondary }]}
+            >
               Creado: {new Date(service.createdAt).toLocaleDateString()}
             </Text>
           )}
           {service.updatedAt && (
-            <Text style={[styles.infoText, { color: colors.textSecondary }]}>
+            <Text
+              style={[styles.infoText, { color: defaultColors.textSecondary }]}
+            >
               Última actualización:{" "}
               {new Date(service.updatedAt).toLocaleDateString()}
             </Text>
@@ -124,13 +173,11 @@ export default function ServiceDetailScreen() {
       {/* Botones de Acción */}
       <View style={styles.actionButtons}>
         <TouchableOpacity
-          style={[styles.actionButton, { backgroundColor: colors.primary }]}
-          onPress={() => {
-            router.push(`/(tabs)/entries/services/${id}/edit/index` as any);
-          }}
+          style={[styles.actionButton]}
+          onPress={() => onDeleteService(service.id ?? 0)}
         >
-          <Ionicons name="create-outline" size={24} color="white" />
-          <Text style={styles.actionButtonText}>Editar</Text>
+          <Ionicons name="trash-outline" size={24} color="white" />
+          <Text style={styles.actionButtonText}>Eliminar</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -228,6 +275,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     marginHorizontal: 8,
+    backgroundColor: colors.secondary.dark,
   },
   actionButtonText: {
     color: "white",
@@ -235,4 +283,4 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginLeft: 8,
   },
-}); 
+});

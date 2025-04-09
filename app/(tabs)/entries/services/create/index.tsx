@@ -39,7 +39,7 @@ export default function CreateService() {
 
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
     watch,
   } = useForm<ServiceSchema>({
@@ -130,10 +130,10 @@ export default function CreateService() {
               backgroundColor: colors.background.light.primary,
               padding: 12,
               borderRadius: 8,
-              color: defaultColors.text,
+              color: colors.lightMode.text.dark,
             }}
             placeholder="Ingrese el nombre del servicio"
-            placeholderTextColor={defaultColors.textSecondary}
+            placeholderTextColor={colors.lightMode.textSecondary.light}
             onChangeText={(text) => setValue("name", text)}
           />
           {errors.name && (
@@ -157,13 +157,13 @@ export default function CreateService() {
               backgroundColor: colors.background.light.primary,
               padding: 12,
               borderRadius: 8,
-              color: defaultColors.text,
+              color: colors.lightMode.text.dark,
               minHeight: 100,
               textAlignVertical: "top",
             }}
             multiline
             placeholder="Ingrese la descripción del servicio"
-            placeholderTextColor={defaultColors.textSecondary}
+            placeholderTextColor={colors.lightMode.textSecondary.light}
             onChangeText={(text) => setValue("description", text)}
           />
         </View>
@@ -182,11 +182,11 @@ export default function CreateService() {
               backgroundColor: colors.background.light.primary,
               padding: 12,
               borderRadius: 8,
-              color: defaultColors.text,
+              color: colors.lightMode.text.dark,
             }}
             keyboardType="numeric"
             placeholder="Ingrese el precio del servicio"
-            placeholderTextColor={defaultColors.textSecondary}
+            placeholderTextColor={colors.lightMode.textSecondary.light}
             onChangeText={(text) => setValue("price", text)}
           />
           {errors.price && (
@@ -202,7 +202,7 @@ export default function CreateService() {
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: 8,
+              marginBottom: 16,
             }}
           >
             <Text
@@ -268,7 +268,7 @@ export default function CreateService() {
                   borderRadius: 8,
                   width: 80,
                   marginRight: 8,
-                  color: colors.lightMode.text.light,
+                  color: colors.lightMode.text.dark,
                 }}
                 keyboardType="numeric"
                 placeholder="Cant."
@@ -306,8 +306,9 @@ export default function CreateService() {
             borderRadius: 8,
             alignItems: "center",
             marginTop: 16,
+            opacity: loading || !isValid ? 0.5 : 1,
           }}
-          disabled={loading}
+          disabled={loading || !isValid}
         >
           {loading ? (
             <ActivityIndicator color={colors.background.light.primary} />
