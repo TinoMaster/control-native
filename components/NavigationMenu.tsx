@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { usePathname, useRouter } from "expo-router";
-import useColors from "hooks/useColors";
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 import colors from "styles/colors";
 
@@ -15,7 +14,6 @@ interface NavigationMenuProps {
 
 export default function NavigationMenu({ items }: NavigationMenuProps) {
   const router = useRouter();
-  const defaultColors = useColors();
   const pathname = usePathname();
 
   const activePath = pathname.split("/").pop() || "";
@@ -24,7 +22,10 @@ export default function NavigationMenu({ items }: NavigationMenuProps) {
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      style={[styles.container, { backgroundColor: defaultColors.background }]}
+      style={[
+        styles.container,
+        { backgroundColor: colors.background.dark.primary },
+      ]}
     >
       {items.map((item) => (
         <LinearGradient
@@ -69,6 +70,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 5,
     paddingVertical: 16,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
   },
   button: {
     width: 60,

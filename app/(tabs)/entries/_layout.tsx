@@ -1,5 +1,6 @@
 import NavigationMenu from "components/NavigationMenu";
 import { Stack } from "expo-router";
+import useColors from "hooks/useColors";
 import { View } from "react-native";
 
 const menuItems: {
@@ -36,9 +37,14 @@ const menuItems: {
 ];
 
 export default function EntriesLayout() {
+  const defaultColors = useColors();
   return (
     <View className="flex-1">
-      <View>
+      <View
+        style={{
+          backgroundColor: defaultColors.background,
+        }}
+      >
         <NavigationMenu items={menuItems} />
       </View>
       <View className="flex-1">

@@ -10,23 +10,26 @@ import { useTheme } from "contexts/ThemeContext";
 import { Tabs } from "expo-router";
 import useColors from "hooks/useColors";
 import { ImageBackground, Pressable, Text, View } from "react-native";
+import colors from "styles/colors";
 
 export default function TabsLayout() {
-  const colors = useColors();
+  const defaultColors = useColors();
   const { toggleTheme } = useTheme();
 
   return (
     <Tabs
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: colors.background,
+          backgroundColor: colors.background.dark.primary,
           borderTopWidth: 0,
           elevation: 0,
           height: 60,
-          paddingBottom: 8,
+          paddingTop: 4,
+          borderTopLeftRadius: 5,
+          borderTopRightRadius: 5,
         },
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.textSecondary,
+        tabBarActiveTintColor: colors.primary.light,
+        tabBarInactiveTintColor: colors.darkMode.textSecondary.light,
         headerBackground: () => (
           <View style={{ flex: 1 }}>
             <ImageBackground
@@ -50,7 +53,7 @@ export default function TabsLayout() {
           shadowOpacity: 0,
         },
         headerTitleStyle: {
-          color: colors.text,
+          color: defaultColors.text,
           fontWeight: "bold",
         },
         headerTitle: "",
@@ -60,7 +63,7 @@ export default function TabsLayout() {
             <Pressable
               onPress={toggleTheme}
               style={{
-                backgroundColor: colors.primary,
+                backgroundColor: defaultColors.primary,
                 padding: 8,
                 borderRadius: 8,
               }}
