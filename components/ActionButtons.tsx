@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Animated } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import colors from '../styles/colors';
+import React, { useState } from "react";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Animated,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import colors from "../styles/colors";
 
 interface ActionButton {
   icon: keyof typeof Ionicons.glyphMap;
@@ -13,13 +19,13 @@ interface ActionButton {
 interface ActionButtonsProps {
   buttons: ActionButton[];
   fixed?: boolean;
-  position?: 'bottom' | 'top';
+  position?: "bottom" | "top";
 }
 
 export const ActionButtons: React.FC<ActionButtonsProps> = ({
   buttons,
   fixed = false,
-  position = 'bottom',
+  position = "bottom",
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [animation] = useState(new Animated.Value(0));
@@ -36,11 +42,19 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 
   if (fixed) {
     return (
-      <View style={[styles.container, position === 'bottom' ? styles.bottom : styles.top]}>
+      <View
+        style={[
+          styles.containerFixed,
+          position === "bottom" ? styles.bottom : styles.top,
+        ]}
+      >
         {buttons.map((button, index) => (
           <TouchableOpacity
             key={index}
-            style={[styles.actionButton, { backgroundColor: button.color || colors.primary.light }]}
+            style={[
+              styles.actionButtonFixed,
+              { backgroundColor: button.color || colors.primary.light },
+            ]}
             onPress={button.onPress}
           >
             <Ionicons name={button.icon} size={24} color="white" />
@@ -52,7 +66,12 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   }
 
   return (
-    <View style={[styles.container, position === 'bottom' ? styles.bottom : styles.top]}>
+    <View
+      style={[
+        styles.container,
+        position === "bottom" ? styles.bottom : styles.top,
+      ]}
+    >
       <TouchableOpacity
         style={[styles.mainButton, { backgroundColor: colors.primary.light }]}
         onPress={toggleExpanded}
@@ -96,8 +115,24 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 };
 
 const styles = StyleSheet.create({
+  containerFixed: {
+    flexDirection: "row",
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: "rgba(0,0,0,0.1)",
+  },
+  actionButtonFixed: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 12,
+    borderRadius: 8,
+    marginHorizontal: 8,
+    backgroundColor: colors.secondary.dark,
+  },
   container: {
-    position: 'absolute',
+    position: "absolute",
     right: 16,
     zIndex: 1000,
   },
@@ -111,10 +146,10 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     elevation: 4,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -123,15 +158,15 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   actionButton: {
-    position: 'absolute',
+    position: "absolute",
     right: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 16,
     height: 50,
     borderRadius: 25,
     elevation: 4,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -140,13 +175,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   buttonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   actionButtonText: {
-    color: 'white',
+    color: "white",
     marginLeft: 8,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
-}); 
+});

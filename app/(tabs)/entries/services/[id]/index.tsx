@@ -163,15 +163,6 @@ export default function ServiceDetailScreen() {
       </ScrollView>
 
       {/* Botones de Acción */}
-      {/* <View style={styles.actionButtons}>
-        <TouchableOpacity
-          style={[styles.actionButton]}
-          onPress={() => onDeleteService(service.id ?? 0)}
-        >
-          <Ionicons name="trash-outline" size={24} color="white" />
-          <Text style={styles.actionButtonText}>Eliminar</Text>
-        </TouchableOpacity>
-      </View> */}
       <ActionButtons
         buttons={[
           {
@@ -181,7 +172,7 @@ export default function ServiceDetailScreen() {
             color: colors.secondary.light,
           },
         ]}
-        fixed={false}
+        fixed={true}
       />
     </View>
   );
@@ -249,27 +240,5 @@ const styles = StyleSheet.create({
   costAmount: {
     fontSize: 16,
     fontWeight: "500",
-  },
-  actionButtons: {
-    flexDirection: "row",
-    padding: 16,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(0,0,0,0.1)",
-  },
-  actionButton: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 12,
-    borderRadius: 8,
-    marginHorizontal: 8,
-    backgroundColor: colors.secondary.dark,
-  },
-  actionButtonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "600",
-    marginLeft: 8,
   },
 });
