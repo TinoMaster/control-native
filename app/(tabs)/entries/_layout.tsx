@@ -12,7 +12,7 @@ const menuItems: {
   {
     label: "Insumos",
     path: "/(tabs)/entries/consumables",
-    icon: "arrow-down-circle-outline"
+    icon: "flask-sharp"
   },
   {
     label: "Gastos",
