@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import GenericList from "components/GenericList";
 import LoadingPage from "components/LoadingPage";
+import { PageTitle } from "components/PageTitle";
 import ServiceCard from "components/ServiceCard";
 import { useRouter } from "expo-router";
 import { useService } from "hooks/api/useServices";
@@ -31,6 +32,7 @@ export default function ServicesScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+      <PageTitle title="Servicios" />
       <GenericList
         data={services}
         renderItem={renderService}

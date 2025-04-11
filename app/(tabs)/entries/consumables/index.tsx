@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import ConsumableCard from "components/ConsumableCard";
 import GenericList from "components/GenericList";
 import LoadingPage from "components/LoadingPage";
+import { PageTitle } from "components/PageTitle";
 import { useRouter } from "expo-router";
 import { useConsumables } from "hooks/api/useConsumables";
 import useColors from "hooks/useColors";
@@ -31,6 +32,7 @@ export default function ConsumablesScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+      <PageTitle title="Insumos" />
       <GenericList
         data={consumables}
         renderItem={renderConsumable}
