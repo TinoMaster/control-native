@@ -83,7 +83,6 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ buttons, fixed = f
               }}
             >
               <Ionicons name={button.icon} size={24} color="white" />
-              {/* <Text style={styles.actionButtonText}>{button.label}</Text> */}
             </TouchableOpacity>
           </Animated.View>
         );
