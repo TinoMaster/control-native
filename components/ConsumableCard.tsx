@@ -1,15 +1,15 @@
 import { Ionicons } from "@expo/vector-icons";
 import useColors from "hooks/useColors";
-import { ServiceModel } from "models/api/service.model";
+import { ConsumableModel } from "models/api/consumables.model";
 import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-interface ServiceCardProps {
-  readonly service: ServiceModel;
+interface ConsumableCardProps {
+  readonly consumable: ConsumableModel;
   readonly onPress?: () => void;
 }
 
-export default function ServiceCard({ service, onPress }: ServiceCardProps) {
+export default function ConsumableCard({ consumable, onPress }: ConsumableCardProps) {
   const colors = useColors();
 
   return (
@@ -34,37 +34,35 @@ export default function ServiceCard({ service, onPress }: ServiceCardProps) {
       >
         <View style={styles.header}>
           <View style={styles.titleContainer}>
-            <Text style={[styles.title, { color: colors.text }]}>{service.name}</Text>
-            <Text style={[styles.price, { color: colors.primary }]}>${service.price.toFixed(2)}</Text>
+            <Text style={[styles.title, { color: colors.text }]}>{consumable.name}</Text>
+            <Text style={[styles.price, { color: colors.primary }]}>${consumable.price.toFixed(2)}</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />
         </View>
 
-        {Boolean(service.description) && (
+        {Boolean(consumable.description) && (
           <Text style={[styles.description, { color: colors.textSecondary }]} numberOfLines={2}>
-            {service.description}
+            {consumable.description}
           </Text>
         )}
 
         <View style={styles.footer}>
           <View style={styles.infoContainer}>
             <Ionicons name="business-outline" size={16} color={colors.textSecondary} />
-            <Text style={[styles.infoText, { color: colors.textSecondary }]}>Negocio #{service.business}</Text>
+            <Text style={[styles.infoText, { color: colors.textSecondary }]}>Negocio #{consumable.business}</Text>
           </View>
 
-          {Boolean(service.costs) && service.costs.length > 0 && (
-            <View style={styles.infoContainer}>
-              <Ionicons name="cash-outline" size={16} color={colors.textSecondary} />
-              <Text style={[styles.infoText, { color: colors.textSecondary }]}>
-                {service.costs.length} costos asociados
-              </Text>
-            </View>
-          )}
+          <View style={styles.infoContainer}>
+            <Ionicons name="cube-outline" size={16} color={colors.textSecondary} />
+            <Text style={[styles.infoText, { color: colors.textSecondary }]}>
+              Stock: {consumable.stock} {consumable.unit}
+            </Text>
+          </View>
         </View>
 
-        {service.createdAt && (
+        {consumable.createdAt && (
           <Text style={[styles.date, { color: colors.textSecondary }]}>
-            Creado: {new Date(service.createdAt).toLocaleDateString()}
+            Creado: {new Date(consumable.createdAt).toLocaleDateString()}
           </Text>
         )}
       </TouchableOpacity>

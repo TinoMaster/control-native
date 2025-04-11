@@ -10,30 +10,30 @@ const menuItems: {
 }[] = [
   { label: "Servicios", path: "/(tabs)/entries/services", icon: "hammer" },
   {
-    label: "Ingresos",
-    path: "/(tabs)/entries/income",
-    icon: "arrow-down-circle-outline",
+    label: "Insumos",
+    path: "/(tabs)/entries/consumables",
+    icon: "arrow-down-circle-outline"
   },
   {
     label: "Gastos",
     path: "/(tabs)/entries/expenses",
-    icon: "arrow-up-circle-outline",
+    icon: "arrow-up-circle-outline"
   },
   {
     label: "Transfer",
     path: "/(tabs)/entries/transfers",
-    icon: "swap-horizontal-outline",
+    icon: "swap-horizontal-outline"
   },
   {
     label: "Category",
     path: "/(tabs)/entries/categories",
-    icon: "pricetags-outline",
+    icon: "pricetags-outline"
   },
   {
     label: "Config",
     path: "/(tabs)/entries/settings",
-    icon: "settings-outline",
-  },
+    icon: "settings-outline"
+  }
 ];
 
 export default function EntriesLayout() {
@@ -42,7 +42,7 @@ export default function EntriesLayout() {
     <View className="flex-1">
       <View
         style={{
-          backgroundColor: defaultColors.background,
+          backgroundColor: defaultColors.background
         }}
       >
         <NavigationMenu items={menuItems} />
@@ -50,7 +50,7 @@ export default function EntriesLayout() {
       <View className="flex-1">
         <Stack
           screenOptions={{
-            headerShown: false,
+            headerShown: false
           }}
         />
       </View>

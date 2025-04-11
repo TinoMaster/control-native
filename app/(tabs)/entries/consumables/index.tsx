@@ -1,45 +1,45 @@
 import { Ionicons } from "@expo/vector-icons";
+import ConsumableCard from "components/ConsumableCard";
 import GenericList from "components/GenericList";
 import LoadingPage from "components/LoadingPage";
-import ServiceCard from "components/ServiceCard";
 import { useRouter } from "expo-router";
-import { useService } from "hooks/api/useServices";
+import { useConsumables } from "hooks/api/useConsumables";
 import useColors from "hooks/useColors";
-import { ServiceModel } from "models/api/service.model";
+import { ConsumableModel } from "models/api/consumables.model";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import colors from "styles/colors";
 
-export default function ServicesScreen() {
+export default function ConsumablesScreen() {
   const defaultColors = useColors();
   const router = useRouter();
-  const { services, loadingServices } = useService();
+  const { consumables, loadingConsumables } = useConsumables();
 
-  const renderService = (service: ServiceModel) => (
-    <ServiceCard
-      service={service}
+  const renderConsumable = (consumable: ConsumableModel) => (
+    <ConsumableCard
+      consumable={consumable}
       onPress={() => {
-        if (service.id) {
-          router.push(`/(tabs)/entries/services/${service.id}` as any);
+        if (consumable.id) {
+          router.push(`/(tabs)/entries/consumables/${consumable.id}` as any);
         }
       }}
     />
   );
 
-  if (loadingServices) {
+  if (loadingConsumables) {
     return <LoadingPage />;
   }
 
   return (
     <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
       <GenericList
-        data={services}
-        renderItem={renderService}
+        data={consumables}
+        renderItem={renderConsumable}
         keyExtractor={(item) => item.id?.toString() ?? ""}
-        emptyListMessage="No hay servicios registrados"
+        emptyListMessage="No hay insumos registrados"
       />
       <TouchableOpacity
         style={[styles.fab, { backgroundColor: defaultColors.primary }]}
-        onPress={() => router.push("/(tabs)/entries/services/create" as any)}
+        onPress={() => router.push("/(tabs)/entries/consumables/create" as any)}
       >
         <Ionicons name="add" size={28} color={colors.darkMode.text.light} />
       </TouchableOpacity>
