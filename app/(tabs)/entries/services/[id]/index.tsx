@@ -115,7 +115,7 @@ export default function ServiceDetailScreen() {
             color: colors.secondary.light
           }
         ]}
-        fixed={true}
+        fixed={false}
       />
     </View>
   );
