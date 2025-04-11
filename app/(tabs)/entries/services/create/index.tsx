@@ -45,9 +45,10 @@ export default function CreateService() {
   } = useForm<ServiceSchema>({
     resolver: zodResolver(serviceSchema),
     defaultValues: serviceDefaultValues,
+    mode: "onChange",
   });
 
-  const costs = watch("costs");
+  const costs = watch("costs") ?? [];
 
   const onSubmit = (data: ServiceSchema) => {
     setLoading(true);
@@ -56,10 +57,11 @@ export default function CreateService() {
       description: data.description || "",
       price: parseFloat(data.price),
       business: business?.id!,
-      costs: data.costs.map((cost) => ({
-        consumable: consumables.find((c) => c.id === cost.consumable.id)!,
-        quantity: parseFloat(cost.quantity),
-      })),
+      costs:
+        data.costs?.map((cost) => ({
+          consumable: consumables.find((c) => c.id === cost.consumable?.id)!,
+          quantity: parseFloat(cost.quantity ?? "0"),
+        })) ?? [],
     };
     saveService(service, {
       onSuccess: () => {
@@ -73,22 +75,26 @@ export default function CreateService() {
   };
 
   const addCost = () => {
-    setValue("costs", [
-      ...costs,
-      { consumable: { id: 0, name: "" }, quantity: "" },
-    ]);
+    setValue(
+      "costs",
+      [...costs, { consumable: { id: 0, name: "" }, quantity: "" }],
+      { shouldValidate: true }
+    );
   };
 
   const removeCost = (index: number) => {
     const newCosts = costs.filter((_: unknown, i: number) => i !== index);
-    setValue("costs", newCosts);
+    setValue("costs", newCosts, { shouldValidate: true });
   };
 
   const selectConsumable = (consumable: { id: number; name: string }) => {
     if (selectedConsumableIndex !== null) {
       const newCosts = [...costs];
-      newCosts[selectedConsumableIndex].consumable = consumable;
-      setValue("costs", newCosts);
+      newCosts[selectedConsumableIndex] = {
+        ...newCosts[selectedConsumableIndex],
+        consumable,
+      };
+      setValue("costs", newCosts, { shouldValidate: true });
     }
     setShowConsumableModal(false);
   };
@@ -134,7 +140,9 @@ export default function CreateService() {
             }}
             placeholder="Ingrese el nombre del servicio"
             placeholderTextColor={colors.lightMode.textSecondary.light}
-            onChangeText={(text) => setValue("name", text)}
+            onChangeText={(text) =>
+              setValue("name", text, { shouldValidate: true })
+            }
           />
           {errors.name && (
             <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>
@@ -187,7 +195,9 @@ export default function CreateService() {
             keyboardType="numeric"
             placeholder="Ingrese el precio del servicio"
             placeholderTextColor={colors.lightMode.textSecondary.light}
-            onChangeText={(text) => setValue("price", text)}
+            onChangeText={(text) =>
+              setValue("price", text, { shouldValidate: true })
+            }
           />
           {errors.price && (
             <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>
@@ -252,12 +262,12 @@ export default function CreateService() {
               >
                 <Text
                   style={{
-                    color: cost.consumable.name
+                    color: cost.consumable?.name
                       ? colors.lightMode.text.light
                       : colors.lightMode.textSecondary.light,
                   }}
                 >
-                  {cost.consumable.name || "Seleccionar consumible"}
+                  {cost.consumable?.name || "Seleccionar consumible"}
                 </Text>
               </TouchableOpacity>
 
@@ -275,8 +285,11 @@ export default function CreateService() {
                 placeholderTextColor={colors.lightMode.textSecondary.light}
                 onChangeText={(text) => {
                   const newCosts = [...costs];
-                  newCosts[index].quantity = text;
-                  setValue("costs", newCosts);
+                  newCosts[index] = {
+                    ...newCosts[index],
+                    quantity: text,
+                  };
+                  setValue("costs", newCosts, { shouldValidate: true });
                 }}
               />
 

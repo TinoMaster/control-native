@@ -1,16 +1,18 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import useColors from "hooks/useColors";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useService } from "hooks/api/useServices";
+import { ActionButtons } from "components/ActionButtons";
+import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import LoadingPage from "components/LoadingPage";
 import { useNotification } from "contexts/NotificationContext";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useService } from "hooks/api/useServices";
+import useColors from "hooks/useColors";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import colors from "styles/colors";
 
 export default function ServiceDetailScreen() {
@@ -51,17 +53,7 @@ export default function ServiceDetailScreen() {
     >
       <ScrollView style={styles.scrollView}>
         {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            style={styles.backButton}
-          >
-            <Ionicons name="arrow-back" size={24} color={defaultColors.text} />
-          </TouchableOpacity>
-          <Text style={[styles.title, { color: defaultColors.text }]}>
-            Detalles del Servicio
-          </Text>
-        </View>
+        <BackButtonPlusTitle title="Detalles del Servicio" />
 
         {/* Información Principal */}
         <View
@@ -171,7 +163,7 @@ export default function ServiceDetailScreen() {
       </ScrollView>
 
       {/* Botones de Acción */}
-      <View style={styles.actionButtons}>
+      {/* <View style={styles.actionButtons}>
         <TouchableOpacity
           style={[styles.actionButton]}
           onPress={() => onDeleteService(service.id ?? 0)}
@@ -179,7 +171,18 @@ export default function ServiceDetailScreen() {
           <Ionicons name="trash-outline" size={24} color="white" />
           <Text style={styles.actionButtonText}>Eliminar</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
+      <ActionButtons
+        buttons={[
+          {
+            icon: "trash-outline",
+            label: "Eliminar",
+            onPress: () => onDeleteService(service.id ?? 0),
+            color: colors.secondary.light,
+          },
+        ]}
+        fixed={false}
+      />
     </View>
   );
 }
@@ -190,20 +193,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(0,0,0,0.1)",
-  },
-  backButton: {
-    marginRight: 16,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "600",
   },
   card: {
     margin: 16,
