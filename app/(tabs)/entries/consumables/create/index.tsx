@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { ActivityIndicator, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import colors from "styles/colors";
+import { formatNumericInput } from "utilities/helpers/globals.helpers";
 
 export default function CreateConsumable() {
   const router = useRouter();
@@ -19,6 +20,13 @@ export default function CreateConsumable() {
   const { onSaveConsumable } = useConsumables();
   const [loading, setLoading] = useState(false);
   const [showUnitModal, setShowUnitModal] = useState(false);
+
+  // Función reutilizable para validar y formatear valores numéricos
+  const handleNumericInput = (text: string, fieldName: "price" | "stock") => {
+    // formatNumericInput es una función que valida y formatea los valores numéricos
+    const formattedValue = formatNumericInput(text);
+    setValue(fieldName, formattedValue, { shouldValidate: true });
+  };
 
   const {
     handleSubmit,
@@ -33,12 +41,16 @@ export default function CreateConsumable() {
 
   const onSubmit = (data: ConsumableSchema) => {
     setLoading(true);
+    // Asegurar que los valores son números válidos
+    const priceValue = parseFloat(data.price) || 0;
+    const stockValue = parseFloat(data.stock) || 0;
+
     const consumable: ConsumableModel = {
       name: data.name,
       description: data.description ?? "",
-      price: parseFloat(data.price),
+      price: parseFloat((priceValue / stockValue).toFixed(2)),
       unit: data.unit,
-      stock: parseFloat(data.stock),
+      stock: stockValue,
       business: business?.id!
     };
 
@@ -138,8 +150,9 @@ export default function CreateConsumable() {
             }}
             placeholder="Ingrese el precio del insumo"
             placeholderTextColor={colors.lightMode.textSecondary.light}
-            keyboardType="numeric"
-            onChangeText={(text) => setValue("price", text, { shouldValidate: true })}
+            keyboardType="decimal-pad"
+            value={watch("price")}
+            onChangeText={(text) => handleNumericInput(text, "price")}
           />
           {errors.price && <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>{errors.price.message}</Text>}
         </View>
@@ -193,8 +206,9 @@ export default function CreateConsumable() {
             }}
             placeholder="Ingrese la cantidad disponible"
             placeholderTextColor={colors.lightMode.textSecondary.light}
-            keyboardType="numeric"
-            onChangeText={(text) => setValue("stock", text, { shouldValidate: true })}
+            keyboardType="decimal-pad"
+            value={watch("stock")}
+            onChangeText={(text) => handleNumericInput(text, "stock")}
           />
           {errors.stock && <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>{errors.stock.message}</Text>}
         </View>
