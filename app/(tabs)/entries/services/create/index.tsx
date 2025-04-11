@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import colors from "styles/colors";
+import { formatNumericInput } from "utilities/helpers/globals.helpers";
 
 export default function CreateService() {
   const router = useRouter();
@@ -24,6 +25,12 @@ export default function CreateService() {
   const [loading, setLoading] = useState(false);
   const [showConsumableModal, setShowConsumableModal] = useState(false);
   const [selectedConsumableIndex, setSelectedConsumableIndex] = useState<number | null>(null);
+
+  // Función reutilizable para validar y formatear valores numéricos
+  const handleNumericInput = (text: string, fieldName: "price") => {
+    const formattedValue = formatNumericInput(text);
+    setValue(fieldName, formattedValue, { shouldValidate: true });
+  };
 
   const {
     handleSubmit,
@@ -95,7 +102,7 @@ export default function CreateService() {
       <ScrollView
         style={{
           backgroundColor: defaultColors.background,
-          padding: 16,
+          padding: 16
         }}
       >
         <View style={{ marginBottom: 16 }}>
@@ -165,7 +172,8 @@ export default function CreateService() {
             keyboardType="numeric"
             placeholder="Ingrese el precio del servicio"
             placeholderTextColor={colors.lightMode.textSecondary.light}
-            onChangeText={(text) => setValue("price", text, { shouldValidate: true })}
+            value={watch("price")}
+            onChangeText={(text) => handleNumericInput(text, "price")}
           />
           {errors.price && <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>{errors.price.message}</Text>}
         </View>
