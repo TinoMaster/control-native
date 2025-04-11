@@ -1,25 +1,15 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import { useRouter } from "expo-router";
 import { useConsumables } from "hooks/api/useConsumables";
 import { useService } from "hooks/api/useServices";
 import useColors from "hooks/useColors";
 import { ServiceModel } from "models/api";
-import {
-  serviceDefaultValues,
-  serviceSchema,
-  ServiceSchema,
-} from "models/zod/serviceSchema";
+import { serviceDefaultValues, serviceSchema, ServiceSchema } from "models/zod/serviceSchema";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  ActivityIndicator,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import colors from "styles/colors";
 
@@ -33,19 +23,17 @@ export default function CreateService() {
 
   const [loading, setLoading] = useState(false);
   const [showConsumableModal, setShowConsumableModal] = useState(false);
-  const [selectedConsumableIndex, setSelectedConsumableIndex] = useState<
-    number | null
-  >(null);
+  const [selectedConsumableIndex, setSelectedConsumableIndex] = useState<number | null>(null);
 
   const {
     handleSubmit,
     formState: { errors, isValid },
     setValue,
-    watch,
+    watch
   } = useForm<ServiceSchema>({
     resolver: zodResolver(serviceSchema),
     defaultValues: serviceDefaultValues,
-    mode: "onChange",
+    mode: "onChange"
   });
 
   const costs = watch("costs") ?? [];
@@ -54,14 +42,14 @@ export default function CreateService() {
     setLoading(true);
     const service: ServiceModel = {
       name: data.name,
-      description: data.description || "",
+      description: data.description ?? "",
       price: parseFloat(data.price),
       business: business?.id!,
       costs:
         data.costs?.map((cost) => ({
           consumable: consumables.find((c) => c.id === cost.consumable?.id)!,
-          quantity: parseFloat(cost.quantity ?? "0"),
-        })) ?? [],
+          quantity: parseFloat(cost.quantity ?? "0")
+        })) ?? []
     };
     saveService(service, {
       onSuccess: () => {
@@ -70,16 +58,12 @@ export default function CreateService() {
       },
       onError: () => {
         setLoading(false);
-      },
+      }
     });
   };
 
   const addCost = () => {
-    setValue(
-      "costs",
-      [...costs, { consumable: { id: 0, name: "" }, quantity: "" }],
-      { shouldValidate: true }
-    );
+    setValue("costs", [...costs, { consumable: { id: 0, name: "" }, quantity: "" }], { shouldValidate: true });
   };
 
   const removeCost = (index: number) => {
@@ -92,7 +76,7 @@ export default function CreateService() {
       const newCosts = [...costs];
       newCosts[selectedConsumableIndex] = {
         ...newCosts[selectedConsumableIndex],
-        consumable,
+        consumable
       };
       setValue("costs", newCosts, { shouldValidate: true });
     }
@@ -103,30 +87,22 @@ export default function CreateService() {
     <View
       style={{
         flex: 1,
+        backgroundColor: defaultColors.background
       }}
     >
+      <BackButtonPlusTitle title="Crear Servicio" />
+
       <ScrollView
         style={{
           backgroundColor: defaultColors.background,
           padding: 16,
         }}
       >
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "bold",
-            marginBottom: 16,
-            color: defaultColors.text,
-          }}
-        >
-          Crear Nuevo Servicio
-        </Text>
-
         <View style={{ marginBottom: 16 }}>
           <Text
             style={{
               color: defaultColors.text,
-              marginBottom: 8,
+              marginBottom: 8
             }}
           >
             Nombre del Servicio
@@ -136,26 +112,20 @@ export default function CreateService() {
               backgroundColor: colors.background.light.primary,
               padding: 12,
               borderRadius: 8,
-              color: colors.lightMode.text.dark,
+              color: colors.lightMode.text.dark
             }}
             placeholder="Ingrese el nombre del servicio"
             placeholderTextColor={colors.lightMode.textSecondary.light}
-            onChangeText={(text) =>
-              setValue("name", text, { shouldValidate: true })
-            }
+            onChangeText={(text) => setValue("name", text, { shouldValidate: true })}
           />
-          {errors.name && (
-            <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>
-              {errors.name.message}
-            </Text>
-          )}
+          {errors.name && <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>{errors.name.message}</Text>}
         </View>
 
         <View style={{ marginBottom: 16 }}>
           <Text
             style={{
               color: defaultColors.text,
-              marginBottom: 8,
+              marginBottom: 8
             }}
           >
             Descripción
@@ -167,7 +137,7 @@ export default function CreateService() {
               borderRadius: 8,
               color: colors.lightMode.text.dark,
               minHeight: 100,
-              textAlignVertical: "top",
+              textAlignVertical: "top"
             }}
             multiline
             placeholder="Ingrese la descripción del servicio"
@@ -180,7 +150,7 @@ export default function CreateService() {
           <Text
             style={{
               color: defaultColors.text,
-              marginBottom: 8,
+              marginBottom: 8
             }}
           >
             Precio
@@ -190,20 +160,14 @@ export default function CreateService() {
               backgroundColor: colors.background.light.primary,
               padding: 12,
               borderRadius: 8,
-              color: colors.lightMode.text.dark,
+              color: colors.lightMode.text.dark
             }}
             keyboardType="numeric"
             placeholder="Ingrese el precio del servicio"
             placeholderTextColor={colors.lightMode.textSecondary.light}
-            onChangeText={(text) =>
-              setValue("price", text, { shouldValidate: true })
-            }
+            onChangeText={(text) => setValue("price", text, { shouldValidate: true })}
           />
-          {errors.price && (
-            <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>
-              {errors.price.message}
-            </Text>
-          )}
+          {errors.price && <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>{errors.price.message}</Text>}
         </View>
 
         <View style={{ marginBottom: 16 }}>
@@ -212,12 +176,12 @@ export default function CreateService() {
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: 16,
+              marginBottom: 16
             }}
           >
             <Text
               style={{
-                color: defaultColors.text,
+                color: defaultColors.text
               }}
             >
               Consumibles
@@ -227,24 +191,20 @@ export default function CreateService() {
               style={{
                 backgroundColor: defaultColors.primary,
                 padding: 8,
-                borderRadius: 8,
+                borderRadius: 8
               }}
             >
-              <MaterialIcons
-                name="add"
-                size={20}
-                color={colors.darkMode.text.light}
-              />
+              <MaterialIcons name="add" size={20} color={colors.darkMode.text.light} />
             </TouchableOpacity>
           </View>
 
           {costs.map((cost, index) => (
             <View
-              key={index}
+              key={`cost-${cost.consumable?.id ?? "new"}-${index}`}
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                marginBottom: 8,
+                marginBottom: 8
               }}
             >
               <TouchableOpacity
@@ -253,7 +213,7 @@ export default function CreateService() {
                   backgroundColor: colors.background.light.primary,
                   padding: 12,
                   borderRadius: 8,
-                  marginRight: 8,
+                  marginRight: 8
                 }}
                 onPress={() => {
                   setSelectedConsumableIndex(index);
@@ -262,12 +222,10 @@ export default function CreateService() {
               >
                 <Text
                   style={{
-                    color: cost.consumable?.name
-                      ? colors.lightMode.text.light
-                      : colors.lightMode.textSecondary.light,
+                    color: cost.consumable?.name ? colors.lightMode.text.light : colors.lightMode.textSecondary.light
                   }}
                 >
-                  {cost.consumable?.name || "Seleccionar consumible"}
+                  {cost.consumable?.name ?? "Seleccionar consumible"}
                 </Text>
               </TouchableOpacity>
 
@@ -278,7 +236,7 @@ export default function CreateService() {
                   borderRadius: 8,
                   width: 80,
                   marginRight: 8,
-                  color: colors.lightMode.text.dark,
+                  color: colors.lightMode.text.dark
                 }}
                 keyboardType="numeric"
                 placeholder="Cant."
@@ -287,7 +245,7 @@ export default function CreateService() {
                   const newCosts = [...costs];
                   newCosts[index] = {
                     ...newCosts[index],
-                    quantity: text,
+                    quantity: text
                   };
                   setValue("costs", newCosts, { shouldValidate: true });
                 }}
@@ -298,14 +256,10 @@ export default function CreateService() {
                 style={{
                   backgroundColor: colors.secondary.light,
                   padding: 12,
-                  borderRadius: 8,
+                  borderRadius: 8
                 }}
               >
-                <MaterialIcons
-                  name="delete"
-                  size={20}
-                  color={colors.background.light.primary}
-                />
+                <MaterialIcons name="delete" size={20} color={colors.background.light.primary} />
               </TouchableOpacity>
             </View>
           ))}
@@ -319,7 +273,8 @@ export default function CreateService() {
             borderRadius: 8,
             alignItems: "center",
             marginTop: 16,
-            opacity: loading || !isValid ? 0.5 : 1,
+            marginBottom: 30,
+            opacity: loading || !isValid ? 0.5 : 1
           }}
           disabled={loading || !isValid}
         >
@@ -330,7 +285,7 @@ export default function CreateService() {
               style={{
                 color: colors.background.light.primary,
                 fontWeight: "bold",
-                fontSize: 16,
+                fontSize: 16
               }}
             >
               Crear Servicio
@@ -349,7 +304,7 @@ export default function CreateService() {
             bottom: 0,
             backgroundColor: "rgba(0,0,0,0.5)",
             justifyContent: "center",
-            alignItems: "center",
+            alignItems: "center"
           }}
         >
           <View
@@ -358,7 +313,7 @@ export default function CreateService() {
               borderRadius: 12,
               padding: 16,
               width: "80%",
-              maxHeight: "80%",
+              maxHeight: "80%"
             }}
           >
             <Text
@@ -366,7 +321,7 @@ export default function CreateService() {
                 fontSize: 18,
                 fontWeight: "bold",
                 marginBottom: 16,
-                color: colors.lightMode.text.light,
+                color: colors.lightMode.text.light
               }}
             >
               Seleccionar Consumible
@@ -382,19 +337,19 @@ export default function CreateService() {
                     style={{
                       padding: 12,
                       borderBottomWidth: 1,
-                      borderBottomColor: colors.background.light.secondary,
+                      borderBottomColor: colors.background.light.secondary
                     }}
                     onPress={() =>
                       selectConsumable({
                         id: consumable.id!,
-                        name: consumable.name,
+                        name: consumable.name
                       })
                     }
                   >
                     <Text
                       style={{
                         color: colors.lightMode.text.light,
-                        fontSize: 16,
+                        fontSize: 16
                       }}
                     >
                       {consumable.name}
@@ -411,13 +366,13 @@ export default function CreateService() {
                 padding: 12,
                 borderRadius: 8,
                 alignItems: "center",
-                marginTop: 16,
+                marginTop: 16
               }}
             >
               <Text
                 style={{
                   color: colors.background.light.primary,
-                  fontWeight: "bold",
+                  fontWeight: "bold"
                 }}
               >
                 Cancelar
