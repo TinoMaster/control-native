@@ -5,15 +5,13 @@ import { handleFetchError } from "utilities/helpers/errorManager";
 import { requestService } from "./request.service";
 
 class EmployeeService {
-  private urlAdmin = apiConfig.adminUrl;
-  private urlPrivate = apiConfig.privateUrl;
-  private urlSuperAdmin = apiConfig.superadminUrl;
+  private readonly urlAdmin = apiConfig.adminUrl;
+  private readonly urlPrivate = apiConfig.privateUrl;
+  private readonly urlSuperAdmin = apiConfig.superadminUrl;
 
   async getEmployees(): Promise<IResponse<EmployeeModel[]>> {
     try {
-      return await requestService.fetch<EmployeeModel[]>(
-        `${this.urlSuperAdmin}/employees`
-      );
+      return await requestService.fetch<EmployeeModel[]>(`${this.urlSuperAdmin}/employees`);
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);
@@ -22,9 +20,7 @@ class EmployeeService {
 
   async getEmployeeByUserId(id: number): Promise<IResponse<EmployeeModel>> {
     try {
-      return await requestService.fetch<EmployeeModel>(
-        `${this.urlPrivate}/employees/byUserId/${id}`
-      );
+      return await requestService.fetch<EmployeeModel>(`${this.urlPrivate}/employees/byUserId/${id}`);
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);
@@ -33,56 +29,40 @@ class EmployeeService {
 
   async getEmployeeById(id: string): Promise<IResponse<EmployeeModel>> {
     try {
-      return await requestService.fetch<EmployeeModel>(
-        `${this.urlAdmin}/employees/${id}`
-      );
+      return await requestService.fetch<EmployeeModel>(`${this.urlAdmin}/employees/${id}`);
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);
     }
   }
 
-  async getEmployeesByBusinessId(
-    id: number
-  ): Promise<IResponse<EmployeeModel[]>> {
+  async getEmployeesByBusinessId(id: number): Promise<IResponse<EmployeeModel[]>> {
     try {
-      return await requestService.fetch<EmployeeModel[]>(
-        `${this.urlAdmin}/employees/byBusiness/${id}`
-      );
+      return await requestService.fetch<EmployeeModel[]>(`${this.urlAdmin}/employees/byBusiness/${id}`);
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);
     }
   }
 
-  async saveEmployee(
-    employee: EmployeeModel
-  ): Promise<IResponse<EmployeeModel>> {
+  async saveEmployee(employee: EmployeeModel): Promise<IResponse<EmployeeModel>> {
     try {
-      return await requestService.fetch<EmployeeModel>(
-        `${this.urlAdmin}/employees`,
-        {
-          method: "POST",
-          body: JSON.stringify(employee),
-        }
-      );
+      return await requestService.fetch<EmployeeModel>(`${this.urlAdmin}/employees`, {
+        method: "POST",
+        body: JSON.stringify(employee)
+      });
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);
     }
   }
 
-  async updateEmployee(
-    employeeToUpdate: EmployeeModel
-  ): Promise<IResponse<EmployeeModel>> {
+  async updateEmployee(employeeToUpdate: EmployeeModel): Promise<IResponse<EmployeeModel>> {
     try {
-      return await requestService.fetch<EmployeeModel>(
-        `${this.urlAdmin}/employees`,
-        {
-          method: "PUT",
-          body: JSON.stringify(employeeToUpdate),
-        }
-      );
+      return await requestService.fetch<EmployeeModel>(`${this.urlAdmin}/employees`, {
+        method: "PUT",
+        body: JSON.stringify(employeeToUpdate)
+      });
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);
@@ -91,12 +71,9 @@ class EmployeeService {
 
   async deleteEmployee(id: string): Promise<IResponse<null>> {
     try {
-      return await requestService.fetch<null>(
-        `${this.urlAdmin}/employees/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      return await requestService.fetch<null>(`${this.urlAdmin}/employees/${id}`, {
+        method: "DELETE"
+      });
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);
