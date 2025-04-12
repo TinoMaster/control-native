@@ -15,7 +15,7 @@ export const WalletOutlineIcon = (props: Omit<IconProps<string>, "name">) => {
 
 export const InputIcon = (props: Omit<IconProps<string>, "name">) => {
   const colors = useColors();
-  return <FontAwesome6 name="box-archive" size={24} color={colors.primary} {...props} />;
+  return <FontAwesome6 name="arrow-right-to-bracket" size={24} color={colors.primary} {...props} />;
 };
 
 export const AddIcon = (props: Omit<IconProps<string>, "name">) => {
@@ -23,12 +23,12 @@ export const AddIcon = (props: Omit<IconProps<string>, "name">) => {
   return <Ionicons name="add" size={24} color={colors.primary} {...props} />;
 };
 
-export const StatsChartOutlineIcon = (props: Omit<IconProps<string>, "name">) => {
+export const PeopleGroupIcon = (props: Omit<IconProps<string>, "name">) => {
   const colors = useColors();
-  return <Ionicons name="stats-chart" size={24} color={colors.primary} {...props} />;
+  return <FontAwesome6 name="people-group" size={24} color={colors.primary} {...props} />;
 };
 
-export const PersonOutlineIcon = (props: Omit<IconProps<string>, "name">) => {
+export const PersonIcon = (props: Omit<IconProps<string>, "name">) => {
   const colors = useColors();
-  return <Ionicons name="person-outline" size={24} color={colors.primary} {...props} />;
+  return <Ionicons name="person" size={24} color={colors.primary} {...props} />;
 };
