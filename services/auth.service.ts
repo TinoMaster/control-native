@@ -2,27 +2,21 @@ import { registerFormToRegisterOwnerMapper } from "mappers/global.mapper";
 import { TLoginSchema } from "models/zod/login.schema";
 import { TRegisterOwnerDataModel } from "models/zod/registerOwner.schema";
 import { apiConfig } from "../config/api.config";
-import {
-  ILoginResponse,
-  IRegisterOwnerResponse,
-  IResponse,
-} from "../types/request.types";
+import { ILoginResponse, IRegisterOwnerResponse, IResponse } from "../types/request.types";
 import { handleFetchError } from "../utilities/helpers/errorManager";
 
 class AuthService {
-  private urlBase = `${apiConfig.baseUrl}/public`;
+  private readonly urlBase = `${apiConfig.baseUrl}/public`;
 
-  async registerOwner(
-    data: TRegisterOwnerDataModel
-  ): Promise<IResponse<IRegisterOwnerResponse>> {
+  async registerOwner(data: TRegisterOwnerDataModel): Promise<IResponse<IRegisterOwnerResponse>> {
     try {
       const dataToSend = registerFormToRegisterOwnerMapper(data);
       const response = await fetch(`${this.urlBase}/register`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(dataToSend),
+        body: JSON.stringify(dataToSend)
       });
       return response.json();
     } catch (error: any) {
@@ -36,9 +30,9 @@ class AuthService {
       const response = await fetch(`${this.urlBase}/authenticate`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data)
       });
       return response.json();
     } catch (error: any) {

@@ -1,10 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import {
-  loginSchema,
-  TLoginSchema,
-  zLoginDefaultValues,
-} from "models/zod/login.schema";
+import { loginSchema, TLoginSchema, zLoginDefaultValues } from "models/zod/login.schema";
 import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
@@ -20,10 +16,10 @@ export default function LoginScreen() {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<TLoginSchema>({
     resolver: zodResolver(loginSchema),
-    defaultValues: zLoginDefaultValues,
+    defaultValues: zLoginDefaultValues
   });
 
   const onSubmit: SubmitHandler<TLoginSchema> = async (data) => {
@@ -35,16 +31,10 @@ export default function LoginScreen() {
 
       if (response.status === 200 && response.data) {
         if (response.data.active) {
-          await login(
-            response.data.token,
-            response.data.role,
-            response.data.refreshToken
-          );
+          await login(response.data.token, response.data.role, response.data.refreshToken);
           router.replace("/(tabs)");
         } else {
-          setError(
-            "Tu cuenta está inactiva. Por favor, contacta al administrador."
-          );
+          setError("Tu cuenta está inactiva. Por favor, contacta al administrador.");
         }
       } else {
         setError(response.message || "Error al iniciar sesión");
@@ -77,9 +67,7 @@ export default function LoginScreen() {
               autoCapitalize="none"
               autoComplete="email"
             />
-            {errors.email && (
-              <Text style={styles.errorText}>{errors.email.message}</Text>
-            )}
+            {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
           </View>
         )}
       />
@@ -96,9 +84,7 @@ export default function LoginScreen() {
               onChangeText={onChange}
               secureTextEntry
             />
-            {errors.password && (
-              <Text style={styles.errorText}>{errors.password.message}</Text>
-            )}
+            {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
           </View>
         )}
       />
@@ -124,37 +110,37 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: "center",
-    gap: 10,
+    gap: 10
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
-    textAlign: "center",
+    textAlign: "center"
   },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 10,
     borderRadius: 5,
-    marginBottom: 10,
+    marginBottom: 10
   },
   inputError: {
-    borderColor: "red",
+    borderColor: "red"
   },
   registerText: {
     marginTop: 20,
     textAlign: "center",
-    color: "#007AFF",
+    color: "#007AFF"
   },
   error: {
     color: "red",
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: 10
   },
   errorText: {
     color: "red",
     fontSize: 12,
-    marginBottom: 10,
-  },
+    marginBottom: 10
+  }
 });
