@@ -15,8 +15,6 @@ export default function Personal() {
   const router = useRouter();
   const { employees, loadingEmployees } = useEmployees();
 
-  console.log("employees en el componente", employees);
-
   const renderEmployee = (employee: EmployeeModel) => (
     <EmployeeCard
       employee={employee}
