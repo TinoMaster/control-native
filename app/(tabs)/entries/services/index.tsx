@@ -53,21 +53,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  serviceItem: {
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 8,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  serviceName: {
-    fontSize: 16,
-    fontWeight: "bold"
-  },
-  servicePrice: {
-    fontSize: 16
-  },
   fab: {
     position: "absolute",
     right: 16,

@@ -76,7 +76,7 @@ export default function TabsLayout() {
       icon: EntryIcon
     },
     {
-      name: "personal",
+      name: "personal/index",
       title: "Personal",
       icon: StatsIcon
     },

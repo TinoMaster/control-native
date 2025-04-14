@@ -12,13 +12,36 @@ export const useEmployees = () => {
 
   const router = useRouter();
 
+  console.log("Business ID actual:", businessId);
+
   const { data: employees = [], isLoading: loadingEmployees } = useQuery({
     queryKey: ["employees", businessId],
     queryFn: async () => {
-      const response = await employeeService.getEmployeesByBusinessId(businessId!);
+      if (!businessId) {
+        console.warn("No hay businessId disponible para la consulta");
+        return [];
+      }
+      console.log("Ejecutando consulta con businessId:", businessId);
+      const response = await employeeService.getEmployeesByBusinessId(businessId);
+      console.log("Datos recibidos del API:", response.data);
       return response.data || [];
     },
-    select: (data) => data.toSorted((a, b) => b.user.name.localeCompare(a.user.name)),
+    /* select: (data) => {
+      console.log("Datos antes de ordenar:", data);
+      if (!data || !Array.isArray(data) || data.length === 0) {
+        console.warn("No hay datos para ordenar o no es un array");
+        return [];
+      }
+      try {
+        // Verificar que cada elemento tenga la propiedad user.name
+        const validData = data.filter(item => Boolean(item?.user?.name));
+        console.log("Datos válidos para ordenar:", validData.length);
+        return validData.toSorted((a, b) => b.user.name.localeCompare(a.user.name));
+      } catch (error) {
+        console.error("Error al ordenar los datos:", error);
+        return data;
+      }
+    }, */
     enabled: !!businessId
   });
 
@@ -27,7 +50,7 @@ export const useEmployees = () => {
     onSuccess: () => {
       showNotification("Empleado guardado correctamente", "success");
       queryClient.invalidateQueries({ queryKey: ["employees"] });
-      router.replace("/(tabs)/personal/index");
+      router.replace("/(tabs)/personal");
     },
     onError: () => {
       showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");

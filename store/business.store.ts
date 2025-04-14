@@ -26,7 +26,7 @@ export const useBusinessStore = create<BusinessState>((set, get) => ({
 
   addBusinessToBusinessList: (newBusiness) => {
     set((state) => ({
-      businessList: [...state.businessList, newBusiness],
+      businessList: [...state.businessList, newBusiness]
     }));
   },
 
@@ -34,25 +34,20 @@ export const useBusinessStore = create<BusinessState>((set, get) => ({
     const { businessList } = get();
     const newBusiness = businessList.find((b) => b.id === id);
     if (newBusiness) {
-      await SecureStore.setItemAsync(
-        "businessId",
-        newBusiness.id?.toString() || ""
-      );
+      await SecureStore.setItemAsync("businessId", newBusiness.id?.toString() ?? "");
       set({ business: newBusiness, businessId: newBusiness.id });
     }
   },
 
   initializeBusiness: async (user) => {
-    const businessList =
-      user.role === ERole.OWNER ? user.businessesOwned : user.businesses;
-    const selectedBusiness =
-      (await selectBusiness(businessList)) || businessList[0];
+    const businessList = user.role === ERole.OWNER ? user.businessesOwned : user.businesses;
+    const selectedBusiness = (await selectBusiness(businessList)) || businessList[0];
 
     set({
       loading: false,
       businessList,
       business: selectedBusiness,
-      businessId: selectedBusiness?.id,
+      businessId: selectedBusiness?.id
     });
   },
 
@@ -70,5 +65,5 @@ export const useBusinessStore = create<BusinessState>((set, get) => ({
     } catch (error) {
       console.error("Error initializing business from storage:", error);
     }
-  },
+  }
 }));
