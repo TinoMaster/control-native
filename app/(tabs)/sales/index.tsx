@@ -1,7 +1,10 @@
 import React from "react";
+import { Text, View } from "react-native";
 
-const index = () => {
-  return <div>index</div>;
-};
-
-export default index;
+export default function Sales() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Sales</Text>
+    </View>
+  );
+}

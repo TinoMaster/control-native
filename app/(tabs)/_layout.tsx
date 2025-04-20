@@ -66,7 +66,7 @@ export default function TabsLayout() {
       icon: GridIcon
     },
     {
-      name: "sales",
+      name: "sales/index",
       title: "Ventas",
       icon: WalletIcon
     },
@@ -82,7 +82,7 @@ export default function TabsLayout() {
     },
     {
       name: "profile/index",
-      title: "Profile",
+      title: "Perfil",
       icon: ProfileIcon
     }
   ];
