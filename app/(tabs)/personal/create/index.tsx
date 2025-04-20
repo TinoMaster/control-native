@@ -26,8 +26,7 @@ export default function CreateEmployee() {
     handleSubmit,
     control,
     formState: { errors, isValid },
-    reset,
-    watch
+    reset
   } = useForm<TRegisterEmployeeDataModel>({
     resolver: zodResolver(registerEmployeeSchema),
     defaultValues: {
@@ -36,8 +35,6 @@ export default function CreateEmployee() {
     },
     mode: "onChange"
   });
-
-  const selectedBusinesses = watch("businesses") ?? [];
 
   const onSubmit: SubmitHandler<TRegisterEmployeeDataModel> = async (data) => {
     const businessesToSave = businessList.filter((b) => b.id && data.businesses.includes(b.id));
@@ -320,27 +317,31 @@ export default function CreateEmployee() {
           <Controller
             control={control}
             name="businesses"
-            render={({ field: { onChange, value } }) => (
-              <View>
-                {businessList.map((b) => (
-                  <View key={b.id} style={styles.checkboxContainer}>
-                    <Checkbox
-                      value={value?.includes(b.id as number) ?? false}
-                      onValueChange={(isChecked) => {
-                        const currentValues = value ?? [];
-                        if (isChecked) {
-                          onChange([...currentValues, b.id as number]);
-                        } else {
-                          onChange(currentValues.filter((id) => id !== b.id));
-                        }
-                      }}
-                      color={value?.includes(b.id as number) ? defaultColors.primary : undefined}
-                    />
-                    <Text style={[styles.checkboxLabel, { color: defaultColors.text }]}>{b.name}</Text>
-                  </View>
-                ))}
-              </View>
-            )}
+            render={({ field: { onChange, value } }) => {
+              const handleBusinessCheckboxChange = (isChecked: boolean, businessId: number) => {
+                const currentValues = value ?? [];
+                if (isChecked) {
+                  onChange([...currentValues, businessId]);
+                } else {
+                  onChange(currentValues.filter((id) => id !== businessId));
+                }
+              };
+
+              return (
+                <View>
+                  {businessList.map((b) => (
+                    <View key={b.id} style={styles.checkboxContainer}>
+                      <Checkbox
+                        value={value?.includes(b.id as number) ?? false}
+                        onValueChange={(isChecked) => handleBusinessCheckboxChange(isChecked, b.id as number)}
+                        color={value?.includes(b.id as number) ? defaultColors.primary : undefined}
+                      />
+                      <Text style={[styles.checkboxLabel, { color: defaultColors.text }]}>{b.name}</Text>
+                    </View>
+                  ))}
+                </View>
+              );
+            }}
           />
           {errors.businesses && <Text style={styles.errorText}>{errors.businesses.message}</Text>}
         </View>

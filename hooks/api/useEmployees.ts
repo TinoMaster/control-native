@@ -24,6 +24,12 @@ export const useEmployees = () => {
     enabled: !!businessId
   });
 
+  const getEmployeeById = (id: number) => {
+    console.log("id", id);
+    console.log("employees", employees);
+    return employees.find((employee) => Number(employee.id) === id);
+  };
+
   const { mutate: saveEmployee, isPending: loadingSave } = useMutation({
     mutationFn: (employee: EmployeeModel) => employeeService.saveEmployee(employee),
     onSuccess: () => {
@@ -36,10 +42,24 @@ export const useEmployees = () => {
     }
   });
 
+  const { mutate: deleteEmployee, isPending: loadingDelete } = useMutation({
+    mutationFn: (id: string) => employeeService.deleteEmployee(id),
+    onSuccess: () => {
+      showNotification("Empleado eliminado correctamente", "success");
+      queryClient.invalidateQueries({ queryKey: ["employees"] });
+    },
+    onError: () => {
+      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+    }
+  });
+
   return {
     employees,
     loadingEmployees,
     saveEmployee,
-    loadingSave
+    loadingSave,
+    getEmployeeById,
+    deleteEmployee,
+    loadingDelete
   };
 };
