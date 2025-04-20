@@ -1,6 +1,6 @@
 import { registerFormToRegisterOwnerMapper } from "mappers/global.mapper";
 import { TLoginSchema } from "models/zod/login.schema";
-import { TRegisterOwnerDataModel } from "models/zod/registerOwner.schema";
+import { TRegisterOwnerDataModel } from "models/zod/owner.schema";
 import { apiConfig } from "../config/api.config";
 import { ILoginResponse, IRegisterOwnerResponse, IResponse } from "../types/request.types";
 import { handleFetchError } from "../utilities/helpers/errorManager";

@@ -6,7 +6,7 @@ import { useConsumables } from "hooks/api/useConsumables";
 import { useService } from "hooks/api/useServices";
 import useColors from "hooks/useColors";
 import { ServiceModel } from "models/api";
-import { serviceDefaultValues, serviceSchema, ServiceSchema } from "models/zod/serviceSchema";
+import { serviceDefaultValues, serviceSchema, ServiceSchema } from "models/zod/service.schema";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";

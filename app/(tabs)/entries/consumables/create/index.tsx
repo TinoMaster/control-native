@@ -5,7 +5,7 @@ import { useConsumables } from "hooks/api/useConsumables";
 import useColors from "hooks/useColors";
 import { ConsumableModel } from "models/api/consumables.model";
 import { EUnit, TRANSLATE_UNIT } from "models/unit.model";
-import { consumableDefaultValues, consumableSchema, ConsumableSchema } from "models/zod/consumableSchema";
+import { consumableDefaultValues, consumableSchema, ConsumableSchema } from "models/zod/consumable.schema";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ActivityIndicator, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
