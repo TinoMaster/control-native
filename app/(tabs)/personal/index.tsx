@@ -20,7 +20,7 @@ export default function Personal() {
       employee={employee}
       onPress={() => {
         if (employee.id) {
-          router.push(`/(tabs)/entries/employees/${employee.id}` as any);
+          router.push(`/(tabs)/personal/${employee.id}` as any);
         }
       }}
     />
@@ -40,7 +40,7 @@ export default function Personal() {
         emptyListMessage="No hay empleados registrados"
       />
       <FloatingActionButton
-        onPress={() => router.push("/(tabs)/entries/services/create" as any)}
+        onPress={() => router.push("/(tabs)/personal/create" as any)}
         backgroundColor={defaultColors.primary}
         iconColor={colors.darkMode.text.light}
       />
