@@ -3,6 +3,7 @@ import useColors from "hooks/useColors";
 import { ConsumableModel } from "models/api/consumables.model";
 import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { shadowStyles } from "styles/shadows";
 
 interface ConsumableCardProps {
   readonly consumable: ConsumableModel;
@@ -75,14 +76,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5
+    ...shadowStyles.container
   },
   header: {
     flexDirection: "row",

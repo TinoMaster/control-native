@@ -3,6 +3,7 @@ import useColors from "hooks/useColors";
 import { ServiceModel } from "models/api/service.model";
 import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { shadowStyles } from "styles/shadows";
 
 interface ServiceCardProps {
   readonly service: ServiceModel;
@@ -77,14 +78,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5
+    ...shadowStyles.container
   },
   header: {
     flexDirection: "row",

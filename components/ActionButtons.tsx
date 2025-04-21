@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { shadowStyles } from "styles/shadows";
 import colors from "../styles/colors";
 
 interface ActionButton {
@@ -126,13 +127,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     elevation: 4,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84
+    // Sombra para React Native nativo
+    ...shadowStyles.button
   },
   actionButton: {
     position: "absolute",
@@ -143,14 +139,8 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84
+    // Sombra para React Native nativo
+    ...shadowStyles.button
   },
   buttonContent: {
     alignItems: "center",

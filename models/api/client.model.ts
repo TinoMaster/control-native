@@ -1,4 +1,4 @@
-import { MembershipModel } from '@app/core/models/membership.model';
+import { MembershipModel } from "./membership.model";
 
 export interface ClientModel {
   id: number;

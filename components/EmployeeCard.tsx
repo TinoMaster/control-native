@@ -3,6 +3,7 @@ import useColors from "hooks/useColors";
 import { EmployeeModel } from "models/api/employee.model";
 import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { shadowStyles } from "styles/shadows";
 
 interface EmployeeCardProps {
   readonly employee: EmployeeModel;
@@ -86,14 +87,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5
+    ...shadowStyles.card
   },
   header: {
     flexDirection: "row",

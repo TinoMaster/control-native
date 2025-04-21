@@ -3,6 +3,7 @@ import { useColorScheme } from "nativewind";
 import React from "react";
 import { StyleProp, StyleSheet, TouchableOpacity, ViewStyle } from "react-native";
 import colors from "styles/colors";
+import { shadowStyles } from "styles/shadows";
 
 interface FloatingActionButtonProps {
   readonly onPress: () => void;
@@ -52,13 +53,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84
+    ...shadowStyles.button
   }
 });

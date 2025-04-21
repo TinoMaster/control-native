@@ -8,6 +8,7 @@ import { useService } from "hooks/api/useServices";
 import useColors from "hooks/useColors";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import colors from "styles/colors";
+import { shadowStyles } from "styles/shadows";
 
 export default function ServiceDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -132,14 +133,7 @@ const styles = StyleSheet.create({
     margin: 16,
     padding: 16,
     borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5
+    ...shadowStyles.card
   },
   serviceName: {
     fontSize: 24,

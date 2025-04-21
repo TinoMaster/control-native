@@ -1,4 +1,3 @@
-import { CardPayment } from "../../../pages/private/reports/business-report/store/businessReport.store";
 import { CardModel } from "./card.model";
 import { DebtModel } from "./debt.model";
 import { EmployeeModel } from "./employee.model";
@@ -57,6 +56,12 @@ export interface BusinessFinalSaleModelToCreate {
   updatedAt?: Date;
 }
 
+export interface CardPayment {
+  id: string;
+  cardNumber: string;
+  amount: number;
+}
+
 export const transformBusinessSaleToBusinessSaleResponse = (
   businessSale: BusinessFinalSaleModel,
   machines: MachineModel[],
@@ -64,13 +69,11 @@ export const transformBusinessSaleToBusinessSaleResponse = (
 ): BusinessFinalSaleModelResponse => {
   return {
     ...businessSale,
-    machines: machines.filter((m) =>
-      businessSale.machines.includes(m.id!)
-    ) as MachineModel[],
+    machines: machines.filter((m) => businessSale.machines.includes(m.id!)),
     cards: cards.map((card) => ({
       id: card.id,
       amount: card.amount,
-      number: card.cardNumber,
-    })),
+      number: card.cardNumber
+    }))
   };
 };
