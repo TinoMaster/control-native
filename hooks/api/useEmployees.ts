@@ -25,8 +25,6 @@ export const useEmployees = () => {
   });
 
   const getEmployeeById = (id: number) => {
-    console.log("id", id);
-    console.log("employees", employees);
     return employees.find((employee) => Number(employee.id) === id);
   };
 
