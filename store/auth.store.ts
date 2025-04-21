@@ -1,9 +1,9 @@
-import * as SecureStore from "expo-secure-store";
 import { ERole, TRole, UserModel } from "models/api";
 import { EmployeeModel } from "models/api/employee.model";
 import { employeeService } from "services/employee.service";
 import { userService } from "services/user.service";
 import { decodeJWT } from "utilities/helpers/jwtDecode";
+import { secureStorage } from "utilities/storage/secure-storage";
 import { create } from "zustand";
 import { useBusinessStore } from "./business.store";
 
@@ -33,15 +33,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   initializeAuth: async () => {
     try {
-      const [token, role] = await Promise.all([
-        SecureStore.getItemAsync("token"),
-        SecureStore.getItemAsync("role"),
-      ]);
+      const [token, role] = await Promise.all([secureStorage.getItem("token"), secureStorage.getItem("role")]);
 
       set({
         token,
         role: role as TRole,
-        isLoggedIn: Boolean(token && role),
+        isLoggedIn: Boolean(token && role)
       });
 
       if (token && role) {
@@ -58,9 +55,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   login: async (token: string, role: TRole, refreshToken: string) => {
     try {
       await Promise.all([
-        SecureStore.setItemAsync("token", token),
-        SecureStore.setItemAsync("role", role),
-        SecureStore.setItemAsync("refreshToken", refreshToken),
+        secureStorage.setItem("token", token),
+        secureStorage.setItem("role", role),
+        secureStorage.setItem("refreshToken", refreshToken)
       ]);
 
       set({ token, role, isLoggedIn: true });
@@ -77,9 +74,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   logout: async () => {
     try {
       await Promise.all([
-        SecureStore.deleteItemAsync("token"),
-        SecureStore.deleteItemAsync("role"),
-        SecureStore.deleteItemAsync("refreshToken"),
+        secureStorage.removeItem("token"),
+        secureStorage.removeItem("role"),
+        secureStorage.removeItem("refreshToken")
       ]);
 
       set({
@@ -87,7 +84,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         employee: undefined,
         role: undefined as unknown as TRole,
         token: null,
-        isLoggedIn: false,
+        isLoggedIn: false
       });
       // Aquí deberías usar tu sistema de navegación de React Native
       // Por ejemplo: navigation.navigate('Login')
@@ -117,9 +114,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         const role = get().role;
         if (role !== ERole.SUPERADMIN && role !== ERole.OWNER) {
-          const employeeResponse = await employeeService.getEmployeeByUserId(
-            response.data?.id || 0
-          );
+          const employeeResponse = await employeeService.getEmployeeByUserId(response.data?.id ?? 0);
           if (employeeResponse.status === 200) {
             set({ employee: employeeResponse.data });
           }
@@ -133,5 +128,5 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     } finally {
       set({ loadingUser: false });
     }
-  },
+  }
 }));

@@ -6,21 +6,18 @@ import colors from "styles/colors";
 import { images } from "utilities/images";
 
 export default function AppTitle() {
-  const { business, loading, businessList, onChangeBusiness } =
-    useBusinessStore();
+  const { business, loading, businessList, onChangeBusiness } = useBusinessStore();
   const [showModal, setShowModal] = useState(false);
 
   if (loading) {
     return (
-      <View
-        style={{ flexDirection: "row", alignItems: "center", paddingLeft: 16 }}
-      >
+      <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 16 }}>
         <View
           style={{
             width: 40,
             height: 40,
             borderRadius: 20,
-            backgroundColor: colors.background.dark.secondary,
+            backgroundColor: colors.background.dark.secondary
           }}
         />
         <View
@@ -29,7 +26,7 @@ export default function AppTitle() {
             height: 20,
             backgroundColor: colors.background.dark.secondary,
             marginLeft: 16,
-            borderRadius: 4,
+            borderRadius: 4
           }}
         />
       </View>
@@ -37,21 +34,19 @@ export default function AppTitle() {
   }
 
   return (
-    <View
-      style={{ flexDirection: "row", alignItems: "center", paddingLeft: 16 }}
-    >
+    <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 16 }}>
       <Image
         source={images.logo}
         style={{
           width: 40,
           height: 40,
-          borderRadius: 20,
+          borderRadius: 20
         }}
       />
       <TouchableOpacity
         style={{
           flexDirection: "row",
-          alignItems: "center",
+          alignItems: "center"
         }}
         onPress={() => businessList.length > 1 && setShowModal(true)}
       >
@@ -60,32 +55,23 @@ export default function AppTitle() {
             color: colors.darkMode.text.dark,
             fontWeight: "bold",
             marginLeft: 16,
-            fontSize: 20,
+            fontSize: 20
           }}
         >
           {business.name}
         </Text>
         {businessList.length > 1 && (
-          <MaterialIcons
-            name="arrow-drop-down"
-            size={24}
-            color={colors.darkMode.text.dark}
-          />
+          <MaterialIcons name="arrow-drop-down" size={24} color={colors.darkMode.text.dark} />
         )}
       </TouchableOpacity>
 
-      <Modal
-        visible={showModal}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setShowModal(false)}
-      >
+      <Modal visible={showModal} transparent animationType="fade" onRequestClose={() => setShowModal(false)}>
         <TouchableOpacity
           style={{
             flex: 1,
             backgroundColor: "rgba(0,0,0,0.5)",
             justifyContent: "center",
-            alignItems: "center",
+            alignItems: "center"
           }}
           activeOpacity={1}
           onPress={() => setShowModal(false)}
@@ -96,14 +82,14 @@ export default function AppTitle() {
               borderRadius: 8,
               padding: 16,
               width: "80%",
-              maxHeight: "80%",
+              maxHeight: "80%"
             }}
           >
             {businessList.map((b) => (
               <TouchableOpacity
                 key={b.id}
                 style={{
-                  padding: 12,
+                  padding: 12
                 }}
                 onPress={() => {
                   onChangeBusiness(b.id!);
@@ -113,7 +99,7 @@ export default function AppTitle() {
                 <Text
                   style={{
                     color: colors.darkMode.text.dark,
-                    fontSize: 16,
+                    fontSize: 16
                   }}
                 >
                   {b.name}

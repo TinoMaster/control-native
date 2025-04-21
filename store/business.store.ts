@@ -1,6 +1,6 @@
-import * as SecureStore from "expo-secure-store";
 import { BusinessModel, ERole } from "models/api";
 import { selectBusiness } from "utilities/helpers/selectBusiness";
+import { secureStorage } from "utilities/storage/secure-storage";
 import { create } from "zustand";
 
 interface BusinessState {
@@ -34,7 +34,7 @@ export const useBusinessStore = create<BusinessState>((set, get) => ({
     const { businessList } = get();
     const newBusiness = businessList.find((b) => b.id === id);
     if (newBusiness) {
-      await SecureStore.setItemAsync("businessId", newBusiness.id?.toString() ?? "");
+      await secureStorage.setItem("businessId", newBusiness.id?.toString() ?? "");
       set({ business: newBusiness, businessId: newBusiness.id });
     }
   },
@@ -53,7 +53,7 @@ export const useBusinessStore = create<BusinessState>((set, get) => ({
 
   initializeBusinessFromStorage: async () => {
     try {
-      const storedBusinessId = await SecureStore.getItemAsync("businessId");
+      const storedBusinessId = await secureStorage.getItem("businessId");
       if (storedBusinessId) {
         const businessId = parseInt(storedBusinessId, 10);
         const { businessList } = get();

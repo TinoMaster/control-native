@@ -1,10 +1,8 @@
-import * as SecureStore from "expo-secure-store";
 import { BusinessModel } from "models/api";
+import { secureStorage } from "utilities/storage/secure-storage";
 
-export const selectBusiness = async (
-  businesses: BusinessModel[]
-): Promise<BusinessModel> => {
-  const businessId = await SecureStore.getItemAsync("businessId");
+export const selectBusiness = async (businesses: BusinessModel[]): Promise<BusinessModel> => {
+  const businessId = await secureStorage.getItem("businessId");
   const business = businesses.find((b) => b.id === Number(businessId));
-  return business ? business : businesses[0];
+  return business ?? businesses[0];
 };

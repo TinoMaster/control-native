@@ -1,14 +1,13 @@
 import { apiConfig } from "config/api.config";
 import { ILoginResponse, IResponse } from "types/request.types";
-import * as SecureStore from "expo-secure-store";
+import { secureStorage } from "utilities/storage/secure-storage";
 
 // requestService.ts
 class RequestService {
   private async redirectToLogin() {
-    await SecureStore.deleteItemAsync("token");
-    await SecureStore.deleteItemAsync("role");
-    await SecureStore.deleteItemAsync("refreshToken");
-
+    await secureStorage.removeItem("token");
+    await secureStorage.removeItem("role");
+    await secureStorage.removeItem("refreshToken");
     alert("Sesión expirada. Por favor, inicia sesión nuevamente.");
 
     // En React Native, necesitarás usar la navegación apropiada
@@ -16,7 +15,7 @@ class RequestService {
   }
 
   private async getToken(): Promise<string | null> {
-    const token = await SecureStore.getItemAsync("token");
+    const token = await secureStorage.getItem("token");
     if (!token) {
       throw new Error("Token not found. User must log in.");
     }
@@ -24,7 +23,7 @@ class RequestService {
   }
 
   private async getRefreshToken(): Promise<string | null> {
-    const refreshToken = await SecureStore.getItemAsync("refreshToken");
+    const refreshToken = await secureStorage.getItem("refreshToken");
     if (!refreshToken) {
       throw new Error("Refresh token not found. User must log in.");
     }
@@ -54,7 +53,7 @@ class RequestService {
       if (!newAccessToken) {
         throw new Error("Access token not found in response");
       }
-      await SecureStore.setItemAsync("token", newAccessToken);
+      await secureStorage.setItem("token", newAccessToken);
 
       return newAccessToken;
     } catch {

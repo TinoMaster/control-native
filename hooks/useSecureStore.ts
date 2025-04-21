@@ -1,4 +1,4 @@
-import * as SecureStore from "expo-secure-store";
+/* import * as SecureStore from "expo-secure-store";
 import { useState, useCallback } from "react";
 
 export const useSecureStore = () => {
@@ -42,4 +42,4 @@ export const useSecureStore = () => {
     deleteValue,
     error,
   };
-};
+}; */
