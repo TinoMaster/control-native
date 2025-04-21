@@ -1,11 +1,12 @@
+import { Ionicons } from "@expo/vector-icons";
 import NavigationMenu from "components/NavigationMenu";
 import { Stack } from "expo-router";
 import { View } from "react-native";
 
 const menuItems: {
   label: string;
-  path: `/(tabs)/entries${string}`;
-  icon: string;
+  path: string;
+  icon: keyof typeof Ionicons.glyphMap;
 }[] = [
   { label: "Servicios", path: "/(tabs)/entries/services", icon: "hammer" },
   {

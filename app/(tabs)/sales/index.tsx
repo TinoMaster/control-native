@@ -1,10 +1,5 @@
-import React from "react";
-import { Text, View } from "react-native";
+import { Redirect } from "expo-router";
 
 export default function Sales() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Sales</Text>
-    </View>
-  );
+  return <Redirect href={"/(tabs)/sales/current_day" as any} />;
 }
