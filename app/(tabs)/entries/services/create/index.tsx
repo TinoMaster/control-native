@@ -234,7 +234,7 @@ export default function CreateService() {
                     color: cost.consumable?.name ? colors.lightMode.text.light : colors.lightMode.textSecondary.light
                   }}
                 >
-                  {cost.consumable?.name ?? "Seleccionar consumible"}
+                  {cost.consumable?.name !== "" ? cost.consumable?.name : "Seleccionar consumible"}
                 </Text>
               </TouchableOpacity>
 
