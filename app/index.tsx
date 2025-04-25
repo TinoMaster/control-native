@@ -1,12 +1,20 @@
 import { Redirect } from "expo-router";
 import { ERole } from "models/api";
-import { useEffect, useState } from "react";
+import { Text, View } from "react-native";
 import { useAuthStore } from "store/auth.store";
 
 export default function Index() {
-  const [isLoading, setIsLoading] = useState(true);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const loadingUser = useAuthStore((state) => state.loadingUser);
   const role = useAuthStore((state) => state.role);
+
+  if (loadingUser) {
+    return (
+      <View className="flex-1 items-center justify-center bg-white dark:bg-gray-900">
+        <Text className="text-gray-800 dark:text-gray-100">Cargando...</Text>
+      </View>
+    );
+  }
 
   const privateContainerToRender = () => {
     if (role === ERole.SUPERADMIN) {
@@ -15,24 +23,6 @@ export default function Index() {
       return <Redirect href="/(tabs)" />;
     }
   };
-
-  useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        await useAuthStore.getState().initializeAuth();
-      } catch (error) {
-        console.error("Error initializing auth:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initializeAuth();
-  }, []);
-
-  if (isLoading) {
-    return null; // O puedes retornar un componente de carga
-  }
 
   return isLoggedIn ? privateContainerToRender() : <Redirect href="/(auth)" />;
 }

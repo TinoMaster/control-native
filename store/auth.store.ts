@@ -33,7 +33,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   initializeAuth: async () => {
     try {
-      const [token, role] = await Promise.all([secureStorage.getItem("token"), secureStorage.getItem("role")]);
+      const token = await secureStorage.getItem("token");
+      const role = await secureStorage.getItem("role");
 
       set({
         token,

@@ -54,6 +54,8 @@ export const useBusinessStore = create<BusinessState>((set, get) => ({
   initializeBusinessFromStorage: async () => {
     try {
       const storedBusinessId = await secureStorage.getItem("businessId");
+      console.log("Stored business ID:", storedBusinessId);
+
       if (storedBusinessId) {
         const businessId = parseInt(storedBusinessId, 10);
         const { businessList } = get();
