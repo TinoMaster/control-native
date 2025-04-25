@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
-import { dailyReportStore } from "store/dailyReport.store";
+import { useDailyReportStore } from "store/dailyReport.store";
 
 export function StepsHeader() {
-  const currentStep = dailyReportStore((state) => state.currentStep);
-  const totalSteps = dailyReportStore((state) => state.totalSteps);
+  const currentStep = useDailyReportStore((state) => state.currentStep);
+  const totalSteps = useDailyReportStore((state) => state.totalSteps);
 
   return (
     <View className="p-4 border-b border-gray-200 dark:border-gray-700">

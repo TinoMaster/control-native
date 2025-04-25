@@ -1,12 +1,12 @@
 import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
-import { dailyReportStore } from "store/dailyReport.store";
+import { useDailyReportStore } from "store/dailyReport.store";
 
 export function StepsNavigation() {
-  const currentStep = dailyReportStore((state) => state.currentStep);
-  const totalSteps = dailyReportStore((state) => state.totalSteps);
-  const handleNextStep = dailyReportStore((state) => state.handleNextStep);
-  const handlePreviousStep = dailyReportStore((state) => state.handlePreviousStep);
+  const currentStep = useDailyReportStore((state) => state.currentStep);
+  const totalSteps = useDailyReportStore((state) => state.totalSteps);
+  const handleNextStep = useDailyReportStore((state) => state.handleNextStep);
+  const handlePreviousStep = useDailyReportStore((state) => state.handlePreviousStep);
   const router = useRouter();
 
   function handleNext() {
