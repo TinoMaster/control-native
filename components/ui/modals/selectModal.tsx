@@ -2,7 +2,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "contexts/ThemeContext";
 import { BlurView } from "expo-blur";
 import useColors from "hooks/useColors";
-import React from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -61,7 +60,7 @@ export function SelectModal<T>({
             shadowRadius: 8,
             elevation: 5
           }}
-          className="rounded-xl w-full max-h-[80%] overflow-hidden"
+          className="rounded-xl w-full max-h-[80%] min-h-[280px] overflow-hidden"
         >
           <View
             style={{
@@ -93,7 +92,7 @@ export function SelectModal<T>({
             </TouchableOpacity>
           </View>
 
-          <View className="flex-1 p-4">
+          <View className="flex-1 p-4 ">
             {isLoading ? (
               <View className="flex-1 justify-center items-center">
                 <ActivityIndicator size="large" color={colors.primary.light} />

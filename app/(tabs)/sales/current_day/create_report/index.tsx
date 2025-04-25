@@ -1,10 +1,10 @@
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDailyReportStore } from "store/dailyReport.store";
-import { StepsHeader } from "./steps/_components/stepsHeader";
-import { StepsNavigation } from "./steps/_components/stepsNavigation";
-import { Step1Details } from "./steps/step-1-details";
+import StepsHeader from "./steps/_components/stepsHeader";
+import StepsNavigation from "./steps/_components/stepsNavigation";
 import Step2Debts from "./steps/step-2-debts";
+import Step1Details from "./steps/step-1-details";
 
 export default function CreateReportWizard() {
   const currentStep = useDailyReportStore((state) => state.currentStep);

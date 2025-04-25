@@ -1,13 +1,7 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Animated,
-  TouchableOpacity,
-} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import useColors from "hooks/useColors";
+import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type NotificationType = "success" | "error" | "info" | "warning";
 
@@ -15,15 +9,9 @@ interface NotificationContextType {
   showNotification: (message: string, type?: NotificationType) => void;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(
-  undefined
-);
+const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
-export function NotificationProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function NotificationProvider({ children }: { readonly children: React.ReactNode }) {
   const [notification, setNotification] = useState<{
     message: string;
     type: NotificationType;
@@ -38,14 +26,14 @@ export function NotificationProvider({
         Animated.timing(fadeAnim, {
           toValue: 1,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: true
         }),
         Animated.delay(3000),
         Animated.timing(fadeAnim, {
           toValue: 0,
           duration: 300,
-          useNativeDriver: true,
-        }),
+          useNativeDriver: true
+        })
       ]).start(() => {
         setNotification(null);
       });
@@ -79,8 +67,10 @@ export function NotificationProvider({
     }
   };
 
+  const contextValue = useMemo(() => ({ showNotification }), [showNotification]);
+
   return (
-    <NotificationContext.Provider value={{ showNotification }}>
+    <NotificationContext.Provider value={contextValue}>
       {children}
       {notification && (
         <Animated.View
@@ -93,19 +83,15 @@ export function NotificationProvider({
                 {
                   translateY: fadeAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [-100, 0],
-                  }),
-                },
-              ],
-            },
+                    outputRange: [-100, 0]
+                  })
+                }
+              ]
+            }
           ]}
         >
           <View style={styles.notificationContent}>
-            <Ionicons
-              name={getIconName(notification.type)}
-              size={24}
-              color="white"
-            />
+            <Ionicons name={getIconName(notification.type)} size={24} color="white" />
             <Text style={styles.notificationText}>{notification.message}</Text>
           </View>
           <TouchableOpacity
@@ -113,7 +99,7 @@ export function NotificationProvider({
               Animated.timing(fadeAnim, {
                 toValue: 0,
                 duration: 300,
-                useNativeDriver: true,
+                useNativeDriver: true
               }).start(() => {
                 setNotification(null);
               });
@@ -130,9 +116,7 @@ export function NotificationProvider({
 export function useNotification() {
   const context = useContext(NotificationContext);
   if (context === undefined) {
-    throw new Error(
-      "useNotification must be used within a NotificationProvider"
-    );
+    throw new Error("useNotification must be used within a NotificationProvider");
   }
   return context;
 }
@@ -147,17 +131,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    zIndex: 1000,
+    zIndex: 1000
   },
   notificationContent: {
     flexDirection: "row",
     alignItems: "center",
-    flex: 1,
+    flex: 1
   },
   notificationText: {
     color: "white",
     marginLeft: 8,
     fontSize: 16,
-    flex: 1,
-  },
+    flex: 1
+  }
 });

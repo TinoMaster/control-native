@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 
-export function Details() {
+export default function Details() {
   const business = useBusinessStore((state) => state.business);
   const { machines } = business;
 

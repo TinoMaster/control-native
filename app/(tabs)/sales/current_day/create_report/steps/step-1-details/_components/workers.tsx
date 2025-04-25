@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 
-export function Workers() {
+export default function Workers() {
   return (
     <View>
       <Text>Workers</Text>

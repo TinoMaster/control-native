@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import { useDailyReportStore } from "store/dailyReport.store";
 
-export function StepsHeader() {
+export default function StepsHeader() {
   const currentStep = useDailyReportStore((state) => state.currentStep);
   const totalSteps = useDailyReportStore((state) => state.totalSteps);
 

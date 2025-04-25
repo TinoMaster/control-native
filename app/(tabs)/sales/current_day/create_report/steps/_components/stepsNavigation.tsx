@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useDailyReportStore } from "store/dailyReport.store";
 
-export function StepsNavigation() {
+export default function StepsNavigation() {
   const currentStep = useDailyReportStore((state) => state.currentStep);
   const totalSteps = useDailyReportStore((state) => state.totalSteps);
   const handleNextStep = useDailyReportStore((state) => state.handleNextStep);
