@@ -6,15 +6,15 @@ import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { shadowStyles } from "styles/shadows";
 
-interface SaleCardProps {
-  readonly sale: BusinessFinalSaleModelResponse;
+interface DailyReportCardProps {
+  readonly report: BusinessFinalSaleModelResponse;
   readonly onPress?: () => void;
 }
 
-export function SaleCard({ sale, onPress }: SaleCardProps) {
+export function DailyReportCard({ report, onPress }: DailyReportCardProps) {
   const colors = useColors();
-  const createdAt = sale.createdAt ? new Date(sale.createdAt) : null;
-  const pendingAmount = sale.total - sale.paid;
+  const createdAt = report.createdAt ? new Date(report.createdAt) : null;
+  const pendingAmount = report.total - report.paid;
   const isPaid = pendingAmount <= 0;
 
   return (
@@ -39,7 +39,7 @@ export function SaleCard({ sale, onPress }: SaleCardProps) {
       >
         <View style={styles.header}>
           <View style={styles.titleContainer}>
-            <Text style={[styles.title, { color: colors.text }]}>{sale.name}</Text>
+            <Text style={[styles.title, { color: colors.text }]}>{report.name}</Text>
             <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
               {createdAt ? format(createdAt, "dd/MM/yyyy HH:mm") : "Fecha no disponible"}
             </Text>
@@ -50,19 +50,19 @@ export function SaleCard({ sale, onPress }: SaleCardProps) {
         <View style={styles.content}>
           <View style={styles.infoContainer}>
             <Ionicons name="people-outline" size={16} color={colors.textSecondary} />
-            <Text style={[styles.infoText, { color: colors.textSecondary }]}>{sale.workers.length} trabajadores</Text>
+            <Text style={[styles.infoText, { color: colors.textSecondary }]}>{report.workers.length} trabajadores</Text>
           </View>
 
           <View style={styles.infoContainer}>
             <Ionicons name="construct-outline" size={16} color={colors.textSecondary} />
-            <Text style={[styles.infoText, { color: colors.textSecondary }]}>{sale.machines.length} máquinas</Text>
+            <Text style={[styles.infoText, { color: colors.textSecondary }]}>{report.machines.length} máquinas</Text>
           </View>
 
-          {Boolean(sale.note) && (
+          {Boolean(report.note) && (
             <View style={styles.infoContainer}>
               <Ionicons name="document-text-outline" size={16} color={colors.textSecondary} />
               <Text style={[styles.infoText, { color: colors.textSecondary }]} numberOfLines={1}>
-                {sale.note}
+                {report.note}
               </Text>
             </View>
           )}
@@ -72,7 +72,7 @@ export function SaleCard({ sale, onPress }: SaleCardProps) {
           <View style={styles.amountContainer}>
             <View style={styles.infoContainer}>
               <Ionicons name="cash-outline" size={16} color={colors.primary} />
-              <Text style={[styles.amountText, { color: colors.primary }]}>Total: ${sale.total.toFixed(2)}</Text>
+              <Text style={[styles.amountText, { color: colors.primary }]}>Total: ${report.total.toFixed(2)}</Text>
             </View>
 
             <View style={styles.infoContainer}>
@@ -87,11 +87,11 @@ export function SaleCard({ sale, onPress }: SaleCardProps) {
             </View>
           </View>
 
-          {sale.cards.length > 0 && (
+          {report.cards.length > 0 && (
             <View style={[styles.infoContainer, styles.paymentMethod]}>
               <Ionicons name="card-outline" size={16} color={colors.textSecondary} />
               <Text style={[styles.infoText, { color: colors.textSecondary }]}>
-                {sale.cards.length} {sale.cards.length === 1 ? "tarjeta" : "tarjetas"}
+                {report.cards.length} {report.cards.length === 1 ? "tarjeta" : "tarjetas"}
               </Text>
             </View>
           )}
