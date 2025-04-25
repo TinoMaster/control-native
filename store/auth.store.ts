@@ -87,8 +87,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         token: null,
         isLoggedIn: false
       });
-      // Aquí deberías usar tu sistema de navegación de React Native
-      // Por ejemplo: navigation.navigate('Login')
     } catch (error) {
       console.error("Error during logout:", error);
       throw error;

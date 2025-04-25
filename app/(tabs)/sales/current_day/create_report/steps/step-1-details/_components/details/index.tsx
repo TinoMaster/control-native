@@ -3,6 +3,7 @@ import { useBusinessStore } from "store/business.store";
 
 export default function Details() {
   const business = useBusinessStore((state) => state.business);
+  // TODO: implementar este componente
   const { machines } = business;
 
   return (
