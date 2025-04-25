@@ -1,6 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
+import { SelectModal } from "components/ui/modals/selectModal";
 import { useRouter } from "expo-router";
 import { useConsumables } from "hooks/api/useConsumables";
 import { useService } from "hooks/api/useServices";
@@ -303,91 +304,16 @@ export default function CreateService() {
       </ScrollView>
 
       {showConsumableModal && (
-        <View
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0,0,0,0.5)",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: colors.background.light.primary,
-              borderRadius: 12,
-              padding: 16,
-              width: "80%",
-              maxHeight: "80%"
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "bold",
-                marginBottom: 16,
-                color: colors.lightMode.text.light
-              }}
-            >
-              Seleccionar Consumible
-            </Text>
-
-            {loadingConsumables ? (
-              <ActivityIndicator color={colors.primary.light} />
-            ) : (
-              <ScrollView>
-                {consumables.map((consumable) => (
-                  <TouchableOpacity
-                    key={consumable.id}
-                    style={{
-                      padding: 12,
-                      borderBottomWidth: 1,
-                      borderBottomColor: colors.background.light.secondary
-                    }}
-                    onPress={() =>
-                      selectConsumable({
-                        id: consumable.id!,
-                        name: consumable.name
-                      })
-                    }
-                  >
-                    <Text
-                      style={{
-                        color: colors.lightMode.text.light,
-                        fontSize: 16
-                      }}
-                    >
-                      {consumable.name}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-            )}
-
-            <TouchableOpacity
-              onPress={() => setShowConsumableModal(false)}
-              style={{
-                backgroundColor: colors.secondary.light,
-                padding: 12,
-                borderRadius: 8,
-                alignItems: "center",
-                marginTop: 16
-              }}
-            >
-              <Text
-                style={{
-                  color: colors.background.light.primary,
-                  fontWeight: "bold"
-                }}
-              >
-                Cancelar
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <SelectModal
+          isVisible={showConsumableModal}
+          title="Seleccionar Consumible"
+          onClose={() => setShowConsumableModal(false)}
+          data={consumables}
+          renderItem={(item) => <Text>{item.name}</Text>}
+          onSelect={selectConsumable}
+          keyExtractor={(item) => item.id.toString()}
+          isLoading={loadingConsumables}
+        ></SelectModal>
       )}
     </View>
   );

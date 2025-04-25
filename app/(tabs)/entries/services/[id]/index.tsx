@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { ActionButtons } from "components/ActionButtons";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
-import LoadingPage from "components/LoadingPage";
+import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useService } from "hooks/api/useServices";

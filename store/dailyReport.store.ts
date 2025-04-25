@@ -14,7 +14,7 @@ interface DailyReportState {
   setCards: (cards: CardPayment[]) => void;
 }
 
-export const dailyReportStore = create<DailyReportState>((set, get) => ({
+export const useDailyReportStore = create<DailyReportState>((set, get) => ({
   totalSteps: 3,
   currentStep: 1,
   report: {} as BusinessFinalSaleModel,

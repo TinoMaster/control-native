@@ -1,7 +1,7 @@
 import { EmployeeCard } from "components/EmployeeCard";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
-import LoadingPage from "components/LoadingPage";
+import LoadingPage from "components/ui/loaders/LoadingPage";
 import { PageTitle } from "components/PageTitle";
 import { useRouter } from "expo-router";
 import { useEmployees } from "hooks/api/useEmployees";
