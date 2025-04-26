@@ -8,7 +8,7 @@ export default function StepsHeader() {
   const defaultColors = useColors();
 
   return (
-    <View className="p-4 shadow">
+    <View className="p-4 border-b border-gray-600">
       <Text style={{ color: defaultColors.text }} className="text-center text-xl font-bold">
         Crear Reporte de Venta
       </Text>

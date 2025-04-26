@@ -48,7 +48,7 @@ export default function StepsNavigation() {
   return (
     <>
       <MessageModal isVisible={showModal} onClose={() => setShowModal(false)} title={title} message={message} />
-      <View className="flex-row justify-between p-4 border-t border-gray-200 dark:border-gray-700">
+      <View className="flex-row justify-between p-4 border-t border-gray-600">
         <View className="flex-row space-x-2">
           <MyButton onPress={handleCancel} label="Cancelar" />
 

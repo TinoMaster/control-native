@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import GenericInput from "components/forms/generic-input";
+import useColors from "hooks/useColors";
 import { Resolver, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import { useDailyReportStore } from "store/dailyReport.store";
@@ -11,6 +12,7 @@ export function MoneyDetails() {
   const setTotal = useDailyReportStore((state) => state.setTotal);
   const setFund = useDailyReportStore((state) => state.setFund);
   const report = useDailyReportStore((state) => state.report);
+  const defaultColors = useColors();
 
   const {
     formState: { errors },
@@ -38,8 +40,10 @@ export function MoneyDetails() {
   };
 
   return (
-    <View className="mb-8">
-      <Text className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Detalles Monetarios</Text>
+    <View className="mb-8 flex-1">
+      <Text style={{ color: defaultColors.text }} className="text-lg font-semibold mb-4">
+        Detalles Monetarios
+      </Text>
 
       {/* Total Sales Input */}
       <View className="mb-4">

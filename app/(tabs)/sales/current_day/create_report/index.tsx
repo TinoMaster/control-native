@@ -1,6 +1,5 @@
 import useColors from "hooks/useColors";
 import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useDailyReportStore } from "store/dailyReport.store";
 import StepsHeader from "./steps/_components/stepsHeader";
 import StepsNavigation from "./steps/_components/stepsNavigation";
@@ -22,17 +21,15 @@ export default function CreateReportWizard() {
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: defaultColors.background }} className="flex-1">
-      <View className="flex-1">
-        {/* Header */}
-        <StepsHeader />
+    <View style={{ backgroundColor: defaultColors.background }} className="flex-1">
+      {/* Header */}
+      <StepsHeader />
 
-        {/* Step Content */}
-        <View className="flex-1 p-4">{renderCurrentStep()}</View>
+      {/* Step Content */}
+      <View className="flex-1 p-4">{renderCurrentStep()}</View>
 
-        {/* Navigation */}
-        <StepsNavigation />
-      </View>
-    </SafeAreaView>
+      {/* Navigation */}
+      <StepsNavigation />
+    </View>
   );
 }
