@@ -4,7 +4,7 @@ import Workers from "./_components/workers";
 
 export default function Step1Details() {
   return (
-    <View className="p-4 space-y-4">
+    <View className="space-y-4">
       <Details />
       <Workers />
     </View>

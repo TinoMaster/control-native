@@ -1,14 +1,11 @@
-import { Text, View } from "react-native";
-import { useBusinessStore } from "store/business.store";
+import { View } from "react-native";
+import MachinesSelection from "./_components/machines";
 
+// Main Details Component
 export default function Details() {
-  const business = useBusinessStore((state) => state.business);
-  // TODO: implementar este componente
-  const { machines } = business;
-
   return (
-    <View>
-      <Text>Details</Text>
+    <View className="flex-1">
+      <MachinesSelection />
     </View>
   );
 }

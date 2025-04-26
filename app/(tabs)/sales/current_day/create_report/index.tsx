@@ -1,13 +1,15 @@
+import useColors from "hooks/useColors";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDailyReportStore } from "store/dailyReport.store";
 import StepsHeader from "./steps/_components/stepsHeader";
 import StepsNavigation from "./steps/_components/stepsNavigation";
-import Step2Debts from "./steps/step-2-debts";
 import Step1Details from "./steps/step-1-details";
+import Step2Debts from "./steps/step-2-debts";
 
 export default function CreateReportWizard() {
   const currentStep = useDailyReportStore((state) => state.currentStep);
+  const defaultColors = useColors();
 
   function renderCurrentStep() {
     if (currentStep === 1) {
@@ -20,13 +22,13 @@ export default function CreateReportWizard() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+    <SafeAreaView style={{ backgroundColor: defaultColors.background }} className="flex-1">
       <View className="flex-1">
         {/* Header */}
         <StepsHeader />
 
         {/* Step Content */}
-        <View className="flex-1">{renderCurrentStep()}</View>
+        <View className="flex-1 p-4">{renderCurrentStep()}</View>
 
         {/* Navigation */}
         <StepsNavigation />
