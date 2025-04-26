@@ -1,5 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
+import GenericInput from "components/forms/generic-input";
+import { SelectModal } from "components/ui/modals/selectModal";
 import { useRouter } from "expo-router";
 import { useConsumables } from "hooks/api/useConsumables";
 import useColors from "hooks/useColors";
@@ -8,7 +10,7 @@ import { EUnit, TRANSLATE_UNIT } from "models/unit.model";
 import { consumableDefaultValues, consumableSchema, ConsumableSchema } from "models/zod/consumable.schema";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { ActivityIndicator, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import colors from "styles/colors";
 import { formatNumericInput } from "utilities/helpers/globals.helpers";
@@ -20,6 +22,8 @@ export default function CreateConsumable() {
   const { onSaveConsumable } = useConsumables();
   const [loading, setLoading] = useState(false);
   const [showUnitModal, setShowUnitModal] = useState(false);
+
+  const units: EUnit[] = Object.values(EUnit);
 
   // Función reutilizable para validar y formatear valores numéricos
   const handleNumericInput = (text: string, fieldName: "price" | "stock") => {
@@ -39,6 +43,11 @@ export default function CreateConsumable() {
     mode: "onChange"
   });
 
+  const selectUnit = (unit: EUnit) => {
+    setValue("unit", unit, { shouldValidate: true });
+    setShowUnitModal(false);
+  };
+
   const onSubmit = (data: ConsumableSchema) => {
     setLoading(true);
     // Asegurar que los valores son números válidos
@@ -46,6 +55,7 @@ export default function CreateConsumable() {
     const stockValue = parseFloat(data.stock) || 0;
 
     const consumable: ConsumableModel = {
+      id: -1,
       name: data.name,
       description: data.description ?? "",
       price: parseFloat((priceValue / stockValue).toFixed(2)),
@@ -80,83 +90,42 @@ export default function CreateConsumable() {
           padding: 16
         }}
       >
+        {/* Consumable Name */}
         <View style={{ marginBottom: 16 }}>
-          <Text
-            style={{
-              color: defaultColors.text,
-              marginBottom: 8
-            }}
-          >
-            Nombre del Insumo
-          </Text>
-          <TextInput
-            style={{
-              backgroundColor: colors.background.light.primary,
-              padding: 12,
-              borderRadius: 8,
-              color: colors.lightMode.text.dark
-            }}
+          <GenericInput
+            label="Nombre del Insumo"
             placeholder="Ingrese el nombre del insumo"
-            placeholderTextColor={colors.lightMode.textSecondary.light}
+            keyboardType="default"
+            watch={watch("name")}
+            error={errors.name}
             onChangeText={(text) => setValue("name", text, { shouldValidate: true })}
           />
-          {errors.name && <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>{errors.name.message}</Text>}
         </View>
-
+        {/* Consumable Description */}
         <View style={{ marginBottom: 16 }}>
-          <Text
-            style={{
-              color: defaultColors.text,
-              marginBottom: 8
-            }}
-          >
-            Descripción
-          </Text>
-          <TextInput
-            style={{
-              backgroundColor: colors.background.light.primary,
-              padding: 12,
-              borderRadius: 8,
-              color: colors.lightMode.text.dark,
-              height: 100,
-              textAlignVertical: "top"
-            }}
+          <GenericInput
+            label="Descripción"
             placeholder="Ingrese una descripción del insumo"
-            placeholderTextColor={colors.lightMode.textSecondary.light}
-            multiline
-            numberOfLines={4}
+            keyboardType="default"
+            watch={watch("description")}
+            error={errors.description}
             onChangeText={(text) => setValue("description", text, { shouldValidate: true })}
+            multiline
+            numberOfLines={3}
           />
-          {errors.description && (
-            <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>{errors.description.message}</Text>
-          )}
         </View>
-
+        {/* Consumable Price */}
         <View style={{ marginBottom: 16 }}>
-          <Text
-            style={{
-              color: defaultColors.text,
-              marginBottom: 8
-            }}
-          >
-            Precio
-          </Text>
-          <TextInput
-            style={{
-              backgroundColor: colors.background.light.primary,
-              padding: 12,
-              borderRadius: 8,
-              color: colors.lightMode.text.dark
-            }}
+          <GenericInput
+            label="Precio"
             placeholder="Ingrese el precio del insumo"
-            placeholderTextColor={colors.lightMode.textSecondary.light}
             keyboardType="decimal-pad"
-            value={watch("price")}
+            watch={watch("price")}
+            error={errors.price}
             onChangeText={(text) => handleNumericInput(text, "price")}
           />
-          {errors.price && <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>{errors.price.message}</Text>}
         </View>
-
+        {/* Consumable Unit */}
         <View style={{ marginBottom: 16 }}>
           <Text
             style={{
@@ -187,32 +156,18 @@ export default function CreateConsumable() {
           </TouchableOpacity>
           {errors.unit && <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>{errors.unit.message}</Text>}
         </View>
-
+        {/* Consumable Stock */}
         <View style={{ marginBottom: 16 }}>
-          <Text
-            style={{
-              color: defaultColors.text,
-              marginBottom: 8
-            }}
-          >
-            Stock Disponible
-          </Text>
-          <TextInput
-            style={{
-              backgroundColor: colors.background.light.primary,
-              padding: 12,
-              borderRadius: 8,
-              color: colors.lightMode.text.dark
-            }}
+          <GenericInput
+            label="Stock Disponible"
             placeholder="Ingrese la cantidad disponible"
-            placeholderTextColor={colors.lightMode.textSecondary.light}
             keyboardType="decimal-pad"
-            value={watch("stock")}
+            watch={watch("stock")}
+            error={errors.stock}
             onChangeText={(text) => handleNumericInput(text, "stock")}
           />
-          {errors.stock && <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>{errors.stock.message}</Text>}
         </View>
-
+        {/* Consumable Submit Button */}
         <TouchableOpacity
           onPress={handleSubmit(onSubmit)}
           style={{
@@ -243,80 +198,17 @@ export default function CreateConsumable() {
       </ScrollView>
 
       {/* Unit Selection Modal */}
-      <Modal visible={showUnitModal} transparent animationType="fade" onRequestClose={() => setShowUnitModal(false)}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0,0,0,0.5)"
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: colors.background.light.primary,
-              borderRadius: 12,
-              padding: 16,
-              width: "80%"
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "bold",
-                marginBottom: 16,
-                color: colors.lightMode.text.light
-              }}
-            >
-              Seleccionar Unidad de Medida
-            </Text>
-
-            {Object.entries(TRANSLATE_UNIT).map(([unit, label]) => (
-              <TouchableOpacity
-                key={unit}
-                style={{
-                  padding: 12,
-                  borderBottomWidth: 1,
-                  borderBottomColor: colors.background.light.secondary
-                }}
-                onPress={() => {
-                  setValue("unit", unit as EUnit, { shouldValidate: true });
-                  setShowUnitModal(false);
-                }}
-              >
-                <Text
-                  style={{
-                    color: colors.lightMode.text.light,
-                    fontSize: 16
-                  }}
-                >
-                  {label}
-                </Text>
-              </TouchableOpacity>
-            ))}
-
-            <TouchableOpacity
-              onPress={() => setShowUnitModal(false)}
-              style={{
-                backgroundColor: colors.secondary.light,
-                padding: 12,
-                borderRadius: 8,
-                alignItems: "center",
-                marginTop: 16
-              }}
-            >
-              <Text
-                style={{
-                  color: colors.background.light.primary,
-                  fontWeight: "bold"
-                }}
-              >
-                Cancelar
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+      {showUnitModal && (
+        <SelectModal
+          isVisible={showUnitModal}
+          title="Seleccionar Unidad de Medida"
+          onClose={() => setShowUnitModal(false)}
+          data={units}
+          renderItem={(item) => <Text>{TRANSLATE_UNIT[item]}</Text>}
+          onSelect={selectUnit}
+          keyExtractor={(item) => item}
+        ></SelectModal>
+      )}
     </View>
   );
 }

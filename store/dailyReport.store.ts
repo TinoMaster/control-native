@@ -13,6 +13,8 @@ interface DailyReportState {
   handleNextStep: () => void;
   handlePreviousStep: () => void;
   setCards: (cards: CardPayment[]) => void;
+  setTotal: (total: number) => void;
+  setFound: (found: number) => void;
   setMachines: (machines: MachineModel[]) => void;
 }
 
@@ -38,8 +40,23 @@ export const useDailyReportStore = create<DailyReportState>((set, get) => ({
       cards: cards
     }));
   },
+  setTotal: (total: number) => {
+    set((state) => ({
+      report: {
+        ...state.report,
+        total: total
+      }
+    }));
+  },
+  setFound: (found: number) => {
+    set((state) => ({
+      report: {
+        ...state.report,
+        found: found
+      }
+    }));
+  },
   setMachines: (machines: MachineModel[]) => {
-    console.log("machines desde dailyReportStore", machines);
     set((state) => {
       const machineIds: number[] = machines.map((machine) => machine.id!);
       return {
