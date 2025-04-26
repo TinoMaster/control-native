@@ -2,14 +2,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import GenericInput from "components/forms/generic-input";
 import { Resolver, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
+import { useDailyReportStore } from "store/dailyReport.store";
 import { formatNumericInput } from "utilities/helpers/globals.helpers";
 import { moneyDetailsSchema, MoneyDetailsSchemaOutput } from "./_schema/moneyDetails.schema";
-import { useDailyReportStore } from "store/dailyReport.store";
 
 // --- Main Component ---
 export function MoneyDetails() {
   const setTotal = useDailyReportStore((state) => state.setTotal);
   const setFund = useDailyReportStore((state) => state.setFund);
+  const report = useDailyReportStore((state) => state.report);
 
   const {
     formState: { errors },
@@ -18,8 +19,8 @@ export function MoneyDetails() {
   } = useForm<MoneyDetailsSchemaOutput>({
     resolver: zodResolver(moneyDetailsSchema) as Resolver<MoneyDetailsSchemaOutput>,
     defaultValues: {
-      totalSales: undefined,
-      cashFund: undefined
+      totalSales: report.total?.toString() ?? "",
+      cashFund: report.fund?.toString() ?? ""
     },
     mode: "onBlur"
   });
