@@ -1,45 +1,40 @@
-import { View, Text, TextInput } from "react-native";
-import { useForm, Controller, Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-
-// Zod schema for validation
-// Use z.string() initially, transform and refine for numeric validation
-const moneyDetailsSchema = z.object({
-  totalSales: z
-    .string()
-    .transform((val) => val.replace(",", ".")) // Replace comma with dot
-    .refine((val) => val === "" || !isNaN(parseFloat(val)), { message: "Debe ser un número" })
-    .transform((val) => (val === "" ? undefined : parseFloat(val)))
-    .refine((val) => val === undefined || val > 0, { message: "Debe ser positivo" })
-    .optional(),
-  cashFund: z
-    .string()
-    .transform((val) => val.replace(",", ".")) // Replace comma with dot
-    .refine((val) => val === "" || !isNaN(parseFloat(val)), { message: "Debe ser un número" })
-    .transform((val) => (val === "" ? undefined : parseFloat(val)))
-    .refine((val) => val === undefined || val >= 0, { message: "No puede ser negativo" })
-    .optional()
-});
-
-// Infer the input and output types directly from the schema
-type MoneyDetailsSchemaOutput = z.output<typeof moneyDetailsSchema>;
+import GenericInput from "components/forms/generic-input";
+import { Resolver, useForm } from "react-hook-form";
+import { Text, View } from "react-native";
+import { formatNumericInput } from "utilities/helpers/globals.helpers";
+import { moneyDetailsSchema, MoneyDetailsSchemaOutput } from "./_schema/moneyDetails.schema";
+import { useDailyReportStore } from "store/dailyReport.store";
 
 // --- Main Component ---
 export function MoneyDetails() {
+  const setTotal = useDailyReportStore((state) => state.setTotal);
+  const setFund = useDailyReportStore((state) => state.setFund);
+
   const {
-    control,
-    formState: { errors }
+    formState: { errors },
+    setValue,
+    watch
   } = useForm<MoneyDetailsSchemaOutput>({
-    // Explicitly cast the resolver to match the form state type
     resolver: zodResolver(moneyDetailsSchema) as Resolver<MoneyDetailsSchemaOutput>,
     defaultValues: {
-      // Default values match the OUTPUT type
       totalSales: undefined,
       cashFund: undefined
     },
-    mode: "onBlur" // Let's add this
+    mode: "onBlur"
   });
+
+  // Función reutilizable para validar y formatear valores numéricos
+  const handleNumericInput = (text: string, fieldName: "totalSales" | "cashFund") => {
+    // formatNumericInput es una función que valida y formatea los valores numéricos
+    const formattedValue = formatNumericInput(text);
+    setValue(fieldName, formattedValue, { shouldValidate: true });
+    if (fieldName === "totalSales") {
+      setTotal(Number(formattedValue));
+    } else if (fieldName === "cashFund") {
+      setFund(Number(formattedValue));
+    }
+  };
 
   return (
     <View className="mb-8">
@@ -47,48 +42,25 @@ export function MoneyDetails() {
 
       {/* Total Sales Input */}
       <View className="mb-4">
-        <Text className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Total Venta</Text>
-        <Controller
-          control={control}
-          name="totalSales"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              className={`border rounded-md p-3 text-base bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-50 placeholder-gray-400 dark:placeholder-gray-500 ${
-                errors.totalSales ? "border-red-500" : "border-gray-300 dark:border-gray-600"
-              }`}
-              placeholder="Ej: 150.75"
-              keyboardType="numeric"
-              onBlur={onBlur}
-              onChangeText={(text: string) => onChange(text)} // Pass raw string, Zod handles conversion
-              value={value !== undefined ? String(value) : ""}
-              accessibilityLabel="Total de ventas del día"
-            />
-          )}
+        <GenericInput
+          label="Total de ventas"
+          placeholder="Ingrese el total de ventas"
+          keyboardType="decimal-pad"
+          watch={watch("totalSales")}
+          error={errors.totalSales}
+          onChangeText={(text) => handleNumericInput(text, "totalSales")}
         />
-        {errors.totalSales && <Text className="text-red-500 text-xs mt-1">{errors.totalSales.message}</Text>}
       </View>
-
       {/* Cash Fund Input */}
-      <View>
-        <Text className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Fondo para Cambio</Text>
-        <Controller
-          control={control}
-          name="cashFund"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              className={`border rounded-md p-3 text-base bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-50 placeholder-gray-400 dark:placeholder-gray-500 ${
-                errors.cashFund ? "border-red-500" : "border-gray-300 dark:border-gray-600"
-              }`}
-              placeholder="Ej: 50"
-              keyboardType="numeric"
-              onBlur={onBlur}
-              onChangeText={(text: string) => onChange(text)} // Pass raw string, Zod handles conversion
-              value={value !== undefined ? String(value) : ""}
-              accessibilityLabel="Dinero dejado como fondo para cambio"
-            />
-          )}
+      <View className="mb-4">
+        <GenericInput
+          label="Fondo dejado"
+          placeholder="Ingrese el fondo dejado para cambio"
+          keyboardType="decimal-pad"
+          watch={watch("cashFund")}
+          error={errors.cashFund}
+          onChangeText={(text) => handleNumericInput(text, "cashFund")}
         />
-        {errors.cashFund && <Text className="text-red-500 text-xs mt-1">{errors.cashFund.message}</Text>}
       </View>
     </View>
   );

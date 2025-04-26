@@ -17,7 +17,7 @@ export interface BusinessFinalSaleModelResponse {
   cards: CardModel[];
   servicesSales: ServiceSaleModel[];
   doneBy: number;
-  found: number;
+  fund: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -34,7 +34,7 @@ export interface BusinessFinalSaleModel {
   machines: number[];
   servicesSales: ServiceSaleModel[];
   doneBy: number;
-  found: number;
+  fund: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -51,7 +51,7 @@ export interface BusinessFinalSaleModelToCreate {
   cards: CardModel[];
   servicesSales: ServiceSaleModel[];
   doneBy: number;
-  found: number;
+  fund: number;
   createdAt?: Date;
   updatedAt?: Date;
 }

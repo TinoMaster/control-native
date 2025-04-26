@@ -14,7 +14,7 @@ interface DailyReportState {
   handlePreviousStep: () => void;
   setCards: (cards: CardPayment[]) => void;
   setTotal: (total: number) => void;
-  setFound: (found: number) => void;
+  setFund: (fund: number) => void;
   setMachines: (machines: MachineModel[]) => void;
 }
 
@@ -48,11 +48,11 @@ export const useDailyReportStore = create<DailyReportState>((set, get) => ({
       }
     }));
   },
-  setFound: (found: number) => {
+  setFund: (fund: number) => {
     set((state) => ({
       report: {
         ...state.report,
-        found: found
+        fund: fund
       }
     }));
   },
