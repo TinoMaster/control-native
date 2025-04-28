@@ -1,4 +1,5 @@
 import { BusinessFinalSaleModel, CardPayment } from "models/api/businessFinalSale.model";
+import { EmployeeModel } from "models/api/employee.model";
 import { MachineModel } from "models/api/machine.model";
 import { create } from "zustand";
 
@@ -7,7 +8,8 @@ function checkStep1Completion(report: BusinessFinalSaleModel): boolean {
   const isTotalValid = Boolean(report.total) && typeof report.total === "number" && report.total > 0;
   const isFundValid = Boolean(report.fund) && typeof report.fund === "number" && report.fund > 0;
   const atLeastOneMachineSelected = Array.isArray(report.machines) && report.machines.length > 0;
-  return isTotalValid && isFundValid && atLeastOneMachineSelected;
+  const atLeastOneWorkerSelected = Array.isArray(report.workers) && report.workers.length > 0;
+  return isTotalValid && isFundValid && atLeastOneMachineSelected && atLeastOneWorkerSelected;
 }
 // Example for Step 2 (adjust logic as needed)
 function checkStep2Completion(cards: CardPayment[]): boolean {
@@ -35,6 +37,7 @@ interface DailyReportState {
   setTotal: (total: number) => void;
   setFund: (fund: number) => void;
   setMachines: (machines: MachineModel[]) => void;
+  setWorkers: (workers: EmployeeModel[]) => void;
   isStepCompleted: (step: number) => boolean;
 }
 
@@ -83,6 +86,16 @@ export const useDailyReportStore = create<DailyReportState>((set, get) => ({
         report: {
           ...state.report,
           machines: machineIds
+        }
+      };
+    });
+  },
+  setWorkers: (workers: EmployeeModel[]) => {
+    set((state) => {
+      return {
+        report: {
+          ...state.report,
+          workers: workers
         }
       };
     });

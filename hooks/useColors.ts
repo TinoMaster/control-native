@@ -12,7 +12,7 @@ export default function useColors() {
       : colors.background.light.secondary,
     text: isDarkMode ? colors.darkMode.text.dark : colors.lightMode.text.light,
     textSecondary: isDarkMode
-      ? colors.darkMode.textSecondary.dark
+      ? colors.darkMode.textSecondary.light
       : colors.lightMode.textSecondary.light,
   };
 }

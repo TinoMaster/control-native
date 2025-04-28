@@ -51,3 +51,5 @@ export const useMachineSelectionStore = create<MachineSelectionState>((set, get)
     return get().selectedMachines.some((m) => m.id === machine.id);
   }
 }));
+
+export default undefined;

@@ -1,9 +1,9 @@
+import { MachinesSelection } from "features/sales/components/step1/machines";
 import { View } from "react-native";
-import MachinesSelection from "./_components/machines";
-import MoneyDetails from "./_components/moneyDetails";
+import { MoneyDetails } from "./moneyDetails";
 
 // Main Details Component
-export default function Details() {
+export function Details() {
   return (
     <View className="flex-1">
       <MoneyDetails />

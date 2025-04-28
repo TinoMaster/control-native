@@ -1,10 +1,12 @@
+import { StepsHeader } from "features/sales/components/stepsHeader";
+import StepsNavigation from "features/sales/components/stepsNavigation";
 import useColors from "hooks/useColors";
-import { View } from "react-native";
+import { FlatList, View } from "react-native";
 import { useDailyReportStore } from "store/dailyReport.store";
-import StepsHeader from "./steps/_components/stepsHeader";
-import StepsNavigation from "./steps/_components/stepsNavigation";
 import Step1Details from "./steps/step-1-details";
 import Step2Debts from "./steps/step-2-debts";
+
+const listData = [{ id: "content" }];
 
 export default function CreateReportWizard() {
   const currentStep = useDailyReportStore((state) => state.currentStep);
@@ -26,7 +28,14 @@ export default function CreateReportWizard() {
       <StepsHeader />
 
       {/* Step Content */}
-      <View className="flex-1 p-4">{renderCurrentStep()}</View>
+      <FlatList
+        data={listData}
+        renderItem={() => renderCurrentStep()}
+        keyExtractor={(item) => item.id}
+        className="p-4"
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      />
 
       {/* Navigation */}
       <StepsNavigation />

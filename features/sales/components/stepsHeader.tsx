@@ -2,7 +2,7 @@ import useColors from "hooks/useColors";
 import { Text, View } from "react-native";
 import { useDailyReportStore } from "store/dailyReport.store";
 
-export default function StepsHeader() {
+export function StepsHeader() {
   const currentStep = useDailyReportStore((state) => state.currentStep);
   const totalSteps = useDailyReportStore((state) => state.totalSteps);
   const defaultColors = useColors();

@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import GenericInput from "components/forms/generic-input";
+import { moneyDetailsSchema, MoneyDetailsSchemaOutput } from "features/sales/schema/moneyDetails.schema";
 import useColors from "hooks/useColors";
 import { Resolver, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import { useDailyReportStore } from "store/dailyReport.store";
 import { formatNumericInput } from "utilities/helpers/globals.helpers";
-import { moneyDetailsSchema, MoneyDetailsSchemaOutput } from "./_schema/moneyDetails.schema";
 
 // --- Main Component ---
 export function MoneyDetails() {
@@ -40,13 +40,13 @@ export function MoneyDetails() {
   };
 
   return (
-    <View className="mb-8 flex-1">
-      <Text style={{ color: defaultColors.text }} className="text-lg font-semibold mb-4">
+    <View style={{ gap: 16 }} className="flex-1">
+      <Text style={{ color: defaultColors.text }} className="text-lg font-semibold">
         Detalles Monetarios
       </Text>
 
       {/* Total Sales Input */}
-      <View className="mb-4">
+      <View>
         <GenericInput
           label="Total de ventas"
           placeholder="Ingrese el total de ventas"
@@ -55,9 +55,7 @@ export function MoneyDetails() {
           error={errors.totalSales}
           onChangeText={(text) => handleNumericInput(text, "totalSales")}
         />
-      </View>
-      {/* Cash Fund Input */}
-      <View className="mb-4">
+        {/* Cash Fund Input */}
         <GenericInput
           label="Fondo dejado"
           placeholder="Ingrese el fondo dejado para cambio"
@@ -70,8 +68,3 @@ export function MoneyDetails() {
     </View>
   );
 }
-
-// Export the component with a named export as per rules
-export default MoneyDetails; // Keep default for Expo Router file-based routing if needed, but prefer named generally.
-// Let's adjust to prioritize named export based on rules, but acknowledge file-based routing might use default.
-// The file-based routing in Expo Router uses the default export. So we keep it.
