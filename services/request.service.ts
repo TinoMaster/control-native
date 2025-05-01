@@ -37,9 +37,9 @@ class RequestService {
       const response = await fetch(`${apiConfig.baseUrl}/refresh-token`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify({ refreshToken }),
+        body: JSON.stringify({ refreshToken })
       });
 
       if (!response.ok) {
@@ -47,7 +47,6 @@ class RequestService {
       }
 
       const res: IResponse<ILoginResponse> = await response.json();
-      console.log(res);
       const newAccessToken = res.data?.token;
 
       if (!newAccessToken) {
@@ -77,7 +76,7 @@ class RequestService {
 
     return {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     };
   }
 
@@ -95,15 +94,12 @@ class RequestService {
     }
   }
 
-  async fetch<T>(
-    url: string,
-    options: RequestInit = {}
-  ): Promise<IResponse<T>> {
+  async fetch<T>(url: string, options: RequestInit = {}): Promise<IResponse<T>> {
     const headers = await this.getHeadersWithValidToken();
 
     const response = await fetch(url, {
       ...options,
-      headers,
+      headers
     });
 
     // Si el token ha expirado y no se pudo renovar

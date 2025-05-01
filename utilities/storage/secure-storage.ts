@@ -12,9 +12,6 @@ export const secureStorage = {
    * @param value Valor a almacenar
    */
   setItem: async (key: string, value: string): Promise<void> => {
-    console.log("Guardando en localStorage:", key, value);
-    console.log("Plataforma:", Platform.OS);
-
     if (Platform.OS === "web") {
       try {
         localStorage.setItem(key, value);
