@@ -10,7 +10,7 @@ interface MachineSelectionState {
   isSelected: (machine: MachineModel) => boolean;
 }
 
-export const useMachineSelectionStore = create<MachineSelectionState>((set, get) => ({
+export const useMachineFinalSaleStore = create<MachineSelectionState>((set, get) => ({
   selectedMachines: [],
   toggleMachine: (machine) => {
     // Variable para guardar el resultado del cambio
@@ -51,5 +51,3 @@ export const useMachineSelectionStore = create<MachineSelectionState>((set, get)
     return get().selectedMachines.some((m) => m.id === machine.id);
   }
 }));
-
-export default undefined;

@@ -1,9 +1,8 @@
 import { useEmployees } from "hooks/api/useEmployees";
 import useColors from "hooks/useColors";
-import { FlatList, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { filterEmployeesReadyToWork } from "utilities/helpers/globals.helpers";
 import { SelectionControls } from "./selectionControls";
-import { EmployeeModel } from "models/api/employee.model";
 import { WorkerItem } from "./workerItem";
 
 export function Workers() {
@@ -26,22 +25,19 @@ export function Workers() {
     <View className="flex-1">
       <SelectionControls workers={employeesReadyToWork} />
 
-      <View className="flex-1">
-        <FlatList
-          data={employeesReadyToWork}
-          keyExtractor={(item: EmployeeModel) => item.id?.toString() ?? item.user.name}
-          renderItem={({ item }) => <WorkerItem worker={item} />}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 20 }}
-          ListEmptyComponent={
-            <View className="flex-1 justify-center items-center p-4">
-              <Text style={{ color: defaultColors.text }} className="text-center">
-                No hay trabajadores disponibles
-              </Text>
-            </View>
-          }
-        />
-      </View>
+      {employeesReadyToWork.length > 0 ? (
+        <View className="flex-1 pb-4">
+          {employeesReadyToWork.map((employee) => (
+            <WorkerItem key={employee.id} worker={employee} />
+          ))}
+        </View>
+      ) : (
+        <View className="flex-1 justify-center items-center p-4">
+          <Text style={{ color: defaultColors.text }} className="text-center">
+            No hay trabajadores disponibles
+          </Text>
+        </View>
+      )}
     </View>
   );
 }

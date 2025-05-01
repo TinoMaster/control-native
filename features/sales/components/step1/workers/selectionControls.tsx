@@ -1,5 +1,5 @@
 import MyButton from "components/ui/MyButton";
-import { useWorkersSelectorStore } from "features/sales/store/useWorkersSelectorStore";
+import { useWorkersFinalSaleStore } from "features/sales/store/useWorkersFinalSale.store";
 import useColors from "hooks/useColors";
 import { EmployeeModel } from "models/api/employee.model";
 import { useCallback } from "react";
@@ -11,7 +11,7 @@ interface SelectionControlsProps {
 
 export function SelectionControls({ workers }: SelectionControlsProps) {
   const defaultColors = useColors();
-  const { selectedWorkers, selectAll, clearAll } = useWorkersSelectorStore();
+  const { selectedWorkers, selectAll, clearAll } = useWorkersFinalSaleStore();
   const allSelected = workers?.length === selectedWorkers.length && workers?.length > 0;
 
   const handleSelectAll = useCallback(() => {

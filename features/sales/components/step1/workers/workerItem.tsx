@@ -1,15 +1,14 @@
 import { Feather } from "@expo/vector-icons";
 import { useTheme } from "contexts/ThemeContext";
 import { BlurView } from "expo-blur";
-import { useWorkersSelectorStore } from "features/sales/store/useWorkersSelectorStore"; // Updated store import
+import { useWorkersFinalSaleStore } from "features/sales/store/useWorkersFinalSale.store";
 import useColors from "hooks/useColors";
-import { EmployeeModel } from "models/api/employee.model"; // Updated model import
+import { EmployeeModel } from "models/api/employee.model";
 import { Pressable, Text, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 
 export function WorkerItem({ worker }: Readonly<{ worker: EmployeeModel }>) {
-  // Updated prop name
-  const { isSelected, toggleWorker } = useWorkersSelectorStore(); // Updated store functions
+  const { isSelected, toggleWorker } = useWorkersFinalSaleStore();
   const isActive = isSelected(worker);
   const defaultColors = useColors();
   const { isDarkMode } = useTheme();
@@ -17,7 +16,7 @@ export function WorkerItem({ worker }: Readonly<{ worker: EmployeeModel }>) {
   return (
     <Animated.View entering={FadeIn.duration(300)} className="mx-1 my-1">
       <Pressable
-        onPress={() => toggleWorker(worker)} // Updated toggle function
+        onPress={() => toggleWorker(worker)}
         className={`p-3 rounded-xl border overflow-hidden ${isActive ? "border-primary-light" : "border-white"}`}
         style={({ pressed }) => [
           {
@@ -27,7 +26,7 @@ export function WorkerItem({ worker }: Readonly<{ worker: EmployeeModel }>) {
         ]}
         accessible={true}
         accessibilityRole="button"
-        accessibilityLabel={`${worker.user.name} ${isActive ? "selected" : "not selected"}`} // Updated label
+        accessibilityLabel={`${worker.user.name} ${isActive ? "selected" : "not selected"}`}
         accessibilityState={{ selected: isActive }}
       >
         {isActive && (
@@ -40,7 +39,7 @@ export function WorkerItem({ worker }: Readonly<{ worker: EmployeeModel }>) {
         <View className="flex-row justify-between items-center">
           <View className="flex-1">
             <Text style={{ color: defaultColors.text }} className="text-base font-medium">
-              {worker.user.name} {/* Updated text content */}
+              {worker.user.name}
             </Text>
           </View>
           <View

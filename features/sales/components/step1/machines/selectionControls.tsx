@@ -1,5 +1,5 @@
 import MyButton from "components/ui/MyButton";
-import { useMachineSelectionStore } from "features/sales/store/useMachineSelectorStore";
+import { useMachineFinalSaleStore } from "features/sales/store/useMachineFinalSale.store";
 import useColors from "hooks/useColors";
 import { MachineModel } from "models/api/machine.model";
 import { useCallback } from "react";
@@ -7,7 +7,7 @@ import { Text, View } from "react-native";
 
 export function SelectionControls({ machines }: Readonly<{ machines: MachineModel[] | undefined }>) {
   const defaultColors = useColors();
-  const { selectedMachines, selectAll, clearAll } = useMachineSelectionStore();
+  const { selectedMachines, selectAll, clearAll } = useMachineFinalSaleStore();
   const allSelected = machines?.length === selectedMachines.length && machines?.length > 0;
 
   const handleSelectAll = useCallback(() => {

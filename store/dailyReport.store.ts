@@ -1,4 +1,5 @@
 import { BusinessFinalSaleModel, CardPayment } from "models/api/businessFinalSale.model";
+import { DebtModel } from "models/api/debt.model";
 import { EmployeeModel } from "models/api/employee.model";
 import { MachineModel } from "models/api/machine.model";
 import { create } from "zustand";
@@ -11,16 +12,11 @@ function checkStep1Completion(report: BusinessFinalSaleModel): boolean {
   const atLeastOneWorkerSelected = Array.isArray(report.workers) && report.workers.length > 0;
   return isTotalValid && isFundValid && atLeastOneMachineSelected && atLeastOneWorkerSelected;
 }
-// Example for Step 2 (adjust logic as needed)
-function checkStep2Completion(cards: CardPayment[]): boolean {
-  // e.g., Step 2 is complete if cards array is not empty
-  return cards.length > 0;
+function checkStep2Completion(): boolean {
+  return true;
 }
-
-// Example for Step 3 (adjust logic as needed)
-function checkStep3Completion(report: BusinessFinalSaleModel): boolean {
-  // e.g., Step 3 is complete if machines array exists and is not empty
-  return Array.isArray(report.machines) && report.machines.length > 0;
+function checkStep3Completion(): boolean {
+  return true;
 }
 
 interface DailyReportState {
@@ -38,6 +34,7 @@ interface DailyReportState {
   setFund: (fund: number) => void;
   setMachines: (machines: MachineModel[]) => void;
   setWorkers: (workers: EmployeeModel[]) => void;
+  setDebts: (debts: DebtModel[]) => void;
   isStepCompleted: (step: number) => boolean;
 }
 
@@ -100,6 +97,16 @@ export const useDailyReportStore = create<DailyReportState>((set, get) => ({
       };
     });
   },
+  setDebts: (debts: DebtModel[]) => {
+    set((state) => {
+      return {
+        report: {
+          ...state.report,
+          debts: debts
+        }
+      };
+    });
+  },
   isStepCompleted: (step: number): boolean => {
     const { report, cards } = get();
     console.log("report", report);
@@ -108,13 +115,12 @@ export const useDailyReportStore = create<DailyReportState>((set, get) => ({
       case 1:
         return checkStep1Completion(report);
       case 2:
-        return checkStep2Completion(cards); // Use cards state for step 2 logic
+        return checkStep2Completion();
       case 3:
-        return checkStep3Completion(report); // Use report state for step 3 logic
-      // Add cases for other steps as your application grows
+        return checkStep3Completion();
       default:
         console.warn(`isStepCompleted called for unknown step: ${step}`);
-        return false; // Default to not completed for unknown steps
+        return false;
     }
   }
 }));

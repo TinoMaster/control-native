@@ -1,14 +1,14 @@
 import { Feather } from "@expo/vector-icons";
 import { useTheme } from "contexts/ThemeContext";
 import { BlurView } from "expo-blur";
-import { useMachineSelectionStore } from "features/sales/store/useMachineSelectorStore";
+import { useMachineFinalSaleStore } from "features/sales/store/useMachineFinalSale.store";
 import useColors from "hooks/useColors";
 import { MachineModel } from "models/api/machine.model";
 import { Pressable, Text, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 
 export function MachineItem({ machine }: Readonly<{ machine: MachineModel }>) {
-  const { isSelected, toggleMachine } = useMachineSelectionStore();
+  const { isSelected, toggleMachine } = useMachineFinalSaleStore();
   const isActive = isSelected(machine);
   const defaultColors = useColors();
   const { isDarkMode } = useTheme();

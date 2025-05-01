@@ -10,7 +10,7 @@ interface WorkerSelectionState {
   isSelected: (worker: EmployeeModel) => boolean;
 }
 
-export const useWorkersSelectorStore = create<WorkerSelectionState>((set, get) => ({
+export const useWorkersFinalSaleStore = create<WorkerSelectionState>((set, get) => ({
   selectedWorkers: [],
   toggleWorker: (worker) => {
     let updatedSelectedWorkers: EmployeeModel[] = [];
