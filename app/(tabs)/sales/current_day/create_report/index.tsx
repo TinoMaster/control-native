@@ -5,6 +5,7 @@ import { View } from "react-native";
 import { useDailyReportStore } from "store/dailyReport.store";
 import Step1Details from "./steps/step-1-details";
 import Step2Debts from "./steps/step-2-debts";
+import Step3Cards from "./steps/step-3-cards";
 
 export default function CreateReportWizard() {
   const currentStep = useDailyReportStore((state) => state.currentStep);
@@ -16,6 +17,9 @@ export default function CreateReportWizard() {
     }
     if (currentStep === 2) {
       return <Step2Debts />;
+    }
+    if (currentStep === 3) {
+      return <Step3Cards />;
     }
     return <Step1Details />;
   }
