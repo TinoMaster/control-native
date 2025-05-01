@@ -48,8 +48,8 @@ export function MoneyDetails() {
       {/* Total Sales Input */}
       <View>
         <GenericInput
-          label="Total de ventas"
-          placeholder="Ingrese el total de ventas"
+          label="Total de venta"
+          placeholder="Ingrese el total de venta"
           keyboardType="decimal-pad"
           watch={watch("totalSales")}
           error={errors.totalSales}

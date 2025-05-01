@@ -5,7 +5,11 @@ import { EmployeeModel } from "models/api/employee.model";
 import { useCallback } from "react";
 import { Text, View } from "react-native";
 
-export function SelectionControls({ workers }: Readonly<{ workers: EmployeeModel[] | undefined }>) {
+interface SelectionControlsProps {
+  readonly workers: EmployeeModel[] | undefined;
+}
+
+export function SelectionControls({ workers }: SelectionControlsProps) {
   const defaultColors = useColors();
   const { selectedWorkers, selectAll, clearAll } = useWorkersSelectorStore();
   const allSelected = workers?.length === selectedWorkers.length && workers?.length > 0;
@@ -28,9 +32,13 @@ export function SelectionControls({ workers }: Readonly<{ workers: EmployeeModel
         </Text>
         <MyButton onPress={handleSelectAll} label={allSelected ? "Deseleccionar todos" : "Seleccionar todos"} />
       </View>
-      <View className="mt-1">
+      <View className="mt-1 gap-1">
         <Text style={{ color: defaultColors.textSecondary }} className="text-xs">
           Trabajadores seleccionados: {selectedWorkers.length}
+        </Text>
+        <Text style={{ color: defaultColors.textSecondary }} className="text-xs">
+          (Nota): Solo aparecerán los trabajadores que estén disponibles para trabajar, osea que sean trabajadores
+          activos y tengan un salario asignado
         </Text>
       </View>
     </View>
