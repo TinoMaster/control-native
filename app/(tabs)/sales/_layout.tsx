@@ -8,7 +8,7 @@ const menuItems: {
   path: string;
   icon: keyof typeof Ionicons.glyphMap;
 }[] = [
-  { label: "Dia actual", path: "/(tabs)/sales/current_day", icon: "clipboard" },
+  { label: "Registro diario", path: "/(tabs)/sales/current_day", icon: "clipboard" },
   {
     label: "Lista de ventas",
     path: "/(tabs)/sales/list",
