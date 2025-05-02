@@ -1,5 +1,5 @@
 import { Redirect } from "expo-router";
 
 export default function Sales() {
-  return <Redirect href={"/(tabs)/sales/current_day" as any} />;
+  return <Redirect href={"/(tabs)/sales/sale_services" as any} />;
 }

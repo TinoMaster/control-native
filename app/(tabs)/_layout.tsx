@@ -67,7 +67,7 @@ export default function TabsLayout() {
     },
     {
       name: "sales",
-      title: "Ventas",
+      title: "Registros",
       icon: WalletIcon
     },
     {

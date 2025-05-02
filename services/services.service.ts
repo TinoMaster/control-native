@@ -5,16 +5,12 @@ import { handleFetchError } from "utilities/helpers/errorManager";
 import { requestService } from "./request.service";
 
 class ServiceService {
-  private urlAdmin = apiConfig.adminUrl;
-  private urlPrivate = apiConfig.privateUrl;
+  private readonly urlAdmin = apiConfig.adminUrl;
+  private readonly urlPrivate = apiConfig.privateUrl;
 
-  async getServicesByBusinessId(
-    id: number
-  ): Promise<IResponse<ServiceModel[]>> {
+  async getServicesByBusinessId(id: number): Promise<IResponse<ServiceModel[]>> {
     try {
-      return await requestService.fetch<ServiceModel[]>(
-        `${this.urlPrivate}/service/list/${id}`
-      );
+      return await requestService.fetch<ServiceModel[]>(`${this.urlPrivate}/service/list/${id}`);
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);
@@ -23,13 +19,10 @@ class ServiceService {
 
   async saveService(service: ServiceModel): Promise<IResponse<ServiceModel>> {
     try {
-      return await requestService.fetch<ServiceModel>(
-        `${this.urlAdmin}/service`,
-        {
-          method: "POST",
-          body: JSON.stringify(service),
-        }
-      );
+      return await requestService.fetch<ServiceModel>(`${this.urlAdmin}/service`, {
+        method: "POST",
+        body: JSON.stringify(service)
+      });
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);
@@ -38,12 +31,9 @@ class ServiceService {
 
   async deleteService(id: number): Promise<IResponse<null>> {
     try {
-      return await requestService.fetch<null>(
-        `${this.urlAdmin}/service/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      return await requestService.fetch<null>(`${this.urlAdmin}/service/${id}`, {
+        method: "DELETE"
+      });
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);
