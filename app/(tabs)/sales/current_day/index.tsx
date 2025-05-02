@@ -1,4 +1,4 @@
-import { DailyReportCard } from "components/dailyReportCard";
+import { DailyReportCard } from "features/sales/components/dailyReportCard";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import LoadingPage from "components/ui/loaders/LoadingPage";
