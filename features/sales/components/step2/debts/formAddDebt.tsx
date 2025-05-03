@@ -35,7 +35,6 @@ export const FormAddDebt = ({ onClose }: FormAddDebtProps) => {
   const handleAddDebt = useCallback(
     (data: DebtFormValues) => {
       const newDebt: DebtModel = {
-        id: Date.now(),
         name: data.name,
         description: data.description,
         total: Number(data.total),

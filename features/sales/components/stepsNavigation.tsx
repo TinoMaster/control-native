@@ -4,11 +4,19 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 import { useDailyReportStore } from "store/dailyReport.store";
+import { useFinalizeReport } from "../hooks/useFinalizeReport";
 
 const toShowInModal = (step: number) => {
   switch (step) {
     case 1:
-      return { title: "Detalles del Reporte", message: "Por favor, completa los detalles del reporte" };
+      return {
+        title: "Detalles del Reporte",
+        message: `Por favor, completa los detalles del reporte
+  - Total
+  - Al menos una máquina
+  - Fondo de las máquinas seleccionadas
+  - Al menos un trabajador`
+      };
     case 2:
       return { title: "Detalles Monetarios", message: "Por favor, completa los detalles monetarios" };
     case 3:
@@ -23,12 +31,19 @@ export default function StepsNavigation() {
   const totalSteps = useDailyReportStore((state) => state.totalSteps);
   const handleNextStep = useDailyReportStore((state) => state.handleNextStep);
   const handlePreviousStep = useDailyReportStore((state) => state.handlePreviousStep);
+  const report = useDailyReportStore((state) => state.report);
+  const cards = useDailyReportStore((state) => state.cards);
+  const machineStates = useDailyReportStore((state) => state.machineStates);
   const router = useRouter();
   const isStepCompleted = useDailyReportStore((state) => state.isStepCompleted);
   const [showModal, setShowModal] = useState(false);
+  /* Metodo para finalizar el reporte */
+  const { finalizeReport } = useFinalizeReport();
 
   function handleNext() {
-    if (isStepCompleted(currentStep)) {
+    if (currentStep === totalSteps) {
+      finalizeReport(report, cards, machineStates);
+    } else if (isStepCompleted(currentStep)) {
       handleNextStep();
     } else {
       setShowModal(true);

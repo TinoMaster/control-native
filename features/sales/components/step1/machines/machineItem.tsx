@@ -1,17 +1,37 @@
 import { Feather } from "@expo/vector-icons";
 import { useTheme } from "contexts/ThemeContext";
 import { BlurView } from "expo-blur";
+import { MachineStateModal } from "features/sales/components/step1/machines/MachineStateModal";
+import { useMachineStateModal } from "features/sales/hooks/useMachineStateModal";
 import { useMachineFinalSaleStore } from "features/sales/store/useMachineFinalSale.store";
+import { useMachineStateFinalSaleStore } from "features/sales/store/useMachineStateFinalSale.store";
 import useColors from "hooks/useColors";
 import { MachineModel } from "models/api/machine.model";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
+import { formatCurrency } from "utilities/formatters";
 
 export function MachineItem({ machine }: Readonly<{ machine: MachineModel }>) {
   const { isSelected, toggleMachine } = useMachineFinalSaleStore();
+  const { selectedMachineStates, deleteMachineState } = useMachineStateFinalSaleStore();
+  const { isModalVisible, openModal, closeModal } = useMachineStateModal();
   const isActive = isSelected(machine);
   const defaultColors = useColors();
   const { isDarkMode } = useTheme();
+
+  // Check if this machine has a state with fund
+  const machineState = selectedMachineStates.find((state) => state.machine.id === machine.id);
+  const hasFund = machineState !== undefined;
+
+  const toggleMachineState = () => {
+    toggleMachine(machine);
+
+    if (isActive) {
+      deleteMachineState(machineState!);
+    } else {
+      openModal();
+    }
+  };
 
   return (
     <Animated.View
@@ -20,7 +40,7 @@ export function MachineItem({ machine }: Readonly<{ machine: MachineModel }>) {
       className="mx-1 my-1"
     >
       <Pressable
-        onPress={() => toggleMachine(machine)}
+        onPress={toggleMachineState}
         className={`p-3 rounded-xl border overflow-hidden ${isActive ? "border-primary-light" : "border-white"}`}
         style={({ pressed }) => [
           {
@@ -45,16 +65,36 @@ export function MachineItem({ machine }: Readonly<{ machine: MachineModel }>) {
             <Text style={{ color: defaultColors.text }} className="text-base font-medium">
               {machine.name}
             </Text>
+            <Text style={{ color: defaultColors.textSecondary }} className="text-xs">
+              Fondo: {hasFund ? formatCurrency(machineState?.fund ?? 0) : ""}
+            </Text>
           </View>
-          <View
-            className={`w-6 h-6 rounded-full justify-center items-center border ${
-              isActive ? "bg-primary-500 border-primary-700" : "border-neutral-300 dark:border-neutral-600"
-            }`}
-          >
-            {isActive && <Feather name="check" size={14} color="#fff" />}
+
+          <View className="flex-row items-center">
+            {isActive && (
+              <TouchableOpacity
+                onPress={openModal}
+                className="mr-2 p-2 rounded-full bg-primary-light"
+                accessibilityLabel="Agregar fondo a esta máquina"
+                accessibilityRole="button"
+              >
+                <Feather name="dollar-sign" size={14} color="#fff" />
+              </TouchableOpacity>
+            )}
+
+            <View
+              className={`w-6 h-6 rounded-full justify-center items-center border ${
+                isActive ? "bg-primary-500 border-primary-700" : "border-neutral-300 dark:border-neutral-600"
+              }`}
+            >
+              {isActive && <Feather name="check" size={14} color="#fff" />}
+            </View>
           </View>
         </View>
       </Pressable>
+
+      {/* Modal para agregar fondos a la máquina */}
+      <MachineStateModal isVisible={isModalVisible} onClose={closeModal} />
     </Animated.View>
   );
 }

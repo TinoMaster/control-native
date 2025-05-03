@@ -10,6 +10,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import { useDailyReportStore } from "store/dailyReport.store";
+import colors from "styles/colors";
+import { calculateEmployeeSalaries } from "utilities/employee.utils";
 import { formatCurrency } from "utilities/formatters";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
@@ -19,15 +21,15 @@ interface SectionProps {
 }
 
 function Section({ title, children }: SectionProps) {
-  const colors = useColors();
+  const defaultColors = useColors();
 
   return (
     <View
-      style={{ backgroundColor: adjustBrightness(colors.background, 20) }}
+      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
       className="mb-4 p-4 rounded-lg shadow-sm"
     >
       <Text
-        style={{ color: colors.text }}
+        style={{ color: defaultColors.text }}
         className="text-lg font-semibold mb-2 border-b border-gray-200 dark:border-gray-700 pb-2"
       >
         {title}
@@ -37,36 +39,75 @@ function Section({ title, children }: SectionProps) {
   );
 }
 
-function InfoRow({ label, value }: { readonly label: string; readonly value: string | number }) {
-  const colors = useColors();
+function InfoRow({
+  label,
+  value,
+  bold,
+  success,
+  warning,
+  error,
+  positive,
+  negative
+}: {
+  readonly label: string;
+  readonly value: string | number;
+  readonly positive?: boolean;
+  readonly negative?: boolean;
+  readonly bold?: boolean;
+  readonly success?: boolean;
+  readonly warning?: boolean;
+  readonly error?: boolean;
+}) {
+  const defaultColors = useColors();
+
+  // Determinar color de texto seg n estado
+  function getTextColor() {
+    if (success) return colors.success.light;
+    if (warning) return colors.warning.light;
+    if (error) return colors.error.light;
+    return defaultColors.text;
+  }
+
+  function getSign() {
+    if (positive) return "+";
+    if (negative) return "-";
+    return "";
+  }
+
+  const colorText = getTextColor();
 
   return (
     <View
-      style={{ backgroundColor: adjustBrightness(colors.background, 20) }}
+      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
       className="flex-row justify-between py-2"
     >
-      <Text style={{ color: colors.text }} className="font-medium">
+      <Text
+        style={{ color: colorText, fontWeight: bold ? "bold" : "normal", fontSize: bold ? 16 : 14 }}
+        className="font-medium"
+      >
         {label}
       </Text>
-      <Text style={{ color: colors.text }}>{value}</Text>
+      <Text style={{ color: colorText, fontWeight: bold ? "bold" : "normal", fontSize: bold ? 16 : 14 }}>
+        {getSign() + " " + value}
+      </Text>
     </View>
   );
 }
 
 function CardItem({ card }: { readonly card: CardPayment }) {
-  const colors = useColors();
+  const defaultColors = useColors();
 
   return (
     <View
-      style={{ backgroundColor: adjustBrightness(colors.background, 20) }}
+      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
       className="flex-row justify-between items-center py-2"
     >
       <View>
-        <Text style={{ color: colors.text }} className="font-medium">
+        <Text style={{ color: defaultColors.text }} className="font-medium">
           Tarjeta {card.cardNumber}
         </Text>
       </View>
-      <Text style={{ color: colors.text }} className="font-semibold">
+      <Text style={{ color: defaultColors.text }} className="font-semibold">
         {formatCurrency(card.amount)}
       </Text>
     </View>
@@ -74,23 +115,23 @@ function CardItem({ card }: { readonly card: CardPayment }) {
 }
 
 function ServiceItem({ service }: { readonly service: ServiceSaleModel }) {
-  const colors = useColors();
+  const defaultColors = useColors();
 
   return (
-    <View style={{ backgroundColor: adjustBrightness(colors.background, 20) }} className="py-2">
+    <View style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }} className="py-2">
       <View className="flex-row justify-between">
-        <Text style={{ color: colors.text }} className="font-medium">
+        <Text style={{ color: defaultColors.text }} className="font-medium">
           {service.service.name}
         </Text>
-        <Text style={{ color: colors.text }} className="font-semibold">
+        <Text style={{ color: defaultColors.text }} className="font-semibold">
           {formatCurrency(service.service.price * service.quantity)}
         </Text>
       </View>
       <View className="flex-row justify-between mt-1">
-        <Text style={{ color: colors.textSecondary }} className="text-sm">
+        <Text style={{ color: defaultColors.textSecondary }} className="text-sm">
           {service.employee.user.name}
         </Text>
-        <Text style={{ color: colors.textSecondary }} className="text-sm">
+        <Text style={{ color: defaultColors.textSecondary }} className="text-sm">
           Cantidad: {service.quantity}
         </Text>
       </View>
@@ -99,20 +140,20 @@ function ServiceItem({ service }: { readonly service: ServiceSaleModel }) {
 }
 
 function DebtItem({ debt }: { readonly debt: DebtModel }) {
-  const colors = useColors();
+  const defaultColors = useColors();
 
   return (
-    <View style={{ backgroundColor: adjustBrightness(colors.background, 20) }} className="py-2">
+    <View style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }} className="py-2">
       <View className="flex-row justify-between">
-        <Text style={{ color: colors.text }} className="font-medium">
+        <Text style={{ color: defaultColors.text }} className="font-medium">
           {debt.name}
         </Text>
-        <Text style={{ color: colors.text }} className="font-semibold">
+        <Text style={{ color: defaultColors.text }} className="font-semibold">
           {formatCurrency(debt.total)}
         </Text>
       </View>
       {debt.description && (
-        <Text style={{ color: colors.textSecondary }} className="text-sm mt-1">
+        <Text style={{ color: defaultColors.textSecondary }} className="text-sm mt-1">
           {debt.description}
         </Text>
       )}
@@ -120,26 +161,38 @@ function DebtItem({ debt }: { readonly debt: DebtModel }) {
   );
 }
 
-function WorkerItem({ worker }: { readonly worker: EmployeeModel }) {
-  const colors = useColors();
+function WorkerItem({
+  worker,
+  workersAndSalaries
+}: {
+  readonly worker: EmployeeModel;
+  readonly workersAndSalaries: Record<string, number>;
+}) {
+  const defaultColors = useColors();
 
   return (
-    <View style={{ backgroundColor: adjustBrightness(colors.background, 20) }} className="py-2 ">
-      <Text style={{ color: colors.text }} className="font-medium">
+    <View
+      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
+      className="py-2 flex-row justify-between"
+    >
+      <Text style={{ color: defaultColors.text }} className="font-medium">
         {worker.user.name}
+      </Text>
+      <Text style={{ color: defaultColors.text }} className="font-medium">
+        {formatCurrency(workersAndSalaries[worker.user.name])}
       </Text>
     </View>
   );
 }
 
 function MachineItem({ machineId }: { readonly machineId: number }) {
-  const colors = useColors();
+  const defaultColors = useColors();
   const business = useBusinessStore((state) => state.business);
   const { machines } = business;
 
   return (
-    <View style={{ backgroundColor: adjustBrightness(colors.background, 20) }} className="py-2">
-      <Text style={{ color: colors.text }} className="font-medium">
+    <View style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }} className="py-2">
+      <Text style={{ color: defaultColors.text }} className="font-medium">
         {machines?.find((machine) => machine.id === machineId)?.name}
       </Text>
     </View>
@@ -150,11 +203,12 @@ export default function ReviewFinalReport() {
   const report = useDailyReportStore((state) => state.report);
   const cards = useDailyReportStore((state) => state.cards);
   const business = useBusinessStore((state) => state.business);
-  const colors = useColors();
+  const defaultColors = useColors();
   const setNote = useDailyReportStore((state) => state.setNote);
 
   const [noteModalVisible, setNoteModalVisible] = useState(false);
   const [noteText, setNoteText] = useState("");
+  const [totalSalaries, setTotalSalaries] = useState(0);
 
   // Inicializar el texto de la nota con el valor existente en el reporte
   useEffect(() => {
@@ -172,6 +226,22 @@ export default function ReviewFinalReport() {
     return cards.reduce((acc, card) => acc + card.amount, 0);
   }, [cards]);
 
+  const workersAndSalaries = useMemo(() => {
+    // Calcular salarios usando la nueva utilidad
+    const salaryCalculation = calculateEmployeeSalaries(report.workers, report.total || 0);
+
+    console.log("salaryCalculation", salaryCalculation);
+
+    // Convertir al formato requerido por el componente
+    const workers = salaryCalculation.employees.reduce((acc, worker) => {
+      acc[worker.name] = worker.salary;
+      return acc;
+    }, {} as Record<string, number>);
+
+    setTotalSalaries(salaryCalculation.totalSalaries);
+    return workers;
+  }, [report.workers, report.total]);
+
   const totalDebts = useMemo(() => {
     return report.debts?.reduce((acc, debt) => acc + debt.total, 0) || 0;
   }, [report.debts]);
@@ -181,15 +251,15 @@ export default function ReviewFinalReport() {
   }, [report.servicesSales]);
 
   const calculateCash = useCallback(() => {
-    // Efectivo = Total - (Tarjetas + Deudas)
-    return (report.total || 0) - (totalCards + totalDebts);
-  }, [report.total, totalCards, totalDebts]);
+    // Efectivo = Total - (Tarjetas + Deudas + Salarios)
+    return (report.total || 0) - (totalCards + totalDebts + totalSalaries);
+  }, [report.total, totalCards, totalDebts, totalSalaries]);
 
   return (
     <ScrollView className="flex-1" style={{ paddingHorizontal: 16 }}>
       <View className="py-1">
         <View className="flex-row justify-between items-center mb-6">
-          <Text style={{ color: colors.text }} className="text-xl font-bold text-center">
+          <Text style={{ color: defaultColors.text }} className="text-xl font-bold text-center">
             Resumen del Reporte Diario
           </Text>
           <TouchableOpacity
@@ -198,7 +268,7 @@ export default function ReviewFinalReport() {
             accessibilityLabel="Agregar nota al reporte"
             accessibilityRole="button"
           >
-            <Feather name={report.note ? "edit-3" : "plus-circle"} size={24} color={colors.primary} />
+            <Feather name={report.note ? "edit-3" : "plus-circle"} size={24} color={defaultColors.primary} />
           </TouchableOpacity>
         </View>
 
@@ -216,12 +286,12 @@ export default function ReviewFinalReport() {
         >
           <TextInput
             style={{
-              borderColor: colors.textSecondary,
+              borderColor: defaultColors.textSecondary,
               borderWidth: 1,
               borderRadius: 8,
               padding: 12,
-              color: colors.text,
-              backgroundColor: adjustBrightness(colors.background, 10),
+              color: defaultColors.text,
+              backgroundColor: adjustBrightness(defaultColors.background, 10),
               height: 120,
               textAlignVertical: "top"
             }}
@@ -229,7 +299,7 @@ export default function ReviewFinalReport() {
             value={noteText}
             onChangeText={setNoteText}
             placeholder="Escribe una nota para el reporte..."
-            placeholderTextColor={colors.textSecondary}
+            placeholderTextColor={defaultColors.textSecondary}
             accessibilityLabel="Campo de texto para nota"
           />
         </MyModal>
@@ -238,25 +308,38 @@ export default function ReviewFinalReport() {
           <InfoRow label="Negocio" value={business?.name || "Sin nombre"} />
           <InfoRow label="Fecha" value={new Date().toLocaleDateString()} />
           <InfoRow label="Total Ventas" value={formatCurrency(report.total ?? 0)} />
+          <InfoRow label="Servicios" value={formatCurrency(totalServices)} />
           <InfoRow label="Fondo Inicial" value={formatCurrency(report.fund || 0)} />
           {Boolean(report.note) && (
-            <View style={{ backgroundColor: adjustBrightness(colors.background, 10) }} className="mt-2 p-3 rounded-lg">
+            <View
+              style={{ backgroundColor: adjustBrightness(defaultColors.background, 10) }}
+              className="mt-2 p-3 rounded-lg"
+            >
               <View className="flex-row items-center mb-1">
-                <Feather name="file-text" size={16} color={colors.primary} />
-                <Text style={{ color: colors.text }} className="ml-2 font-medium">
+                <Feather name="file-text" size={16} color={defaultColors.primary} />
+                <Text style={{ color: defaultColors.text }} className="ml-2 font-medium">
                   Nota:
                 </Text>
               </View>
-              <Text style={{ color: colors.text }}>{report.note}</Text>
+              <Text style={{ color: defaultColors.text }}>{report.note}</Text>
             </View>
           )}
         </Section>
 
-        <Section title="Desglose de Ingresos">
-          <InfoRow label="Efectivo" value={formatCurrency(calculateCash())} />
-          <InfoRow label="Tarjetas" value={formatCurrency(totalCards)} />
-          <InfoRow label="Deudas" value={formatCurrency(totalDebts)} />
-          <InfoRow label="Servicios" value={formatCurrency(totalServices)} />
+        <Section title="Desglose de efectivo">
+          <InfoRow label="Total Efectivo" bold={true} value={formatCurrency(report.total ?? 0)} />
+          <InfoRow label="Tarjetas" negative={true} error={true} value={formatCurrency(totalCards)} />
+          <InfoRow label="Deudas" negative={true} error={true} value={formatCurrency(totalDebts)} />
+          <InfoRow label="Salarios" negative={true} error={true} value={formatCurrency(totalSalaries)} />
+          <InfoRow
+            label="Efectivo"
+            positive={calculateCash() > 0}
+            negative={calculateCash() < 0}
+            success={calculateCash() > 0}
+            error={calculateCash() < 0}
+            bold={true}
+            value={formatCurrency(calculateCash())}
+          />
         </Section>
 
         {cards.length > 0 && (
@@ -284,9 +367,9 @@ export default function ReviewFinalReport() {
         )}
 
         {report.workers?.length > 0 && (
-          <Section title="Trabajadores">
+          <Section title="Trabajadores y Salarios">
             {report.workers.map((worker) => (
-              <WorkerItem key={worker.id} worker={worker} />
+              <WorkerItem key={worker.id} worker={worker} workersAndSalaries={workersAndSalaries} />
             ))}
           </Section>
         )}

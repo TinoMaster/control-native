@@ -2,6 +2,7 @@ import { CardModel } from "./card.model";
 import { DebtModel } from "./debt.model";
 import { EmployeeModel } from "./employee.model";
 import { MachineModel } from "./machine.model";
+import { MachineStateModel } from "./machineState.model";
 import { ServiceSaleModel } from "./serviceSale.model";
 
 export interface BusinessFinalSaleModelResponse {
@@ -48,6 +49,7 @@ export interface BusinessFinalSaleModelToCreate {
   note: string;
   workers: EmployeeModel[];
   machines: MachineModel[];
+  machineStates: MachineStateModel[];
   cards: CardModel[];
   servicesSales: ServiceSaleModel[];
   doneBy: number;

@@ -2,16 +2,23 @@ import { BusinessFinalSaleModel, CardPayment } from "models/api/businessFinalSal
 import { DebtModel } from "models/api/debt.model";
 import { EmployeeModel } from "models/api/employee.model";
 import { MachineModel } from "models/api/machine.model";
+import { MachineStateModel } from "models/api/machineState.model";
 import { ServiceSaleModel } from "models/api/serviceSale.model";
 import { create } from "zustand";
 
-function checkStep1Completion(report: BusinessFinalSaleModel): boolean {
+function checkIfMachineStatesAreValid(machineStates: MachineStateModel[]): boolean {
+  console.log("machineStates", machineStates);
+  return machineStates.length > 0 && machineStates.every((ms) => ms.fund > 0);
+}
+
+function checkStep1Completion(report: BusinessFinalSaleModel, machineStates: MachineStateModel[]): boolean {
   // Chequeo para validar que el paso 1
   const isTotalValid = Boolean(report.total) && typeof report.total === "number" && report.total > 0;
-  const isFundValid = Boolean(report.fund) && typeof report.fund === "number" && report.fund > 0;
   const atLeastOneMachineSelected = Array.isArray(report.machines) && report.machines.length > 0;
   const atLeastOneWorkerSelected = Array.isArray(report.workers) && report.workers.length > 0;
-  return isTotalValid && isFundValid && atLeastOneMachineSelected && atLeastOneWorkerSelected;
+  const areMachineStatesValid = checkIfMachineStatesAreValid(machineStates);
+  console.log("areMachineStatesValid", areMachineStatesValid);
+  return isTotalValid && atLeastOneMachineSelected && atLeastOneWorkerSelected && areMachineStatesValid;
 }
 function checkStep2Completion(): boolean {
   return true;
@@ -29,6 +36,7 @@ interface DailyReportState {
   currentStep: number;
   report: BusinessFinalSaleModel;
   cards: CardPayment[];
+  machineStates: MachineStateModel[];
 
   /* actions */
   handleNextStep: () => void;
@@ -41,6 +49,7 @@ interface DailyReportState {
   setDebts: (debts: DebtModel[]) => void;
   setServicesSales: (servicesSales: ServiceSaleModel[]) => void;
   setNote: (note: string) => void;
+  setMachineStates: (machineStates: MachineStateModel[]) => void;
   isStepCompleted: (step: number) => boolean;
 }
 
@@ -49,6 +58,7 @@ export const useDailyReportStore = create<DailyReportState>((set, get) => ({
   currentStep: 1,
   report: {} as BusinessFinalSaleModel,
   cards: [],
+  machineStates: [],
 
   /* actions */
   handleNextStep: () => {
@@ -133,13 +143,23 @@ export const useDailyReportStore = create<DailyReportState>((set, get) => ({
       };
     });
   },
+  setMachineStates: (machineStates: MachineStateModel[]) => {
+    const totalFund = machineStates.reduce((total, machineState) => total + machineState.fund, 0);
+    set((state) => {
+      return {
+        machineStates: machineStates,
+        report: {
+          ...state.report,
+          fund: totalFund
+        }
+      };
+    });
+  },
   isStepCompleted: (step: number): boolean => {
-    const { report, cards } = get();
-    console.log("report", report);
-    console.log("cards", cards); // Get current state dynamically
+    const { report, machineStates } = get();
     switch (step) {
       case 1:
-        return checkStep1Completion(report);
+        return checkStep1Completion(report, machineStates);
       case 2:
         return checkStep2Completion();
       case 3:

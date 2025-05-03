@@ -55,7 +55,7 @@ class BusinessFinalSaleService {
         body: JSON.stringify(businessSale)
       });
     } catch (error: any) {
-      console.log(error);
+      console.log("Error in saveBusinessFinalSale:", error);
       return handleFetchError(error);
     }
   }

@@ -32,8 +32,7 @@ export const useBusinessFinalSale = () => {
   const { mutateAsync: saveBusinessFinalSale, isPending: loadingSave } = useMutation({
     mutationFn: (businessFinalSale: BusinessFinalSaleModelToCreate) =>
       businessFinalSaleService.saveBusinessFinalSale(businessFinalSale),
-    onSuccess: () => {
-      showNotification("Venta final de negocio creada correctamente", "success");
+    onSuccess: (re) => {
       queryClient.invalidateQueries({
         queryKey: ["todayReports", businessId]
       });
