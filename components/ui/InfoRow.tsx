@@ -1,0 +1,59 @@
+import useColors from "hooks/useColors";
+import { Text, View } from "react-native";
+import colors from "styles/colors";
+import { adjustBrightness } from "utilities/helpers/globals.helpers";
+
+export function InfoRow({
+  label,
+  value,
+  bold,
+  success,
+  warning,
+  error,
+  positive,
+  negative
+}: {
+  readonly label: string;
+  readonly value: string | number;
+  readonly positive?: boolean;
+  readonly negative?: boolean;
+  readonly bold?: boolean;
+  readonly success?: boolean;
+  readonly warning?: boolean;
+  readonly error?: boolean;
+}) {
+  const defaultColors = useColors();
+
+  // Determinar color de texto seg n estado
+  function getTextColor() {
+    if (success) return colors.success.light;
+    if (warning) return colors.warning.light;
+    if (error) return colors.error.light;
+    return defaultColors.text;
+  }
+
+  function getSign() {
+    if (positive) return "+";
+    if (negative) return "-";
+    return "";
+  }
+
+  const colorText = getTextColor();
+
+  return (
+    <View
+      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
+      className="flex-row justify-between py-2"
+    >
+      <Text
+        style={{ color: colorText, fontWeight: bold ? "bold" : "normal", fontSize: bold ? 16 : 14 }}
+        className="font-medium"
+      >
+        {label}
+      </Text>
+      <Text style={{ color: colorText, fontWeight: bold ? "bold" : "normal", fontSize: bold ? 16 : 14 }}>
+        {getSign() + " " + value}
+      </Text>
+    </View>
+  );
+}

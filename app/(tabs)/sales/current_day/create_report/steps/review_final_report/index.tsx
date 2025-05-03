@@ -1,203 +1,21 @@
 import { Feather } from "@expo/vector-icons";
+import { InfoRow } from "components/ui/InfoRow";
+import { CardItem } from "components/ui/items/CardItem.ui";
+import { DebtItem } from "components/ui/items/DebtItem.ui";
+import { MachineItem } from "components/ui/items/MachineItem.ui";
+import { ServiceSaleItem } from "components/ui/items/ServiceSaleItem.ui";
+import { WorkerItem } from "components/ui/items/WorkerItem.ui";
 import { MyModal } from "components/ui/modals/myModal";
 import MyButton from "components/ui/MyButton";
+import { SectionCard } from "components/ui/SectionCard";
 import useColors from "hooks/useColors";
-import { CardPayment } from "models/api/businessFinalSale.model";
-import { DebtModel } from "models/api/debt.model";
-import { EmployeeModel } from "models/api/employee.model";
-import { ServiceSaleModel } from "models/api/serviceSale.model";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import { useDailyReportStore } from "store/dailyReport.store";
-import colors from "styles/colors";
 import { calculateEmployeeSalaries } from "utilities/employee.utils";
 import { formatCurrency } from "utilities/formatters";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
-
-interface SectionProps {
-  readonly title: string;
-  readonly children: React.ReactNode;
-}
-
-function Section({ title, children }: SectionProps) {
-  const defaultColors = useColors();
-
-  return (
-    <View
-      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
-      className="mb-4 p-4 rounded-lg shadow-sm"
-    >
-      <Text
-        style={{ color: defaultColors.text }}
-        className="text-lg font-semibold mb-2 border-b border-gray-200 dark:border-gray-700 pb-2"
-      >
-        {title}
-      </Text>
-      {children}
-    </View>
-  );
-}
-
-function InfoRow({
-  label,
-  value,
-  bold,
-  success,
-  warning,
-  error,
-  positive,
-  negative
-}: {
-  readonly label: string;
-  readonly value: string | number;
-  readonly positive?: boolean;
-  readonly negative?: boolean;
-  readonly bold?: boolean;
-  readonly success?: boolean;
-  readonly warning?: boolean;
-  readonly error?: boolean;
-}) {
-  const defaultColors = useColors();
-
-  // Determinar color de texto seg n estado
-  function getTextColor() {
-    if (success) return colors.success.light;
-    if (warning) return colors.warning.light;
-    if (error) return colors.error.light;
-    return defaultColors.text;
-  }
-
-  function getSign() {
-    if (positive) return "+";
-    if (negative) return "-";
-    return "";
-  }
-
-  const colorText = getTextColor();
-
-  return (
-    <View
-      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
-      className="flex-row justify-between py-2"
-    >
-      <Text
-        style={{ color: colorText, fontWeight: bold ? "bold" : "normal", fontSize: bold ? 16 : 14 }}
-        className="font-medium"
-      >
-        {label}
-      </Text>
-      <Text style={{ color: colorText, fontWeight: bold ? "bold" : "normal", fontSize: bold ? 16 : 14 }}>
-        {getSign() + " " + value}
-      </Text>
-    </View>
-  );
-}
-
-function CardItem({ card }: { readonly card: CardPayment }) {
-  const defaultColors = useColors();
-
-  return (
-    <View
-      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
-      className="flex-row justify-between items-center py-2"
-    >
-      <View>
-        <Text style={{ color: defaultColors.text }} className="font-medium">
-          Tarjeta {card.cardNumber}
-        </Text>
-      </View>
-      <Text style={{ color: defaultColors.text }} className="font-semibold">
-        {formatCurrency(card.amount)}
-      </Text>
-    </View>
-  );
-}
-
-function ServiceItem({ service }: { readonly service: ServiceSaleModel }) {
-  const defaultColors = useColors();
-
-  return (
-    <View style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }} className="py-2">
-      <View className="flex-row justify-between">
-        <Text style={{ color: defaultColors.text }} className="font-medium">
-          {service.service.name}
-        </Text>
-        <Text style={{ color: defaultColors.text }} className="font-semibold">
-          {formatCurrency(service.service.price * service.quantity)}
-        </Text>
-      </View>
-      <View className="flex-row justify-between mt-1">
-        <Text style={{ color: defaultColors.textSecondary }} className="text-sm">
-          {service.employee.user.name}
-        </Text>
-        <Text style={{ color: defaultColors.textSecondary }} className="text-sm">
-          Cantidad: {service.quantity}
-        </Text>
-      </View>
-    </View>
-  );
-}
-
-function DebtItem({ debt }: { readonly debt: DebtModel }) {
-  const defaultColors = useColors();
-
-  return (
-    <View style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }} className="py-2">
-      <View className="flex-row justify-between">
-        <Text style={{ color: defaultColors.text }} className="font-medium">
-          {debt.name}
-        </Text>
-        <Text style={{ color: defaultColors.text }} className="font-semibold">
-          {formatCurrency(debt.total)}
-        </Text>
-      </View>
-      {debt.description && (
-        <Text style={{ color: defaultColors.textSecondary }} className="text-sm mt-1">
-          {debt.description}
-        </Text>
-      )}
-    </View>
-  );
-}
-
-function WorkerItem({
-  worker,
-  workersAndSalaries
-}: {
-  readonly worker: EmployeeModel;
-  readonly workersAndSalaries: Record<string, number>;
-}) {
-  const defaultColors = useColors();
-
-  return (
-    <View
-      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
-      className="py-2 flex-row justify-between"
-    >
-      <Text style={{ color: defaultColors.text }} className="font-medium">
-        {worker.user.name}
-      </Text>
-      <Text style={{ color: defaultColors.text }} className="font-medium">
-        {formatCurrency(workersAndSalaries[worker.user.name])}
-      </Text>
-    </View>
-  );
-}
-
-function MachineItem({ machineId }: { readonly machineId: number }) {
-  const defaultColors = useColors();
-  const business = useBusinessStore((state) => state.business);
-  const { machines } = business;
-
-  return (
-    <View style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }} className="py-2">
-      <Text style={{ color: defaultColors.text }} className="font-medium">
-        {machines?.find((machine) => machine.id === machineId)?.name}
-      </Text>
-    </View>
-  );
-}
 
 export default function ReviewFinalReport() {
   const report = useDailyReportStore((state) => state.report);
@@ -304,7 +122,7 @@ export default function ReviewFinalReport() {
           />
         </MyModal>
 
-        <Section title="Información General">
+        <SectionCard title="Información General">
           <InfoRow label="Negocio" value={business?.name || "Sin nombre"} />
           <InfoRow label="Fecha" value={new Date().toLocaleDateString()} />
           <InfoRow label="Total Ventas" value={formatCurrency(report.total ?? 0)} />
@@ -324,9 +142,9 @@ export default function ReviewFinalReport() {
               <Text style={{ color: defaultColors.text }}>{report.note}</Text>
             </View>
           )}
-        </Section>
+        </SectionCard>
 
-        <Section title="Desglose de efectivo">
+        <SectionCard title="Desglose de efectivo">
           <InfoRow label="Total Efectivo" bold={true} value={formatCurrency(report.total ?? 0)} />
           <InfoRow label="Tarjetas" negative={true} error={true} value={formatCurrency(totalCards)} />
           <InfoRow label="Deudas" negative={true} error={true} value={formatCurrency(totalDebts)} />
@@ -340,47 +158,47 @@ export default function ReviewFinalReport() {
             bold={true}
             value={formatCurrency(calculateCash())}
           />
-        </Section>
+        </SectionCard>
 
         {cards.length > 0 && (
-          <Section title="Pagos con Tarjeta">
+          <SectionCard title="Pagos con Tarjeta">
             {cards.map((card) => (
               <CardItem key={card.id} card={card} />
             ))}
-          </Section>
+          </SectionCard>
         )}
 
         {report.debts?.length > 0 && (
-          <Section title="Deudas Registradas">
+          <SectionCard title="Deudas Registradas">
             {report.debts.map((debt) => (
               <DebtItem key={debt.id} debt={debt} />
             ))}
-          </Section>
+          </SectionCard>
         )}
 
         {report.servicesSales?.length > 0 && (
-          <Section title="Servicios Vendidos">
+          <SectionCard title="Servicios Vendidos">
             {report.servicesSales.map((service) => (
-              <ServiceItem key={service.id} service={service} />
+              <ServiceSaleItem key={service.id} service={service} />
             ))}
-          </Section>
+          </SectionCard>
         )}
 
         {report.workers?.length > 0 && (
-          <Section title="Trabajadores y Salarios">
+          <SectionCard title="Trabajadores y Salarios">
             {report.workers.map((worker) => (
               <WorkerItem key={worker.id} worker={worker} workersAndSalaries={workersAndSalaries} />
             ))}
-          </Section>
+          </SectionCard>
         )}
 
         {report.machines?.length > 0 && (
-          <Section title="Máquinas Utilizadas">
+          <SectionCard title="Máquinas Utilizadas">
             {report.machines.map((machineId) => {
               // Aquí deberías obtener la información completa de la máquina si es necesario
               return <MachineItem key={machineId} machineId={machineId} />;
             })}
-          </Section>
+          </SectionCard>
         )}
       </View>
     </ScrollView>
