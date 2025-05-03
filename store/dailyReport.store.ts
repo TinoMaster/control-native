@@ -41,7 +41,7 @@ interface DailyReportState {
 }
 
 export const useDailyReportStore = create<DailyReportState>((set, get) => ({
-  totalSteps: 4,
+  totalSteps: 5,
   currentStep: 1,
   report: {} as BusinessFinalSaleModel,
   cards: [],
