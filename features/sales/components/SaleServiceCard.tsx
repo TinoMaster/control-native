@@ -43,15 +43,13 @@ export function SaleServiceCard({ saleService, onPress }: SaleServiceCardProps) 
               {createdAt ? format(createdAt, "dd/MM/yyyy HH:mm") : "Fecha no disponible"}
             </Text>
           </View>
-          <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />
+          {onPress && <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />}
         </View>
 
         <View style={styles.content}>
           <View style={styles.infoContainer}>
             <Ionicons name="person-outline" size={16} color={colors.textSecondary} />
-            <Text style={[styles.infoText, { color: colors.textSecondary }]}>
-              {saleService.employee.user.name}
-            </Text>
+            <Text style={[styles.infoText, { color: colors.textSecondary }]}>{saleService.employee.user.name}</Text>
           </View>
 
           <View style={styles.infoContainer}>
@@ -73,17 +71,13 @@ export function SaleServiceCard({ saleService, onPress }: SaleServiceCardProps) 
 
             <View style={styles.infoContainer}>
               <Ionicons name="calculator-outline" size={16} color={colors.primary} />
-              <Text style={[styles.amountText, { color: colors.primary }]}>
-                Cantidad: {saleService.quantity}
-              </Text>
+              <Text style={[styles.amountText, { color: colors.primary }]}>Cantidad: {saleService.quantity}</Text>
             </View>
           </View>
 
           <View style={[styles.infoContainer, styles.totalAmount]}>
             <Ionicons name="cash-outline" size={18} color={colors.secondary} />
-            <Text style={[styles.totalText, { color: colors.secondary }]}>
-              Total: ${totalAmount.toFixed(2)}
-            </Text>
+            <Text style={[styles.totalText, { color: colors.secondary }]}>Total: ${totalAmount.toFixed(2)}</Text>
           </View>
         </View>
       </TouchableOpacity>

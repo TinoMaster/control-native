@@ -5,24 +5,31 @@ import { ServiceSaleModel } from "models/api/serviceSale.model";
 import { serviceSaleService } from "services/serviceSales.service";
 import { useBusinessStore } from "store/business.store";
 
-export const useServiceSale = () => {
+interface ServiceSaleQueryOptions {
+  startDate?: Date;
+  endDate?: Date;
+  enabled?: boolean;
+}
+
+export const useServiceSale = (options?: ServiceSaleQueryOptions) => {
   const businessId = useBusinessStore((state) => state.businessId);
   const queryClient = useQueryClient();
   const { showNotification } = useNotification();
 
   const requestType: ByBusinessAndDateRequestModel = {
     businessId: businessId ?? 0,
-    startDate: new Date(),
-    endDate: new Date()
+    startDate: options?.startDate ?? new Date(),
+    endDate: options?.endDate ?? new Date()
   };
 
-  const { data: serviceSales, isLoading: loadingServiceSales } = useQuery({
-    queryKey: ["serviceSales", businessId],
-    queryFn: async () => {
+  const { data: serviceSales = [], isLoading: loadingServiceSales } = useQuery({
+    queryKey: ["serviceSales", businessId, options?.startDate, options?.endDate],
+    queryFn: async ({ queryKey }) => {
+      // El queryKey contiene los parámetros que se pueden usar si es necesario
       const response = await serviceSaleService.getServiceSalesByBusinessIdAndDate(requestType);
       return response.data || [];
     },
-    enabled: !!businessId
+    enabled: options?.enabled !== undefined ? !!businessId && options.enabled : !!businessId
   });
 
   const { mutate: saveServiceSale } = useMutation({

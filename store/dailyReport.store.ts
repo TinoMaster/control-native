@@ -2,6 +2,7 @@ import { BusinessFinalSaleModel, CardPayment } from "models/api/businessFinalSal
 import { DebtModel } from "models/api/debt.model";
 import { EmployeeModel } from "models/api/employee.model";
 import { MachineModel } from "models/api/machine.model";
+import { ServiceSaleModel } from "models/api/serviceSale.model";
 import { create } from "zustand";
 
 function checkStep1Completion(report: BusinessFinalSaleModel): boolean {
@@ -35,11 +36,12 @@ interface DailyReportState {
   setMachines: (machines: MachineModel[]) => void;
   setWorkers: (workers: EmployeeModel[]) => void;
   setDebts: (debts: DebtModel[]) => void;
+  setServicesSales: (servicesSales: ServiceSaleModel[]) => void;
   isStepCompleted: (step: number) => boolean;
 }
 
 export const useDailyReportStore = create<DailyReportState>((set, get) => ({
-  totalSteps: 3,
+  totalSteps: 4,
   currentStep: 1,
   report: {} as BusinessFinalSaleModel,
   cards: [],
@@ -103,6 +105,16 @@ export const useDailyReportStore = create<DailyReportState>((set, get) => ({
         report: {
           ...state.report,
           debts: debts
+        }
+      };
+    });
+  },
+  setServicesSales: (servicesSales: ServiceSaleModel[]) => {
+    set((state) => {
+      return {
+        report: {
+          ...state.report,
+          servicesSales: servicesSales
         }
       };
     });
