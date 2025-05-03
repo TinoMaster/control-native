@@ -19,6 +19,9 @@ function checkStep2Completion(): boolean {
 function checkStep3Completion(): boolean {
   return true;
 }
+function checkStep4Completion(): boolean {
+  return true;
+}
 
 interface DailyReportState {
   /* states */
@@ -37,6 +40,7 @@ interface DailyReportState {
   setWorkers: (workers: EmployeeModel[]) => void;
   setDebts: (debts: DebtModel[]) => void;
   setServicesSales: (servicesSales: ServiceSaleModel[]) => void;
+  setNote: (note: string) => void;
   isStepCompleted: (step: number) => boolean;
 }
 
@@ -119,6 +123,16 @@ export const useDailyReportStore = create<DailyReportState>((set, get) => ({
       };
     });
   },
+  setNote: (note: string) => {
+    set((state) => {
+      return {
+        report: {
+          ...state.report,
+          note: note
+        }
+      };
+    });
+  },
   isStepCompleted: (step: number): boolean => {
     const { report, cards } = get();
     console.log("report", report);
@@ -130,6 +144,8 @@ export const useDailyReportStore = create<DailyReportState>((set, get) => ({
         return checkStep2Completion();
       case 3:
         return checkStep3Completion();
+      case 4:
+        return checkStep4Completion();
       default:
         console.warn(`isStepCompleted called for unknown step: ${step}`);
         return false;

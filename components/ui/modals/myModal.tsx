@@ -75,7 +75,7 @@ export function MyModal({
           <View className="p-4">{children}</View>
 
           {/* Optional Footer */}
-          {footerContent && <View className="p-4 border-t border-gray-200 dark:border-gray-700">{footerContent}</View>}
+          {footerContent && <View className="pr-4 pb-4">{footerContent}</View>}
         </View>
       </SafeAreaView>
     </Modal>
