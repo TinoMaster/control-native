@@ -7,6 +7,7 @@ interface MachineSelectionState {
   toggleMachine: (machine: MachineModel) => void;
   selectAll: (machines: MachineModel[]) => void;
   clearAll: () => void;
+  clearMachines: () => void;
   isSelected: (machine: MachineModel) => boolean;
 }
 
@@ -46,6 +47,11 @@ export const useMachineFinalSaleStore = create<MachineSelectionState>((set, get)
     // 2. Justo después, llama a la acción de la store grande
     //    pasándole una lista vacía.
     useDailyReportStore.getState().setMachines([]);
+  },
+  clearMachines: () => {
+    set({
+      selectedMachines: []
+    });
   },
   isSelected: (machine) => {
     return get().selectedMachines.some((m) => m.id === machine.id);

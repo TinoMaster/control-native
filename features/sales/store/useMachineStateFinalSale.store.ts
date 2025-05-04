@@ -7,6 +7,7 @@ interface MachineStateSelectionState {
   addMachineState: (machineState: MachineStateModel) => void;
   deleteMachineState: (machineState: MachineStateModel) => void;
   clearAll: () => void;
+  clearMachineStates: () => void;
 }
 
 export const useMachineStateFinalSaleStore = create<MachineStateSelectionState>((set, get) => ({
@@ -33,5 +34,10 @@ export const useMachineStateFinalSaleStore = create<MachineStateSelectionState>(
     });
 
     useDailyReportStore.getState().setMachineStates([]);
+  },
+  clearMachineStates: () => {
+    set({
+      selectedMachineStates: []
+    });
   }
 }));

@@ -7,6 +7,7 @@ interface WorkerSelectionState {
   toggleWorker: (worker: EmployeeModel) => void;
   selectAll: (workers: EmployeeModel[]) => void;
   clearAll: () => void;
+  clearWorkers: () => void;
   isSelected: (worker: EmployeeModel) => boolean;
 }
 
@@ -41,6 +42,11 @@ export const useWorkersFinalSaleStore = create<WorkerSelectionState>((set, get) 
       selectedWorkers: []
     });
     useDailyReportStore.getState().setWorkers([]);
+  },
+  clearWorkers: () => {
+    set({
+      selectedWorkers: []
+    });
   },
   isSelected: (worker) => {
     return get().selectedWorkers.some((w) => w.id === worker.id);

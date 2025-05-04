@@ -1,3 +1,8 @@
+import { useCardsFinalSaleStore } from "features/sales/store/useCardsFinalSale.store";
+import { useDebtsFinalSaleStore } from "features/sales/store/useDebtsFinalSale.store";
+import { useMachineFinalSaleStore } from "features/sales/store/useMachineFinalSale.store";
+import { useMachineStateFinalSaleStore } from "features/sales/store/useMachineStateFinalSale.store";
+import { useWorkersFinalSaleStore } from "features/sales/store/useWorkersFinalSale.store";
 import { BusinessFinalSaleModel, CardPayment } from "models/api/businessFinalSale.model";
 import { DebtModel } from "models/api/debt.model";
 import { EmployeeModel } from "models/api/employee.model";
@@ -50,6 +55,7 @@ interface DailyReportState {
   setServicesSales: (servicesSales: ServiceSaleModel[]) => void;
   setNote: (note: string) => void;
   setMachineStates: (machineStates: MachineStateModel[]) => void;
+  clearReport: () => void;
   isStepCompleted: (step: number) => boolean;
 }
 
@@ -154,6 +160,21 @@ export const useDailyReportStore = create<DailyReportState>((set, get) => ({
         }
       };
     });
+  },
+  clearReport: () => {
+    set((state) => {
+      return {
+        report: {} as BusinessFinalSaleModel,
+        cards: [],
+        machineStates: [],
+        currentStep: 1
+      };
+    });
+    useCardsFinalSaleStore.getState().clearCards();
+    useDebtsFinalSaleStore.getState().clearDebts();
+    useWorkersFinalSaleStore.getState().clearWorkers();
+    useMachineStateFinalSaleStore.getState().clearMachineStates();
+    useMachineFinalSaleStore.getState().clearMachines();
   },
   isStepCompleted: (step: number): boolean => {
     const { report, machineStates } = get();

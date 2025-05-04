@@ -36,6 +36,7 @@ export default function StepsNavigation() {
   const machineStates = useDailyReportStore((state) => state.machineStates);
   const router = useRouter();
   const isStepCompleted = useDailyReportStore((state) => state.isStepCompleted);
+  const clearReport = useDailyReportStore((state) => state.clearReport);
   const [showModal, setShowModal] = useState(false);
   /* Metodo para finalizar el reporte */
   const { finalizeReport } = useFinalizeReport();
@@ -55,7 +56,8 @@ export default function StepsNavigation() {
   }
 
   function handleCancel() {
-    router.back();
+    clearReport();
+    router.replace("/(tabs)/sales/current_day");
   }
 
   const { title, message } = toShowInModal(currentStep);

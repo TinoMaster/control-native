@@ -11,10 +11,12 @@ import { useAuthStore } from "store/auth.store";
 import { useBusinessStore } from "store/business.store";
 import { useRouter } from "expo-router";
 import { useNotification } from "contexts/NotificationContext";
+import { useDailyReportStore } from "store/dailyReport.store";
 
 export const useFinalizeReport = () => {
   const { saveBusinessFinalSale } = useBusinessFinalSale();
   const { businessId, business } = useBusinessStore();
+  const clearReport = useDailyReportStore((state) => state.clearReport);
   const user = useAuthStore((state) => state.user);
 
   const router = useRouter();
@@ -48,6 +50,7 @@ export const useFinalizeReport = () => {
       onSuccess: (response) => {
         if (response.status === 200) {
           showNotification("Reporte finalizado correctamente", "success");
+          clearReport();
           router.replace("/(tabs)/sales/current_day");
         } else {
           showNotification("Hubo un error al finalizar el reporte", "error");

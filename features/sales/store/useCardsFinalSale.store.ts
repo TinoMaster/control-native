@@ -6,6 +6,7 @@ interface CardsFinalSaleState {
   cards: CardPayment[];
   deleteCard: (card: CardPayment) => void;
   addCard: (card: CardPayment) => void;
+  clearCards: () => void;
 }
 
 export const useCardsFinalSaleStore = create<CardsFinalSaleState>((set, get) => ({
@@ -25,5 +26,12 @@ export const useCardsFinalSaleStore = create<CardsFinalSaleState>((set, get) => 
     }));
 
     useDailyReportStore.getState().setCards(updatedCards);
+  },
+  clearCards: () => {
+    set((state) => {
+      return {
+        cards: []
+      };
+    });
   }
 }));

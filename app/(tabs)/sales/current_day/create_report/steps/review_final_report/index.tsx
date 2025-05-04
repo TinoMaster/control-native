@@ -78,7 +78,7 @@ export default function ReviewFinalReport() {
 
   const calculateCash = useCallback(() => {
     // Efectivo = Total - (Tarjetas + Deudas + Salarios) + fundDifference
-    // If fundDifference is positive, add it; if negative, it will automatically subtract
+    // Si fundDifference es positivo, sumarlo; si es negativo, se restar  automaticamente
     return (report.total || 0) - (totalCards + totalDebts + totalSalaries) + fundDifference;
   }, [report.total, totalCards, totalDebts, totalSalaries, fundDifference]);
 
