@@ -43,14 +43,16 @@ export default function DailyReportDetailScreen() {
   const defaultColors = useColors();
   const router = useRouter();
   const { showNotification } = useNotification();
-  const { todayReports, loadingTodayReports, deleteBusinessFinalSale } = useBusinessFinalSale();
+  const { selectedReports, loadingReports, deleteBusinessFinalSale } = useBusinessFinalSale();
   const business = useBusinessStore((state) => state.business);
 
-  if (loadingTodayReports) {
+  console.log("selectedReports", selectedReports);
+
+  if (loadingReports) {
     return <LoadingPage message="Cargando detalles del reporte..." />;
   }
 
-  const report = todayReports?.find((r) => r.id === Number(id));
+  const report = selectedReports?.find((r: any) => r.id === Number(id));
 
   const cards: CardPayment[] =
     report?.cards.map((card) => ({
