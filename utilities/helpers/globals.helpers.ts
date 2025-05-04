@@ -34,23 +34,29 @@ export function adjustBrightness(color: string, percent: number): string {
     .padStart(2, "0")}${Math.round(adjustedB).toString(16).padStart(2, "0")}`;
 }
 
+// Devolver el fondo total anterior de todas las maquinas seleccionadas
+export const getTotalFundFromLastMachineState = (
+  todayMachineStates: MachineStateModel[],
+  lastMachineState: MachineStateModel[]
+) => {
+  const machinesToCompare = todayMachineStates.map((machineState) => machineState.machine.id);
+  const lastMachineStateFiltered = lastMachineState.filter((machineState) =>
+    machinesToCompare.includes(machineState.machine.id)
+  );
+  return lastMachineStateFiltered.reduce((acc, machineState) => acc + machineState.fund, 0);
+};
+
 /* Calcular la diferencia entre los fondos de las maquinas */
 export const differenceBetweenFunds = (
   todayMachineStates: MachineStateModel[],
   lastMachineState: MachineStateModel[]
 ) => {
   const totalTodayFunds = todayMachineStates.reduce((acc, machineState) => acc + machineState.fund, 0);
-  const machinesToCompare = todayMachineStates.map((machineState) => machineState.machine.id);
-  const lastMachineStateFiltered = lastMachineState.filter((machineState) =>
-    machinesToCompare.includes(machineState.machine.id)
-  );
+  const totalLastFunds = getTotalFundFromLastMachineState(todayMachineStates, lastMachineState);
 
-  if (lastMachineStateFiltered.length === 0) {
+  if (totalLastFunds === 0) {
     return -totalTodayFunds;
   }
 
-  const totalLastFunds = lastMachineStateFiltered.reduce((acc, machineState) => acc + machineState.fund, 0);
-  console.log("totalTodayFunds", totalTodayFunds);
-  console.log("totalLastFunds", totalLastFunds);
   return totalLastFunds - totalTodayFunds;
 };

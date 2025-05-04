@@ -16,7 +16,11 @@ import { useBusinessStore } from "store/business.store";
 import { useDailyReportStore } from "store/dailyReport.store";
 import { calculateEmployeeSalaries } from "utilities/employee.utils";
 import { formatCurrency } from "utilities/formatters";
-import { adjustBrightness, differenceBetweenFunds } from "utilities/helpers/globals.helpers";
+import {
+  adjustBrightness,
+  differenceBetweenFunds,
+  getTotalFundFromLastMachineState
+} from "utilities/helpers/globals.helpers";
 
 export default function ReviewFinalReport() {
   const report = useDailyReportStore((state) => state.report);
@@ -74,6 +78,10 @@ export default function ReviewFinalReport() {
 
   const fundDifference = useMemo(() => {
     return differenceBetweenFunds(todayMachineStates, lastMachineState);
+  }, [todayMachineStates, lastMachineState]);
+
+  const lastFund = useMemo(() => {
+    return getTotalFundFromLastMachineState(todayMachineStates, lastMachineState);
   }, [todayMachineStates, lastMachineState]);
 
   const calculateCash = useCallback(() => {
@@ -136,7 +144,8 @@ export default function ReviewFinalReport() {
           <InfoRow label="Fecha" value={new Date().toLocaleDateString()} />
           <InfoRow label="Total Ventas" value={formatCurrency(report.total ?? 0)} />
           <InfoRow label="Servicios" value={formatCurrency(totalServices)} />
-          <InfoRow label="Fondo Inicial" value={formatCurrency(report.fund || 0)} />
+          <InfoRow label="Fondo Hoy" value={formatCurrency(report.fund || 0)} />
+          <InfoRow label="Fondo Anterior" value={formatCurrency(lastFund)} />
           {Boolean(report.note) && (
             <View
               style={{ backgroundColor: adjustBrightness(defaultColors.background, 10) }}

@@ -25,7 +25,7 @@ export default function Step2Debts() {
         {debts.length > 0 ? (
           <ScrollView style={{ gap: 10, borderRadius: 10, padding: 2 }}>
             {debts.map((debt) => (
-              <DebtItem key={debt.id} item={debt} />
+              <DebtItem key={crypto.randomUUID()} item={debt} />
             ))}
           </ScrollView>
         ) : (
