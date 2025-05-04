@@ -8,6 +8,7 @@ import { WorkerItem } from "components/ui/items/WorkerItem.ui";
 import { MyModal } from "components/ui/modals/myModal";
 import MyButton from "components/ui/MyButton";
 import { SectionCard } from "components/ui/SectionCard";
+import { useMachineStates } from "hooks/api/useMachineStates";
 import useColors from "hooks/useColors";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -15,18 +16,21 @@ import { useBusinessStore } from "store/business.store";
 import { useDailyReportStore } from "store/dailyReport.store";
 import { calculateEmployeeSalaries } from "utilities/employee.utils";
 import { formatCurrency } from "utilities/formatters";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
+import { adjustBrightness, differenceBetweenFunds } from "utilities/helpers/globals.helpers";
 
 export default function ReviewFinalReport() {
   const report = useDailyReportStore((state) => state.report);
   const cards = useDailyReportStore((state) => state.cards);
+  const todayMachineStates = useDailyReportStore((state) => state.machineStates);
   const business = useBusinessStore((state) => state.business);
-  const defaultColors = useColors();
   const setNote = useDailyReportStore((state) => state.setNote);
+
+  const { lastMachineState } = useMachineStates();
 
   const [noteModalVisible, setNoteModalVisible] = useState(false);
   const [noteText, setNoteText] = useState("");
   const [totalSalaries, setTotalSalaries] = useState(0);
+  const defaultColors = useColors();
 
   // Inicializar el texto de la nota con el valor existente en el reporte
   useEffect(() => {
@@ -68,10 +72,15 @@ export default function ReviewFinalReport() {
     return report.servicesSales?.reduce((acc, service) => acc + service.service.price * service.quantity, 0) || 0;
   }, [report.servicesSales]);
 
+  const fundDifference = useMemo(() => {
+    return differenceBetweenFunds(todayMachineStates, lastMachineState);
+  }, [todayMachineStates, lastMachineState]);
+
   const calculateCash = useCallback(() => {
-    // Efectivo = Total - (Tarjetas + Deudas + Salarios)
-    return (report.total || 0) - (totalCards + totalDebts + totalSalaries);
-  }, [report.total, totalCards, totalDebts, totalSalaries]);
+    // Efectivo = Total - (Tarjetas + Deudas + Salarios) + fundDifference
+    // If fundDifference is positive, add it; if negative, it will automatically subtract
+    return (report.total || 0) - (totalCards + totalDebts + totalSalaries) + fundDifference;
+  }, [report.total, totalCards, totalDebts, totalSalaries, fundDifference]);
 
   return (
     <ScrollView className="flex-1" style={{ paddingHorizontal: 16 }}>
@@ -149,6 +158,13 @@ export default function ReviewFinalReport() {
           <InfoRow label="Tarjetas" negative={true} error={true} value={formatCurrency(totalCards)} />
           <InfoRow label="Deudas" negative={true} error={true} value={formatCurrency(totalDebts)} />
           <InfoRow label="Salarios" negative={true} error={true} value={formatCurrency(totalSalaries)} />
+          <InfoRow
+            label="Diferencia entre fondos (hoy - anterior)"
+            positive={fundDifference > 0}
+            success={fundDifference > 0}
+            error={fundDifference < 0}
+            value={formatCurrency(fundDifference)}
+          />
           <InfoRow
             label="Efectivo"
             positive={calculateCash() > 0}

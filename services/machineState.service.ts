@@ -7,6 +7,20 @@ import { handleFetchError } from "utilities/helpers/errorManager";
 class MachineStateService {
   private readonly privateUrl = apiConfig.privateUrl;
 
+  async getLatestStatesByBusinessBeforeDate(businessId: number): Promise<IResponse<MachineStateModel[]>> {
+    try {
+      return await requestService.fetch<MachineStateModel[]>(
+        `${this.privateUrl}/machine-state/latest-by-business/${businessId}`,
+        {
+          method: "GET"
+        }
+      );
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError(error);
+    }
+  }
+
   async getMachineStatesByBusinessFinalSaleId(businessFinalSaleId: number): Promise<IResponse<MachineStateModel[]>> {
     try {
       return await requestService.fetch<MachineStateModel[]>(

@@ -1,4 +1,5 @@
 import { EmployeeModel } from "models/api/employee.model";
+import { MachineStateModel } from "models/api/machineState.model";
 
 export const formatNumericInput = (text: string) => {
   // Solo permitir números y un punto decimal
@@ -32,3 +33,24 @@ export function adjustBrightness(color: string, percent: number): string {
     .toString(16)
     .padStart(2, "0")}${Math.round(adjustedB).toString(16).padStart(2, "0")}`;
 }
+
+/* Calcular la diferencia entre los fondos de las maquinas */
+export const differenceBetweenFunds = (
+  todayMachineStates: MachineStateModel[],
+  lastMachineState: MachineStateModel[]
+) => {
+  const totalTodayFunds = todayMachineStates.reduce((acc, machineState) => acc + machineState.fund, 0);
+  const machinesToCompare = todayMachineStates.map((machineState) => machineState.machine.id);
+  const lastMachineStateFiltered = lastMachineState.filter((machineState) =>
+    machinesToCompare.includes(machineState.machine.id)
+  );
+
+  if (lastMachineStateFiltered.length === 0) {
+    return -totalTodayFunds;
+  }
+
+  const totalLastFunds = lastMachineStateFiltered.reduce((acc, machineState) => acc + machineState.fund, 0);
+  console.log("totalTodayFunds", totalTodayFunds);
+  console.log("totalLastFunds", totalLastFunds);
+  return totalLastFunds - totalTodayFunds;
+};
