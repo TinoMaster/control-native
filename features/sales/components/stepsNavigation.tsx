@@ -36,10 +36,9 @@ export default function StepsNavigation() {
   const machineStates = useDailyReportStore((state) => state.machineStates);
   const router = useRouter();
   const isStepCompleted = useDailyReportStore((state) => state.isStepCompleted);
-  const clearReport = useDailyReportStore((state) => state.clearReport);
   const [showModal, setShowModal] = useState(false);
   /* Metodo para finalizar el reporte */
-  const { finalizeReport } = useFinalizeReport();
+  const { finalizeReport, clearAllReports } = useFinalizeReport();
 
   function handleNext() {
     if (currentStep === totalSteps) {
@@ -56,7 +55,7 @@ export default function StepsNavigation() {
   }
 
   function handleCancel() {
-    clearReport();
+    clearAllReports();
     router.replace("/(tabs)/sales/current_day");
   }
 

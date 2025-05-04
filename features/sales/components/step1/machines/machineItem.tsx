@@ -76,7 +76,7 @@ export function MachineItem({ machine }: Readonly<{ machine: MachineModel }>) {
                 onPress={openModal}
                 className="mr-2 p-2 rounded-full bg-primary-light"
                 accessibilityLabel="Agregar fondo a esta máquina"
-                accessibilityRole="button"
+                accessibilityRole="adjustable"
               >
                 <Feather name="dollar-sign" size={14} color="#fff" />
               </TouchableOpacity>
