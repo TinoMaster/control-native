@@ -196,7 +196,7 @@ export default function ReviewFinalReport() {
         {report.debts?.length > 0 && (
           <SectionCard title="Deudas Registradas">
             {report.debts.map((debt) => (
-              <DebtItem key={debt.id} debt={debt} />
+              <DebtItem key={crypto.randomUUID()} debt={debt} />
             ))}
           </SectionCard>
         )}

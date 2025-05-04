@@ -9,9 +9,10 @@ import { shadowStyles } from "styles/shadows";
 interface SaleServiceCardProps {
   readonly saleService: ServiceSaleModel;
   readonly onPress?: () => void;
+  readonly allDetails?: boolean;
 }
 
-export function SaleServiceCard({ saleService, onPress }: SaleServiceCardProps) {
+export function SaleServiceCard({ saleService, onPress, allDetails = true }: SaleServiceCardProps) {
   const colors = useColors();
   const createdAt = saleService.createdAt ? new Date(saleService.createdAt) : null;
   const totalAmount = saleService.quantity * saleService.service.price;
@@ -52,12 +53,14 @@ export function SaleServiceCard({ saleService, onPress }: SaleServiceCardProps) 
             <Text style={[styles.infoText, { color: colors.textSecondary }]}>{saleService.employee.user.name}</Text>
           </View>
 
-          <View style={styles.infoContainer}>
-            <Ionicons name="document-text-outline" size={16} color={colors.textSecondary} />
-            <Text style={[styles.infoText, { color: colors.textSecondary }]} numberOfLines={2}>
-              {saleService.service.description}
-            </Text>
-          </View>
+          {allDetails && (
+            <View style={styles.infoContainer}>
+              <Ionicons name="document-text-outline" size={16} color={colors.textSecondary} />
+              <Text style={[styles.infoText, { color: colors.textSecondary }]} numberOfLines={2}>
+                {saleService.service.description}
+              </Text>
+            </View>
+          )}
         </View>
 
         <View style={styles.footer}>
@@ -75,10 +78,12 @@ export function SaleServiceCard({ saleService, onPress }: SaleServiceCardProps) 
             </View>
           </View>
 
-          <View style={[styles.infoContainer, styles.totalAmount]}>
-            <Ionicons name="cash-outline" size={18} color={colors.secondary} />
-            <Text style={[styles.totalText, { color: colors.secondary }]}>Total: ${totalAmount.toFixed(2)}</Text>
-          </View>
+          {allDetails && (
+            <View style={[styles.infoContainer, styles.totalAmount]}>
+              <Ionicons name="cash-outline" size={18} color={colors.secondary} />
+              <Text style={[styles.totalText, { color: colors.secondary }]}>Total: ${totalAmount.toFixed(2)}</Text>
+            </View>
+          )}
         </View>
       </TouchableOpacity>
     </MotiView>

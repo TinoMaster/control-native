@@ -264,12 +264,12 @@ const styles = StyleSheet.create({
     ...shadowStyles.card
   },
   reportName: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8
   },
   price: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "600",
     marginBottom: 8
   },

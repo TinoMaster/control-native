@@ -19,6 +19,7 @@ import { useMachineStateFinalSaleStore } from "../store/useMachineStateFinalSale
 import { useWorkersFinalSaleStore } from "../store/useWorkersFinalSale.store";
 
 export const useFinalizeReport = () => {
+  // TODO: Ver motivo por el cual en el backend no me deja guardar reportes si existen otros
   const { saveBusinessFinalSale } = useBusinessFinalSale();
   const { businessId, business } = useBusinessStore();
   const user = useAuthStore((state) => state.user);
@@ -37,7 +38,7 @@ export const useFinalizeReport = () => {
 
     const reportsToSave: BusinessFinalSaleModelToCreate = {
       ...report,
-      name: `Reporte ${business.name} (${business.machines?.length} Máquinas) ${new Date().toLocaleDateString()}`,
+      name: `Reporte ${business.name} ${new Date().toLocaleDateString()}`,
       paid: report.total - report.debts.reduce((acc, debt) => acc + (debt.total - debt.paid), 0),
       business: businessId!,
       cards: cardsToSave,

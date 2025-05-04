@@ -31,11 +31,14 @@ export default function Step4ServicesSales() {
       <Text style={{ color: defaultColors.text }} className="text-lg font-semibold">
         Servicios vendidos
       </Text>
+      <Text style={{ color: defaultColors.textSecondary }} className=" font-semibold">
+        Aquí solo se muestran los servicios vendidos por los trabajadores seleccionados
+      </Text>
       {/* Card List */}
       {servicesByWorker?.length > 0 ? (
         <ScrollView style={{ gap: 10, borderRadius: 10, padding: 2 }}>
           {servicesByWorker?.map((serviceSale) => (
-            <SaleServiceCard key={serviceSale.id} saleService={serviceSale} />
+            <SaleServiceCard key={serviceSale.id} saleService={serviceSale} allDetails={false}/>
           ))}
         </ScrollView>
       ) : (

@@ -8,21 +8,19 @@ import { MachineItem } from "./machineItem";
 
 export function MachinesSelection() {
   const business = useBusinessStore((state) => state.business);
-  const { machinesAlreadySelected, setSelectedDate } = useBusinessFinalSale();
+  const { machinesAlreadySelected } = useBusinessFinalSale();
   const { machines } = business;
   const defaultColors = useColors();
 
   /* Seleccionar solo las maquinas activas y que no estén ya seleccionadas en un reporte del mismo dia */
   const activeMachines = useMemo(() => {
-    /* Setear la fecha actual para asegurar que se busquen las maquinas disponibles para el dia actual */
-    setSelectedDate(new Date());
     const selectedMachineIds = machinesAlreadySelected ? machinesAlreadySelected() : undefined;
     return (
       machines
         ?.filter((machine) => (selectedMachineIds ? !selectedMachineIds.includes(machine.id) : true))
         .filter((machine) => machine.active) || []
     );
-  }, [machines, machinesAlreadySelected, setSelectedDate]);
+  }, [machines, machinesAlreadySelected]);
 
   if (!machines || machines.length === 0) {
     return (
