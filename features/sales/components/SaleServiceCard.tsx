@@ -5,6 +5,7 @@ import { ServiceSaleModel } from "models/api/serviceSale.model";
 import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { shadowStyles } from "styles/shadows";
+import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 interface SaleServiceCardProps {
   readonly saleService: ServiceSaleModel;
@@ -34,7 +35,7 @@ export function SaleServiceCard({ saleService, onPress, allDetails = true }: Sal
     >
       <TouchableOpacity
         onPress={onPress}
-        style={[styles.container, { backgroundColor: colors.background }]}
+        style={[styles.container, { backgroundColor: adjustBrightness(colors.background, 8) }]}
         activeOpacity={0.8}
       >
         <View style={styles.header}>

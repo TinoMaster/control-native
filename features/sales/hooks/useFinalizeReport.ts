@@ -19,7 +19,6 @@ import { useMachineStateFinalSaleStore } from "../store/useMachineStateFinalSale
 import { useWorkersFinalSaleStore } from "../store/useWorkersFinalSale.store";
 
 export const useFinalizeReport = () => {
-  // TODO: Ver motivo por el cual en el backend no me deja guardar reportes si existen otros
   const { saveBusinessFinalSale } = useBusinessFinalSale();
   const { businessId, business } = useBusinessStore();
   const user = useAuthStore((state) => state.user);
