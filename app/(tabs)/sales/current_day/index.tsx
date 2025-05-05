@@ -1,19 +1,19 @@
-import { DailyReportCard } from "features/sales/components/dailyReportCard";
+import { Feather } from "@expo/vector-icons";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
-import LoadingPage from "components/ui/loaders/LoadingPage";
 import { PageTitle } from "components/PageTitle";
+import LoadingPage from "components/ui/loaders/LoadingPage";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 import { useRouter } from "expo-router";
+import { DailyReportCard } from "features/sales/components/dailyReportCard";
 import { useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
 import useColors from "hooks/useColors";
 import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
-import { StyleSheet, View, Text, TouchableOpacity, Modal } from "react-native";
-import colors from "styles/colors";
-import { useState, useMemo } from "react";
-import { Feather } from "@expo/vector-icons";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { useMemo, useState } from "react";
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Calendar } from "react-native-calendars";
+import colors from "styles/colors";
 
 export default function CurrentDay() {
   const defaultColors = useColors();

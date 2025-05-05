@@ -26,6 +26,25 @@ class BusinessFinalSaleService {
     }
   }
 
+  async getBusinessFinalSalesByBusinessIdAndMonth(
+    businessId: number,
+    month: number,
+    year: number
+  ): Promise<IResponse<BusinessFinalSaleModelResponse[]>> {
+    try {
+      return await requestService.fetch<BusinessFinalSaleModelResponse[]>(
+        `${this.privateUrl}/business-final-sale/bymonth/${businessId}`,
+        {
+          method: "POST",
+          body: JSON.stringify({ year, month })
+        }
+      );
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError(error);
+    }
+  }
+
   async getLatestBusinessFinalSalesWithAllMachines(
     businessId: number
   ): Promise<IResponse<BusinessFinalSaleModelResponse[]>> {

@@ -1,3 +1,7 @@
+import { format, parseISO } from "date-fns";
+import { es } from "date-fns/locale";
+import { GroupedSale } from "features/sales/components/SalesGroupByDay";
+import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
 import { EmployeeModel } from "models/api/employee.model";
 import { MachineStateModel } from "models/api/machineState.model";
 
@@ -60,3 +64,37 @@ export const differenceBetweenFunds = (
 
   return totalLastFunds - totalTodayFunds;
 };
+
+export function groupSalesByDay(sales: BusinessFinalSaleModelResponse[]): GroupedSale[] {
+  // Create a map to group sales by date
+  const groupedMap = sales.reduce((groups, sale) => {
+    if (!sale.createdAt) return groups;
+
+    // Extract just the date part (YYYY-MM-DD)
+    let dateStr: string;
+
+    // Handle createdAt as a Date object
+    const date = sale.createdAt instanceof Date ? sale.createdAt : new Date(sale.createdAt as any);
+
+    dateStr = format(date, "yyyy-MM-dd");
+
+    if (!groups[dateStr]) {
+      groups[dateStr] = {
+        date: dateStr,
+        formattedDate: format(parseISO(dateStr), "EEEE, d 'de' MMMM", { locale: es }),
+        reports: [],
+        totalAmount: 0
+      };
+    }
+
+    groups[dateStr].reports.push(sale);
+    groups[dateStr].totalAmount += sale.total ?? 0;
+
+    console.log("groups", groups);
+
+    return groups;
+  }, {} as Record<string, GroupedSale>);
+
+  // Convert map to array and sort by date (ascending)
+  return Object.values(groupedMap).sort((a, b) => a.date.localeCompare(b.date));
+}

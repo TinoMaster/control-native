@@ -5,6 +5,7 @@ import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.mod
 import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { shadowStyles } from "styles/shadows";
+import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 interface DailyReportCardProps {
   readonly report: BusinessFinalSaleModelResponse;
@@ -34,7 +35,7 @@ export function DailyReportCard({ report, onPress }: DailyReportCardProps) {
     >
       <TouchableOpacity
         onPress={onPress}
-        style={[styles.container, { backgroundColor: colors.background }]}
+        style={[styles.container, { backgroundColor: adjustBrightness(colors.background, 18) }]}
         activeOpacity={0.8}
       >
         <View style={styles.header}>
