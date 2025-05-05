@@ -10,7 +10,7 @@ import LoadingPage from "components/ui/loaders/LoadingPage";
 import { SectionCard } from "components/ui/SectionCard";
 import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
+import { useBusinessFinalSale } from "hooks/api/useCurrentBusinessFinalSale";
 import { useBusinessFinalSaleByMonth } from "hooks/api/useBusinessFinalSaleByMonth";
 import useColors from "hooks/useColors";
 import { CardPayment } from "models/api/businessFinalSale.model";

@@ -1,5 +1,5 @@
 import { SelectionControls } from "features/sales/components/step1/machines/selectionControls";
-import { useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
+import { useBusinessFinalSale } from "hooks/api/useCurrentBusinessFinalSale";
 import useColors from "hooks/useColors";
 import { useMemo } from "react";
 import { Text, View } from "react-native";

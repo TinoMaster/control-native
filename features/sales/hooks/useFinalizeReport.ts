@@ -1,6 +1,6 @@
 import { useNotification } from "contexts/NotificationContext";
 import { useRouter } from "expo-router";
-import { useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
+import { useBusinessFinalSale } from "hooks/api/useCurrentBusinessFinalSale";
 import {
   BusinessFinalSaleModel,
   BusinessFinalSaleModelToCreate,
