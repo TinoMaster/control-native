@@ -1,16 +1,17 @@
 import { Feather } from "@expo/vector-icons";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
+import { useRouter } from "expo-router";
 import useColors from "hooks/useColors";
 import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
 import { useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
+import { DailyReportCard } from "./dailyReportCard";
 
 interface SalesGroupByDayProps {
   readonly date: string;
   readonly reports: BusinessFinalSaleModelResponse[];
-  readonly onReportPress: (report: BusinessFinalSaleModelResponse) => void;
 }
 
 export interface GroupedSale {
@@ -20,9 +21,10 @@ export interface GroupedSale {
   totalAmount: number;
 }
 
-export function SalesGroupByDay({ date, reports, onReportPress }: SalesGroupByDayProps) {
+export function SalesGroupByDay({ date, reports }: SalesGroupByDayProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const defaultColors = useColors();
+  const router = useRouter();
 
   const totalAmount = useMemo(() => {
     return reports.reduce((sum, report) => {
@@ -71,23 +73,16 @@ export function SalesGroupByDay({ date, reports, onReportPress }: SalesGroupByDa
       {isExpanded && (
         <View style={styles.expandedContent}>
           {reports.map((report) => (
-            <TouchableOpacity
+            <DailyReportCard
               key={report.id}
-              style={[styles.reportItem, { borderColor: defaultColors.textSecondary + "30" }]}
-              onPress={() => onReportPress(report)}
-            >
-              <View style={styles.reportItemContent}>
-                <View>
-                  <Text style={[styles.reportTitle, { color: defaultColors.text }]}>Reporte #{report.id}</Text>
-                  <Text style={[styles.reportSubtitle, { color: defaultColors.textSecondary }]}>
-                    {report.createdAt ? format(parseISO(report.createdAt.toString()), "HH:mm") : "Sin hora"}
-                  </Text>
-                </View>
-                <Text style={[styles.reportAmount, { color: defaultColors.primary }]}>
-                  ${report.total?.toFixed(2) ?? "0.00"}
-                </Text>
-              </View>
-            </TouchableOpacity>
+              report={report}
+              smallView
+              onPress={() => {
+                if (report.id) {
+                  router.push(`/(tabs)/sales/current_day/${report.id}` as any);
+                }
+              }}
+            />
           ))}
         </View>
       )}
@@ -140,9 +135,9 @@ const styles = StyleSheet.create({
     paddingBottom: 16
   },
   reportItem: {
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderStyle: "dashed"
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 8
   },
   reportItemContent: {
     flexDirection: "row",

@@ -8,7 +8,6 @@ import { ModalYearPicker } from "features/sales/components/list/ModalYearPicker"
 import { SalesGroupByDay } from "features/sales/components/SalesGroupByDay";
 import { useBusinessFinalSaleByMonth } from "hooks/api/useBusinessFinalSaleByMonth";
 import useColors from "hooks/useColors";
-import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
 import { useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -37,13 +36,6 @@ export default function List() {
   const handleYearSelect = (year: number) => {
     updateMonthAndYear(selectedMonth, year);
     setShowYearPicker(false);
-  };
-
-  // Navigate to report detail
-  const handleReportPress = (report: BusinessFinalSaleModelResponse) => {
-    if (report.id) {
-      router.push(`/(tabs)/sales/current_day/${report.id}` as any);
-    }
   };
 
   // Group sales by day
@@ -104,12 +96,7 @@ export default function List() {
       {groupedSales.length > 0 ? (
         <ScrollView style={styles.scrollContainer}>
           {groupedSales.map((group) => (
-            <SalesGroupByDay
-              key={group.date}
-              date={group.date}
-              reports={group.reports}
-              onReportPress={handleReportPress}
-            />
+            <SalesGroupByDay key={group.date} date={group.date} reports={group.reports} />
           ))}
         </ScrollView>
       ) : (

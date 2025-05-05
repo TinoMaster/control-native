@@ -11,6 +11,7 @@ import { SectionCard } from "components/ui/SectionCard";
 import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
+import { useBusinessFinalSaleByMonth } from "hooks/api/useBusinessFinalSaleByMonth";
 import useColors from "hooks/useColors";
 import { CardPayment } from "models/api/businessFinalSale.model";
 import { EmployeeModel } from "models/api/employee.model";
@@ -44,15 +45,17 @@ export default function DailyReportDetailScreen() {
   const router = useRouter();
   const { showNotification } = useNotification();
   const { selectedReports, loadingReports, deleteBusinessFinalSale } = useBusinessFinalSale();
+  const { monthlySales, loadingSales } = useBusinessFinalSaleByMonth();
   const business = useBusinessStore((state) => state.business);
 
   console.log("selectedReports", selectedReports);
 
-  if (loadingReports) {
+  if (loadingReports || loadingSales) {
     return <LoadingPage message="Cargando detalles del reporte..." />;
   }
 
-  const report = selectedReports?.find((r: any) => r.id === Number(id));
+  const report =
+    selectedReports?.find((r: any) => r.id === Number(id)) || monthlySales?.find((r: any) => r.id === Number(id));
 
   const cards: CardPayment[] =
     report?.cards.map((card) => ({
