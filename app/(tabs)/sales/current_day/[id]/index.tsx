@@ -18,7 +18,6 @@ import { EmployeeModel } from "models/api/employee.model";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import colors from "styles/colors";
-import { shadowStyles } from "styles/shadows";
 import { calculateEmployeeSalaries } from "utilities/employee.utils";
 import { formatCurrency } from "utilities/formatters";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
@@ -258,12 +257,6 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1
   },
-  card: {
-    margin: 16,
-    padding: 16,
-    borderRadius: 12,
-    ...shadowStyles.card
-  },
   reportName: {
     fontSize: 18,
     fontWeight: "bold",
@@ -297,16 +290,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20
   },
-  sectionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginLeft: 8
-  },
   infoText: {
     fontSize: 14,
     marginBottom: 8
@@ -327,22 +310,5 @@ const styles = StyleSheet.create({
   totalValue: {
     fontSize: 16,
     fontWeight: "600"
-  },
-  actionButtonsContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 16
-  },
-  actionButton: {
-    alignItems: "center",
-    marginHorizontal: 16
-  },
-  actionButtonIcon: {
-    padding: 12,
-    borderRadius: 30,
-    marginBottom: 4
-  },
-  actionButtonText: {
-    fontSize: 12
   }
 });
