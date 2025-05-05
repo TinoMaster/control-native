@@ -1,6 +1,6 @@
 import { useNotification } from "contexts/NotificationContext";
 import { useRouter } from "expo-router";
-import { useBusinessFinalSale } from "hooks/api/useCurrentBusinessFinalSale";
+import { useCurrentBusinessFinalSale } from "hooks/api/useCurrentBusinessFinalSale";
 import {
   BusinessFinalSaleModel,
   BusinessFinalSaleModelToCreate,
@@ -19,7 +19,7 @@ import { useMachineStateFinalSaleStore } from "../store/useMachineStateFinalSale
 import { useWorkersFinalSaleStore } from "../store/useWorkersFinalSale.store";
 
 export const useFinalizeReport = () => {
-  const { saveBusinessFinalSale } = useBusinessFinalSale();
+  const { saveBusinessFinalSale } = useCurrentBusinessFinalSale();
   const { businessId, business } = useBusinessStore();
   const user = useAuthStore((state) => state.user);
 
