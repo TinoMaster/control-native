@@ -15,7 +15,7 @@ interface BusinessState {
     businessesOwned: BusinessModel[];
     businesses: BusinessModel[];
   }) => Promise<void>;
-  initializeBusinessFromStorage: () => Promise<void>;
+  getBusinessById: (id: number) => BusinessModel | undefined;
 }
 
 export const useBusinessStore = create<BusinessState>((set, get) => ({
@@ -51,20 +51,8 @@ export const useBusinessStore = create<BusinessState>((set, get) => ({
     });
   },
 
-  initializeBusinessFromStorage: async () => {
-    try {
-      const storedBusinessId = await secureStorage.getItem("businessId");
-
-      if (storedBusinessId) {
-        const businessId = parseInt(storedBusinessId, 10);
-        const { businessList } = get();
-        const storedBusiness = businessList.find((b) => b.id === businessId);
-        if (storedBusiness) {
-          set({ business: storedBusiness, businessId });
-        }
-      }
-    } catch (error) {
-      console.error("Error initializing business from storage:", error);
-    }
+  getBusinessById: (id) => {
+    const { businessList } = get();
+    return businessList.find((b) => b.id === id);
   }
 }));

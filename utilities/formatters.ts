@@ -11,3 +11,11 @@ export function formatCurrency(amount: number): string {
     maximumFractionDigits: 2
   }).format(amount);
 }
+
+export const formatDate = (date: Date): string => {
+  return date.toLocaleDateString("es-ES", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+};

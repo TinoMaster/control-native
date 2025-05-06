@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import useColors from "hooks/useColors";
 import React, { ComponentProps } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import { AddIcon } from "./Icons";
 
 interface PageTitleProps {
   title: string;
@@ -28,7 +29,7 @@ export const PageTitle = ({ title, showAddButton = false, onPressAddButton, icon
           accessibilityLabel="Añadir nuevo negocio"
           accessibilityRole="button"
         >
-          <Ionicons name="add" size={20} color="white" />
+          <AddIcon size={20} color="white" />
         </TouchableOpacity>
       )}
     </View>

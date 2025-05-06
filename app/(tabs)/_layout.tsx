@@ -22,7 +22,7 @@ export default function TabsLayout() {
   // Si el usuario tiene permisos, agregar la pestaña de negocios a la copia local
   if (hasBusinessAccess) {
     localTabsConfig.push({
-      name: "business/index",
+      name: "business",
       title: "Gestión",
       icon: BusinessIcon
     });
@@ -65,7 +65,7 @@ export default function TabsLayout() {
             title: tab.title,
             tabBarIcon: ({ color, size }) => tab.icon({ color, size }),
             // Proteger la ruta de negocios a nivel de navegación
-            href: tab.name === "business/index" && !hasBusinessAccess ? null : undefined
+            href: tab.name === "business" && !hasBusinessAccess ? null : undefined
           }}
         />
       ))}

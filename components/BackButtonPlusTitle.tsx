@@ -12,7 +12,8 @@ export const BackButtonPlusTitle = ({ title }: { title: string }) => {
       style={{
         flexDirection: "row",
         alignItems: "center",
-        padding: 16,
+        paddingHorizontal: 6,
+        paddingVertical: 20,
         borderBottomWidth: 1,
         borderBottomColor: "rgba(0,0,0,0.1)",
       }}
