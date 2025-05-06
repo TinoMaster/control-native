@@ -5,8 +5,8 @@ import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { AdditionalInfo } from "features/business/myBusinesses/businessDetails/AdditionalInfo";
 import { AddressInfo } from "features/business/myBusinesses/businessDetails/address/AddressInfo";
-import { MachinesInfo } from "features/business/myBusinesses/businessDetails/MachinesInfo";
-import { PrincipalInfo } from "features/business/myBusinesses/businessDetails/PrincipalInfo";
+import { MachinesInfo } from "features/business/myBusinesses/businessDetails/machines/MachinesInfo";
+import { PrincipalInfo } from "features/business/myBusinesses/businessDetails/principal_info/PrincipalInfo";
 import { UsersInfo } from "features/business/myBusinesses/businessDetails/UsersInfo";
 import useColors from "hooks/useColors";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -45,23 +45,25 @@ export default function BusinessDetails() {
   return (
     <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
       <ScrollView style={styles.scrollView} contentContainerStyle={{ paddingBottom: insets.bottom + 80 }}>
-        {/* Header */}
-        <BackButtonPlusTitle title="Detalles del Negocio" />
+        <View className="flex-1 gap-4">
+          {/* Header */}
+          <BackButtonPlusTitle title="Detalles del Negocio" />
 
-        {/* Información Principal */}
-        <PrincipalInfo business={business} />
+          {/* Información Principal */}
+          <PrincipalInfo business={business} />
 
-        {/* Dirección */}
-        <AddressInfo business={business} />
+          {/* Dirección */}
+          <AddressInfo business={business} />
 
-        {/* Máquinas */}
-        <MachinesInfo business={business} />
+          {/* Máquinas */}
+          <MachinesInfo business={business} />
 
-        {/* Usuarios */}
-        <UsersInfo business={business} />
+          {/* Usuarios */}
+          <UsersInfo business={business} />
 
-        {/* Información Adicional */}
-        <AdditionalInfo business={business} />
+          {/* Información Adicional */}
+          <AdditionalInfo business={business} />
+        </View>
       </ScrollView>
 
       {/* Botones de Acción */}
@@ -90,6 +92,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   scrollView: {
-    flex: 1
+    flex: 1,
+    padding: 16
   }
 });

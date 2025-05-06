@@ -1,9 +1,8 @@
-import { Ionicons } from "@expo/vector-icons";
+import { MyCard } from "components/ui/MyCard";
 import { useRouter } from "expo-router";
 import useColors from "hooks/useColors";
 import { BusinessModel } from "models/api";
 import { Text, TouchableOpacity, View } from "react-native";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 interface Props {
   readonly business: BusinessModel;
@@ -16,18 +15,12 @@ export function MachinesInfo({ business }: Props) {
     router.push(`/business/my_businesses/${business.id}/machines`);
   };
   return (
-    <View
-      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
-      className="m-4 p-4 rounded-xl shadow-sm"
+    <MyCard
+      title="Máquinas"
+      iconTitle="hardware-chip-outline"
+      iconButton="add"
+      onPressIcon={handleViewMachines}
     >
-      <TouchableOpacity onPress={handleViewMachines} className="flex-row items-center mb-4">
-        <Ionicons name="hardware-chip-outline" size={24} color={defaultColors.primary} />
-        <Text style={{ color: defaultColors.text }} className="text-lg font-semibold ml-2">
-          Máquinas ({business?.machines?.length ?? 0})
-        </Text>
-        <Ionicons name="chevron-forward" size={20} color={defaultColors.primary} className="ml-auto" />
-      </TouchableOpacity>
-
       <View className="mt-2">
         {business?.machines?.slice(0, 3).map((machine, index) => (
           <View
@@ -57,6 +50,6 @@ export function MachinesInfo({ business }: Props) {
           </TouchableOpacity>
         )}
       </View>
-    </View>
+    </MyCard>
   );
 }
