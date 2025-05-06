@@ -4,7 +4,7 @@ import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { AdditionalInfo } from "features/business/myBusinesses/businessDetails/AdditionalInfo";
-import { AddressInfo } from "features/business/myBusinesses/businessDetails/AddressInfo";
+import { AddressInfo } from "features/business/myBusinesses/businessDetails/address/AddressInfo";
 import { MachinesInfo } from "features/business/myBusinesses/businessDetails/MachinesInfo";
 import { PrincipalInfo } from "features/business/myBusinesses/businessDetails/PrincipalInfo";
 import { UsersInfo } from "features/business/myBusinesses/businessDetails/UsersInfo";

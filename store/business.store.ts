@@ -15,6 +15,7 @@ interface BusinessState {
     businessesOwned: BusinessModel[];
     businesses: BusinessModel[];
   }) => Promise<void>;
+  updateBusiness: (id: number, partialBusiness: Partial<BusinessModel>) => void;
   getBusinessById: (id: number) => BusinessModel | undefined;
 }
 
@@ -49,6 +50,12 @@ export const useBusinessStore = create<BusinessState>((set, get) => ({
       business: selectedBusiness,
       businessId: selectedBusiness?.id
     });
+  },
+
+  updateBusiness: (id, partialBusiness) => {
+    set((state) => ({
+      businessList: state.businessList.map((b) => (b.id === id ? { ...b, ...partialBusiness } : b))
+    }));
   },
 
   getBusinessById: (id) => {

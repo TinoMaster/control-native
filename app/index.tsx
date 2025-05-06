@@ -27,7 +27,7 @@ export default function Index() {
   if (isInitializing || loadingUser) {
     return (
       <View className="flex-1 items-center justify-center bg-white dark:bg-gray-900">
-        <Text className="text-gray-800 dark:text-gray-100">Cargando...</Text>
+        <Text className="text-gray-800 dark:text-gray-100">Cargando aplicación...</Text>
       </View>
     );
   }

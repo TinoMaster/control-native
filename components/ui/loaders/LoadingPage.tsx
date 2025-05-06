@@ -3,7 +3,7 @@ import useColors from "hooks/useColors";
 import { MotiView } from "moti";
 
 interface LoadingPageProps {
-  message?: string;
+  readonly message?: string;
 }
 
 export default function LoadingPage({ message = "Cargando..." }: LoadingPageProps) {
@@ -14,15 +14,15 @@ export default function LoadingPage({ message = "Cargando..." }: LoadingPageProp
       <MotiView
         from={{
           opacity: 0,
-          scale: 0.9,
+          scale: 0.9
         }}
         animate={{
           opacity: 1,
-          scale: 1,
+          scale: 1
         }}
         transition={{
           type: "timing",
-          duration: 300,
+          duration: 300
         }}
         style={styles.content}
       >
@@ -37,15 +37,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   content: {
     alignItems: "center",
-    padding: 20,
+    padding: 20
   },
   text: {
     marginTop: 16,
     fontSize: 16,
-    fontWeight: "500",
-  },
-}); 
+    fontWeight: "500"
+  }
+});
