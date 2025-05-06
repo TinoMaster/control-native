@@ -1,18 +1,16 @@
 import { CloseSessionButton } from "components/CloseSessionButton";
 import { PageTitle } from "components/PageTitle";
-import { ToggleAppMode } from "features/config/components/ToggleAppMode";
 import useColors from "hooks/useColors";
 import { StyleSheet, View } from "react-native";
 
-export default function ConfigScreen() {
+export default function ProfileScreen() {
   const defaultColors = useColors();
 
   return (
     <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
-      <PageTitle title="Configuración" />
+      <PageTitle title="Perfil" />
 
       <View style={styles.section}>
-        <ToggleAppMode />
         <CloseSessionButton />
       </View>
     </View>

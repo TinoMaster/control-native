@@ -1,9 +1,10 @@
 import AppTitle from "components/AppTitle";
-import { GridOutlineIcon, InputIcon, PeopleGroupIcon, WalletOutlineIcon, SettingsIcon } from "components/Icons";
+import { GridOutlineIcon, InputIcon, PeopleGroupIcon, WalletOutlineIcon, PersonIcon } from "components/Icons";
 import { useTheme } from "contexts/ThemeContext";
-import { Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 import useColors from "hooks/useColors";
-import { ImageBackground, Pressable, Text, View } from "react-native";
+import { ImageBackground, Pressable, View } from "react-native";
+import { Feather } from "@expo/vector-icons";
 import colors from "styles/colors";
 
 // Icon components defined outside the parent component
@@ -17,11 +18,12 @@ const EntryIcon = ({ color, size }: { color: string; size: number }) => <InputIc
 
 const StatsIcon = ({ color, size }: { color: string; size: number }) => <PeopleGroupIcon size={size} color={color} />;
 
-const ConfigIcon = ({ color, size }: { color: string; size: number }) => <SettingsIcon size={size} color={color} />;
+const ProfileIcon = ({ color, size }: { color: string; size: number }) => <PersonIcon size={size} color={color} />;
 
 export default function TabsLayout() {
   const defaultColors = useColors();
   const { toggleTheme } = useTheme();
+  const router = useRouter();
 
   const headerBackground = () => (
     <View style={{ flex: 1 }}>
@@ -46,14 +48,15 @@ export default function TabsLayout() {
   const headerRight = () => (
     <View style={{ paddingRight: 16, flexDirection: "row", gap: 16 }}>
       <Pressable
-        onPress={toggleTheme}
+        onPress={() => router.push({ pathname: "../settings" })}
         style={{
-          backgroundColor: defaultColors.primary,
           padding: 8,
           borderRadius: 8
         }}
+        accessibilityLabel="Configuración"
+        accessibilityRole="button"
       >
-        <Text style={{ color: "white", fontWeight: "bold" }}>Cambiar Tema</Text>
+        <Feather name="settings" size={24} color={defaultColors.text} />
       </Pressable>
     </View>
   );
@@ -81,9 +84,9 @@ export default function TabsLayout() {
       icon: StatsIcon
     },
     {
-      name: "config/index",
-      title: "Config",
-      icon: ConfigIcon
+      name: "profile/index",
+      title: "Perfil",
+      icon: ProfileIcon
     }
   ];
 
