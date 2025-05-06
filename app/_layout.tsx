@@ -6,6 +6,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import useColors from "hooks/useColors";
 import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useAuthStore } from "store/auth.store";
 import "./globals.css";
@@ -46,19 +47,19 @@ function RootLayoutNav() {
 
 // Componente inicializador global que se ejecuta en cualquier ruta de la aplicación
 function GlobalInitializer() {
-  useEffect(() => {
-    // Solo inicializamos si no estamos ya logueados
-    if (!useAuthStore.getState().isLoggedIn) {
-      const initializeAuthData = async () => {
-        try {
-          await useAuthStore.getState().initializeAuth();
-        } catch (error) {
-          console.error("Error inicializando datos globales:", error);
-        }
-      };
+  const { initializeAuth } = useAuthStore();
 
-      initializeAuthData();
-    }
+  useEffect(() => {
+    // Siempre inicializamos la autenticación al cargar la app
+    const initializeAuthData = async () => {
+      try {
+        await initializeAuth();
+      } catch (error) {
+        console.error("Error inicializando datos globales:", error);
+      }
+    };
+
+    initializeAuthData();
   }, []);
 
   // Este componente no renderiza nada, solo inicializa datos
@@ -68,15 +69,18 @@ function GlobalInitializer() {
 export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      <SafeAreaProvider>
-        <ThemeProvider>
-          <NotificationProvider>
-            <GlobalInitializer />
-            <StatusBar style="light" />
-            <RootLayoutNav />
-          </NotificationProvider>
-        </ThemeProvider>
-      </SafeAreaProvider>
+      {/* GestureHandlerRootView es necesario para que los gestos funcionen correctamente */}
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <ThemeProvider>
+            <NotificationProvider>
+              <GlobalInitializer />
+              <StatusBar style="light" />
+              <RootLayoutNav />
+            </NotificationProvider>
+          </ThemeProvider>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
     </QueryClientProvider>
   );
 }

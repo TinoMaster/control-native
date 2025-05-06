@@ -2,7 +2,6 @@ import { Feather } from "@expo/vector-icons";
 import { PageTitle } from "components/PageTitle";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { MONTHS } from "data/global.data";
-import { useRouter } from "expo-router";
 import { ModalMonthPicker } from "features/sales/components/list/ModalMonthPicker";
 import { ModalYearPicker } from "features/sales/components/list/ModalYearPicker";
 import { SalesGroupByDay } from "features/sales/components/SalesGroupByDay";
@@ -15,7 +14,6 @@ import { adjustBrightness, groupSalesByDay } from "utilities/helpers/globals.hel
 
 export default function List() {
   const defaultColors = useColors();
-  const router = useRouter();
   const [showMonthPicker, setShowMonthPicker] = useState(false);
   const [showYearPicker, setShowYearPicker] = useState(false);
 
