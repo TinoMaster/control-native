@@ -1,13 +1,13 @@
 import { Feather } from "@expo/vector-icons";
 import { CloseSessionButton } from "components/CloseSessionButton";
-import { PageTitle } from "components/PageTitle";
 import { SettingButton } from "components/ui/SettingButton";
 import { useRouter } from "expo-router";
 import { SettingSection } from "features/settings/components/SettingSection";
 import { ToggleAppMode } from "features/settings/components/ToggleAppMode";
 import useColors from "hooks/useColors";
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import colors from "styles/colors";
 
 export default function Settings() {
   const router = useRouter();
@@ -18,44 +18,57 @@ export default function Settings() {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: defaultColors.background }]} edges={["bottom"]}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={handleGoBack}>
-          <Feather name="arrow-left" size={24} color={defaultColors.text} />
-        </TouchableOpacity>
-        <PageTitle title="Configuración" />
+    <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+      {/* Header con SafeAreaView específico para la parte superior */}
+      <View style={[styles.headerContainer, { backgroundColor: colors.background.dark.primary }]}>
+        <SafeAreaView edges={["top"]} style={styles.safeHeader}>
+          <View style={styles.header}>
+            <TouchableOpacity
+              onPress={handleGoBack}
+              style={styles.backButton}
+              accessibilityRole="button"
+              accessibilityLabel="Volver atrás"
+            >
+              <Feather name="arrow-left" size={24} color="#FFFFFF" />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Configuración</Text>
+          </View>
+        </SafeAreaView>
       </View>
 
-      <ScrollView style={styles.content}>
-        <SettingSection title="Apariencia">
-          <ToggleAppMode />
-        </SettingSection>
+      {/* Contenido con SafeAreaView para los bordes inferiores */}
+      <SafeAreaView edges={["bottom"]} style={styles.contentContainer}>
+        <ScrollView style={styles.content}>
+          <SettingSection title="Apariencia">
+            <ToggleAppMode />
+          </SettingSection>
 
-        <SettingSection title="Cuenta">
-          <SettingButton
-            onPress={() => router.push("/(tabs)/profile")}
-            icon="person"
-            title="Mi Perfil"
-            accessibilityRole="button"
-            accessibilityLabel="Ver perfil de usuario"
-            iconRight
-          />
+          <SettingSection title="Cuenta">
+            <SettingButton
+              onPress={() => router.push("/(tabs)/profile")}
+              icon="person"
+              title="Mi Perfil"
+              accessibilityRole="button"
+              accessibilityLabel="Ver perfil de usuario"
+              iconRight
+            />
 
-          <CloseSessionButton />
-        </SettingSection>
+            <CloseSessionButton />
+          </SettingSection>
 
-        <SettingSection title="Información">
-          <SettingButton
-            onPress={() => router.push("/(tabs)/profile")}
-            icon="link"
-            title="Acerca de"
-            accessibilityRole="button"
-            accessibilityLabel="Ver información de la aplicación"
-            iconRight
-          />
-        </SettingSection>
-      </ScrollView>
-    </SafeAreaView>
+          <SettingSection title="Información">
+            <SettingButton
+              onPress={() => router.push("/(tabs)/profile")}
+              icon="link"
+              title="Acerca de"
+              accessibilityRole="button"
+              accessibilityLabel="Ver información de la aplicación"
+              iconRight
+            />
+          </SettingSection>
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 }
 
@@ -63,14 +76,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  headerContainer: {
+    width: "100%",
+    zIndex: 10,
+    elevation: 3
+  },
+  safeHeader: {
+    width: "100%"
+  },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 24,
+    paddingVertical: 16,
     paddingHorizontal: 16
+  },
+  backButton: {
+    padding: 8,
+    marginRight: 8
+  },
+  headerTitle: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "bold"
+  },
+  contentContainer: {
+    flex: 1
   },
   content: {
     flex: 1,
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
+    paddingVertical: 16
   }
 });

@@ -16,9 +16,12 @@ export default function TabsLayout() {
   // Verificar si el usuario tiene permisos de administrador o propietario
   const hasBusinessAccess = isLoggedIn && (role === ERole.ADMIN || role === ERole.OWNER);
 
-  // Si el usuario tiene permisos, agregar la pestaña de negocios
+  // Crear una copia local del array de configuración de pestañas
+  const localTabsConfig = [...tabsConfig];
+
+  // Si el usuario tiene permisos, agregar la pestaña de negocios a la copia local
   if (hasBusinessAccess) {
-    tabsConfig.push({
+    localTabsConfig.push({
       name: "business/index",
       title: "Negocios",
       icon: BusinessIcon
@@ -54,7 +57,7 @@ export default function TabsLayout() {
         headerRight: HeaderRight
       }}
     >
-      {tabsConfig.map((tab) => (
+      {localTabsConfig.map((tab) => (
         <Tabs.Screen
           key={tab.name}
           name={tab.name}

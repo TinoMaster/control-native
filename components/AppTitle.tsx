@@ -4,10 +4,12 @@ import { Image, Modal, Text, TouchableOpacity, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import colors from "styles/colors";
 import { images } from "utilities/images";
+import { useRouter } from "expo-router";
 
 export default function AppTitle() {
   const { business, loading, businessList, onChangeBusiness } = useBusinessStore();
   const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
 
   if (loading) {
     return (
@@ -94,6 +96,7 @@ export default function AppTitle() {
                 onPress={() => {
                   onChangeBusiness(b.id!);
                   setShowModal(false);
+                  router.replace("/(tabs)");
                 }}
               >
                 <Text
