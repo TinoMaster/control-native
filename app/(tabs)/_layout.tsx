@@ -23,7 +23,7 @@ export default function TabsLayout() {
   if (hasBusinessAccess) {
     localTabsConfig.push({
       name: "business/index",
-      title: "Negocios",
+      title: "Gestión",
       icon: BusinessIcon
     });
   }
