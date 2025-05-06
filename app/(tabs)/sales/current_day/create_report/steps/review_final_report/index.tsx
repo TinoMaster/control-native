@@ -56,8 +56,6 @@ export default function ReviewFinalReport() {
     // Calcular salarios usando la nueva utilidad
     const salaryCalculation = calculateEmployeeSalaries(report.workers, report.total || 0);
 
-    console.log("salaryCalculation", salaryCalculation);
-
     // Convertir al formato requerido por el componente
     const workers = salaryCalculation.employees.reduce((acc, worker) => {
       acc[worker.name] = worker.salary;

@@ -7,7 +7,6 @@ import { ServiceSaleModel } from "models/api/serviceSale.model";
 import { create } from "zustand";
 
 function checkIfMachineStatesAreValid(machineStates: MachineStateModel[]): boolean {
-  console.log("machineStates", machineStates);
   return machineStates.length > 0 && machineStates.every((ms) => ms.fund > 0);
 }
 
@@ -17,7 +16,6 @@ function checkStep1Completion(report: BusinessFinalSaleModel, machineStates: Mac
   const atLeastOneMachineSelected = Array.isArray(report.machines) && report.machines.length > 0;
   const atLeastOneWorkerSelected = Array.isArray(report.workers) && report.workers.length > 0;
   const areMachineStatesValid = checkIfMachineStatesAreValid(machineStates);
-  console.log("areMachineStatesValid", areMachineStatesValid);
   return isTotalValid && atLeastOneMachineSelected && atLeastOneWorkerSelected && areMachineStatesValid;
 }
 function checkStep2Completion(): boolean {

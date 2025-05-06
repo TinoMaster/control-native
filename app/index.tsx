@@ -5,14 +5,13 @@ import { Text, View } from "react-native";
 import { useAuthStore } from "store/auth.store";
 
 export default function Index() {
-  const { isLoggedIn, loadingUser, role, token, initializeAuth } = useAuthStore();
+  const { isLoggedIn, loadingUser, role, initializeAuth } = useAuthStore();
   const [isInitializing, setIsInitializing] = useState(true);
 
   // Aseguramos que la autenticación se inicialice antes de decidir la redirección
   useEffect(() => {
     const init = async () => {
       try {
-        console.log("Inicializando autenticación desde Index...");
         await initializeAuth();
       } catch (error) {
         console.error("Error inicializando autenticación:", error);
@@ -32,8 +31,6 @@ export default function Index() {
       </View>
     );
   }
-
-  console.log("Estado de autenticación:", { isLoggedIn, role, token });
 
   const privateContainerToRender = () => {
     if (role === ERole.SUPERADMIN) {

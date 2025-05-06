@@ -90,8 +90,6 @@ export function groupSalesByDay(sales: BusinessFinalSaleModelResponse[]): Groupe
     groups[dateStr].reports.push(sale);
     groups[dateStr].totalAmount += sale.total ?? 0;
 
-    console.log("groups", groups);
-
     return groups;
   }, {} as Record<string, GroupedSale>);
 

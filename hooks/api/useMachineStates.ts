@@ -18,7 +18,6 @@ export const useMachineStates = (): UseMachineStates => {
         return [];
       }
       const response = await machineStateService.getLatestStatesByBusinessBeforeDate(businessId);
-      console.log("response", response);
       return response.data || [];
     },
     enabled: !!businessId
