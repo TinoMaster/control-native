@@ -1,5 +1,5 @@
 import AppTitle from "components/AppTitle";
-import { GridOutlineIcon, InputIcon, PeopleGroupIcon, PersonIcon, WalletOutlineIcon } from "components/Icons";
+import { GridOutlineIcon, InputIcon, PeopleGroupIcon, WalletOutlineIcon, SettingsIcon } from "components/Icons";
 import { useTheme } from "contexts/ThemeContext";
 import { Tabs } from "expo-router";
 import useColors from "hooks/useColors";
@@ -17,7 +17,7 @@ const EntryIcon = ({ color, size }: { color: string; size: number }) => <InputIc
 
 const StatsIcon = ({ color, size }: { color: string; size: number }) => <PeopleGroupIcon size={size} color={color} />;
 
-const ProfileIcon = ({ color, size }: { color: string; size: number }) => <PersonIcon size={size} color={color} />;
+const ConfigIcon = ({ color, size }: { color: string; size: number }) => <SettingsIcon size={size} color={color} />;
 
 export default function TabsLayout() {
   const defaultColors = useColors();
@@ -81,9 +81,9 @@ export default function TabsLayout() {
       icon: StatsIcon
     },
     {
-      name: "profile/index",
-      title: "Perfil",
-      icon: ProfileIcon
+      name: "config/index",
+      title: "Config",
+      icon: ConfigIcon
     }
   ];
 

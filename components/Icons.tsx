@@ -28,7 +28,7 @@ export const PeopleGroupIcon = (props: Omit<IconProps<string>, "name">) => {
   return <FontAwesome6 name="people-group" size={24} color={colors.primary} {...props} />;
 };
 
-export const PersonIcon = (props: Omit<IconProps<string>, "name">) => {
+export const SettingsIcon = (props: Omit<IconProps<string>, "name">) => {
   const colors = useColors();
-  return <Ionicons name="person" size={24} color={colors.primary} {...props} />;
+  return <Ionicons name="settings" size={24} color={colors.primary} {...props} />;
 };
