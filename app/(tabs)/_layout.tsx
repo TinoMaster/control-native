@@ -1,94 +1,29 @@
-import AppTitle from "components/AppTitle";
-import { GridOutlineIcon, InputIcon, PeopleGroupIcon, WalletOutlineIcon, PersonIcon } from "components/Icons";
-import { useTheme } from "contexts/ThemeContext";
-import { Tabs, useRouter } from "expo-router";
+import { BusinessIcon } from "components/Icons";
+import { Tabs } from "expo-router";
+import { HeaderBackground } from "features/layouts/(tabs)_layout/HeaderBackground";
+import { HeaderLeft } from "features/layouts/(tabs)_layout/HeaderLeft";
+import { HeaderRight } from "features/layouts/(tabs)_layout/HeaderRight";
+import { tabsConfig } from "features/layouts/(tabs)_layout/tabs.configs";
 import useColors from "hooks/useColors";
-import { ImageBackground, Pressable, View } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { ERole } from "models/api";
+import { useAuthStore } from "store/auth.store";
 import colors from "styles/colors";
-
-// Icon components defined outside the parent component
-const GridIcon = ({ color, size }: { color: string; size: number }) => <GridOutlineIcon size={size} color={color} />;
-
-const WalletIcon = ({ color, size }: { color: string; size: number }) => (
-  <WalletOutlineIcon size={size} color={color} />
-);
-
-const EntryIcon = ({ color, size }: { color: string; size: number }) => <InputIcon size={size} color={color} />;
-
-const StatsIcon = ({ color, size }: { color: string; size: number }) => <PeopleGroupIcon size={size} color={color} />;
-
-const ProfileIcon = ({ color, size }: { color: string; size: number }) => <PersonIcon size={size} color={color} />;
 
 export default function TabsLayout() {
   const defaultColors = useColors();
-  const { toggleTheme } = useTheme();
-  const router = useRouter();
+  const { role, isLoggedIn } = useAuthStore();
 
-  const headerBackground = () => (
-    <View style={{ flex: 1 }}>
-      <ImageBackground
-        source={require("assets/images/header-bg.jpg")}
-        style={{
-          width: "100%",
-          height: "100%"
-        }}
-      />
-      <View
-        className="absolute top-0 left-0 right-0 bottom-0"
-        style={{
-          backgroundColor: "rgba(0, 0, 0, 0.6)"
-        }}
-      />
-    </View>
-  );
+  // Verificar si el usuario tiene permisos de administrador o propietario
+  const hasBusinessAccess = isLoggedIn && (role === ERole.ADMIN || role === ERole.OWNER);
 
-  const headerLeft = () => <AppTitle />;
-
-  const headerRight = () => (
-    <View style={{ paddingRight: 16, flexDirection: "row", gap: 16 }}>
-      <Pressable
-        onPress={() => router.push({ pathname: "../settings" })}
-        style={{
-          padding: 8,
-          borderRadius: 8
-        }}
-        accessibilityLabel="Configuración"
-        accessibilityRole="button"
-      >
-        <Feather name="settings" size={24} color={defaultColors.text} />
-      </Pressable>
-    </View>
-  );
-
-  // Definir la configuración de las pestañas en un array
-  const tabsConfig = [
-    {
-      name: "index",
-      title: "Inicio",
-      icon: GridIcon
-    },
-    {
-      name: "sales",
-      title: "Registros",
-      icon: WalletIcon
-    },
-    {
-      name: "entries",
-      title: "Entradas",
-      icon: EntryIcon
-    },
-    {
-      name: "personal",
-      title: "Personal",
-      icon: StatsIcon
-    },
-    {
-      name: "profile/index",
-      title: "Perfil",
-      icon: ProfileIcon
-    }
-  ];
+  // Si el usuario tiene permisos, agregar la pestaña de negocios
+  if (hasBusinessAccess) {
+    tabsConfig.push({
+      name: "business/index",
+      title: "Negocios",
+      icon: BusinessIcon
+    });
+  }
 
   return (
     <Tabs
@@ -104,7 +39,7 @@ export default function TabsLayout() {
         },
         tabBarActiveTintColor: colors.primary.light,
         tabBarInactiveTintColor: colors.darkMode.textSecondary.light,
-        headerBackground: headerBackground,
+        headerBackground: HeaderBackground,
         headerStyle: {
           backgroundColor: "transparent",
           elevation: 0,
@@ -115,8 +50,8 @@ export default function TabsLayout() {
           fontWeight: "bold"
         },
         headerTitle: "",
-        headerLeft: headerLeft,
-        headerRight: headerRight
+        headerLeft: HeaderLeft,
+        headerRight: HeaderRight
       }}
     >
       {tabsConfig.map((tab) => (
@@ -125,7 +60,9 @@ export default function TabsLayout() {
           name={tab.name}
           options={{
             title: tab.title,
-            tabBarIcon: ({ color, size }) => tab.icon({ color, size })
+            tabBarIcon: ({ color, size }) => tab.icon({ color, size }),
+            // Proteger la ruta de negocios a nivel de navegación
+            href: tab.name === "business/index" && !hasBusinessAccess ? null : undefined
           }}
         />
       ))}
