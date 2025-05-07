@@ -15,12 +15,7 @@ export function MachinesInfo({ business }: Props) {
     router.push(`/business/my_businesses/${business.id}/machines`);
   };
   return (
-    <MyCard
-      title="Máquinas"
-      iconTitle="hardware-chip-outline"
-      iconButton="add"
-      onPressIcon={handleViewMachines}
-    >
+    <MyCard title="Máquinas" iconTitle="hardware-chip-outline" iconButton="add" onPressIcon={handleViewMachines}>
       <View className="mt-2">
         {business?.machines?.slice(0, 3).map((machine, index) => (
           <View
@@ -48,6 +43,12 @@ export function MachinesInfo({ business }: Props) {
               Ver todas las máquinas
             </Text>
           </TouchableOpacity>
+        )}
+
+        {!business?.machines?.length && (
+          <Text style={{ color: defaultColors.textSecondary, textAlign: "center" }} className="text-base">
+            No tienes máquinas registradas
+          </Text>
         )}
       </View>
     </MyCard>

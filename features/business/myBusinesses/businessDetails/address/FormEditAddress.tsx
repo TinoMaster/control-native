@@ -7,6 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { addressService } from "services/address.service";
 import { useBusinessStore } from "store/business.store";
+import colors from "styles/colors";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
 import { z } from "zod";
 
@@ -182,11 +183,19 @@ export function FormEditAddress({ setModalVisible, business }: Props) {
         {errors.zip && <Text className="text-red-500 text-xs mb-2">{errors.zip.message}</Text>}
       </View>
 
-      <View className="flex-row justify-end space-x-2">
-        <Pressable className="py-2 px-4 rounded-lg bg-gray-300 dark:bg-gray-700" onPress={() => setModalVisible(false)}>
+      <View className="flex-row justify-end gap-2">
+        <Pressable
+          style={{ backgroundColor: colors.error.light }}
+          className="py-2 px-4 rounded-lg"
+          onPress={() => setModalVisible(false)}
+        >
           <Text style={{ color: defaultColors.text }}>Cancelar</Text>
         </Pressable>
-        <Pressable className="py-2 px-4 rounded-lg bg-primary" onPress={handleSubmit(onSubmit)}>
+        <Pressable
+          style={{ backgroundColor: colors.primary.light }}
+          className="py-2 px-4 rounded-lg"
+          onPress={handleSubmit(onSubmit)}
+        >
           <Text className="text-white font-medium">Guardar</Text>
         </Pressable>
       </View>

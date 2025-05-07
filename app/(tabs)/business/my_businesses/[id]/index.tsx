@@ -7,7 +7,7 @@ import { AdditionalInfo } from "features/business/myBusinesses/businessDetails/A
 import { AddressInfo } from "features/business/myBusinesses/businessDetails/address/AddressInfo";
 import { MachinesInfo } from "features/business/myBusinesses/businessDetails/machines/MachinesInfo";
 import { PrincipalInfo } from "features/business/myBusinesses/businessDetails/principal_info/PrincipalInfo";
-import { UsersInfo } from "features/business/myBusinesses/businessDetails/UsersInfo";
+import { UsersInfo } from "features/business/myBusinesses/businessDetails/users/UsersInfo";
 import useColors from "hooks/useColors";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -44,25 +44,27 @@ export default function BusinessDetails() {
 
   return (
     <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
-      <ScrollView style={styles.scrollView} contentContainerStyle={{ paddingBottom: insets.bottom + 80 }}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={{ paddingBottom: insets.bottom + 50 }}>
         <View className="flex-1 gap-4">
           {/* Header */}
           <BackButtonPlusTitle title="Detalles del Negocio" />
 
-          {/* Información Principal */}
-          <PrincipalInfo business={business} />
+          <View className="px-4 gap-4">
+            {/* Información Principal */}
+            <PrincipalInfo business={business} />
 
-          {/* Dirección */}
-          <AddressInfo business={business} />
+            {/* Dirección */}
+            <AddressInfo business={business} />
 
-          {/* Máquinas */}
-          <MachinesInfo business={business} />
+            {/* Máquinas */}
+            <MachinesInfo business={business} />
 
-          {/* Usuarios */}
-          <UsersInfo business={business} />
+            {/* Usuarios */}
+            <UsersInfo business={business} />
 
-          {/* Información Adicional */}
-          <AdditionalInfo business={business} />
+            {/* Información Adicional */}
+            <AdditionalInfo business={business} />
+          </View>
         </View>
       </ScrollView>
 
@@ -92,7 +94,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   scrollView: {
-    flex: 1,
-    padding: 16
+    flex: 1
   }
 });
