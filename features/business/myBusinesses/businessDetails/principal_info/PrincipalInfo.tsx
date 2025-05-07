@@ -44,16 +44,12 @@ export function PrincipalInfo({ business }: Props) {
 
       {/* Etiquetas de estado */}
       <View className="flex-row flex-wrap mt-2">
-        {business.machines && business.machines.length > 0 && (
-          <View className="px-3 py-1.5 rounded-2xl mr-2 mb-2 bg-amber-600">
-            <Text className="text-white font-medium text-xs">{business.machines.length} máquinas</Text>
-          </View>
-        )}
-        {business.users && business.users.length > 0 && (
-          <View className="px-3 py-1.5 rounded-2xl mr-2 mb-2 bg-indigo-500">
-            <Text className="text-white font-medium text-xs">{business.users.length} usuarios</Text>
-          </View>
-        )}
+        <View className="px-3 py-1.5 rounded-2xl mr-2 mb-2 bg-amber-600">
+          <Text className="text-white font-medium text-xs">{business.machines?.length ?? 0} máquinas</Text>
+        </View>
+        <View className="px-3 py-1.5 rounded-2xl mr-2 mb-2 bg-indigo-500">
+          <Text className="text-white font-medium text-xs">{business.users?.length ?? 0} usuarios</Text>
+        </View>
       </View>
     </MyCard>
   );

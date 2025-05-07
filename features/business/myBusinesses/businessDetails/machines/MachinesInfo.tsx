@@ -37,7 +37,7 @@ export function MachinesInfo({ business }: Props) {
           </View>
         ))}
 
-        {business?.machines?.length && business?.machines?.length > 3 && (
+        {(business?.machines?.length ?? 0) > 3 && (
           <TouchableOpacity onPress={handleViewMachines} className="py-3 items-center">
             <Text style={{ color: defaultColors.primary }} className="text-sm font-medium">
               Ver todas las máquinas
@@ -45,7 +45,7 @@ export function MachinesInfo({ business }: Props) {
           </TouchableOpacity>
         )}
 
-        {!business?.machines?.length && (
+        {!(business?.machines?.length ?? 0) && (
           <Text style={{ color: defaultColors.textSecondary, textAlign: "center" }} className="text-base">
             No tienes máquinas registradas
           </Text>
