@@ -49,7 +49,7 @@ export default function ReviewFinalReport() {
   };
 
   const totalCards = useMemo(() => {
-    return cards.reduce((acc, card) => acc + card.amount, 0);
+    return cards?.reduce((acc, card) => acc + card.amount, 0) ?? 0;
   }, [cards]);
 
   const workersAndSalaries = useMemo(() => {
@@ -67,11 +67,11 @@ export default function ReviewFinalReport() {
   }, [report.workers, report.total]);
 
   const totalDebts = useMemo(() => {
-    return report.debts?.reduce((acc, debt) => acc + debt.total, 0) || 0;
+    return report.debts?.reduce((acc, debt) => acc + debt.total, 0) ?? 0;
   }, [report.debts]);
 
   const totalServices = useMemo(() => {
-    return report.servicesSales?.reduce((acc, service) => acc + service.service.price * service.quantity, 0) || 0;
+    return report.servicesSales?.reduce((acc, service) => acc + service.service.price * service.quantity, 0) ?? 0;
   }, [report.servicesSales]);
 
   const fundDifference = useMemo(() => {

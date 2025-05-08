@@ -32,20 +32,25 @@ export const useFinalizeReport = () => {
       amount: card.amount
     }));
 
+    console.log(report.debts);
+
     const machinesToSave: MachineModel[] =
       report.machines.length > 0 ? business.machines?.filter((m) => report.machines.includes(m.id!)) || [] : [];
+
+    const totalDebts = report.debts?.reduce((acc, debt) => acc + (debt.total - debt.paid), 0) ?? 0;
 
     const reportsToSave: BusinessFinalSaleModelToCreate = {
       ...report,
       name: `Reporte ${business.name} ${new Date().toLocaleDateString()}`,
-      paid: report.total - report.debts.reduce((acc, debt) => acc + (debt.total - debt.paid), 0),
+      paid: report.total - totalDebts,
       business: businessId!,
       cards: cardsToSave,
       machines: machinesToSave,
       doneBy: user?.id!,
       machineStates: machineStates,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      debts: report.debts ?? []
     };
 
     showNotification("Guardando reporte...", "info");
