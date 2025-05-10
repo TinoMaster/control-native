@@ -30,10 +30,17 @@ export const useEmployees = () => {
 
   const { mutate: saveEmployee, isPending: loadingSave } = useMutation({
     mutationFn: (employee: EmployeeModel) => employeeService.saveEmployee(employee),
-    onSuccess: () => {
-      showNotification("Empleado guardado correctamente", "success");
-      queryClient.invalidateQueries({ queryKey: ["employees"] });
-      router.replace("/(tabs)/personal");
+    onSuccess: (response) => {
+      if (response.status === 200) {
+        showNotification("Empleado guardado correctamente", "success");
+        queryClient.invalidateQueries({ queryKey: ["employees"] });
+        router.replace("/(tabs)/personal");
+      } else {
+        showNotification(
+          "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
+          "error"
+        );
+      }
     },
     onError: () => {
       showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");

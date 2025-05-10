@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Picker } from "@react-native-picker/picker";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import Checkbox from "expo-checkbox";
-import { useRouter } from "expo-router";
 import { useEmployees } from "hooks/api/useEmployees";
 import useColors from "hooks/useColors";
 import { zodEmployeeToEmployeeMapper } from "mappers/global.mapper";
@@ -16,11 +15,12 @@ import { useBusinessStore } from "store/business.store";
 import colors from "styles/colors";
 
 export default function CreateEmployee() {
-  const router = useRouter();
   const defaultColors = useColors();
   const businessList = useBusinessStore((state) => state.businessList);
   const business = useBusinessStore((state) => state.business);
   const { saveEmployee, loadingSave } = useEmployees();
+
+  const rolesToSelect = Object.values(ERole).filter((role) => role !== ERole.OWNER && role !== ERole.SUPERADMIN);
 
   const {
     handleSubmit,
@@ -41,11 +41,7 @@ export default function CreateEmployee() {
 
     const dataToSave: EmployeeModel = zodEmployeeToEmployeeMapper(data, businessesToSave);
 
-    saveEmployee(dataToSave, {
-      onSuccess: () => {
-        router.back();
-      }
-    });
+    saveEmployee(dataToSave);
   };
 
   useEffect(() => {
@@ -298,10 +294,10 @@ export default function CreateEmployee() {
                 <Picker
                   selectedValue={value}
                   onValueChange={(itemValue) => onChange(itemValue)}
-                  style={[styles.picker, { color: defaultColors.text }]}
+                  style={[styles.picker, { color: defaultColors.text, backgroundColor: defaultColors.background }]}
                   dropdownIconColor={defaultColors.text}
                 >
-                  {Object.values(ERole).map((roleValue) => (
+                  {rolesToSelect.map((roleValue) => (
                     <Picker.Item key={roleValue} label={roleValue} value={roleValue} />
                   ))}
                 </Picker>

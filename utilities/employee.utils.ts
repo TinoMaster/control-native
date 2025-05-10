@@ -13,7 +13,7 @@ interface SalaryCalculationResult {
     /** Salario calculado */
     salary: number;
     /** Tipo de salario aplicado */
-    salaryType: 'fixed' | 'percent' | 'both';
+    salaryType: "fixed" | "percent" | "both";
   }>;
   /** Suma total de todos los salarios */
   totalSalaries: number;
@@ -25,38 +25,35 @@ interface SalaryCalculationResult {
  * @param totalSales Total de ventas (necesario para calcular salarios por porcentaje)
  * @returns Objeto con la lista de empleados, sus salarios calculados y el total
  */
-export function calculateEmployeeSalaries(
-  employees: EmployeeModel[],
-  totalSales: number
-): SalaryCalculationResult {
+export function calculateEmployeeSalaries(employees: EmployeeModel[], totalSales: number): SalaryCalculationResult {
   const result: SalaryCalculationResult = {
     employees: [],
     totalSalaries: 0
   };
 
   // Procesar cada empleado
-  employees.forEach(employee => {
+  employees.forEach((employee) => {
     const hasFixedSalary = employee.fixedSalary > 0;
     const hasPercentSalary = employee.percentSalary > 0;
-    
+
     let calculatedSalary = 0;
-    let salaryType: 'fixed' | 'percent' | 'both';
-    
+    let salaryType: "fixed" | "percent" | "both";
+
     // Calcular salario según configuración
     if (hasFixedSalary && hasPercentSalary) {
       // Si tiene ambos tipos de salario
-      calculatedSalary = employee.fixedSalary + (totalSales * (employee.percentSalary / 100));
-      salaryType = 'both';
+      calculatedSalary = employee.fixedSalary + totalSales * employee.percentSalary;
+      salaryType = "both";
     } else if (hasPercentSalary) {
       // Si solo tiene salario por porcentaje
-      calculatedSalary = totalSales * (employee.percentSalary / 100);
-      salaryType = 'percent';
+      calculatedSalary = totalSales * employee.percentSalary;
+      salaryType = "percent";
     } else {
       // Si solo tiene salario fijo o no tiene ninguno configurado
       calculatedSalary = employee.fixedSalary;
-      salaryType = 'fixed';
+      salaryType = "fixed";
     }
-    
+
     // Agregar al resultado
     result.employees.push({
       name: employee.user.name,
@@ -64,7 +61,7 @@ export function calculateEmployeeSalaries(
       salary: calculatedSalary,
       salaryType
     });
-    
+
     // Sumar al total
     result.totalSalaries += calculatedSalary;
   });

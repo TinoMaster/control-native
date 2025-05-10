@@ -32,8 +32,6 @@ export const useFinalizeReport = () => {
       amount: card.amount
     }));
 
-    console.log(report.debts);
-
     const machinesToSave: MachineModel[] =
       report.machines.length > 0 ? business.machines?.filter((m) => report.machines.includes(m.id!)) || [] : [];
 
