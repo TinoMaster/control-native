@@ -58,9 +58,12 @@ class BusinessFinalSaleService {
     }
   }
 
-  async existEmployeeInAnyBusinessFinalSale(employeeId: string): Promise<IResponse<boolean>> {
+  /* Verifica si un empleado existe en alguna venta final en general de negocio */
+  async existEmployeeInAnyBusinessFinalSale(employeeId: string): Promise<IResponse<{ response: boolean }>> {
     try {
-      return await requestService.fetch<boolean>(`${this.adminUrl}/business-final-sale/exist-employee/${employeeId}`);
+      return await requestService.fetch<{ response: boolean }>(
+        `${this.adminUrl}/business-final-sale/exist-employee/${employeeId}`
+      );
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);

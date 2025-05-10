@@ -16,8 +16,6 @@ export default function CurrentDay() {
 
   const { reports, loadingReports } = useBusinessFinalSale(QueryTypeBusinessFinalSale.DAILY);
 
-  console.log("reports", reports);
-
   const renderReport = (report: BusinessFinalSaleModelResponse) => (
     <DailyReportCard
       report={report}

@@ -1,4 +1,4 @@
-import { EmployeeCard } from "components/EmployeeCard";
+import { EmployeeCard } from "features/personal/EmployeeCard";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import LoadingPage from "components/ui/loaders/LoadingPage";
