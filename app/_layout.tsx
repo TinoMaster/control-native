@@ -10,6 +10,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useAuthStore } from "store/auth.store";
 import "./globals.css";
+import { ModalProvider } from "components/ui/modals/ModalProvider";
 
 function RootLayoutNav() {
   const colors = useColors();
@@ -74,9 +75,11 @@ export default function RootLayout() {
         <SafeAreaProvider>
           <ThemeProvider>
             <NotificationProvider>
-              <GlobalInitializer />
-              <StatusBar style="light" />
-              <RootLayoutNav />
+              <ModalProvider>
+                <GlobalInitializer />
+                <StatusBar style="light" />
+                <RootLayoutNav />
+              </ModalProvider>
             </NotificationProvider>
           </ThemeProvider>
         </SafeAreaProvider>

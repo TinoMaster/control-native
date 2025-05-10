@@ -1,9 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
+import { MiniIconButton } from "components/ui/MIniIconButton";
+import { useNotification } from "contexts/NotificationContext";
 import { format } from "date-fns";
+import { useServiceSale } from "hooks/api/useServiceSale";
 import useColors from "hooks/useColors";
 import { ServiceSaleModel } from "models/api/serviceSale.model";
 import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useModalStore } from "store/modal.store";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 interface SaleServiceCardProps {
@@ -14,8 +18,37 @@ interface SaleServiceCardProps {
 
 export function SaleServiceCard({ saleService, onPress, allDetails = true }: SaleServiceCardProps) {
   const defaultColors = useColors();
+  const { showConfirm, showAlert } = useModalStore();
+  const { deleteServiceSale } = useServiceSale();
+  const { showNotification } = useNotification();
+
   const createdAt = saleService.createdAt ? new Date(saleService.createdAt) : null;
   const totalAmount = saleService.quantity * saleService.service.price;
+
+  const handleEdit = () => {
+    console.log("Edit");
+  };
+
+  const handleDelete = () => {
+    showConfirm("Eliminar servicio", "¿Estás seguro de eliminar este servicio?", {
+      onConfirm: () => {
+        if (saleService.id) {
+          deleteServiceSale(saleService.id);
+          showNotification("Servicio eliminado correctamente", "success");
+        } else {
+          showNotification("No se pudo eliminar el servicio", "error");
+        }
+      },
+      onCancel: () => console.log("Cancelado")
+    });
+  };
+
+  const handleLock = () => {
+    showAlert(
+      "Acción no permitida",
+      "No es posible ejecutar ninguna acción sobre estos servicios vendidos porque ya pertenecen a un reporte guardado."
+    );
+  };
 
   return (
     <MotiView
@@ -34,7 +67,7 @@ export function SaleServiceCard({ saleService, onPress, allDetails = true }: Sal
     >
       <TouchableOpacity
         onPress={onPress}
-        style={[styles.container, { backgroundColor: adjustBrightness(defaultColors.background, 8) }]}
+        style={[styles.container, { backgroundColor: adjustBrightness(defaultColors.background, 18) }]}
         activeOpacity={0.8}
       >
         <View style={styles.header}>
@@ -44,7 +77,21 @@ export function SaleServiceCard({ saleService, onPress, allDetails = true }: Sal
               {createdAt ? format(createdAt, "dd/MM/yyyy HH:mm") : "Fecha no disponible"}
             </Text>
           </View>
-          {onPress && <Ionicons name="chevron-forward" size={24} color={defaultColors.textSecondary} />}
+          <View style={styles.actionsContainer}>
+            {!saleService.businessFinalSale ? (
+              <>
+                <TouchableOpacity style={styles.iconButton}>
+                  <MiniIconButton icon="pencil" onPress={handleEdit} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.iconButton}>
+                  <MiniIconButton icon="trash-outline" onPress={handleDelete} />
+                </TouchableOpacity>
+              </>
+            ) : (
+              <MiniIconButton icon="lock-closed" onPress={handleLock} />
+            )}
+            {onPress && <Ionicons name="chevron-forward" size={24} color={defaultColors.textSecondary} />}
+          </View>
         </View>
 
         <View style={styles.content}>
@@ -105,6 +152,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 12
+  },
+  actionsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4
+  },
+  iconButton: {
+    marginHorizontal: 4
   },
   titleContainer: {
     flex: 1
