@@ -47,6 +47,17 @@ export const useEmployees = () => {
     }
   });
 
+  const { mutate: updateEmployee, isPending: loadingUpdate } = useMutation({
+    mutationFn: (employee: EmployeeModel) => employeeService.updateEmployee(employee),
+    onSuccess: () => {
+      showNotification("Empleado actualizado correctamente", "success");
+      queryClient.invalidateQueries({ queryKey: ["employees"] });
+    },
+    onError: () => {
+      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+    }
+  });
+
   const { mutate: deleteEmployee, isPending: loadingDelete } = useMutation({
     mutationFn: (id: string) => employeeService.deleteEmployee(id),
     onSuccess: () => {
@@ -64,6 +75,8 @@ export const useEmployees = () => {
     saveEmployee,
     loadingSave,
     getEmployeeById,
+    updateEmployee,
+    loadingUpdate,
     deleteEmployee,
     loadingDelete
   };

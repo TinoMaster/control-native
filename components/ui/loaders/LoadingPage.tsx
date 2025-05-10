@@ -1,13 +1,41 @@
-import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
 import useColors from "hooks/useColors";
 import { MotiView } from "moti";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
 interface LoadingPageProps {
   readonly message?: string;
+  readonly absolute?: boolean;
 }
 
-export default function LoadingPage({ message = "Cargando..." }: LoadingPageProps) {
+export default function LoadingPage({ message = "Cargando...", absolute = false }: LoadingPageProps) {
   const colors = useColors();
+
+  if (absolute) {
+    return (
+      <View style={[styles.absoluteContainer]}>
+        <View style={[styles.overlay, { backgroundColor: colors.background + "99" }]}>
+          <MotiView
+            from={{
+              opacity: 0,
+              scale: 0.9
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1
+            }}
+            transition={{
+              type: "timing",
+              duration: 300
+            }}
+            style={styles.content}
+          >
+            <ActivityIndicator size="large" color={colors.primary} />
+            <Text style={[styles.text, { color: colors.text }]}>{message}</Text>
+          </MotiView>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -35,6 +63,20 @@ export default function LoadingPage({ message = "Cargando..." }: LoadingPageProp
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  absoluteContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 999,
+    elevation: 5
+  },
+  overlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
