@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { shadowStyles } from "styles/shadows";
 import colors from "../styles/colors";
+import useColors from "hooks/useColors";
+import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 interface ActionButton {
   icon: keyof typeof Ionicons.glyphMap;
@@ -20,6 +22,7 @@ interface ActionButtonsProps {
 export const ActionButtons: React.FC<ActionButtonsProps> = ({ buttons, fixed = false, position = "bottom" }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [animation] = useState(new Animated.Value(0));
+  const defaultColors = useColors();
 
   const toggleExpanded = () => {
     const toValue = isExpanded ? 0 : 1;
@@ -33,14 +36,14 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ buttons, fixed = f
 
   if (fixed) {
     return (
-      <View style={[styles.containerFixed, position === "bottom" ? styles.bottom : styles.top]}>
+      <View style={[styles.containerFixed, { backgroundColor: adjustBrightness(defaultColors.background, 15) }]}>
         {buttons.map((button) => (
           <TouchableOpacity
             key={button.label}
             style={[styles.actionButtonFixed, { backgroundColor: button.color ?? colors.primary.light }]}
             onPress={button.onPress}
           >
-            <Ionicons name={button.icon} size={24} color="white" />
+            <Ionicons name={button.icon} size={18} color="white" />
             <Text style={styles.actionButtonText}>{button.label}</Text>
           </TouchableOpacity>
         ))}
@@ -95,10 +98,9 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ buttons, fixed = f
 const styles = StyleSheet.create({
   containerFixed: {
     flexDirection: "row",
-    padding: 16,
+    padding: 12,
     borderTopWidth: 1,
-    borderTopColor: "rgba(255,255,255,0.1)",
-    backgroundColor: "rgba(255,255,255,0.1)"
+    borderTopColor: "rgba(255,255,255,0.1)"
   },
   actionButtonFixed: {
     flex: 1,

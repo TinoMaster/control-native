@@ -9,17 +9,21 @@ import { MachinesInfo } from "features/business/myBusinesses/businessDetails/mac
 import { PrincipalInfo } from "features/business/myBusinesses/businessDetails/principal_info/PrincipalInfo";
 import { UsersInfo } from "features/business/myBusinesses/businessDetails/users/UsersInfo";
 import useColors from "hooks/useColors";
+import { ERole } from "models/api";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAuthStore } from "store/auth.store";
 import { useBusinessStore } from "store/business.store";
 import colors from "styles/colors";
 
 export default function BusinessDetails() {
   const { id } = useLocalSearchParams();
   const { loading: loadingBusinesses, getBusinessById } = useBusinessStore();
+  const { showNotification } = useNotification();
+  const { role } = useAuthStore();
+
   const business = getBusinessById(Number(id));
   const router = useRouter();
-  const { showNotification } = useNotification();
   const defaultColors = useColors();
   const insets = useSafeAreaInsets();
 
@@ -32,10 +36,6 @@ export default function BusinessDetails() {
     router.back();
     return null;
   }
-
-  const handleEditBusiness = () => {
-    router.push(`/business/my_businesses/${business.id}/edit`);
-  };
 
   const handleDeleteBusiness = () => {
     // Implementar lógica para eliminar el negocio
@@ -69,22 +69,19 @@ export default function BusinessDetails() {
       </ScrollView>
 
       {/* Botones de Acción */}
-      <ActionButtons
-        buttons={[
-          {
-            icon: "pencil-outline",
-            label: "Editar",
-            onPress: handleEditBusiness,
-            color: defaultColors.primary
-          },
-          {
-            icon: "trash-outline",
-            label: "Eliminar",
-            onPress: handleDeleteBusiness,
-            color: colors.secondary.light
-          }
-        ]}
-      />
+      {role === ERole.OWNER && (
+        <ActionButtons
+          fixed
+          buttons={[
+            {
+              icon: "trash-outline",
+              label: "Eliminar",
+              onPress: handleDeleteBusiness,
+              color: colors.secondary.light
+            }
+          ]}
+        />
+      )}
     </View>
   );
 }
