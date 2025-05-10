@@ -44,11 +44,11 @@ export default function BusinessDetails() {
 
   return (
     <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+      {/* Header */}
+      <BackButtonPlusTitle title="Detalles del Negocio" />
+
       <ScrollView style={styles.scrollView} contentContainerStyle={{ paddingBottom: insets.bottom + 50 }}>
         <View className="flex-1 gap-4">
-          {/* Header */}
-          <BackButtonPlusTitle title="Detalles del Negocio" />
-
           <View className="px-4 gap-4">
             {/* Información Principal */}
             <PrincipalInfo business={business} />
