@@ -1,7 +1,8 @@
-import { Text, TouchableOpacity, View } from "react-native";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
-import useColors from "hooks/useColors";
 import { Ionicons } from "@expo/vector-icons";
+import useColors from "hooks/useColors";
+import { Text, View } from "react-native";
+import { adjustBrightness } from "utilities/helpers/globals.helpers";
+import { MiniIconButton } from "./MIniIconButton";
 
 interface Props {
   readonly children: React.ReactNode;
@@ -21,20 +22,17 @@ export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, he
       className="rounded-xl shadow-sm pb-2"
     >
       {header && (
-        <View className="flex-row items-center justify-between mb-3 p-2">
+        <View
+          className="flex-row items-center justify-between mb-3 p-2 border-b"
+          style={{ borderColor: defaultColors.background }}
+        >
           <View className="flex-row items-center">
             {iconTitle && <Ionicons name={iconTitle} size={24} color={defaultColors.primary} />}
             <Text style={{ color: defaultColors.text }} className="text-lg font-semibold ml-2">
               {title}
             </Text>
           </View>
-          <TouchableOpacity
-            style={{ backgroundColor: defaultColors.background }}
-            onPress={onPressIcon}
-            className="p-2 rounded-full shadow-sm"
-          >
-            {iconButton && <Ionicons name={iconButton} size={16} color={defaultColors.primary} />}
-          </TouchableOpacity>
+          {onPressIcon && <MiniIconButton icon={iconButton ?? "add"} onPress={onPressIcon} iconSize={16} />}
         </View>
       )}
       <View className="flex-row justify-between items-center">

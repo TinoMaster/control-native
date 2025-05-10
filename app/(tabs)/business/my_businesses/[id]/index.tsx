@@ -47,7 +47,10 @@ export default function BusinessDetails() {
       {/* Header */}
       <BackButtonPlusTitle title="Detalles del Negocio" />
 
-      <ScrollView style={styles.scrollView} contentContainerStyle={{ paddingBottom: insets.bottom + 50 }}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 20, paddingTop: insets.top + 10 }}
+      >
         <View className="flex-1 gap-4">
           <View className="px-4 gap-4">
             {/* Información Principal */}
