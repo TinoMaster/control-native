@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { useAuthStore } from "store/auth.store";
 
+/* Tareas pendientes de la app */
+// TODO: En la pagina de detalles de un negocio, hacer que se actualize la fecha de actualización cada vez que se modifique algo
+
 export default function Index() {
   const { isLoggedIn, loadingUser, role, initializeAuth } = useAuthStore();
   const [isInitializing, setIsInitializing] = useState(true);

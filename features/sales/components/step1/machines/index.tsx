@@ -33,7 +33,7 @@ export function MachinesSelection() {
   }
 
   return (
-    <View className="flex-1">
+    <View>
       <SelectionControls machines={activeMachines} />
 
       {activeMachines.length > 0 ? (
