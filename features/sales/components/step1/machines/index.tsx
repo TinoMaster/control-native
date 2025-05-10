@@ -1,5 +1,5 @@
 import { SelectionControls } from "features/sales/components/step1/machines/selectionControls";
-import { useCurrentBusinessFinalSale } from "hooks/api/useCurrentBusinessFinalSale";
+import { QueryTypeBusinessFinalSale, useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
 import useColors from "hooks/useColors";
 import { useMemo } from "react";
 import { Text, View } from "react-native";
@@ -8,7 +8,7 @@ import { MachineItem } from "./machineItem";
 
 export function MachinesSelection() {
   const business = useBusinessStore((state) => state.business);
-  const { machinesAlreadySelected } = useCurrentBusinessFinalSale();
+  const { machinesAlreadySelected } = useBusinessFinalSale(QueryTypeBusinessFinalSale.DAILY);
   const { machines } = business;
   const defaultColors = useColors();
 

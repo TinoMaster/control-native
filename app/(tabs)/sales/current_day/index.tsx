@@ -4,7 +4,7 @@ import { PageTitle } from "components/PageTitle";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
 import { DailyReportCard } from "features/sales/components/dailyReportCard";
-import { useCurrentBusinessFinalSale } from "hooks/api/useCurrentBusinessFinalSale";
+import { QueryTypeBusinessFinalSale, useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
 import useColors from "hooks/useColors";
 import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
 import { StyleSheet, View } from "react-native";
@@ -14,7 +14,9 @@ export default function CurrentDay() {
   const defaultColors = useColors();
   const router = useRouter();
 
-  const { todayReports, loadingReports } = useCurrentBusinessFinalSale();
+  const { reports, loadingReports } = useBusinessFinalSale(QueryTypeBusinessFinalSale.DAILY);
+
+  console.log("reports", reports);
 
   const renderReport = (report: BusinessFinalSaleModelResponse) => (
     <DailyReportCard
@@ -36,7 +38,7 @@ export default function CurrentDay() {
       <PageTitle title="Cuadres del día" />
 
       <GenericList
-        data={todayReports ?? []}
+        data={reports ?? []}
         renderItem={renderReport}
         keyExtractor={(item) => item.id?.toString() ?? ""}
         emptyListMessage={"No hay reportes registrados en el día de hoy"}

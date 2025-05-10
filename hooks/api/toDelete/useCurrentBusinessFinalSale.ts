@@ -11,10 +11,6 @@ export const useCurrentBusinessFinalSale = () => {
 
   const { showNotification } = useNotification();
 
-  /**
-   * Fetches business final sales for the selected date
-   * Using a stable query key that doesn't depend on the component instance
-   */
   const { data: todayReports, isLoading: loadingReports } = useQuery<BusinessFinalSaleModelResponse[] | undefined>({
     queryKey: ["reports", businessId],
     queryFn: async () => {
