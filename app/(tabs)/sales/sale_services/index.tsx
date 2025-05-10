@@ -15,16 +15,7 @@ export default function SaleServices() {
   const router = useRouter();
   const { serviceSales, loadingServiceSales } = useServiceSale();
 
-  const renderSaleService = (saleService: ServiceSaleModel) => (
-    <SaleServiceCard
-      saleService={saleService}
-      onPress={() => {
-        if (saleService.id) {
-          router.push(`/(tabs)/sales/sale_services/${saleService.id}` as any);
-        }
-      }}
-    />
-  );
+  const renderSaleService = (saleService: ServiceSaleModel) => <SaleServiceCard saleService={saleService} />;
 
   if (loadingServiceSales) {
     return <LoadingPage />;

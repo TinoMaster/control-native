@@ -7,7 +7,7 @@ import { ServiceSaleItem } from "components/ui/items/ServiceSaleItem.ui";
 import { WorkerItem } from "components/ui/items/WorkerItem.ui";
 import { MyModal } from "components/ui/modals/myModal";
 import MyButton from "components/ui/MyButton";
-import { SectionCard } from "components/ui/SectionCard";
+import { MyCard } from "components/ui/MyCard";
 import { useMachineStates } from "hooks/api/useMachineStates";
 import useColors from "hooks/useColors";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -137,7 +137,7 @@ export default function ReviewFinalReport() {
           />
         </MyModal>
 
-        <SectionCard title="Información General">
+        <MyCard title="Información General">
           <InfoRow label="Negocio" value={business?.name || "Sin nombre"} />
           <InfoRow label="Fecha" value={new Date().toLocaleDateString()} />
           <InfoRow label="Total Ventas" value={formatCurrency(report.total ?? 0)} />
@@ -158,9 +158,9 @@ export default function ReviewFinalReport() {
               <Text style={{ color: defaultColors.text }}>{report.note}</Text>
             </View>
           )}
-        </SectionCard>
+        </MyCard>
 
-        <SectionCard title="Desglose de efectivo">
+        <MyCard title="Desglose de efectivo">
           <InfoRow label="Total Efectivo" bold={true} value={formatCurrency(report.total ?? 0)} />
           <InfoRow label="Tarjetas" negative={true} error={true} value={formatCurrency(totalCards)} />
           <InfoRow label="Deudas" negative={true} error={true} value={formatCurrency(totalDebts)} />
@@ -181,47 +181,47 @@ export default function ReviewFinalReport() {
             bold={true}
             value={formatCurrency(calculateCash())}
           />
-        </SectionCard>
+        </MyCard>
 
         {cards.length > 0 && (
-          <SectionCard title="Pagos con Tarjeta">
+          <MyCard title="Pagos con Tarjeta">
             {cards.map((card) => (
               <CardItem key={card.id} card={card} />
             ))}
-          </SectionCard>
+          </MyCard>
         )}
 
         {report.debts?.length > 0 && (
-          <SectionCard title="Deudas Registradas">
+          <MyCard title="Deudas Registradas">
             {report.debts.map((debt) => (
               <DebtItem key={crypto.randomUUID()} debt={debt} />
             ))}
-          </SectionCard>
+          </MyCard>
         )}
 
         {report.servicesSales?.length > 0 && (
-          <SectionCard title="Servicios Vendidos">
+          <MyCard title="Servicios Vendidos">
             {report.servicesSales.map((service) => (
               <ServiceSaleItem key={service.id} service={service} />
             ))}
-          </SectionCard>
+          </MyCard>
         )}
 
         {report.workers?.length > 0 && (
-          <SectionCard title="Trabajadores y Salarios">
+          <MyCard title="Trabajadores y Salarios">
             {report.workers.map((worker) => (
               <WorkerItem key={worker.id} worker={worker} workersAndSalaries={workersAndSalaries} />
             ))}
-          </SectionCard>
+          </MyCard>
         )}
 
         {report.machines?.length > 0 && (
-          <SectionCard title="Máquinas Utilizadas">
+          <MyCard title="Máquinas Utilizadas">
             {report.machines.map((machineId) => {
               // Aquí deberías obtener la información completa de la máquina si es necesario
               return <MachineItem key={machineId} machineId={machineId} />;
             })}
-          </SectionCard>
+          </MyCard>
         )}
       </View>
     </ScrollView>

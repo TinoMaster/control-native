@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { shadowStyles } from "styles/shadows";
 import colors from "../styles/colors";
 import useColors from "hooks/useColors";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
@@ -129,9 +128,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-    elevation: 4,
-    // Sombra para React Native nativo
-    ...shadowStyles.button
+    elevation: 4
   },
   actionButton: {
     position: "absolute",
@@ -142,8 +139,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    // Sombra para React Native nativo
-    ...shadowStyles.button
+    elevation: 4
   },
   buttonContent: {
     alignItems: "center",

@@ -4,7 +4,6 @@ import useColors from "hooks/useColors";
 import { ServiceSaleModel } from "models/api/serviceSale.model";
 import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { shadowStyles } from "styles/shadows";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 interface SaleServiceCardProps {
@@ -14,7 +13,7 @@ interface SaleServiceCardProps {
 }
 
 export function SaleServiceCard({ saleService, onPress, allDetails = true }: SaleServiceCardProps) {
-  const colors = useColors();
+  const defaultColors = useColors();
   const createdAt = saleService.createdAt ? new Date(saleService.createdAt) : null;
   const totalAmount = saleService.quantity * saleService.service.price;
 
@@ -35,29 +34,31 @@ export function SaleServiceCard({ saleService, onPress, allDetails = true }: Sal
     >
       <TouchableOpacity
         onPress={onPress}
-        style={[styles.container, { backgroundColor: adjustBrightness(colors.background, 8) }]}
+        style={[styles.container, { backgroundColor: adjustBrightness(defaultColors.background, 8) }]}
         activeOpacity={0.8}
       >
         <View style={styles.header}>
           <View style={styles.titleContainer}>
-            <Text style={[styles.title, { color: colors.text }]}>{saleService.service.name}</Text>
-            <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
+            <Text style={[styles.title, { color: defaultColors.text }]}>{saleService.service.name}</Text>
+            <Text style={[styles.subtitle, { color: defaultColors.textSecondary }]}>
               {createdAt ? format(createdAt, "dd/MM/yyyy HH:mm") : "Fecha no disponible"}
             </Text>
           </View>
-          {onPress && <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />}
+          {onPress && <Ionicons name="chevron-forward" size={24} color={defaultColors.textSecondary} />}
         </View>
 
         <View style={styles.content}>
           <View style={styles.infoContainer}>
-            <Ionicons name="person-outline" size={16} color={colors.textSecondary} />
-            <Text style={[styles.infoText, { color: colors.textSecondary }]}>{saleService.employee.user.name}</Text>
+            <Ionicons name="person-outline" size={16} color={defaultColors.textSecondary} />
+            <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>
+              {saleService.employee.user.name}
+            </Text>
           </View>
 
           {allDetails && (
             <View style={styles.infoContainer}>
-              <Ionicons name="document-text-outline" size={16} color={colors.textSecondary} />
-              <Text style={[styles.infoText, { color: colors.textSecondary }]} numberOfLines={2}>
+              <Ionicons name="document-text-outline" size={16} color={defaultColors.textSecondary} />
+              <Text style={[styles.infoText, { color: defaultColors.textSecondary }]} numberOfLines={2}>
                 {saleService.service.description}
               </Text>
             </View>
@@ -67,22 +68,24 @@ export function SaleServiceCard({ saleService, onPress, allDetails = true }: Sal
         <View style={styles.footer}>
           <View style={styles.amountContainer}>
             <View style={styles.infoContainer}>
-              <Ionicons name="pricetag-outline" size={16} color={colors.primary} />
-              <Text style={[styles.amountText, { color: colors.primary }]}>
+              <Ionicons name="pricetag-outline" size={16} color={defaultColors.textSecondary} />
+              <Text style={[styles.amountText, { color: defaultColors.textSecondary }]}>
                 Precio: ${saleService.service.price.toFixed(2)}
               </Text>
             </View>
 
             <View style={styles.infoContainer}>
-              <Ionicons name="calculator-outline" size={16} color={colors.primary} />
-              <Text style={[styles.amountText, { color: colors.primary }]}>Cantidad: {saleService.quantity}</Text>
+              <Ionicons name="calculator-outline" size={16} color={defaultColors.textSecondary} />
+              <Text style={[styles.amountText, { color: defaultColors.textSecondary }]}>
+                Cantidad: {saleService.quantity}
+              </Text>
             </View>
           </View>
 
           {allDetails && (
             <View style={[styles.infoContainer, styles.totalAmount]}>
-              <Ionicons name="cash-outline" size={18} color={colors.secondary} />
-              <Text style={[styles.totalText, { color: colors.secondary }]}>Total: ${totalAmount.toFixed(2)}</Text>
+              <Ionicons name="cash-outline" size={18} color={defaultColors.primary} />
+              <Text style={[styles.totalText, { color: defaultColors.primary }]}>Total: ${totalAmount.toFixed(2)}</Text>
             </View>
           )}
         </View>
@@ -95,8 +98,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 12,
     padding: 16,
-    marginBottom: 12,
-    ...shadowStyles.card
+    marginBottom: 12
   },
   header: {
     flexDirection: "row",

@@ -79,7 +79,7 @@ export function SalesGroupByDay({ date, reports }: SalesGroupByDayProps) {
               smallView
               onPress={() => {
                 if (report.id) {
-                  router.push(`/(tabs)/sales/current_day/${report.id}` as any);
+                  router.push(`/(tabs)/sales/${report.id}` as any);
                 }
               }}
             />

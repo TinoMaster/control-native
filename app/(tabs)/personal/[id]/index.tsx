@@ -7,7 +7,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEmployees } from "hooks/api/useEmployees";
 import useColors from "hooks/useColors";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { shadowStyles } from "styles/shadows";
 
 export default function EmployeeDetails() {
   const { id } = useLocalSearchParams();
@@ -189,8 +188,7 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 12,
     padding: 16,
-    marginBottom: 16,
-    ...shadowStyles.card
+    marginBottom: 16
   },
   employeeName: {
     fontSize: 24,

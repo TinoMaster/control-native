@@ -7,7 +7,7 @@ import { DebtItem } from "components/ui/items/DebtItem.ui";
 import { MachineItem } from "components/ui/items/MachineItem.ui";
 import { ServiceSaleItem } from "components/ui/items/ServiceSaleItem.ui";
 import LoadingPage from "components/ui/loaders/LoadingPage";
-import { SectionCard } from "components/ui/SectionCard";
+import { MyCard } from "components/ui/MyCard";
 import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useBusinessFinalSaleByMonth } from "hooks/api/useBusinessFinalSaleByMonth";
@@ -113,9 +113,9 @@ export default function DailyReportDetailScreen() {
         {/* Header */}
         <BackButtonPlusTitle title="Detalles del Reporte" />
 
-        <View className="p-4">
+        <View className="p-4 gap-4">
           {/* Información Principal */}
-          <SectionCard title="Información Principal">
+          <MyCard title="Información Principal" iconTitle="receipt-outline">
             <Text style={[styles.reportName, { color: defaultColors.text }]}>{report.name}</Text>
             <Text style={[styles.price, { color: defaultColors.primary }]}>{formatCurrency(report.total)}</Text>
             <Text style={[styles.date, { color: defaultColors.textSecondary }]}>
@@ -130,10 +130,10 @@ export default function DailyReportDetailScreen() {
                 <Text style={[styles.noteText, { color: defaultColors.text }]}>{report.note}</Text>
               </View>
             )}
-          </SectionCard>
+          </MyCard>
 
           {/* Desglose de Efectivo */}
-          <SectionCard title="Desglose de Efectivo">
+          <MyCard title="Desglose de Efectivo" iconTitle="cash-outline">
             <InfoRow label="Total Efectivo" bold={true} value={formatCurrency(report.total)} />
             <InfoRow label="Tarjetas" negative={true} error={true} value={formatCurrency(totalCards)} />
             <InfoRow label="Deudas" negative={true} error={true} value={formatCurrency(totalDebts)} />
@@ -147,11 +147,11 @@ export default function DailyReportDetailScreen() {
               bold={true}
               value={formatCurrency(calculateCash())}
             />
-          </SectionCard>
+          </MyCard>
 
           {/* Servicios Vendidos */}
           {report.servicesSales.length > 0 && (
-            <SectionCard title="Servicios Vendidos">
+            <MyCard title="Servicios Vendidos" iconTitle="cash-outline">
               {report.servicesSales.map((service) => (
                 <ServiceSaleItem key={service.id} service={service} />
               ))}
@@ -161,12 +161,12 @@ export default function DailyReportDetailScreen() {
                   {formatCurrency(totalServices)}
                 </Text>
               </View>
-            </SectionCard>
+            </MyCard>
           )}
 
           {/* Pagos con Tarjeta */}
           {cards.length > 0 && (
-            <SectionCard title="Pagos con Tarjeta">
+            <MyCard title="Pagos con Tarjeta" iconTitle="card-outline">
               {cards.map((card) => (
                 <CardItem key={card.id} card={card} />
               ))}
@@ -174,12 +174,12 @@ export default function DailyReportDetailScreen() {
                 <Text style={[styles.totalLabel, { color: defaultColors.text }]}>Total Tarjetas:</Text>
                 <Text style={[styles.totalValue, { color: defaultColors.primary }]}>{formatCurrency(totalCards)}</Text>
               </View>
-            </SectionCard>
+            </MyCard>
           )}
 
           {/* Deudas Registradas */}
           {report.debts.length > 0 && (
-            <SectionCard title="Deudas Registradas">
+            <MyCard title="Deudas Registradas" iconTitle="file-tray-full">
               {report.debts.map((debt) => (
                 <DebtItem key={debt.id} debt={debt} />
               ))}
@@ -187,12 +187,12 @@ export default function DailyReportDetailScreen() {
                 <Text style={[styles.totalLabel, { color: defaultColors.text }]}>Total Deudas:</Text>
                 <Text style={[styles.totalValue, { color: colors.error.light }]}>{formatCurrency(totalDebts)}</Text>
               </View>
-            </SectionCard>
+            </MyCard>
           )}
 
           {/* Trabajadores y Salarios */}
           {report.workers.length > 0 && (
-            <SectionCard title="Trabajadores y Salarios">
+            <MyCard title="Trabajadores y Salarios" iconTitle="people-outline">
               {report.workers.map((worker) => (
                 <WorkerItem key={worker.id} worker={worker} salary={workersAndSalaries[worker.user.name] || 0} />
               ))}
@@ -202,20 +202,20 @@ export default function DailyReportDetailScreen() {
                   {formatCurrency(totalSalaries)}
                 </Text>
               </View>
-            </SectionCard>
+            </MyCard>
           )}
 
           {/* Máquinas Utilizadas */}
           {report.machines.length > 0 && (
-            <SectionCard title="Máquinas Utilizadas">
+            <MyCard title="Máquinas Utilizadas" iconTitle="desktop-outline">
               {report.machines.map((machine) => (
                 <MachineItem key={machine.id} machine={machine} />
               ))}
-            </SectionCard>
+            </MyCard>
           )}
 
           {/* Información Adicional */}
-          <SectionCard title="Información Adicional">
+          <MyCard title="Información Adicional" iconTitle="information-circle-outline">
             <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>ID del Reporte: {report.id}</Text>
             <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>
               Negocio: {business?.name || "Sin nombre"}
@@ -230,7 +230,7 @@ export default function DailyReportDetailScreen() {
                 Última actualización: {new Date(report.updatedAt).toLocaleString()}
               </Text>
             )}
-          </SectionCard>
+          </MyCard>
         </View>
       </ScrollView>
 

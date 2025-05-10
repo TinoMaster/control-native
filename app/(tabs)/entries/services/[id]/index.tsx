@@ -8,7 +8,6 @@ import { useService } from "hooks/api/useServices";
 import useColors from "hooks/useColors";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import colors from "styles/colors";
-import { shadowStyles } from "styles/shadows";
 
 export default function ServiceDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -132,8 +131,7 @@ const styles = StyleSheet.create({
   card: {
     margin: 16,
     padding: 16,
-    borderRadius: 12,
-    ...shadowStyles.card
+    borderRadius: 12
   },
   serviceName: {
     fontSize: 24,

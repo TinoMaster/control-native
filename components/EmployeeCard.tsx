@@ -3,7 +3,6 @@ import useColors from "hooks/useColors";
 import { EmployeeModel } from "models/api/employee.model";
 import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { shadowStyles } from "styles/shadows";
 
 interface EmployeeCardProps {
   readonly employee: EmployeeModel;
@@ -68,12 +67,10 @@ export function EmployeeCard({ employee, onPress }: EmployeeCardProps) {
                 Fijo: ${employee.fixedSalary.toFixed(2)}
               </Text>
             </View>
-            
+
             <View style={styles.infoContainer}>
               <Ionicons name="trending-up-outline" size={16} color={colors.primary} />
-              <Text style={[styles.salaryText, { color: colors.primary }]}>
-                Comisión: {employee.percentSalary}%
-              </Text>
+              <Text style={[styles.salaryText, { color: colors.primary }]}>Comisión: {employee.percentSalary}%</Text>
             </View>
           </View>
         </View>
@@ -86,8 +83,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 12,
     padding: 16,
-    marginBottom: 12,
-    ...shadowStyles.card
+    marginBottom: 12
   },
   header: {
     flexDirection: "row",
