@@ -1,12 +1,11 @@
 import { MiniIconButton } from "components/ui/MIniIconButton";
 import { MyCard } from "components/ui/MyCard";
 import { MyModal } from "components/ui/modals/myModal";
-import { useRouter } from "expo-router";
 import useColors from "hooks/useColors";
 import { BusinessModel } from "models/api";
 import { MachineModel } from "models/api/machine.model";
 import { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 import { FormMachine } from "./FormMachine";
 
 interface Props {
@@ -15,14 +14,9 @@ interface Props {
 
 export function MachinesInfo({ business }: Props) {
   const defaultColors = useColors();
-  const router = useRouter();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedMachine, setSelectedMachine] = useState<MachineModel | undefined>(undefined);
   const [isEditing, setIsEditing] = useState(false);
-
-  const handleViewMachines = () => {
-    router.push(`/business/my_businesses/${business.id}/machines`);
-  };
 
   const handleAddMachine = () => {
     setIsEditing(false);
@@ -39,7 +33,7 @@ export function MachinesInfo({ business }: Props) {
     <>
       <MyCard title="Máquinas" iconTitle="hardware-chip-outline" iconButton="add" onPressIcon={handleAddMachine}>
         <View className="mt-2">
-          {business?.machines?.slice(0, 3).map((machine, index) => (
+          {business?.machines?.map((machine, index) => (
             <View key={machine.id ?? index} className="flex-row justify-between items-center pb-3 ">
               <View className="flex-row items-center">
                 <Text style={{ color: defaultColors.text }} className="text-base mr-2">
@@ -58,14 +52,6 @@ export function MachinesInfo({ business }: Props) {
               </View>
             </View>
           ))}
-
-          {(business?.machines?.length ?? 0) > 3 && (
-            <TouchableOpacity onPress={handleViewMachines} className="py-3 items-center">
-              <Text style={{ color: defaultColors.primary }} className="text-sm font-medium">
-                Ver todas las máquinas
-              </Text>
-            </TouchableOpacity>
-          )}
 
           {!(business?.machines?.length ?? 0) && (
             <Text style={{ color: defaultColors.textSecondary, textAlign: "center" }} className="text-base">

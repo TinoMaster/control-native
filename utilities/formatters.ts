@@ -1,3 +1,5 @@
+import { ERole } from "models/api";
+
 /**
  * Formatea un número como moneda (EUR)
  * @param amount - Cantidad a formatear
@@ -18,4 +20,25 @@ export const formatDate = (date: Date): string => {
     month: "long",
     day: "numeric"
   });
+};
+
+export const formatRole = (role: ERole): string => {
+  return traslateRole(role);
+};
+
+const traslateRole = (role: ERole): string => {
+  switch (role) {
+    case ERole.ADMIN:
+      return "Administrador";
+    case ERole.USER:
+      return "Usuario";
+    case ERole.OWNER:
+      return "Propietario";
+    case ERole.EMPLOYEE:
+      return "Empleado";
+    case ERole.SUPERADMIN:
+      return "Super Administrador";
+    default:
+      return "Usuario";
+  }
 };
