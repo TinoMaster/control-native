@@ -43,6 +43,7 @@ export default function TabsLayout() {
         tabBarActiveTintColor: colors.primary.light,
         tabBarInactiveTintColor: colors.darkMode.textSecondary.light,
         headerBackground: HeaderBackground,
+        tabBarLabelPosition: "below-icon",
         headerStyle: {
           backgroundColor: "transparent",
           elevation: 0,
