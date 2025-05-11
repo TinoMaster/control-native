@@ -4,7 +4,6 @@ import useColors from "hooks/useColors";
 import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
 import { MotiView } from "moti";
 import { Text, TouchableOpacity, View } from "react-native";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 interface DailyReportCardProps {
   readonly report: BusinessFinalSaleModelResponse;
@@ -13,11 +12,11 @@ interface DailyReportCardProps {
 }
 
 export function DailyReportCard({ report, onPress, smallView = false }: DailyReportCardProps) {
-  const colors = useColors();
+  const defaultColors = useColors();
   const createdAt = report.createdAt ? new Date(report.createdAt) : null;
   const pendingAmount = report.total - report.paid;
   const isPaid = pendingAmount <= 0;
-  const bgColor = { backgroundColor: adjustBrightness(colors.background, 18) };
+  const bgColor = { backgroundColor: defaultColors.background };
 
   // Common formatted date text
   const dateText = createdAt ? format(createdAt, "dd/MM/yyyy HH:mm") : "Fecha no disponible";
@@ -39,14 +38,14 @@ export function DailyReportCard({ report, onPress, smallView = false }: DailyRep
           <View className="flex-1 mr-2">
             <Text
               className={`${smallView ? "text-sm" : "text-base"} font-semibold mb-0.5`}
-              style={{ color: colors.text }}
+              style={{ color: defaultColors.text }}
               numberOfLines={1}
             >
               {report.name}
             </Text>
             <Text
               className={`${smallView ? "text-xs" : "text-sm"}`}
-              style={{ color: colors.textSecondary }}
+              style={{ color: defaultColors.textSecondary }}
               numberOfLines={1}
             >
               {dateText}
@@ -55,17 +54,20 @@ export function DailyReportCard({ report, onPress, smallView = false }: DailyRep
 
           {/* Amount display */}
           <View className="items-end">
-            <Text className={`${smallView ? "text-sm" : "text-base"} font-semibold`} style={{ color: colors.primary }}>
+            <Text
+              className={`${smallView ? "text-sm" : "text-base"} font-semibold`}
+              style={{ color: defaultColors.primary }}
+            >
               ${report.total.toFixed(2)}
             </Text>
             {!isPaid && (
-              <Text className={`${smallView ? "text-xs" : "text-sm"}`} style={{ color: colors.secondary }}>
+              <Text className={`${smallView ? "text-xs" : "text-sm"}`} style={{ color: defaultColors.secondary }}>
                 ${pendingAmount.toFixed(2)}
               </Text>
             )}
           </View>
 
-          {!smallView && <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />}
+          {!smallView && <Ionicons name="chevron-forward" size={24} color={defaultColors.textSecondary} />}
         </View>
 
         {/* Content section - Only in detailed view */}
@@ -75,8 +77,8 @@ export function DailyReportCard({ report, onPress, smallView = false }: DailyRep
             <IconWithCount name="construct-outline" count={report.machines.length} label="máquinas" />
             {Boolean(report.note) && (
               <View className="flex-row items-center gap-2 mb-2">
-                <Ionicons name="document-text-outline" size={16} color={colors.textSecondary} />
-                <Text className="text-sm" style={{ color: colors.textSecondary }} numberOfLines={1}>
+                <Ionicons name="document-text-outline" size={16} color={defaultColors.textSecondary} />
+                <Text className="text-sm" style={{ color: defaultColors.textSecondary }} numberOfLines={1}>
                   {report.note}
                 </Text>
               </View>
@@ -99,7 +101,7 @@ export function DailyReportCard({ report, onPress, smallView = false }: DailyRep
               <Ionicons
                 name={isPaid ? "checkmark-circle-outline" : "alert-circle-outline"}
                 size={14}
-                color={isPaid ? colors.primary : colors.secondary}
+                color={isPaid ? defaultColors.primary : defaultColors.secondary}
               />
             </>
           ) : (
@@ -107,8 +109,8 @@ export function DailyReportCard({ report, onPress, smallView = false }: DailyRep
             <>
               <View className="flex-1">
                 <View className="flex-row items-center gap-2 mb-1">
-                  <Ionicons name="cash-outline" size={16} color={colors.primary} />
-                  <Text className="text-sm font-medium" style={{ color: colors.primary }}>
+                  <Ionicons name="cash-outline" size={16} color={defaultColors.primary} />
+                  <Text className="text-sm font-medium" style={{ color: defaultColors.primary }}>
                     Total: ${report.total.toFixed(2)}
                   </Text>
                 </View>
@@ -116,17 +118,20 @@ export function DailyReportCard({ report, onPress, smallView = false }: DailyRep
                   <Ionicons
                     name={isPaid ? "checkmark-circle-outline" : "alert-circle-outline"}
                     size={16}
-                    color={isPaid ? colors.primary : colors.secondary}
+                    color={isPaid ? defaultColors.primary : defaultColors.secondary}
                   />
-                  <Text className="text-sm font-medium" style={{ color: isPaid ? colors.primary : colors.secondary }}>
+                  <Text
+                    className="text-sm font-medium"
+                    style={{ color: isPaid ? defaultColors.primary : defaultColors.secondary }}
+                  >
                     {isPaid ? "Pagado" : `Pendiente: $${pendingAmount.toFixed(2)}`}
                   </Text>
                 </View>
               </View>
               {report.cards.length > 0 && (
                 <View className="flex-row items-center gap-2">
-                  <Ionicons name="card-outline" size={16} color={colors.textSecondary} />
-                  <Text className="text-sm" style={{ color: colors.textSecondary }}>
+                  <Ionicons name="card-outline" size={16} color={defaultColors.textSecondary} />
+                  <Text className="text-sm" style={{ color: defaultColors.textSecondary }}>
                     {report.cards.length} {report.cards.length === 1 ? "tarjeta" : "tarjetas"}
                   </Text>
                 </View>

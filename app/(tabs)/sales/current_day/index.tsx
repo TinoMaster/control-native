@@ -3,7 +3,7 @@ import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
-import { DailyReportCard } from "features/sales/components/dailyReportCard";
+import { DailyReportCardLarge } from "features/sales/components/DailyReportCardLarge";
 import { QueryTypeBusinessFinalSale, useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
 import useColors from "hooks/useColors";
 import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
@@ -17,7 +17,7 @@ export default function CurrentDay() {
   const { reports, loadingReports } = useBusinessFinalSale(QueryTypeBusinessFinalSale.DAILY);
 
   const renderReport = (report: BusinessFinalSaleModelResponse) => (
-    <DailyReportCard
+    <DailyReportCardLarge
       report={report}
       onPress={() => {
         if (report.id) {

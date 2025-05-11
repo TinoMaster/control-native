@@ -7,7 +7,7 @@ import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.mod
 import { useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
-import { DailyReportCard } from "./dailyReportCard";
+import { DailyReportCardSmall } from "./DailyReportCardSmall";
 
 interface SalesGroupByDayProps {
   readonly date: string;
@@ -73,10 +73,9 @@ export function SalesGroupByDay({ date, reports }: SalesGroupByDayProps) {
       {isExpanded && (
         <View style={styles.expandedContent}>
           {reports.map((report) => (
-            <DailyReportCard
+            <DailyReportCardSmall
               key={report.id}
               report={report}
-              smallView
               onPress={() => {
                 if (report.id) {
                   router.push(`/(tabs)/sales/${report.id}` as any);

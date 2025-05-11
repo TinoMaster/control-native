@@ -94,7 +94,7 @@ export default function ReviewFinalReport() {
 
   return (
     <ScrollView className="flex-1" style={{ paddingHorizontal: 16 }}>
-      <View className="py-1">
+      <View className="py-1 gap-4">
         <View className="flex-row justify-between items-center mb-6">
           <Text style={{ color: defaultColors.text }} className="text-xl font-bold text-center">
             Resumen del Reporte Diario
@@ -166,7 +166,7 @@ export default function ReviewFinalReport() {
         {report.debts?.length > 0 && (
           <MyCard title="Deudas Registradas">
             {report.debts.map((debt) => (
-              <DebtItem key={crypto.randomUUID()} debt={debt} />
+              <DebtItem key={debt.name + debt.total} debt={debt} />
             ))}
           </MyCard>
         )}
