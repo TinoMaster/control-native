@@ -17,7 +17,14 @@ import { EmployeeModel } from "models/api/employee.model";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import colors from "styles/colors";
-import { calculateEmployeeSalaries } from "utilities/employee.utils";
+import {
+  calculateFinalCash,
+  calculateSalaryFromReport,
+  getTotalCards,
+  getTotalDebts,
+  getTotalServices,
+  getWorkersAndSalaries
+} from "utilities/helpers/businessFinalSale.utils";
 import { formatCurrency } from "utilities/formatters";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
@@ -64,30 +71,40 @@ export default function DailyReportDetailScreen() {
     return null;
   }
 
+  const isTodayReport = () => {
+    if (!report.createdAt) return false;
+
+    const reportDate = new Date(report.createdAt);
+    const today = new Date();
+
+    // Comparar solo día, mes y año
+    return (
+      reportDate.getDate() === today.getDate() &&
+      reportDate.getMonth() === today.getMonth() &&
+      reportDate.getFullYear() === today.getFullYear()
+    );
+  };
+
   // Calcular totales
-  const totalCards = report.cards.reduce((acc, card) => acc + card.amount, 0);
-  const totalDebts = report.debts.reduce((acc, debt) => acc + debt.total, 0);
+  const totalCards = getTotalCards(report.cards);
+  const totalSalary = calculateSalaryFromReport(report);
+  const totalDebts = getTotalDebts(report.debts);
+  const totalServices = getTotalServices(report.servicesSales || []);
 
-  // Calcular salarios
-  const salaryCalculation = calculateEmployeeSalaries(report.workers, report.total || 0);
-  const totalSalaries = salaryCalculation.totalSalaries;
-
-  // Convertir al formato requerido por el componente
-  const workersAndSalaries = salaryCalculation.employees.reduce((acc, worker) => {
-    acc[worker.name] = worker.salary;
-    return acc;
-  }, {} as Record<string, number>);
-
-  // Calcular servicios
-  const totalServices = report.servicesSales.reduce(
-    (acc, service) => acc + service.service.price * service.quantity,
-    0
-  );
+  /* Calcular salarios por trabajadores solo me sirve cuando la venta es del dia actual,
+  esto pasa porque es la unica forma de asegurarnos de que los salarios estén correctamente calculados,
+  ya que en la base de datos no se guarda un registro del salario del trabajador del dia en cuestión */
+  const workersAndSalaries = getWorkersAndSalaries(report.workers, report.total || 0);
 
   // Calcular efectivo
   const calculateCash = () => {
     // Efectivo = Total - (Tarjetas + Deudas + Salarios)
-    return (report.total || 0) - (totalCards + totalDebts + totalSalaries);
+    return calculateFinalCash({
+      totalReport: report.total || 0,
+      totalCards,
+      totalDebts,
+      totalSalary
+    });
   };
 
   const handleDeleteReport = () => {
@@ -106,10 +123,9 @@ export default function DailyReportDetailScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+      {/* Header */}
+      <BackButtonPlusTitle title="Detalles del Reporte" />
       <ScrollView style={styles.scrollView}>
-        {/* Header */}
-        <BackButtonPlusTitle title="Detalles del Reporte" />
-
         <View className="p-4 gap-4">
           {/* Información Principal */}
           <MyCard title="Información Principal" iconTitle="receipt-outline">
@@ -134,7 +150,7 @@ export default function DailyReportDetailScreen() {
             <InfoRow label="Total Efectivo" bold={true} value={formatCurrency(report.total)} />
             <InfoRow label="Tarjetas" negative={true} error={true} value={formatCurrency(totalCards)} />
             <InfoRow label="Deudas" negative={true} error={true} value={formatCurrency(totalDebts)} />
-            <InfoRow label="Salarios" negative={true} error={true} value={formatCurrency(totalSalaries)} />
+            <InfoRow label="Salarios" negative={true} error={true} value={formatCurrency(totalSalary)} />
             <InfoRow
               label="Efectivo Final"
               positive={calculateCash() > 0}
@@ -188,16 +204,14 @@ export default function DailyReportDetailScreen() {
           )}
 
           {/* Trabajadores y Salarios */}
-          {report.workers.length > 0 && (
+          {report.workers.length > 0 && isTodayReport() && (
             <MyCard title="Trabajadores y Salarios" iconTitle="people-outline">
               {report.workers.map((worker) => (
                 <WorkerItem key={worker.id} worker={worker} salary={workersAndSalaries[worker.user.name] || 0} />
               ))}
               <View style={styles.totalRow}>
                 <Text style={[styles.totalLabel, { color: defaultColors.text }]}>Total Salarios:</Text>
-                <Text style={[styles.totalValue, { color: defaultColors.primary }]}>
-                  {formatCurrency(totalSalaries)}
-                </Text>
+                <Text style={[styles.totalValue, { color: defaultColors.primary }]}>{formatCurrency(totalSalary)}</Text>
               </View>
             </MyCard>
           )}

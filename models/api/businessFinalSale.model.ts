@@ -19,6 +19,8 @@ export interface BusinessFinalSaleModelResponse {
   servicesSales: ServiceSaleModel[];
   doneBy: number;
   fund: number;
+  fixedSalary?: number;
+  percentSalary?: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -36,6 +38,8 @@ export interface BusinessFinalSaleModel {
   servicesSales: ServiceSaleModel[];
   doneBy: number;
   fund: number;
+  fixedSalary?: number;
+  percentSalary?: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -54,6 +58,8 @@ export interface BusinessFinalSaleModelToCreate {
   servicesSales: ServiceSaleModel[];
   doneBy: number;
   fund: number;
+  fixedSalary?: number;
+  percentSalary?: number;
   createdAt?: Date;
   updatedAt?: Date;
 }

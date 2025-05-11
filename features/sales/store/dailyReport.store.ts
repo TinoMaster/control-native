@@ -107,7 +107,9 @@ export const useDailyReportStore = create<DailyReportState>((set, get) => ({
       return {
         report: {
           ...state.report,
-          workers: workers
+          workers: workers,
+          fixedSalary: workers.reduce((acc, worker) => acc + worker.fixedSalary, 0),
+          percentSalary: workers.reduce((acc, worker) => acc + worker.percentSalary, 0)
         }
       };
     });

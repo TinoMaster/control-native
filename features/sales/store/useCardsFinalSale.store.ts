@@ -1,5 +1,5 @@
 import { CardPayment } from "models/api/businessFinalSale.model";
-import { useDailyReportStore } from "store/dailyReport.store";
+import { useDailyReportStore } from "features/sales/store/dailyReport.store";
 import { create } from "zustand";
 
 interface CardsFinalSaleState {

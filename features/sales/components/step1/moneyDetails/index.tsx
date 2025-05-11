@@ -3,7 +3,7 @@ import GenericInput from "components/forms/generic-input";
 import { moneyDetailsSchema, MoneyDetailsSchemaOutput } from "features/sales/schema/moneyDetails.schema";
 import { Resolver, useForm } from "react-hook-form";
 import { View } from "react-native";
-import { useDailyReportStore } from "store/dailyReport.store";
+import { useDailyReportStore } from "features/sales/store/dailyReport.store";
 import { formatNumericInput } from "utilities/helpers/globals.helpers";
 
 // --- Main Component ---

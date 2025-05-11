@@ -8,14 +8,21 @@ import { WorkerItem } from "components/ui/items/WorkerItem.ui";
 import { MyModal } from "components/ui/modals/myModal";
 import MyButton from "components/ui/MyButton";
 import { MyCard } from "components/ui/MyCard";
+import { useDailyReportStore } from "features/sales/store/dailyReport.store";
 import { useMachineStates } from "hooks/api/useMachineStates";
 import useColors from "hooks/useColors";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
-import { useDailyReportStore } from "store/dailyReport.store";
-import { calculateEmployeeSalaries } from "utilities/employee.utils";
 import { formatCurrency } from "utilities/formatters";
+import {
+  calculateFinalCash,
+  calculateSalaryFromReport,
+  getTotalCards,
+  getTotalDebts,
+  getTotalServices,
+  getWorkersAndSalaries
+} from "utilities/helpers/businessFinalSale.utils";
 import {
   adjustBrightness,
   differenceBetweenFunds,
@@ -33,7 +40,6 @@ export default function ReviewFinalReport() {
 
   const [noteModalVisible, setNoteModalVisible] = useState(false);
   const [noteText, setNoteText] = useState("");
-  const [totalSalaries, setTotalSalaries] = useState(0);
   const defaultColors = useColors();
 
   // Inicializar el texto de la nota con el valor existente en el reporte
@@ -49,29 +55,23 @@ export default function ReviewFinalReport() {
   };
 
   const totalCards = useMemo(() => {
-    return cards?.reduce((acc, card) => acc + card.amount, 0) ?? 0;
+    return getTotalCards(cards);
   }, [cards]);
 
+  const totalSalary = useMemo(() => {
+    return calculateSalaryFromReport(report);
+  }, [report]);
+
   const workersAndSalaries = useMemo(() => {
-    // Calcular salarios usando la nueva utilidad
-    const salaryCalculation = calculateEmployeeSalaries(report.workers, report.total || 0);
-
-    // Convertir al formato requerido por el componente
-    const workers = salaryCalculation.employees.reduce((acc, worker) => {
-      acc[worker.name] = worker.salary;
-      return acc;
-    }, {} as Record<string, number>);
-
-    setTotalSalaries(salaryCalculation.totalSalaries);
-    return workers;
+    return getWorkersAndSalaries(report.workers, report.total || 0);
   }, [report.workers, report.total]);
 
   const totalDebts = useMemo(() => {
-    return report.debts?.reduce((acc, debt) => acc + debt.total, 0) ?? 0;
+    return getTotalDebts(report.debts || []);
   }, [report.debts]);
 
   const totalServices = useMemo(() => {
-    return report.servicesSales?.reduce((acc, service) => acc + service.service.price * service.quantity, 0) ?? 0;
+    return getTotalServices(report.servicesSales || []);
   }, [report.servicesSales]);
 
   const fundDifference = useMemo(() => {
@@ -83,10 +83,14 @@ export default function ReviewFinalReport() {
   }, [todayMachineStates, lastMachineState]);
 
   const calculateCash = useCallback(() => {
-    // Efectivo = Total - (Tarjetas + Deudas + Salarios) + fundDifference
-    // Si fundDifference es positivo, sumarlo; si es negativo, se restar  automaticamente
-    return (report.total || 0) - (totalCards + totalDebts + totalSalaries) + fundDifference;
-  }, [report.total, totalCards, totalDebts, totalSalaries, fundDifference]);
+    return calculateFinalCash({
+      totalReport: report.total || 0,
+      totalCards,
+      totalDebts,
+      totalSalary,
+      fundsDifference: fundDifference
+    });
+  }, [report.total, totalCards, totalDebts, totalSalary, fundDifference]);
 
   return (
     <ScrollView className="flex-1" style={{ paddingHorizontal: 16 }}>
@@ -104,38 +108,6 @@ export default function ReviewFinalReport() {
             <Feather name={report.note ? "edit-3" : "plus-circle"} size={24} color={defaultColors.primary} />
           </TouchableOpacity>
         </View>
-
-        {/* Modal para agregar/editar nota */}
-        <MyModal
-          isVisible={noteModalVisible}
-          onClose={() => setNoteModalVisible(false)}
-          title={report.note ? "Editar nota" : "Agregar nota"}
-          footerContent={
-            <View style={{ flexDirection: "row", justifyContent: "flex-end", gap: 8 }}>
-              <MyButton label="Cancelar" onPress={() => setNoteModalVisible(false)} />
-              <MyButton label="Guardar" onPress={handleSaveNote} />
-            </View>
-          }
-        >
-          <TextInput
-            style={{
-              borderColor: defaultColors.textSecondary,
-              borderWidth: 1,
-              borderRadius: 8,
-              padding: 12,
-              color: defaultColors.text,
-              backgroundColor: adjustBrightness(defaultColors.background, 10),
-              height: 120,
-              textAlignVertical: "top"
-            }}
-            multiline
-            value={noteText}
-            onChangeText={setNoteText}
-            placeholder="Escribe una nota para el reporte..."
-            placeholderTextColor={defaultColors.textSecondary}
-            accessibilityLabel="Campo de texto para nota"
-          />
-        </MyModal>
 
         <MyCard title="Información General">
           <InfoRow label="Negocio" value={business?.name || "Sin nombre"} />
@@ -164,7 +136,7 @@ export default function ReviewFinalReport() {
           <InfoRow label="Total Efectivo" bold={true} value={formatCurrency(report.total ?? 0)} />
           <InfoRow label="Tarjetas" negative={true} error={true} value={formatCurrency(totalCards)} />
           <InfoRow label="Deudas" negative={true} error={true} value={formatCurrency(totalDebts)} />
-          <InfoRow label="Salarios" negative={true} error={true} value={formatCurrency(totalSalaries)} />
+          <InfoRow label="Salarios" negative={true} error={true} value={formatCurrency(totalSalary)} />
           <InfoRow
             label="Diferencia entre fondos (hoy - anterior)"
             positive={fundDifference > 0}
@@ -223,6 +195,38 @@ export default function ReviewFinalReport() {
             })}
           </MyCard>
         )}
+
+        {/* Modal para agregar/editar nota */}
+        <MyModal
+          isVisible={noteModalVisible}
+          onClose={() => setNoteModalVisible(false)}
+          title={report.note ? "Editar nota" : "Agregar nota"}
+          footerContent={
+            <View style={{ flexDirection: "row", justifyContent: "flex-end", gap: 8 }}>
+              <MyButton label="Cancelar" onPress={() => setNoteModalVisible(false)} />
+              <MyButton label="Guardar" onPress={handleSaveNote} />
+            </View>
+          }
+        >
+          <TextInput
+            style={{
+              borderColor: defaultColors.textSecondary,
+              borderWidth: 1,
+              borderRadius: 8,
+              padding: 12,
+              color: defaultColors.text,
+              backgroundColor: adjustBrightness(defaultColors.background, 10),
+              height: 120,
+              textAlignVertical: "top"
+            }}
+            multiline
+            value={noteText}
+            onChangeText={setNoteText}
+            placeholder="Escribe una nota para el reporte..."
+            placeholderTextColor={defaultColors.textSecondary}
+            accessibilityLabel="Campo de texto para nota"
+          />
+        </MyModal>
       </View>
     </ScrollView>
   );

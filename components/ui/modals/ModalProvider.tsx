@@ -1,13 +1,28 @@
-// components/ModalProvider.tsx
+// components/ui/modals/ModalProvider.tsx
 import useColors from "hooks/useColors";
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect } from "react";
+import { BackHandler, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useModalStore } from "store/modal.store";
-import { MyModal } from "./myModal";
 import colors from "styles/colors";
+import { MyModal } from "./myModal";
 
 export function ModalProvider({ children }: { readonly children: React.ReactNode }) {
   const { isVisible, type, title, message, confirmOptions, customContent, hideModal } = useModalStore();
+
+  // Handle hardware back button on Android
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+        if (isVisible) {
+          hideModal();
+          return true; // Prevent default behavior
+        }
+        return false; // Let default behavior happen
+      });
+
+      return () => backHandler.remove();
+    }
+  }, [isVisible, hideModal]);
 
   const defaultColors = useColors();
 
@@ -54,10 +69,16 @@ export function ModalProvider({ children }: { readonly children: React.ReactNode
       <Text style={[styles.message, { color: defaultColors.textSecondary }]}>{message}</Text>
     );
 
+  // Render only the children when modal is not visible to improve performance
+  if (!isVisible) {
+    return children;
+  }
+
+  // When modal is visible, render both children and modal
+  // The modal component itself handles the overlay and positioning
   return (
     <>
       {children}
-
       <MyModal isVisible={isVisible} onClose={hideModal} title={title} footerContent={footerContent}>
         {content}
       </MyModal>

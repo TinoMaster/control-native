@@ -1,6 +1,6 @@
 import useColors from "hooks/useColors";
 import { Text, View } from "react-native";
-import { useDailyReportStore } from "store/dailyReport.store";
+import { useDailyReportStore } from "features/sales/store/dailyReport.store";
 
 export function StepsHeader() {
   const currentStep = useDailyReportStore((state) => state.currentStep);

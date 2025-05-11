@@ -1,5 +1,6 @@
 import { useNotification } from "contexts/NotificationContext";
 import { useRouter } from "expo-router";
+import { useDailyReportStore } from "features/sales/store/dailyReport.store";
 import { QueryTypeBusinessFinalSale, useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
 import {
   BusinessFinalSaleModel,
@@ -11,7 +12,6 @@ import { MachineModel } from "models/api/machine.model";
 import { MachineStateModel } from "models/api/machineState.model";
 import { useAuthStore } from "store/auth.store";
 import { useBusinessStore } from "store/business.store";
-import { useDailyReportStore } from "store/dailyReport.store";
 import { useCardsFinalSaleStore } from "../store/useCardsFinalSale.store";
 import { useDebtsFinalSaleStore } from "../store/useDebtsFinalSale.store";
 import { useMachineFinalSaleStore } from "../store/useMachineFinalSale.store";

@@ -1,5 +1,5 @@
 import { MachineStateModel } from "models/api/machineState.model";
-import { useDailyReportStore } from "store/dailyReport.store";
+import { useDailyReportStore } from "features/sales/store/dailyReport.store";
 import { create } from "zustand";
 
 interface MachineStateSelectionState {

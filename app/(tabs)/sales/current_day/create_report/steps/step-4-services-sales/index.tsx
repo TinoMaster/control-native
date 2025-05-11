@@ -4,7 +4,7 @@ import { useServiceSale } from "hooks/api/useServiceSale";
 import useColors from "hooks/useColors";
 import { useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { useDailyReportStore } from "store/dailyReport.store";
+import { useDailyReportStore } from "features/sales/store/dailyReport.store";
 
 export default function Step4ServicesSales() {
   const { serviceSales } = useServiceSale();

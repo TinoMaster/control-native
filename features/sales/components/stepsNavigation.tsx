@@ -3,7 +3,7 @@ import MyButton from "components/ui/MyButton";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
-import { useDailyReportStore } from "store/dailyReport.store";
+import { useDailyReportStore } from "features/sales/store/dailyReport.store";
 import { useFinalizeReport } from "../hooks/useFinalizeReport";
 
 const toShowInModal = (step: number) => {

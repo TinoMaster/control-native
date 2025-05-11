@@ -2,7 +2,7 @@ import { StepsHeader } from "features/sales/components/stepsHeader";
 import StepsNavigation from "features/sales/components/stepsNavigation";
 import useColors from "hooks/useColors";
 import { View } from "react-native";
-import { useDailyReportStore } from "store/dailyReport.store";
+import { useDailyReportStore } from "features/sales/store/dailyReport.store";
 import Step1Details from "./steps/step-1-details";
 import Step2Debts from "./steps/step-2-debts";
 import Step3Cards from "./steps/step-3-cards";
