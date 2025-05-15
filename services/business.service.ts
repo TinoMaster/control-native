@@ -37,6 +37,18 @@ class BusinessService {
     }
   }
 
+  async updateBusiness(id: string, business: BusinessModel): Promise<IResponse<BusinessModel>> {
+    try {
+      return await requestService.fetch<BusinessModel>(`${this.urlBase}/owner/businesses/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(business)
+      });
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError(error);
+    }
+  }
+
   async deleteBusiness(id: string): Promise<IResponse<null>> {
     try {
       return await requestService.fetch<null>(`${this.urlBase}/owner/businesses/${id}`, {
