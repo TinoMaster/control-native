@@ -5,7 +5,6 @@ import { format } from "date-fns";
 import { useServiceSale } from "hooks/api/useServiceSale";
 import useColors from "hooks/useColors";
 import { ServiceSaleModel } from "models/api/serviceSale.model";
-import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useModalStore } from "store/modal.store";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
@@ -51,20 +50,7 @@ export function SaleServiceCard({ saleService, onPress, allDetails = true }: Sal
   };
 
   return (
-    <MotiView
-      from={{
-        opacity: 0,
-        scale: 0.95
-      }}
-      animate={{
-        opacity: 1,
-        scale: 1
-      }}
-      transition={{
-        type: "timing",
-        duration: 300
-      }}
-    >
+    <View>
       <TouchableOpacity
         onPress={onPress}
         style={[styles.container, { backgroundColor: adjustBrightness(defaultColors.background, 18) }]}
@@ -137,7 +123,7 @@ export function SaleServiceCard({ saleService, onPress, allDetails = true }: Sal
           )}
         </View>
       </TouchableOpacity>
-    </MotiView>
+    </View>
   );
 }
 

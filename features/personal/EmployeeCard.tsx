@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import useColors from "hooks/useColors";
 import { EmployeeModel } from "models/api/employee.model";
-import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface EmployeeCardProps {
@@ -13,20 +12,7 @@ export function EmployeeCard({ employee, onPress }: EmployeeCardProps) {
   const colors = useColors();
 
   return (
-    <MotiView
-      from={{
-        opacity: 0,
-        scale: 0.95
-      }}
-      animate={{
-        opacity: 1,
-        scale: 1
-      }}
-      transition={{
-        type: "timing",
-        duration: 300
-      }}
-    >
+    <View>
       <TouchableOpacity
         onPress={onPress}
         style={[styles.container, { backgroundColor: colors.background }]}
@@ -75,7 +61,7 @@ export function EmployeeCard({ employee, onPress }: EmployeeCardProps) {
           </View>
         </View>
       </TouchableOpacity>
-    </MotiView>
+    </View>
   );
 }
 

@@ -2,7 +2,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { format } from "date-fns";
 import useColors from "hooks/useColors";
 import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
-import { MotiView } from "moti";
 import { Text, TouchableOpacity, View } from "react-native";
 
 interface DailyReportCardSmallProps {
@@ -21,11 +20,7 @@ export function DailyReportCardSmall({ report, onPress }: DailyReportCardSmallPr
   const dateText = createdAt ? format(createdAt, "dd/MM/yyyy HH:mm") : "Fecha no disponible";
 
   return (
-    <MotiView
-      from={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ type: "timing", duration: 300 }}
-    >
+    <View>
       <TouchableOpacity onPress={onPress} className="rounded-xl p-3 mb-2 shadow-sm" style={bgColor} activeOpacity={0.8}>
         {/* Header */}
         <View className="flex-row justify-between items-start mb-2">
@@ -63,7 +58,7 @@ export function DailyReportCardSmall({ report, onPress }: DailyReportCardSmallPr
           />
         </View>
       </TouchableOpacity>
-    </MotiView>
+    </View>
   );
 }
 

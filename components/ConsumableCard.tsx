@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import useColors from "hooks/useColors";
 import { ConsumableModel } from "models/api/consumables.model";
-import { MotiView } from "moti";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface ConsumableCardProps {
@@ -13,20 +12,7 @@ export default function ConsumableCard({ consumable, onPress }: ConsumableCardPr
   const colors = useColors();
 
   return (
-    <MotiView
-      from={{
-        opacity: 0,
-        scale: 0.95
-      }}
-      animate={{
-        opacity: 1,
-        scale: 1
-      }}
-      transition={{
-        type: "timing",
-        duration: 300
-      }}
-    >
+    <View>
       <TouchableOpacity
         onPress={onPress}
         style={[styles.container, { backgroundColor: colors.background }]}
@@ -66,7 +52,7 @@ export default function ConsumableCard({ consumable, onPress }: ConsumableCardPr
           </Text>
         )}
       </TouchableOpacity>
-    </MotiView>
+    </View>
   );
 }
 

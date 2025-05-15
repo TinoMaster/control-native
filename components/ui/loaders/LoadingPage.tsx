@@ -1,5 +1,4 @@
 import useColors from "hooks/useColors";
-import { MotiView } from "moti";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
 interface LoadingPageProps {
@@ -14,24 +13,10 @@ export default function LoadingPage({ message = "Cargando...", absolute = false 
     return (
       <View style={[styles.absoluteContainer]}>
         <View style={[styles.overlay, { backgroundColor: colors.background + "99" }]}>
-          <MotiView
-            from={{
-              opacity: 0,
-              scale: 0.9
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1
-            }}
-            transition={{
-              type: "timing",
-              duration: 300
-            }}
-            style={styles.content}
-          >
+          <View style={styles.content}>
             <ActivityIndicator size="large" color={colors.primary} />
             <Text style={[styles.text, { color: colors.text }]}>{message}</Text>
-          </MotiView>
+          </View>
         </View>
       </View>
     );
@@ -39,24 +24,10 @@ export default function LoadingPage({ message = "Cargando...", absolute = false 
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <MotiView
-        from={{
-          opacity: 0,
-          scale: 0.9
-        }}
-        animate={{
-          opacity: 1,
-          scale: 1
-        }}
-        transition={{
-          type: "timing",
-          duration: 300
-        }}
-        style={styles.content}
-      >
+      <View style={styles.content}>
         <ActivityIndicator size="large" color={colors.primary} />
         <Text style={[styles.text, { color: colors.text }]}>{message}</Text>
-      </MotiView>
+      </View>
     </View>
   );
 }
