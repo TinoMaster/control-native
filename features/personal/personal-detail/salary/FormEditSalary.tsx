@@ -50,7 +50,7 @@ export function FormEditSalary({ setModalVisible, employee }: Props) {
     defaultValues: {
       fixedSalary: employee.fixedSalary.toString(),
       // Multiplicamos por 100 para mostrar como porcentaje
-      percentSalary: (employee.percentSalary * 100).toString()
+      percentSalary: (employee.percentSalary * 100).toFixed(0)
     }
   });
 

@@ -32,7 +32,7 @@ export const SalarySection = ({ employee }: SalarySectionProps) => {
         <View className="flex-row items-center mb-2">
           <Ionicons name="trending-up-outline" size={18} color={defaultColors.textSecondary} />
           <Text className="text-sm ml-2 leading-5" style={{ color: defaultColors.textSecondary }}>
-            Comisión: {employee.percentSalary * 100}%
+            Comisión: {(employee.percentSalary * 100).toFixed(0)}%
           </Text>
         </View>
       </MyCard>
