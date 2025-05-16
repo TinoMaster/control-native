@@ -54,7 +54,8 @@ export const useBusinessStore = create<BusinessState>((set, get) => ({
 
   updateBusiness: (id, partialBusiness) => {
     set((state) => ({
-      businessList: state.businessList.map((b) => (b.id === id ? { ...b, ...partialBusiness } : b))
+      businessList: state.businessList.map((b) => (b.id === id ? { ...b, ...partialBusiness } : b)),
+      business: { ...state.business, ...partialBusiness }
     }));
   },
 

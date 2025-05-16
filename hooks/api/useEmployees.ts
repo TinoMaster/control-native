@@ -7,6 +7,8 @@ import { useBusinessStore } from "store/business.store";
 
 export const useEmployees = () => {
   const businessId = useBusinessStore((state) => state.businessId);
+  const business = useBusinessStore((state) => state.business);
+  const updateBusiness = useBusinessStore((state) => state.updateBusiness);
   const queryClient = useQueryClient();
   const { showNotification } = useNotification();
 
@@ -31,8 +33,14 @@ export const useEmployees = () => {
   const { mutate: saveEmployee, isPending: loadingSave } = useMutation({
     mutationFn: (employee: EmployeeModel) => employeeService.saveEmployee(employee),
     onSuccess: (response) => {
-      if (response.status === 200) {
+      if (response.status === 200 && response.data) {
         showNotification("Empleado guardado correctamente", "success");
+        if (businessId && business) {
+          console.log("business se ejecuto", response.data);
+          updateBusiness(businessId, {
+            users: [...(business.users ?? []), Number(response.data.user.id)]
+          });
+        }
         queryClient.invalidateQueries({ queryKey: ["employees"] });
         router.replace("/(tabs)/personal");
       } else {

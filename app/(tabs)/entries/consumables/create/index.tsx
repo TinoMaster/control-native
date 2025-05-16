@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import GenericInput from "components/forms/generic-input";
 import { SelectModal } from "components/ui/modals/selectModal";
-import { useRouter } from "expo-router";
 import { useConsumables } from "hooks/api/useConsumables";
 import useColors from "hooks/useColors";
 import { ConsumableModel } from "models/api/consumables.model";
@@ -16,11 +15,9 @@ import colors from "styles/colors";
 import { formatNumericInput } from "utilities/helpers/globals.helpers";
 
 export default function CreateConsumable() {
-  const router = useRouter();
   const defaultColors = useColors();
   const { business } = useBusinessStore();
-  const { onSaveConsumable } = useConsumables();
-  const [loading, setLoading] = useState(false);
+  const { onSaveConsumable, loadingSave } = useConsumables();
   const [showUnitModal, setShowUnitModal] = useState(false);
 
   const units: EUnit[] = Object.values(EUnit);
@@ -49,13 +46,11 @@ export default function CreateConsumable() {
   };
 
   const onSubmit = (data: ConsumableSchema) => {
-    setLoading(true);
     // Asegurar que los valores son números válidos
-    const priceValue = parseFloat(data.price) || 0;
-    const stockValue = parseFloat(data.stock) || 0;
+    const priceValue = parseFloat(data.price) ?? 0;
+    const stockValue = parseFloat(data.stock) ?? 0;
 
     const consumable: ConsumableModel = {
-      id: -1,
       name: data.name,
       description: data.description ?? "",
       price: parseFloat((priceValue / stockValue).toFixed(2)),
@@ -64,15 +59,7 @@ export default function CreateConsumable() {
       business: business?.id!
     };
 
-    onSaveConsumable(consumable, {
-      onSuccess: () => {
-        router.back();
-        setLoading(false);
-      },
-      onError: () => {
-        setLoading(false);
-      }
-    });
+    onSaveConsumable(consumable);
   };
 
   return (
@@ -117,8 +104,8 @@ export default function CreateConsumable() {
         {/* Consumable Price */}
         <View style={{ marginBottom: 16 }}>
           <GenericInput
-            label="Precio"
-            placeholder="Ingrese el precio del insumo"
+            label="Precio del Stock"
+            placeholder="Ingrese el precio de todo el stock de entrada"
             keyboardType="decimal-pad"
             watch={watch("price")}
             error={errors.price}
@@ -177,11 +164,11 @@ export default function CreateConsumable() {
             alignItems: "center",
             marginTop: 16,
             marginBottom: 30,
-            opacity: loading || !isValid ? 0.5 : 1
+            opacity: loadingSave || !isValid ? 0.5 : 1
           }}
-          disabled={loading || !isValid}
+          disabled={loadingSave || !isValid}
         >
-          {loading ? (
+          {loadingSave ? (
             <ActivityIndicator color={colors.background.light.primary} />
           ) : (
             <Text
@@ -202,12 +189,13 @@ export default function CreateConsumable() {
         <SelectModal
           isVisible={showUnitModal}
           title="Seleccionar Unidad de Medida"
+          subtitle="Esto definirá como se descuenta luego según las ventas del servicio que lo use. Ej.(hojas blancas - por unidad, tinta negra - por porcentaje)"
           onClose={() => setShowUnitModal(false)}
           data={units}
           renderItem={(item) => <Text>{TRANSLATE_UNIT[item]}</Text>}
           onSelect={selectUnit}
           keyExtractor={(item) => item}
-        ></SelectModal>
+        />
       )}
     </View>
   );

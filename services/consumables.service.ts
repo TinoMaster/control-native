@@ -5,32 +5,23 @@ import { handleFetchError } from "utilities/helpers/errorManager";
 import { requestService } from "./request.service";
 
 class ConsumableService {
-  private urlAdmin = apiConfig.adminUrl;
+  private readonly urlAdmin = apiConfig.adminUrl;
 
-  async getConsumablesByBusinessId(
-    businessId: number
-  ): Promise<IResponse<ConsumableModel[]>> {
+  async getConsumablesByBusinessId(businessId: number): Promise<IResponse<ConsumableModel[]>> {
     try {
-      return await requestService.fetch<ConsumableModel[]>(
-        `${this.urlAdmin}/consumable/list/${businessId}`
-      );
+      return await requestService.fetch<ConsumableModel[]>(`${this.urlAdmin}/consumable/list/${businessId}`);
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);
     }
   }
 
-  async saveConsumable(
-    consumable: ConsumableModel
-  ): Promise<IResponse<ConsumableModel>> {
+  async saveConsumable(consumable: ConsumableModel): Promise<IResponse<ConsumableModel>> {
     try {
-      return await requestService.fetch<ConsumableModel>(
-        `${this.urlAdmin}/consumable`,
-        {
-          method: "POST",
-          body: JSON.stringify(consumable),
-        }
-      );
+      return await requestService.fetch<ConsumableModel>(`${this.urlAdmin}/consumable`, {
+        method: "POST",
+        body: JSON.stringify(consumable)
+      });
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);
@@ -39,12 +30,9 @@ class ConsumableService {
 
   async deleteConsumable(id: number): Promise<IResponse<null>> {
     try {
-      return await requestService.fetch<null>(
-        `${this.urlAdmin}/consumable/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      return await requestService.fetch<null>(`${this.urlAdmin}/consumable/${id}`, {
+        method: "DELETE"
+      });
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);

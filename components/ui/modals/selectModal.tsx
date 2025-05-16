@@ -18,6 +18,7 @@ interface SelectModalProps<T> {
   readonly isVisible: boolean;
   readonly onClose: () => void;
   readonly title: string;
+  readonly subtitle?: string;
   readonly data: T[];
   readonly isLoading?: boolean;
   readonly renderItem: (item: T, index: number) => React.ReactElement;
@@ -29,6 +30,7 @@ export function SelectModal<T>({
   isVisible,
   onClose,
   title,
+  subtitle,
   data,
   isLoading = false,
   renderItem,
@@ -92,7 +94,17 @@ export function SelectModal<T>({
             </TouchableOpacity>
           </View>
 
-          <View className="flex-1 p-4 ">
+          <View className="flex-1 px-4 ">
+            {subtitle && (
+              <Text
+                style={{
+                  color: isDarkMode ? colors.darkMode.textSecondary.light : colors.lightMode.textSecondary.light
+                }}
+                className="text-base font-medium mb-4"
+              >
+                {subtitle}
+              </Text>
+            )}
             {isLoading ? (
               <View className="flex-1 justify-center items-center">
                 <ActivityIndicator size="large" color={colors.primary.light} />

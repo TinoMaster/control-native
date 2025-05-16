@@ -1,7 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
 import useColors from "hooks/useColors";
-import { Modal, SafeAreaView, Text, TouchableOpacity, View, useColorScheme } from "react-native";
+import { Modal, Platform, SafeAreaView, Text, TouchableOpacity, View, useColorScheme } from "react-native";
 import colors from "styles/colors";
 import MyButton from "../MyButton"; // Assuming MyButton is in components/ui/
 
@@ -37,7 +36,14 @@ export function MessageModal({
   return (
     <Modal animationType="fade" transparent={true} visible={isVisible} onRequestClose={onClose}>
       {/* Background Blur */}
-      <BlurView intensity={isDarkMode ? 40 : 30} tint={isDarkMode ? "dark" : "light"} className="absolute inset-0" />
+      {/* <BlurView intensity={isDarkMode ? 40 : 30} tint={isDarkMode ? "dark" : "light"} className="absolute inset-0" /> */}
+      <View
+        className="absolute inset-0"
+        style={{
+          backgroundColor: isDarkMode ? "rgba(0, 0, 0, 0.7)" : "rgba(0, 0, 0, 0.5)",
+          backdropFilter: Platform.OS === "web" ? "blur(5px)" : "none"
+        }}
+      />
       {/* Background Dimming Touchable */}
       <TouchableOpacity activeOpacity={1} onPress={onClose} className="absolute inset-0 bg-black/40 dark:bg-black/60" />
 
