@@ -1,19 +1,46 @@
 import { QueryClientProvider } from "@tanstack/react-query";
+import LoadingPage from "components/ui/loaders/LoadingPage";
+import { ModalProvider } from "components/ui/modals/ModalProvider";
 import { queryClient } from "config/react-query.config";
-import { ThemeProvider } from "contexts/ThemeContext";
 import { NotificationProvider } from "contexts/NotificationContext";
+import { ThemeProvider } from "contexts/ThemeContext";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import useColors from "hooks/useColors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useAuthStore } from "store/auth.store";
 import "./globals.css";
-import { ModalProvider } from "components/ui/modals/ModalProvider";
+
+/* Tareas pendientes de la app */
+// TODO: En la pagina de detalles de un negocio, hacer que se actualize la fecha de actualización cada vez que se modifique algo
+// TODO: Hacer funcionar la función de editar los servicios vendidos
 
 function RootLayoutNav() {
   const colors = useColors();
+  const { loadingUser, initializeAuth } = useAuthStore();
+  const [isInitializing, setIsInitializing] = useState(true);
+
+  // Aseguramos que la autenticación se inicialice antes de decidir la redirección
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await initializeAuth();
+      } catch (error) {
+        console.error("Error inicializando autenticación:", error);
+      } finally {
+        setIsInitializing(false);
+      }
+    };
+
+    init();
+  }, []);
+
+  // Mostramos un estado de carga mientras se inicializa la autenticación o se carga el usuario
+  if (isInitializing || loadingUser) {
+    return <LoadingPage message="Cargando aplicación..." />;
+  }
 
   return (
     <Stack
@@ -25,13 +52,13 @@ function RootLayoutNav() {
       }}
     >
       <Stack.Screen
-        name="(auth)"
+        name="(tabs)"
         options={{
           headerShown: false
         }}
       />
       <Stack.Screen
-        name="(tabs)"
+        name="(auth)"
         options={{
           headerShown: false
         }}
@@ -46,27 +73,6 @@ function RootLayoutNav() {
   );
 }
 
-// Componente inicializador global que se ejecuta en cualquier ruta de la aplicación
-function GlobalInitializer() {
-  const { initializeAuth } = useAuthStore();
-
-  useEffect(() => {
-    // Siempre inicializamos la autenticación al cargar la app
-    const initializeAuthData = async () => {
-      try {
-        await initializeAuth();
-      } catch (error) {
-        console.error("Error inicializando datos globales:", error);
-      }
-    };
-
-    initializeAuthData();
-  }, []);
-
-  // Este componente no renderiza nada, solo inicializa datos
-  return null;
-}
-
 export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -76,7 +82,6 @@ export default function RootLayout() {
           <ThemeProvider>
             <NotificationProvider>
               <ModalProvider>
-                <GlobalInitializer />
                 <StatusBar style="light" />
                 <RootLayoutNav />
               </ModalProvider>

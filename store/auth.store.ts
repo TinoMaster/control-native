@@ -10,13 +10,14 @@ import { useBusinessStore } from "./business.store";
 interface AuthState {
   user: UserModel | undefined;
   employee: EmployeeModel | undefined;
-  role: TRole;
+  role: ERole;
   loadingUser: boolean;
   token: string | null;
   isLoggedIn: boolean;
+  isLoading: boolean;
 
   // Actions
-  login: (token: string, role: TRole, refreshToken: string) => Promise<void>;
+  login: (token: string, role: ERole, refreshToken: string) => Promise<void>;
   logout: () => Promise<void>;
   reloadUser: () => Promise<void>;
   getUser: (email: string) => Promise<void>;
@@ -26,19 +27,21 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: undefined,
   employee: undefined,
-  role: undefined as unknown as TRole,
+  role: undefined as unknown as ERole,
   loadingUser: false,
   token: null,
   isLoggedIn: false,
+  isLoading: false,
 
   initializeAuth: async () => {
     try {
+      set({ isLoading: true });
       const token = await secureStorage.getItem("token");
       const role = await secureStorage.getItem("role");
 
       set({
         token,
-        role: role as TRole,
+        role: role as ERole,
         isLoggedIn: Boolean(token && role)
       });
 
@@ -50,11 +53,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
     } catch (error) {
       console.error("Error initializing auth:", error);
+    } finally {
+      set({ isLoading: false });
     }
   },
 
-  login: async (token: string, role: TRole, refreshToken: string) => {
+  login: async (token: string, role: ERole, refreshToken: string) => {
     try {
+      set({ isLoading: true });
       await Promise.all([
         secureStorage.setItem("token", token),
         secureStorage.setItem("role", role),
@@ -68,12 +74,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
     } catch (error) {
       console.error("Error during login:", error);
-      throw error;
+    } finally {
+      set({ isLoading: false });
     }
   },
 
   logout: async () => {
     try {
+      set({ isLoading: true });
       await Promise.all([
         secureStorage.removeItem("token"),
         secureStorage.removeItem("role"),
@@ -83,13 +91,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({
         user: undefined,
         employee: undefined,
-        role: undefined as unknown as TRole,
+        role: undefined as unknown as ERole,
         token: null,
         isLoggedIn: false
       });
     } catch (error) {
       console.error("Error during logout:", error);
-      throw error;
+    } finally {
+      set({ isLoading: false });
     }
   },
 

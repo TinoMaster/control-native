@@ -1,16 +1,20 @@
+import ProtectedRoute from "components/auth/ProtectedRoute";
 import { Stack } from "expo-router";
+import { ERole } from "models/api";
 import { View } from "react-native";
 
 export default function BusinessLayout() {
   return (
-    <View className="flex-1">
+    <ProtectedRoute roles={[ERole.OWNER, ERole.ADMIN]}>
       <View className="flex-1">
-        <Stack
-          screenOptions={{
-            headerShown: false
-          }}
-        />
+        <View className="flex-1">
+          <Stack
+            screenOptions={{
+              headerShown: false
+            }}
+          />
+        </View>
       </View>
-    </View>
+    </ProtectedRoute>
   );
 }
