@@ -30,9 +30,7 @@ export default function LoginScreen() {
   const checkUserExistence = async () => {
     try {
       const response = await userService.existAnyUser();
-      console.log("User existence response:", response);
       if (!response) {
-        // If no users exist, redirect to superadmin registration
         router.replace("/(auth)/superadmin");
       }
     } catch (error) {

@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { Text, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import { MachineItem } from "./machineItem";
+import { getActiveMachines } from "utilities/helpers/machines.utils";
 
 export function MachinesSelection() {
   const business = useBusinessStore((state) => state.business);
@@ -14,12 +15,7 @@ export function MachinesSelection() {
 
   /* Seleccionar solo las maquinas activas y que no estén ya seleccionadas en un reporte del mismo dia */
   const activeMachines = useMemo(() => {
-    const selectedMachineIds = machinesAlreadySelected ? machinesAlreadySelected() : undefined;
-    return (
-      machines
-        ?.filter((machine) => (selectedMachineIds ? !selectedMachineIds.includes(machine.id) : true))
-        .filter((machine) => machine.active) || []
-    );
+    return getActiveMachines(machines, machinesAlreadySelected?.());
   }, [machines, machinesAlreadySelected]);
 
   if (!machines || machines.length === 0) {

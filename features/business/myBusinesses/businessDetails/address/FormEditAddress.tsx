@@ -58,7 +58,6 @@ export function FormEditAddress({ setModalVisible, business }: Props) {
 
     // Actualizar el negocio con la nueva dirección
     const response = await addressService.saveAddress(updatedAddress);
-    console.log(response);
 
     if (response.status === 200) {
       updateBusiness(business.id as number, { address: updatedAddress });
