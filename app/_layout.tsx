@@ -18,6 +18,7 @@ import "./globals.css";
 // TODO: Hacer funcionar la función de editar los servicios vendidos
 // TODO: Crear la funcionalidad de update para los insumos
 // TODO: Crear la funcionalidad de update para los servicios
+// TODO: Hacer que el reporte finalizado se pueda actualizar
 
 function RootLayoutNav() {
   const colors = useColors();
