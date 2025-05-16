@@ -6,6 +6,7 @@ import { useAuthStore } from "store/auth.store";
 
 /* Tareas pendientes de la app */
 // TODO: En la pagina de detalles de un negocio, hacer que se actualize la fecha de actualización cada vez que se modifique algo
+// TODO: Hacer funcionar la función de editar los servicios vendidos
 
 export default function Index() {
   const { isLoggedIn, loadingUser, role, initializeAuth } = useAuthStore();
