@@ -17,9 +17,11 @@ import { useDebtsFinalSaleStore } from "../store/useDebtsFinalSale.store";
 import { useMachineFinalSaleStore } from "../store/useMachineFinalSale.store";
 import { useMachineStateFinalSaleStore } from "../store/useMachineStateFinalSale.store";
 import { useWorkersFinalSaleStore } from "../store/useWorkersFinalSale.store";
+import { useServiceSale } from "hooks/api/useServiceSale";
 
 export const useFinalizeReport = () => {
   const { saveBusinessFinalSale } = useBusinessFinalSale(QueryTypeBusinessFinalSale.DAILY);
+  const { refetchServiceSales } = useServiceSale();
   const { businessId, business } = useBusinessStore();
   const user = useAuthStore((state) => state.user);
 
@@ -58,6 +60,9 @@ export const useFinalizeReport = () => {
         if (response.status === 200) {
           showNotification("Reporte finalizado correctamente", "success");
           clearAllReports();
+          /* Refetch service sales para que se actualicen los datos, en este caso
+          para que detecte si las ventas de servicios pertenecen a un reporte finalizado */
+          refetchServiceSales();
           router.replace("/(tabs)/sales/current_day");
         } else {
           showNotification("Hubo un error al finalizar el reporte", "error");

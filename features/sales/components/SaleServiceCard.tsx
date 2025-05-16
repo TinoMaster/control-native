@@ -15,7 +15,6 @@ interface SaleServiceCardProps {
   readonly allDetails?: boolean;
 }
 
-// TODO: Hacer funcionar la actualizacion de los botones cuando se termine un reporte
 export function SaleServiceCard({ saleService, onPress, allDetails = true }: SaleServiceCardProps) {
   const defaultColors = useColors();
   const { showConfirm, showAlert } = useModalStore();

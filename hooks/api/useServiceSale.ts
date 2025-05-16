@@ -22,7 +22,11 @@ export const useServiceSale = (options?: ServiceSaleQueryOptions) => {
     endDate: options?.endDate ?? new Date()
   };
 
-  const { data: serviceSales = [], isLoading: loadingServiceSales } = useQuery({
+  const {
+    data: serviceSales = [],
+    isLoading: loadingServiceSales,
+    refetch: refetchServiceSales
+  } = useQuery({
     queryKey: ["serviceSales", businessId, options?.startDate, options?.endDate],
     queryFn: async ({ queryKey }) => {
       // El queryKey contiene los parámetros que se pueden usar si es necesario
@@ -68,6 +72,7 @@ export const useServiceSale = (options?: ServiceSaleQueryOptions) => {
   return {
     serviceSales,
     loadingServiceSales,
+    refetchServiceSales,
     saveServiceSale,
     editServiceSale,
     deleteServiceSale
