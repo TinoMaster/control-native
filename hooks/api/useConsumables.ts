@@ -41,6 +41,25 @@ export const useConsumables = () => {
     }
   });
 
+  const { mutate: onUpdateConsumable, isPending: updatingConsumable } = useMutation({
+    mutationFn: (consumable: ConsumableModel) => consumableService.updateConsumable(consumable),
+    onSuccess: (response) => {
+      console.log("response", response);
+      if (response.status === 200 && response.data) {
+        showNotification("Consumible actualizado correctamente", "success");
+        queryClient.invalidateQueries({ queryKey: ["consumables"] });
+      } else {
+        showNotification(
+          "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
+          "error"
+        );
+      }
+    },
+    onError: () => {
+      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+    }
+  });
+
   const { mutate: onDeleteConsumable } = useMutation({
     mutationFn: (id: number) => consumableService.deleteConsumable(id),
     onSuccess: () => {
@@ -57,6 +76,8 @@ export const useConsumables = () => {
     onSaveConsumable,
     onDeleteConsumable,
     loadingConsumables,
-    loadingSave
+    loadingSave,
+    updatingConsumable,
+    onUpdateConsumable
   };
 };

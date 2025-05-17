@@ -12,12 +12,10 @@ export const useService = () => {
   const { data: services = [], isLoading: loadingServices } = useQuery({
     queryKey: ["services", businessId],
     queryFn: async () => {
-      const response = await serviceService.getServicesByBusinessId(
-        businessId!
-      );
+      const response = await serviceService.getServicesByBusinessId(businessId!);
       return response.data || [];
     },
-    enabled: !!businessId,
+    enabled: !!businessId
   });
 
   const getServiceById = (id: number) => {
@@ -31,11 +29,26 @@ export const useService = () => {
       queryClient.invalidateQueries({ queryKey: ["services"] });
     },
     onError: () => {
-      showNotification(
-        "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
-        "error"
-      );
+      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+    }
+  });
+
+  const { mutate: updateService, isPending: updatingService } = useMutation({
+    mutationFn: (service: ServiceModel) => serviceService.updateService(service),
+    onSuccess: (response) => {
+      if (response.status === 200 && response.data) {
+        showNotification("Servicio actualizado correctamente", "success");
+        queryClient.invalidateQueries({ queryKey: ["services"] });
+      } else {
+        showNotification(
+          "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
+          "error"
+        );
+      }
     },
+    onError: () => {
+      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+    }
   });
 
   const { mutate: deleteService } = useMutation({
@@ -45,11 +58,8 @@ export const useService = () => {
       queryClient.invalidateQueries({ queryKey: ["services"] });
     },
     onError: () => {
-      showNotification(
-        "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
-        "error"
-      );
-    },
+      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+    }
   });
 
   return {
@@ -57,6 +67,8 @@ export const useService = () => {
     loadingServices,
     getServiceById,
     saveService,
+    updateService,
     deleteService,
+    updatingService
   };
 };

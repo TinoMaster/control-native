@@ -1,5 +1,10 @@
+export interface ConsumableKeyModel {
+  id: string;
+}
+
 export interface ConsumableModel {
   id?: number;
+  consumableKey?: ConsumableKeyModel;
   name: string;
   description: string;
   price: number;
@@ -8,4 +13,5 @@ export interface ConsumableModel {
   business: number;
   createdAt?: Date;
   updatedAt?: Date;
+  finishedAt?: Date;
 }

@@ -29,6 +29,18 @@ class ServiceService {
     }
   }
 
+  async updateService(service: ServiceModel): Promise<IResponse<ServiceModel>> {
+    try {
+      return await requestService.fetch<ServiceModel>(`${this.urlAdmin}/service/${service.id}`, {
+        method: "PUT",
+        body: JSON.stringify(service)
+      });
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError(error);
+    }
+  }
+
   async deleteService(id: number): Promise<IResponse<null>> {
     try {
       return await requestService.fetch<null>(`${this.urlAdmin}/service/${id}`, {

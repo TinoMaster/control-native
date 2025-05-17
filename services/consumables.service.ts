@@ -28,6 +28,18 @@ class ConsumableService {
     }
   }
 
+  async updateConsumable(consumable: ConsumableModel): Promise<IResponse<ConsumableModel>> {
+    try {
+      return await requestService.fetch<ConsumableModel>(`${this.urlAdmin}/consumable/${consumable.id}`, {
+        method: "PUT",
+        body: JSON.stringify(consumable)
+      });
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError(error);
+    }
+  }
+
   async deleteConsumable(id: number): Promise<IResponse<null>> {
     try {
       return await requestService.fetch<null>(`${this.urlAdmin}/consumable/${id}`, {
