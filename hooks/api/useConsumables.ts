@@ -60,11 +60,19 @@ export const useConsumables = () => {
     }
   });
 
-  const { mutate: onDeleteConsumable } = useMutation({
+  const { mutate: onDeleteConsumable, isPending: deletingConsumable } = useMutation({
     mutationFn: (id: number) => consumableService.deleteConsumable(id),
-    onSuccess: () => {
-      showNotification("Consumible eliminado correctamente", "success");
-      queryClient.invalidateQueries({ queryKey: ["consumables"] });
+    onSuccess: (response) => {
+      console.log("response", response);
+      if (response.status === 200) {
+        showNotification("Consumible eliminado correctamente", "success");
+        queryClient.invalidateQueries({ queryKey: ["consumables"] });
+      } else {
+        showNotification(
+          "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
+          "error"
+        );
+      }
     },
     onError: () => {
       showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
@@ -78,6 +86,7 @@ export const useConsumables = () => {
     loadingConsumables,
     loadingSave,
     updatingConsumable,
-    onUpdateConsumable
+    onUpdateConsumable,
+    deletingConsumable
   };
 };

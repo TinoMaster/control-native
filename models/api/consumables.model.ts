@@ -1,5 +1,6 @@
 export interface ConsumableKeyModel {
   id: string;
+  createdAt: Date;
 }
 
 export interface ConsumableModel {
