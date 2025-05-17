@@ -1,13 +1,18 @@
-import { Ionicons } from "@expo/vector-icons";
 import { ActionButtons } from "components/ActionButtons";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import LoadingPage from "components/ui/loaders/LoadingPage";
+import { MyModal } from "components/ui/modals/myModal";
+import { MyScrollView } from "components/ui/MyScrollView";
 import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { AdditionalInfo } from "features/entries/consumables/consumable-detail/AdditionalInfo";
+import { FormEditConsumable } from "features/entries/consumables/consumable-detail/FormEditConsumable";
+import { PrincipalInfo } from "features/entries/consumables/consumable-detail/principal-info/PrincipalInfo";
+import { StockSection } from "features/entries/consumables/consumable-detail/stock/StockSection";
 import { useConsumables } from "hooks/api/useConsumables";
 import useColors from "hooks/useColors";
-import { EUnit, TRANSLATE_UNIT } from "models/unit.model";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import colors from "styles/colors";
 
 export default function ConsumableDetailScreen() {
@@ -15,9 +20,11 @@ export default function ConsumableDetailScreen() {
   const defaultColors = useColors();
   const router = useRouter();
   const { showNotification } = useNotification();
-  const { consumables, loadingConsumables, onDeleteConsumable } = useConsumables();
+  const { consumables, loadingConsumables, onDeleteConsumable, deletingConsumable, updatingConsumable } =
+    useConsumables();
+  const [modalVisible, setModalVisible] = useState(false);
 
-  if (loadingConsumables) {
+  if (loadingConsumables || deletingConsumable || updatingConsumable) {
     return <LoadingPage message="Cargando detalles del insumo..." />;
   }
 
@@ -30,79 +37,23 @@ export default function ConsumableDetailScreen() {
   }
 
   const handleDeleteConsumable = (consumableId: number) => {
-    onDeleteConsumable(consumableId, {
-      onSuccess: () => {
-        showNotification("Insumo eliminado", "success");
-        router.back();
-      },
-      onError: () => {
-        showNotification("Error al eliminar el insumo", "error");
-      }
-    });
+    onDeleteConsumable(consumableId);
   };
 
   return (
     <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
-      <ScrollView style={styles.scrollView}>
-        {/* Header */}
-        <BackButtonPlusTitle title="Detalles del Insumo" />
-
+      {/* Header */}
+      <BackButtonPlusTitle title="Detalles del Insumo" />
+      <MyScrollView>
         {/* Información Principal */}
-        <View style={[styles.card, { backgroundColor: defaultColors.background }]}>
-          <Text style={[styles.consumableName, { color: defaultColors.text }]}>{consumable.name}</Text>
-          <View style={styles.priceUnitContainer}>
-            <Text style={[styles.price, { color: defaultColors.primary }]}>${consumable.price.toFixed(2)}</Text>
-            <Text style={[styles.unit, { color: defaultColors.textSecondary }]}>
-              / {TRANSLATE_UNIT[consumable.unit as EUnit]}
-            </Text>
-          </View>
-          {Boolean(consumable.description) && (
-            <Text style={[styles.description, { color: defaultColors.textSecondary }]}>{consumable.description}</Text>
-          )}
-        </View>
+        <PrincipalInfo consumable={consumable} />
 
         {/* Información de Stock */}
-        <View style={[styles.card, { backgroundColor: defaultColors.background }]}>
-          <View style={styles.sectionHeader}>
-            <Ionicons name="cube-outline" size={24} color={defaultColors.primary} />
-            <Text style={[styles.sectionTitle, { color: defaultColors.text }]}>Información de Stock</Text>
-          </View>
-          <View style={styles.stockInfo}>
-            <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>
-              Cantidad disponible: {consumable.stock} {TRANSLATE_UNIT[consumable.unit as EUnit]}
-            </Text>
-          </View>
-        </View>
-
-        {/* Información del Negocio */}
-        <View style={[styles.card, { backgroundColor: defaultColors.background }]}>
-          <View style={styles.sectionHeader}>
-            <Ionicons name="business-outline" size={24} color={defaultColors.primary} />
-            <Text style={[styles.sectionTitle, { color: defaultColors.text }]}>Información del Negocio</Text>
-          </View>
-          <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>
-            ID del Negocio: {consumable.business}
-          </Text>
-        </View>
+        <StockSection consumable={consumable} />
 
         {/* Información Adicional */}
-        <View style={[styles.card, { backgroundColor: defaultColors.background }]}>
-          <View style={styles.sectionHeader}>
-            <Ionicons name="information-circle-outline" size={24} color={defaultColors.primary} />
-            <Text style={[styles.sectionTitle, { color: defaultColors.text }]}>Información Adicional</Text>
-          </View>
-          {consumable.createdAt && (
-            <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>
-              Creado: {new Date(consumable.createdAt).toLocaleDateString()}
-            </Text>
-          )}
-          {consumable.updatedAt && (
-            <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>
-              Última actualización: {new Date(consumable.updatedAt).toLocaleDateString()}
-            </Text>
-          )}
-        </View>
-      </ScrollView>
+        <AdditionalInfo consumable={consumable} />
+      </MyScrollView>
 
       {/* Botones de Acción */}
       <ActionButtons
@@ -112,10 +63,20 @@ export default function ConsumableDetailScreen() {
             label: "Eliminar",
             onPress: () => handleDeleteConsumable(consumable.id ?? 0),
             color: colors.secondary.light
+          },
+          {
+            icon: "pencil-outline",
+            label: "Editar",
+            onPress: () => setModalVisible(true),
+            color: colors.primary.light
           }
         ]}
         fixed={false}
       />
+
+      <MyModal isVisible={modalVisible} onClose={() => setModalVisible(false)} title="Editar Información General">
+        <FormEditConsumable setModalVisible={setModalVisible} consumable={consumable} />
+      </MyModal>
     </View>
   );
 }

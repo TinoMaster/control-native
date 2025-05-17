@@ -5,7 +5,7 @@ import { SelectModal } from "components/ui/modals/selectModal";
 import { useConsumables } from "hooks/api/useConsumables";
 import useColors from "hooks/useColors";
 import { ConsumableModel } from "models/api/consumables.model";
-import { EUnit, TRANSLATE_UNIT } from "models/unit.model";
+import { EUnit, TRANSLATE_UNIT } from "models/api/unit.model";
 import { consumableDefaultValues, consumableSchema, ConsumableSchema } from "models/zod/consumable.schema";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

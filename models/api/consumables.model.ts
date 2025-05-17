@@ -1,3 +1,5 @@
+import { EUnit } from "./unit.model";
+
 export interface ConsumableKeyModel {
   id: string;
   createdAt: Date;
@@ -9,7 +11,7 @@ export interface ConsumableModel {
   name: string;
   description: string;
   price: number;
-  unit: string;
+  unit: EUnit;
   stock: number;
   business: number;
   createdAt?: Date;

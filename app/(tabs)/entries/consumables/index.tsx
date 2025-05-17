@@ -1,4 +1,4 @@
-import ConsumableCard from "components/ConsumableCard";
+import ConsumableCard from "features/entries/consumables/ConsumableCard";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import LoadingPage from "components/ui/loaders/LoadingPage";

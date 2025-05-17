@@ -48,6 +48,7 @@ export const useConsumables = () => {
       if (response.status === 200 && response.data) {
         showNotification("Consumible actualizado correctamente", "success");
         queryClient.invalidateQueries({ queryKey: ["consumables"] });
+        router.replace(`/(tabs)/entries/consumables`);
       } else {
         showNotification(
           "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
@@ -66,6 +67,7 @@ export const useConsumables = () => {
       console.log("response", response);
       if (response.status === 200) {
         showNotification("Consumible eliminado correctamente", "success");
+        router.back();
         queryClient.invalidateQueries({ queryKey: ["consumables"] });
       } else {
         showNotification(

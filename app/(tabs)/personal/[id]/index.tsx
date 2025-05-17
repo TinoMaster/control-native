@@ -1,6 +1,7 @@
 import { ActionButtons } from "components/ActionButtons";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import LoadingPage from "components/ui/loaders/LoadingPage";
+import { MyScrollView } from "components/ui/MyScrollView";
 import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { AdditionalInfo } from "features/personal/personal-detail/AdditionalInfo";
@@ -12,7 +13,7 @@ import { SalarySection } from "features/personal/personal-detail/salary/SalarySe
 import { useEmployees } from "hooks/api/useEmployees";
 import useColors from "hooks/useColors";
 import { useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import { businessFinalSaleService } from "services/businessFinalSale.service";
 import { useModalStore } from "store/modal.store";
 import colors from "styles/colors";
@@ -78,7 +79,7 @@ export default function EmployeeDetails() {
     <View className="flex-1" style={{ backgroundColor: defaultColors.background }}>
       <BackButtonPlusTitle title="Detalles del Empleado" />
 
-      <ScrollView className="flex-1" contentContainerStyle={{ padding: 16, gap: 16 }}>
+      <MyScrollView>
         {/* Información Principal */}
         <PrincipalInfo employee={employee} />
 
@@ -96,7 +97,7 @@ export default function EmployeeDetails() {
 
         {/* Información Adicional */}
         <AdditionalInfo employee={employee} />
-      </ScrollView>
+      </MyScrollView>
 
       {/* Botones de Acción */}
       <ActionButtons

@@ -1,4 +1,4 @@
-import { EUnit } from "models/unit.model";
+import { EUnit } from "models/api/unit.model";
 import { z } from "zod";
 
 export const consumableSchema = z.object({
