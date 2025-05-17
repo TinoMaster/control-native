@@ -1,37 +1,37 @@
 import { Ionicons } from "@expo/vector-icons";
 import { MyCard } from "components/ui/MyCard";
 import useColors from "hooks/useColors";
-import { ConsumableModel } from "models/api/consumables.model";
+import { ServiceModel } from "models/api/service.model";
 import { StyleSheet, Text, View } from "react-native";
 
-interface ConsumableCardProps {
-  readonly consumable: ConsumableModel;
+interface ServiceCardProps {
+  readonly service: ServiceModel;
   readonly onPress?: () => void;
 }
 
-export default function ConsumableCard({ consumable, onPress }: ConsumableCardProps) {
+export default function ServiceCard({ service, onPress }: ServiceCardProps) {
   const colors = useColors();
 
   return (
-    <MyCard title={consumable.name} onPressIcon={onPress} iconButton="chevron-forward">
-      <Text style={[styles.price, { color: colors.primary }]}>${consumable.price.toFixed(2)}</Text>
+    <MyCard title={service.name} onPressIcon={onPress} iconButton="chevron-forward">
+      <Text style={[styles.price, { color: colors.primary }]}>${service.price.toFixed(2)}</Text>
 
-      {Boolean(consumable.description) && (
+      {Boolean(service.description) && (
         <Text style={[styles.description, { color: colors.textSecondary }]} numberOfLines={2}>
-          {consumable.description}
+          {service.description}
         </Text>
       )}
 
       <View style={styles.footer}>
         <View style={styles.infoContainer}>
-          <Ionicons name="cube-outline" size={16} color={colors.textSecondary} />
+          <Ionicons name="cash-outline" size={16} color={colors.textSecondary} />
           <Text style={[styles.infoText, { color: colors.textSecondary }]}>
-            Stock: {consumable.stock} {consumable.unit}
+            {service.costs.length} {service.costs.length === 1 ? "costo asociado" : "costos asociados"}
           </Text>
         </View>
-        {consumable.consumableKey?.createdAt && (
+        {service.serviceKey?.createdAt && (
           <Text style={[styles.date, { color: colors.textSecondary }]}>
-            Creado: {new Date(consumable.consumableKey.createdAt).toLocaleDateString()}
+            Creado: {new Date(service.serviceKey.createdAt).toLocaleDateString()}
           </Text>
         )}
       </View>
@@ -40,29 +40,9 @@ export default function ConsumableCard({ consumable, onPress }: ConsumableCardPr
 }
 
 const styles = StyleSheet.create({
-  container: {
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 8
-  },
-  titleContainer: {
-    flex: 1
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 4
-  },
   price: {
     fontSize: 16,
-    fontWeight: "500",
-    marginBottom: 4
+    fontWeight: "500"
   },
   description: {
     fontSize: 14,

@@ -2,7 +2,7 @@ import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { PageTitle } from "components/PageTitle";
-import ServiceCard from "components/ServiceCard";
+import ServiceCard from "features/entries/services/ServiceCard";
 import { useRouter } from "expo-router";
 import { useService } from "hooks/api/useServices";
 import useColors from "hooks/useColors";

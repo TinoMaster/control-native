@@ -7,6 +7,7 @@ import { useConsumables } from "hooks/api/useConsumables";
 import { useService } from "hooks/api/useServices";
 import useColors from "hooks/useColors";
 import { ServiceModel } from "models/api";
+import { ConsumableModel } from "models/api/consumables.model";
 import { serviceDefaultValues, serviceSchema, ServiceSchema } from "models/zod/service.schema";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -79,12 +80,15 @@ export default function CreateService() {
     setValue("costs", newCosts, { shouldValidate: true });
   };
 
-  const selectConsumable = (consumable: { id: number; name: string }) => {
+  const selectConsumable = (consumable: ConsumableModel) => {
     if (selectedConsumableIndex !== null) {
       const newCosts = [...costs];
       newCosts[selectedConsumableIndex] = {
         ...newCosts[selectedConsumableIndex],
-        consumable
+        consumable: {
+          id: consumable.id!,
+          name: consumable.name
+        }
       };
       setValue("costs", newCosts, { shouldValidate: true });
     }
@@ -304,14 +308,14 @@ export default function CreateService() {
       </ScrollView>
 
       {showConsumableModal && (
-        <SelectModal
+        <SelectModal<ConsumableModel>
           isVisible={showConsumableModal}
           title="Seleccionar Consumible"
           onClose={() => setShowConsumableModal(false)}
           data={consumables}
           renderItem={(item) => <Text>{item.name}</Text>}
           onSelect={selectConsumable}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.id?.toString() ?? ""}
           isLoading={loadingConsumables}
         ></SelectModal>
       )}
