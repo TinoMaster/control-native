@@ -14,6 +14,7 @@ interface MyModalProps {
   readonly footerContent?: ReactNode;
   readonly width?: "auto" | number | `${number}%`;
   readonly height?: "auto" | number | `${number}%`;
+  readonly disableBackdropPress?: boolean;
 }
 
 export function MyModal({
@@ -24,7 +25,8 @@ export function MyModal({
   showCloseButton = true,
   footerContent,
   width = "90%" as const,
-  height = "auto" as const
+  height = "auto" as const,
+  disableBackdropPress = false
 }: MyModalProps) {
   const defaultColors = useColors();
   const colorScheme = useColorScheme();
@@ -36,7 +38,11 @@ export function MyModal({
       <BlurView intensity={isDarkMode ? 40 : 30} tint={isDarkMode ? "dark" : "light"} className="absolute inset-0" />
 
       {/* Background Dimming Touchable */}
-      <TouchableOpacity activeOpacity={1} onPress={onClose} className="absolute inset-0 bg-black/40 dark:bg-black/60" />
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={disableBackdropPress ? undefined : onClose}
+        className="absolute inset-0 bg-black/40 dark:bg-black/60"
+      />
 
       <SafeAreaView className="flex-1 justify-center items-center p-5">
         {/* Modal Content Box */}

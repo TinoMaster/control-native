@@ -1,18 +1,22 @@
 import { View, FlatList, StyleSheet, Text } from "react-native";
 import useColors from "hooks/useColors";
 
+interface EmptyListMessageProps {
+  message: string;
+  textColor: string;
+}
 interface GenericListProps<T> {
-  data: T[];
-  renderItem: (item: T) => React.ReactElement;
-  keyExtractor: (item: T) => string;
-  emptyListMessage?: string;
+  readonly data: T[];
+  readonly renderItem: (item: T) => React.ReactElement;
+  readonly keyExtractor: (item: T) => string;
+  readonly emptyListMessage?: string;
 }
 
 export default function GenericList<T>({
   data,
   renderItem,
   keyExtractor,
-  emptyListMessage = "No hay elementos para mostrar",
+  emptyListMessage = "No hay elementos para mostrar"
 }: GenericListProps<T>) {
   const colors = useColors();
 
@@ -23,34 +27,35 @@ export default function GenericList<T>({
         renderItem={({ item }) => renderItem(item)}
         keyExtractor={keyExtractor}
         contentContainerStyle={styles.listContent}
-        ListEmptyComponent={() => (
-          <View style={styles.emptyContainer}>
-            <Text style={[styles.emptyText, { color: colors.text }]}>
-              {emptyListMessage}
-            </Text>
-          </View>
-        )}
+        ListEmptyComponent={<EmptyListMessage message={emptyListMessage} textColor={colors.text} />}
       />
     </View>
   );
 }
 
+const EmptyListMessage = ({ message, textColor }: EmptyListMessageProps) => (
+  <View style={styles.emptyContainer}>
+    <Text style={[styles.emptyText, { color: textColor }]}>{message}</Text>
+  </View>
+);
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   listContent: {
     flexGrow: 1,
     padding: 16,
+    rowGap: 16
   },
   emptyContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    padding: 20
   },
   emptyText: {
     fontSize: 16,
-    textAlign: "center",
-  },
-}); 
+    textAlign: "center"
+  }
+});

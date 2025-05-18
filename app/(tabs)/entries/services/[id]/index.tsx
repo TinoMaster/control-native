@@ -5,15 +5,16 @@ import { MyModal } from "components/ui/modals/myModal";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { AdditionalInfo } from "features/entries/services/service-detail/AdditionalInfo";
-import { CostSection } from "features/entries/services/service-detail/CostSection";
-import { FormEditService } from "features/entries/services/service-detail/FormEditService";
-import { PrincipalInfo } from "features/entries/services/service-detail/PrincipalInfo";
+import { AdditionalInfo } from "features/entries/services/components/service-detail/AdditionalInfo";
+import { CostSection } from "features/entries/services/components/service-detail/CostSection";
+import { FormEditService } from "features/entries/services/components/service-detail/FormEditService";
+import { PrincipalInfo } from "features/entries/services/components/service-detail/PrincipalInfo";
 import { useService } from "hooks/api/useServices";
 import useColors from "hooks/useColors";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import colors from "styles/colors";
+import { ErrorState } from "components/ErrorState";
 
 export default function ServiceDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -30,9 +31,14 @@ export default function ServiceDetailScreen() {
   const service = getServiceById(Number(id));
 
   if (!service) {
-    showNotification("Servicio no encontrado", "error");
-    router.back();
-    return null;
+    return (
+      <ErrorState
+        title="Servicio no encontrado"
+        message="El servicio que estás buscando no existe o ha sido eliminado."
+        actionText="Volver a servicios"
+        onAction={() => router.push("/(tabs)/entries/services")}
+      />
+    );
   }
 
   const onDeleteService = (serviceId: number) => {

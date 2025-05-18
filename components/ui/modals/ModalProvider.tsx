@@ -9,15 +9,14 @@ import { MyModal } from "./myModal";
 export function ModalProvider({ children }: { readonly children: React.ReactNode }) {
   const { isVisible, type, title, message, confirmOptions, customContent, hideModal } = useModalStore();
 
-  // Handle hardware back button on Android
   useEffect(() => {
     if (Platform.OS === "android") {
       const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
         if (isVisible) {
           hideModal();
-          return true; // Prevent default behavior
+          return true;
         }
-        return false; // Let default behavior happen
+        return false;
       });
 
       return () => backHandler.remove();
@@ -69,17 +68,17 @@ export function ModalProvider({ children }: { readonly children: React.ReactNode
       <Text style={[styles.message, { color: defaultColors.textSecondary }]}>{message}</Text>
     );
 
-  // Render only the children when modal is not visible to improve performance
-  if (!isVisible) {
-    return children;
-  }
-
-  // When modal is visible, render both children and modal
-  // The modal component itself handles the overlay and positioning
+  // Siempre renderizar los hijos, el modal se superpondrá cuando sea necesario
   return (
     <>
       {children}
-      <MyModal isVisible={isVisible} onClose={hideModal} title={title} footerContent={footerContent}>
+      <MyModal
+        isVisible={isVisible}
+        onClose={hideModal}
+        title={title}
+        footerContent={footerContent}
+        disableBackdropPress={type === "alert"} // Evitar cierre con clic fuera en alertas
+      >
         {content}
       </MyModal>
     </>

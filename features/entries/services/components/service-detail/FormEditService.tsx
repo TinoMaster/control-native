@@ -13,7 +13,6 @@ import { Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "
 import { adjustBrightness, formatNumericInput } from "utilities/helpers/globals.helpers";
 import { z } from "zod";
 
-//TODO: Textear este componente
 interface Props {
   readonly setModalVisible: (visible: boolean) => void;
   readonly service: ServiceModel;
@@ -42,7 +41,6 @@ const serviceInfoSchema = z.object({
     .optional()
 });
 
-// Type inferred from Zod schema
 type ServiceInfoFormData = z.infer<typeof serviceInfoSchema>;
 
 export function FormEditService({ setModalVisible, service }: Props) {
@@ -53,7 +51,6 @@ export function FormEditService({ setModalVisible, service }: Props) {
   const [showConsumableModal, setShowConsumableModal] = useState(false);
   const [selectedConsumableIndex, setSelectedConsumableIndex] = useState<number | null>(null);
 
-  // Configure React Hook Form with Zod
   const {
     control,
     handleSubmit,
@@ -111,7 +108,6 @@ export function FormEditService({ setModalVisible, service }: Props) {
   };
 
   const onSubmit = async (data: ServiceInfoFormData) => {
-    // Create updated service object
     const updatedService: ServiceModel = {
       ...service,
       name: data.name,
@@ -124,7 +120,6 @@ export function FormEditService({ setModalVisible, service }: Props) {
         })) || []
     };
 
-    // Update service
     updateService(updatedService, {
       onSuccess: () => {
         setModalVisible(false);

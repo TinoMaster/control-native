@@ -3,10 +3,12 @@ import { useNotification } from "contexts/NotificationContext";
 import { ServiceModel } from "models/api";
 import { serviceService } from "services/services.service";
 import { useBusinessStore } from "store/business.store";
+import { useRouter } from "expo-router";
 
 export const useService = () => {
   const businessId = useBusinessStore((state) => state.businessId);
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { showNotification } = useNotification();
 
   const { data: services = [], isLoading: loadingServices } = useQuery({
@@ -22,11 +24,12 @@ export const useService = () => {
     return services.find((service) => service.id === id);
   };
 
-  const { mutate: saveService } = useMutation({
+  const { mutate: saveService, isPending: savingService } = useMutation({
     mutationFn: (service: ServiceModel) => serviceService.saveService(service),
     onSuccess: () => {
       showNotification("Servicio guardado correctamente", "success");
       queryClient.invalidateQueries({ queryKey: ["services"] });
+      router.replace("/(tabs)/entries/services");
     },
     onError: () => {
       showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
@@ -39,6 +42,7 @@ export const useService = () => {
       if (response.status === 200 && response.data) {
         showNotification("Servicio actualizado correctamente", "success");
         queryClient.invalidateQueries({ queryKey: ["services"] });
+        router.replace("/(tabs)/entries/services");
       } else {
         showNotification(
           "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
@@ -56,6 +60,7 @@ export const useService = () => {
     onSuccess: () => {
       showNotification("Servicio eliminado correctamente", "success");
       queryClient.invalidateQueries({ queryKey: ["services"] });
+      router.replace("/(tabs)/entries/services");
     },
     onError: () => {
       showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
@@ -67,6 +72,7 @@ export const useService = () => {
     loadingServices,
     getServiceById,
     saveService,
+    savingService,
     updateService,
     deleteService,
     updatingService

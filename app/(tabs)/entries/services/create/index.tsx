@@ -2,7 +2,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import { SelectModal } from "components/ui/modals/selectModal";
-import { useRouter } from "expo-router";
 import { useConsumables } from "hooks/api/useConsumables";
 import { useService } from "hooks/api/useServices";
 import useColors from "hooks/useColors";
@@ -17,14 +16,11 @@ import colors from "styles/colors";
 import { formatNumericInput } from "utilities/helpers/globals.helpers";
 
 export default function CreateService() {
-  const router = useRouter();
-
   const defaultColors = useColors();
   const { business } = useBusinessStore();
   const { consumables, loadingConsumables } = useConsumables();
-  const { saveService } = useService();
+  const { saveService, savingService } = useService();
 
-  const [loading, setLoading] = useState(false);
   const [showConsumableModal, setShowConsumableModal] = useState(false);
   const [selectedConsumableIndex, setSelectedConsumableIndex] = useState<number | null>(null);
 
@@ -48,7 +44,6 @@ export default function CreateService() {
   const costs = watch("costs") ?? [];
 
   const onSubmit = (data: ServiceSchema) => {
-    setLoading(true);
     const service: ServiceModel = {
       name: data.name,
       description: data.description ?? "",
@@ -60,15 +55,7 @@ export default function CreateService() {
           quantity: parseFloat(cost.quantity ?? "0")
         })) ?? []
     };
-    saveService(service, {
-      onSuccess: () => {
-        router.back();
-        setLoading(false);
-      },
-      onError: () => {
-        setLoading(false);
-      }
-    });
+    saveService(service);
   };
 
   const addCost = () => {
@@ -287,11 +274,11 @@ export default function CreateService() {
             alignItems: "center",
             marginTop: 16,
             marginBottom: 30,
-            opacity: loading || !isValid ? 0.5 : 1
+            opacity: savingService || !isValid ? 0.5 : 1
           }}
-          disabled={loading || !isValid}
+          disabled={savingService || !isValid}
         >
-          {loading ? (
+          {savingService ? (
             <ActivityIndicator color={colors.background.light.primary} />
           ) : (
             <Text
