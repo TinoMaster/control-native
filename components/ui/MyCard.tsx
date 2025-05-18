@@ -11,9 +11,10 @@ interface Props {
   readonly iconTitle?: keyof typeof Ionicons.glyphMap;
   readonly iconButton?: keyof typeof Ionicons.glyphMap;
   readonly title?: string;
+  readonly iconButtonLabel?: string;
 }
 
-export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, header = true }: Props) {
+export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, iconButtonLabel, header = true }: Props) {
   const defaultColors = useColors();
 
   return (
@@ -32,11 +33,13 @@ export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, he
               {title}
             </Text>
           </View>
-          {onPressIcon && <MiniIconButton icon={iconButton ?? "add"} onPress={onPressIcon} iconSize={16} />}
+          {onPressIcon && (
+            <MiniIconButton icon={iconButton ?? "add"} onPress={onPressIcon} iconSize={16} label={iconButtonLabel} />
+          )}
         </View>
       )}
       <View className="flex-row justify-between items-center">
-        <View className="flex-1 px-4">{children}</View>
+        <View className="flex-1 p-4">{children}</View>
       </View>
     </View>
   );
