@@ -1,9 +1,11 @@
+import { ETimeRange } from "data/global.data";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
 import { GroupedSale } from "features/sales/components/SalesGroupByDay";
 import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
 import { EmployeeModel } from "models/api/employee.model";
 import { MachineStateModel } from "models/api/machineState.model";
+import { DatePeriod } from "models/api/requests/datePeriod.model";
 
 export const formatNumericInput = (text: string) => {
   // Solo permitir números y un punto decimal
@@ -95,4 +97,54 @@ export function groupSalesByDay(sales: BusinessFinalSaleModelResponse[]): Groupe
 
   // Convert map to array and sort by date (ascending)
   return Object.values(groupedMap).sort((a, b) => a.date.localeCompare(b.date));
+}
+
+/**
+ * Convierte un valor de ETimeRange en un rango de fechas específico (startDate y endDate)
+ * para usar en consultas de API
+ */
+export function getTimeRange(timeRange: ETimeRange): DatePeriod {
+  const now = new Date();
+  const endDate = now;
+  let startDate: Date;
+
+  switch (timeRange) {
+    case ETimeRange.TODAY:
+      // Inicio del día actual
+      startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+      break;
+
+    case ETimeRange.THIS_WEEK: {
+      // Lunes de la semana actual
+      startDate = new Date(now);
+      const dayOfWeek = startDate.getDay() || 7; // Convertir 0 (domingo) a 7
+      if (dayOfWeek !== 1) {
+        // Si no es lunes, retroceder al lunes anterior
+        startDate.setDate(startDate.getDate() - (dayOfWeek - 1));
+      }
+      startDate.setHours(0, 0, 0, 0);
+      break;
+    }
+
+    case ETimeRange.THIS_MONTH:
+      // Primer día del mes actual
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
+      break;
+
+    case ETimeRange.THIS_YEAR:
+      // Primer día del año actual
+      startDate = new Date(now.getFullYear(), 0, 1, 0, 0, 0);
+      break;
+
+    case ETimeRange.ALL_TIME:
+    default:
+      // Una fecha muy antigua para incluir todos los registros
+      startDate = new Date(2000, 0, 1, 0, 0, 0);
+      break;
+  }
+
+  return {
+    startDate,
+    endDate
+  };
 }
