@@ -1,6 +1,6 @@
 export interface HomeSalesResume {
     totalSales: number;
     totalServices: number;
-    totalCost: number;
+    totalDebts: number;
     totalSalaries: number;
 }

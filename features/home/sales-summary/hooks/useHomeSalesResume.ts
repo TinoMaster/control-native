@@ -15,7 +15,6 @@ export function useHomeSalesResume(selectedTimeRange: ETimeRange) {
         businessId: businessId ?? 0,
         ...timeRange
       });
-      console.log(response);
       return response;
     },
     enabled: !!businessId && businessId > 0,

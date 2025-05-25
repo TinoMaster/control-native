@@ -26,5 +26,5 @@ export const TIME_RANGE_OPTIONS_TRANSLATION = [
   { id: ETimeRange.THIS_WEEK, label: "Esta semana" },
   { id: ETimeRange.THIS_MONTH, label: "Este mes" },
   { id: ETimeRange.THIS_YEAR, label: "Este año" },
-  { id: ETimeRange.ALL_TIME, label: "Todo el tiempo" }
+  { id: ETimeRange.ALL_TIME, label: "Generales" }
 ];

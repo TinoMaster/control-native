@@ -111,35 +111,42 @@ export function getTimeRange(timeRange: ETimeRange): DatePeriod {
   switch (timeRange) {
     case ETimeRange.TODAY:
       // Inicio del día actual
-      startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+      startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
       break;
 
     case ETimeRange.THIS_WEEK: {
       // Lunes de la semana actual
       startDate = new Date(now);
-      const dayOfWeek = startDate.getDay() || 7; // Convertir 0 (domingo) a 7
-      if (dayOfWeek !== 1) {
-        // Si no es lunes, retroceder al lunes anterior
-        startDate.setDate(startDate.getDate() - (dayOfWeek - 1));
-      }
+      // getDay() devuelve 0 para domingo, 1 para lunes, 2 para martes, etc.
+      const dayOfWeek = startDate.getDay();
+
+      // Calcular cuántos días hay que retroceder para llegar al lunes de esta semana
+      // Si es domingo (0), retroceder 6 días para llegar al lunes
+      // Si es lunes (1), no retroceder (0 días)
+      // Si es martes (2), retroceder 1 día, etc.
+      //TODO: Hacer esta prueba un dia lunes y un dia que no sea domingo
+      const daysToSubtract = dayOfWeek === 0 ? 5 : dayOfWeek - 1;
+
+      // Retroceder al lunes de la semana actual
+      startDate.setDate(startDate.getDate() - daysToSubtract);
       startDate.setHours(0, 0, 0, 0);
       break;
     }
 
     case ETimeRange.THIS_MONTH:
       // Primer día del mes actual
-      startDate = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1 + 1);
       break;
 
     case ETimeRange.THIS_YEAR:
       // Primer día del año actual
-      startDate = new Date(now.getFullYear(), 0, 1, 0, 0, 0);
+      startDate = new Date(now.getFullYear(), 0, 1 + 1);
       break;
 
     case ETimeRange.ALL_TIME:
     default:
       // Una fecha muy antigua para incluir todos los registros
-      startDate = new Date(2000, 0, 1, 0, 0, 0);
+      startDate = new Date(2000, 0, 1 + 1);
       break;
   }
 
