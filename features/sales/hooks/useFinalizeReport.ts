@@ -1,7 +1,9 @@
 import { useNotification } from "contexts/NotificationContext";
 import { useRouter } from "expo-router";
+import { useHomeSalesResume } from "features/home/sales-summary/hooks/useHomeSalesResume";
 import { useDailyReportStore } from "features/sales/store/dailyReport.store";
 import { QueryTypeBusinessFinalSale, useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
+import { useServiceSale } from "hooks/api/useServiceSale";
 import {
   BusinessFinalSaleModel,
   BusinessFinalSaleModelToCreate,
@@ -17,16 +19,24 @@ import { useDebtsFinalSaleStore } from "../store/useDebtsFinalSale.store";
 import { useMachineFinalSaleStore } from "../store/useMachineFinalSale.store";
 import { useMachineStateFinalSaleStore } from "../store/useMachineStateFinalSale.store";
 import { useWorkersFinalSaleStore } from "../store/useWorkersFinalSale.store";
-import { useServiceSale } from "hooks/api/useServiceSale";
 
 export const useFinalizeReport = () => {
   const { saveBusinessFinalSale } = useBusinessFinalSale(QueryTypeBusinessFinalSale.DAILY);
+  const { refetchSalesResume } = useHomeSalesResume();
   const { refetchServiceSales } = useServiceSale();
   const { businessId, business } = useBusinessStore();
   const user = useAuthStore((state) => state.user);
 
   const router = useRouter();
   const { showNotification } = useNotification();
+
+  const refreshDependingData = () => {
+    /* Refetch service sales y sales resume para que se actualicen los datos, en este caso
+      para que detecte si las ventas de servicios pertenecen a un reporte finalizado o 
+      en la pagina de inicio se actualice el resumen de ventas */
+    refetchServiceSales();
+    refetchSalesResume();
+  };
 
   const finalizeReport = (report: BusinessFinalSaleModel, cards: CardPayment[], machineStates: MachineStateModel[]) => {
     const cardsToSave: CardModel[] = cards.map((card) => ({
@@ -60,9 +70,7 @@ export const useFinalizeReport = () => {
         if (response.status === 200) {
           showNotification("Reporte finalizado correctamente", "success");
           clearAllReports();
-          /* Refetch service sales para que se actualicen los datos, en este caso
-          para que detecte si las ventas de servicios pertenecen a un reporte finalizado */
-          refetchServiceSales();
+          refreshDependingData();
           router.replace("/(tabs)/sales/current_day");
         } else {
           showNotification("Hubo un error al finalizar el reporte", "error");

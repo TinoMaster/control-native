@@ -4,11 +4,15 @@ import { homeStatsService } from "services/statistics/homeStats.service";
 import { useBusinessStore } from "store/business.store";
 import { getTimeRange } from "utilities/helpers/globals.helpers";
 
-export function useHomeSalesResume(selectedTimeRange: ETimeRange) {
+export function useHomeSalesResume(selectedTimeRange?: ETimeRange) {
   const businessId = useBusinessStore((state) => state.businessId);
-  const timeRange = getTimeRange(selectedTimeRange);
+  const timeRange = getTimeRange(selectedTimeRange ?? ETimeRange.THIS_WEEK);
 
-  const { data: salesResumeData, isLoading: isLoadingSalesResume } = useQuery({
+  const {
+    data: salesResumeData,
+    isLoading: isLoadingSalesResume,
+    refetch: refetchSalesResume
+  } = useQuery({
     queryKey: ["salesData", selectedTimeRange],
     queryFn: async () => {
       const response = await homeStatsService.getSalesResume({
@@ -24,6 +28,7 @@ export function useHomeSalesResume(selectedTimeRange: ETimeRange) {
 
   return {
     salesResumeData,
-    isLoadingSalesResume
+    isLoadingSalesResume,
+    refetchSalesResume
   };
 }
