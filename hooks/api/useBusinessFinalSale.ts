@@ -57,8 +57,12 @@ export const useBusinessFinalSale = (type: QueryTypeBusinessFinalSale = QueryTyp
   const { mutateAsync: saveBusinessFinalSale, isPending: loadingSave } = useMutation({
     mutationFn: (businessFinalSale: BusinessFinalSaleModelToCreate) =>
       businessFinalSaleService.saveBusinessFinalSale(businessFinalSale),
-    onSuccess: () => {
-      showNotification("Reporte guardado correctamente", "success");
+    onSuccess: (response) => {
+      if (response.status === 200) {
+        showNotification("Reporte guardado correctamente", "success");
+      } else {
+        showNotification("Hubo un error al guardar el reporte", "error");
+      }
       queryClient.invalidateQueries({
         queryKey: ["reports", "daily", businessId]
       });

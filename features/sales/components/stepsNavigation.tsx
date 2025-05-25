@@ -5,6 +5,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import { useDailyReportStore } from "features/sales/store/dailyReport.store";
 import { useFinalizeReport } from "../hooks/useFinalizeReport";
+import LoadingPage from "components/ui/loaders/LoadingPage";
 
 const toShowInModal = (step: number) => {
   switch (step) {
@@ -38,7 +39,7 @@ export default function StepsNavigation() {
   const isStepCompleted = useDailyReportStore((state) => state.isStepCompleted);
   const [showModal, setShowModal] = useState(false);
   /* Metodo para finalizar el reporte */
-  const { finalizeReport, clearAllReports } = useFinalizeReport();
+  const { finalizeReport, clearAllReports, loadingSave } = useFinalizeReport();
 
   function handleNext() {
     if (currentStep === totalSteps) {
@@ -63,6 +64,7 @@ export default function StepsNavigation() {
 
   return (
     <>
+      {loadingSave && <LoadingPage message="Guardando reporte..." absolute />}
       <MessageModal isVisible={showModal} onClose={() => setShowModal(false)} title={title} message={message} />
       <View className="flex-row justify-between p-4 border-t border-gray-600">
         <View className="flex-row space-x-2">

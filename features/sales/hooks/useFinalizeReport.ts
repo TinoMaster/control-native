@@ -1,4 +1,3 @@
-import { useNotification } from "contexts/NotificationContext";
 import { useRouter } from "expo-router";
 import { useHomeSalesResume } from "features/home/sales-summary/hooks/useHomeSalesResume";
 import { useDailyReportStore } from "features/sales/store/dailyReport.store";
@@ -21,14 +20,13 @@ import { useMachineStateFinalSaleStore } from "../store/useMachineStateFinalSale
 import { useWorkersFinalSaleStore } from "../store/useWorkersFinalSale.store";
 
 export const useFinalizeReport = () => {
-  const { saveBusinessFinalSale } = useBusinessFinalSale(QueryTypeBusinessFinalSale.DAILY);
+  const { saveBusinessFinalSale, loadingSave } = useBusinessFinalSale(QueryTypeBusinessFinalSale.DAILY);
   const { refetchSalesResume } = useHomeSalesResume();
   const { refetchServiceSales } = useServiceSale();
   const { businessId, business } = useBusinessStore();
   const user = useAuthStore((state) => state.user);
 
   const router = useRouter();
-  const { showNotification } = useNotification();
 
   const refreshDependingData = () => {
     /* Refetch service sales y sales resume para que se actualicen los datos, en este caso
@@ -63,21 +61,13 @@ export const useFinalizeReport = () => {
       debts: report.debts ?? []
     };
 
-    showNotification("Guardando reporte...", "info");
-
     saveBusinessFinalSale(reportsToSave, {
       onSuccess: (response) => {
         if (response.status === 200) {
-          showNotification("Reporte finalizado correctamente", "success");
           clearAllReports();
           refreshDependingData();
           router.replace("/(tabs)/sales/current_day");
-        } else {
-          showNotification("Hubo un error al finalizar el reporte", "error");
         }
-      },
-      onError: (error) => {
-        showNotification("Hubo un error al finalizar el reporte", "error");
       }
     });
   };
@@ -93,6 +83,7 @@ export const useFinalizeReport = () => {
 
   return {
     finalizeReport,
-    clearAllReports
+    clearAllReports,
+    loadingSave
   };
 };
