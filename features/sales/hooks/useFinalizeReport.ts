@@ -65,6 +65,7 @@ export const useFinalizeReport = () => {
       onSuccess: (response) => {
         if (response.status === 200) {
           clearAllReports();
+          //TODO: Hacer que refetchServiceSales y refetchSalesResume refetchen los datos, ahora no están funcionando
           refreshDependingData();
           router.replace("/(tabs)/sales/current_day");
         }

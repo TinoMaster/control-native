@@ -1,9 +1,5 @@
-import { Text, View } from "react-native";
+import { Redirect } from "expo-router";
 
 export default function Admin() {
-  return (
-    <View>
-      <Text>Admin</Text>
-    </View>
-  );
+  return <Redirect href={"/(admin)/businesses" as any} />;
 }

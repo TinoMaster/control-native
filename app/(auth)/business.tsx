@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { authService } from "services/auth.service";
+import { isEmailExistsError, getEmailExistsErrorMessage } from "utilities/helpers/errorPatterns";
 
 export default function BusinessRegistration() {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,11 +26,20 @@ export default function BusinessRegistration() {
       setIsLoading(true);
       const response = await authService.registerOwner(data);
 
+      console.log(response);
+
       if (response.status === 200) {
         showNotification("Negocio registrado exitosamente", "success");
         router.replace("/");
+      } else if (response.status === 400) {
+        // Check if the error is related to an existing email
+        if (isEmailExistsError(response.message)) {
+          showNotification(getEmailExistsErrorMessage(), "error");
+        } else {
+          showNotification("Error al registrar el negocio", "error");
+        }
       } else {
-        showNotification(response.message || "Error al registrar el negocio", "error");
+        showNotification("Error al registrar el negocio", "error");
       }
     } catch (error) {
       console.error("Error registering business:", error);

@@ -60,7 +60,7 @@ export default function AppTitle() {
             fontSize: 20
           }}
         >
-          {business.name}
+          {business?.name}
         </Text>
         {businessList.length > 1 && (
           <MaterialIcons name="arrow-drop-down" size={24} color={colors.darkMode.text.dark} />
@@ -105,7 +105,7 @@ export default function AppTitle() {
                     fontSize: 16
                   }}
                 >
-                  {b.name}
+                  {b?.name}
                 </Text>
               </TouchableOpacity>
             ))}

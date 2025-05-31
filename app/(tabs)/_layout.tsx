@@ -1,6 +1,6 @@
 import ProtectedRoute from "components/auth/ProtectedRoute";
 import { BusinessIcon } from "components/Icons";
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import { HeaderBackground } from "features/layouts/(tabs)_layout/HeaderBackground";
 import { HeaderLeft } from "features/layouts/(tabs)_layout/HeaderLeft";
 import { HeaderRight } from "features/layouts/(tabs)_layout/HeaderRight";
@@ -13,6 +13,10 @@ import colors from "styles/colors";
 export default function TabsLayout() {
   const defaultColors = useColors();
   const { role, isLoggedIn } = useAuthStore();
+
+  if (role === ERole.SUPERADMIN) {
+    return <Redirect href="/(admin)" />;
+  }
 
   // Verificar si el usuario tiene permisos de administrador o propietario
   const hasBusinessAccess = isLoggedIn && (role === ERole.ADMIN || role === ERole.OWNER);

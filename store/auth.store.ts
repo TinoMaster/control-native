@@ -1,4 +1,4 @@
-import { ERole, TRole, UserModel } from "models/api";
+import { ERole, UserModel } from "models/api";
 import { EmployeeModel } from "models/api/employee.model";
 import { employeeService } from "services/employee.service";
 import { userService } from "services/user.service";
@@ -40,8 +40,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const role = await secureStorage.getItem("role");
 
       set({
-        token,
         role: role as ERole,
+        token,
         isLoggedIn: Boolean(token && role)
       });
 
@@ -62,12 +62,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       set({ isLoading: true });
       await Promise.all([
-        secureStorage.setItem("token", token),
         secureStorage.setItem("role", role),
+        secureStorage.setItem("token", token),
         secureStorage.setItem("refreshToken", refreshToken)
       ]);
 
-      set({ token, role, isLoggedIn: true });
+      set({ role, token, isLoggedIn: true });
       const userEmail = decodeJWT(token).sub;
       if (userEmail) {
         await get().getUser(userEmail);

@@ -124,8 +124,8 @@ export function getTimeRange(timeRange: ETimeRange): DatePeriod {
       // Si es domingo (0), retroceder 6 días para llegar al lunes
       // Si es lunes (1), no retroceder (0 días)
       // Si es martes (2), retroceder 1 día, etc.
-      //TODO: Hacer esta prueba un dia lunes y un dia que no sea domingo
-      const daysToSubtract = dayOfWeek === 0 ? 5 : dayOfWeek - 1;
+      //TODO: Hacer esta prueba un dia que no sea domingo ni lunes, que con estos dos ya funciona
+      const daysToSubtract = dayOfWeek === 0 ? 5 : dayOfWeek - 2;
 
       // Retroceder al lunes de la semana actual
       startDate.setDate(startDate.getDate() - daysToSubtract);

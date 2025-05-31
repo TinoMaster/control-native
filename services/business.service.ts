@@ -16,6 +16,37 @@ class BusinessService {
     }
   }
 
+  async getAuthBusinessRequests(): Promise<IResponse<BusinessModel[]>> {
+    try {
+      return await requestService.fetch<BusinessModel[]>(`${this.urlBase}/superadmin/businesses/authRequests`);
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError(error);
+    }
+  }
+
+  async approveBusiness(ownerId: string): Promise<IResponse<BusinessModel>> {
+    try {
+      return await requestService.fetch<BusinessModel>(`${this.urlBase}/superadmin/businesses/${ownerId}/accept`, {
+        method: "PUT"
+      });
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError(error);
+    }
+  }
+
+  async rejectBusiness(ownerId: string): Promise<IResponse<BusinessModel>> {
+    try {
+      return await requestService.fetch<BusinessModel>(`${this.urlBase}/superadmin/businesses/${ownerId}/reject`, {
+        method: "PUT"
+      });
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError(error);
+    }
+  }
+
   async getBusinessById(id: string): Promise<IResponse<BusinessModel>> {
     try {
       return await requestService.fetch<BusinessModel>(`${this.urlBase}/owner/businesses/${id}`);

@@ -19,6 +19,7 @@ import "./globals.css";
 // TODO: Crear la funcionalidad de update para los insumos
 // TODO: Crear la funcionalidad de update para los servicios
 // TODO: Hacer que el reporte finalizado se pueda actualizar
+// TODO: Hacer que el un servicio cuando se inserte sin usuario no lo de por finalizado
 
 function RootLayoutNav() {
   const colors = useColors();
