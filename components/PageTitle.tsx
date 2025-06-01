@@ -14,10 +14,10 @@ interface PageTitleProps {
 export const PageTitle = ({ title, showAddButton = false, onPressAddButton, icon }: PageTitleProps) => {
   const defaultColors = useColors();
   return (
-    <View className="flex-row items-center justify-between gap-2 px-4 py-6 shadow shadow-black/60">
+    <View className="flex-row items-center justify-between gap-2 p-4 shadow shadow-black/60">
       <View className="flex-row items-center">
         {icon && <Ionicons name={icon} size={24} color={defaultColors.primary} />}
-        <Text className="text-2xl font-bold ml-2" style={{ color: defaultColors.text }}>
+        <Text className="text-xl font-bold ml-2" style={{ color: defaultColors.text, textTransform: "capitalize" }}>
           {title}
         </Text>
       </View>
