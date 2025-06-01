@@ -2,6 +2,7 @@ import ProtectedRoute from "components/auth/ProtectedRoute";
 import { Tabs } from "expo-router";
 import { AdminTitle } from "features-admin/layout/AdminTitle";
 import { HeaderAdminBackground } from "features-admin/layout/HeaderAdminBackground";
+import { HeaderRight } from "features-admin/layout/HeaderRight";
 import { tabsAdminConfig } from "features-admin/layout/TabsAdmin.config";
 import useColors from "hooks/useColors";
 import colors from "styles/colors";
@@ -34,7 +35,8 @@ export default function AdminLayout() {
             color: defaultColors.text,
             fontWeight: "bold"
           },
-          headerTitle: AdminTitle
+          headerTitle: AdminTitle,
+          headerRight: HeaderRight
         }}
       >
         {tabsAdminConfig.map((tab) => (
