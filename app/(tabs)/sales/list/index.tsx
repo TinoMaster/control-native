@@ -7,7 +7,7 @@ import { ModalYearPicker } from "features/sales/components/list/ModalYearPicker"
 import { SalesGroupByDay } from "features/sales/components/SalesGroupByDay";
 import { QueryTypeBusinessFinalSale, useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
 import useColors from "hooks/useColors";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { adjustBrightness, groupSalesByDay } from "utilities/helpers/globals.helpers";
@@ -17,12 +17,9 @@ export default function List() {
   const [showMonthPicker, setShowMonthPicker] = useState(false);
   const [showYearPicker, setShowYearPicker] = useState(false);
 
-  const { reports, loadingReports, selectedMonth, selectedYear, updateMonthAndYear, setMonthlyQuery } =
-    useBusinessFinalSale(QueryTypeBusinessFinalSale.MONTHLY);
-
-  useEffect(() => {
-    setMonthlyQuery(selectedMonth, selectedYear);
-  }, [selectedMonth, selectedYear]);
+  const { reports, loadingReports, selectedMonth, selectedYear, updateMonthAndYear } = useBusinessFinalSale(
+    QueryTypeBusinessFinalSale.MONTHLY
+  );
 
   // Format the selected month and year for display
   const formattedMonthYear = useMemo(() => {
@@ -31,12 +28,14 @@ export default function List() {
 
   // Handle month selection
   const handleMonthSelect = (month: number) => {
+    console.log(month);
     updateMonthAndYear(month, selectedYear);
     setShowMonthPicker(false);
   };
 
   // Handle year selection
   const handleYearSelect = (year: number) => {
+    console.log(year);
     updateMonthAndYear(selectedMonth, year);
     setShowYearPicker(false);
   };

@@ -18,7 +18,7 @@ export const useBusinessFinalSale = (type: QueryTypeBusinessFinalSale = QueryTyp
 
   // Estados para controlar el tipo de consulta y fechas
   const currentDate = new Date();
-  const [selectedMonth, setSelectedMonth] = useState<number>(currentDate.getMonth() );
+  const [selectedMonth, setSelectedMonth] = useState<number>(currentDate.getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState<number>(currentDate.getFullYear());
 
   // Consulta de reportes (por día o por mes)
