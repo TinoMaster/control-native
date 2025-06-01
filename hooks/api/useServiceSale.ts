@@ -47,7 +47,7 @@ export const useServiceSale = (options?: ServiceSaleQueryOptions) => {
     }
   });
 
-  const { mutate: editServiceSale } = useMutation({
+  const { mutate: editServiceSale, isPending: isLoadingEditServiceSale } = useMutation({
     mutationFn: (serviceSale: ServiceSaleModel) => serviceSaleService.updateServiceSale(serviceSale),
     onSuccess: () => {
       showNotification("Venta de servicio actualizada correctamente", "success");
@@ -72,6 +72,7 @@ export const useServiceSale = (options?: ServiceSaleQueryOptions) => {
   return {
     serviceSales,
     loadingServiceSales,
+    isLoadingEditServiceSale,
     refetchServiceSales,
     saveServiceSale,
     editServiceSale,

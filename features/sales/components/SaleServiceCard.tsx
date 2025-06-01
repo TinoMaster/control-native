@@ -1,13 +1,16 @@
 import { Ionicons } from "@expo/vector-icons";
-import { MiniIconButton } from "components/ui/MIniIconButton";
-import { useNotification } from "contexts/NotificationContext";
 import { format } from "date-fns";
-import { useServiceSale } from "hooks/api/useServiceSale";
-import useColors from "hooks/useColors";
-import { ServiceSaleModel } from "models/api/serviceSale.model";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useModalStore } from "store/modal.store";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
+import { useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import { MiniIconButton } from "../../../components/ui/MIniIconButton";
+import { MyModal } from "../../../components/ui/modals/myModal";
+import { useNotification } from "../../../contexts/NotificationContext";
+import { useServiceSale } from "../../../hooks/api/useServiceSale";
+import useColors from "../../../hooks/useColors";
+import { ServiceSaleModel } from "../../../models/api/serviceSale.model";
+import { useModalStore } from "../../../store/modal.store";
+import { adjustBrightness } from "../../../utilities/helpers/globals.helpers";
+import { FormEditServiceSale } from "./FormEditServiceSale";
 
 interface SaleServiceCardProps {
   readonly saleService: ServiceSaleModel;
@@ -20,12 +23,13 @@ export function SaleServiceCard({ saleService, onPress, allDetails = true }: Sal
   const { showConfirm, showAlert } = useModalStore();
   const { deleteServiceSale } = useServiceSale();
   const { showNotification } = useNotification();
+  const [editModalVisible, setEditModalVisible] = useState(false);
 
   const createdAt = saleService.createdAt ? new Date(saleService.createdAt) : null;
   const totalAmount = saleService.quantity * saleService.service.price;
 
   const handleEdit = () => {
-    console.log("Edit");
+    setEditModalVisible(true);
   };
 
   const handleDelete = () => {
@@ -53,23 +57,26 @@ export function SaleServiceCard({ saleService, onPress, allDetails = true }: Sal
     <View>
       <TouchableOpacity
         onPress={onPress}
-        style={[styles.container, { backgroundColor: adjustBrightness(defaultColors.background, 18) }]}
+        className="rounded-xl p-4 mb-3"
+        style={{ backgroundColor: adjustBrightness(defaultColors.background, 18) }}
         activeOpacity={0.8}
       >
-        <View style={styles.header}>
-          <View style={styles.titleContainer}>
-            <Text style={[styles.title, { color: defaultColors.text }]}>{saleService.service.name}</Text>
-            <Text style={[styles.subtitle, { color: defaultColors.textSecondary }]}>
+        <View className="flex-row justify-between items-center mb-3">
+          <View className="flex-1">
+            <Text className="text-lg font-semibold mb-0.5" style={{ color: defaultColors.text }}>
+              {saleService.service.name}
+            </Text>
+            <Text className="text-sm mb-1" style={{ color: defaultColors.textSecondary }}>
               {createdAt ? format(createdAt, "dd/MM/yyyy HH:mm") : "Fecha no disponible"}
             </Text>
           </View>
-          <View style={styles.actionsContainer}>
+          <View className="flex-row items-center gap-1">
             {!saleService.businessFinalSale ? (
               <>
-                <TouchableOpacity style={styles.iconButton}>
+                <TouchableOpacity className="mx-1">
                   <MiniIconButton icon="pencil" onPress={handleEdit} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.iconButton}>
+                <TouchableOpacity className="mx-1">
                   <MiniIconButton icon="trash-outline" onPress={handleDelete} />
                 </TouchableOpacity>
               </>
@@ -80,121 +87,56 @@ export function SaleServiceCard({ saleService, onPress, allDetails = true }: Sal
           </View>
         </View>
 
-        <View style={styles.content}>
-          <View style={styles.infoContainer}>
+        <View className="mb-3 gap-1.5">
+          <View className="flex-row items-center mb-1">
             <Ionicons name="person-outline" size={16} color={defaultColors.textSecondary} />
-            <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>
+            <Text className="text-sm ml-2" style={{ color: defaultColors.textSecondary }}>
               {saleService.employee.user.name}
             </Text>
           </View>
 
           {allDetails && (
-            <View style={styles.infoContainer}>
+            <View className="flex-row items-center mb-1">
               <Ionicons name="document-text-outline" size={16} color={defaultColors.textSecondary} />
-              <Text style={[styles.infoText, { color: defaultColors.textSecondary }]} numberOfLines={2}>
+              <Text className="text-sm ml-2" style={{ color: defaultColors.textSecondary }} numberOfLines={2}>
                 {saleService.service.description}
               </Text>
             </View>
           )}
         </View>
 
-        <View style={styles.footer}>
-          <View style={styles.amountContainer}>
-            <View style={styles.infoContainer}>
+        <View className="mt-2">
+          <View className="flex-row justify-between items-center mb-2">
+            <View className="flex-row items-center mb-1">
               <Ionicons name="pricetag-outline" size={16} color={defaultColors.textSecondary} />
-              <Text style={[styles.amountText, { color: defaultColors.textSecondary }]}>
+              <Text className="text-sm font-medium ml-2" style={{ color: defaultColors.textSecondary }}>
                 Precio: ${saleService.service.price.toFixed(2)}
               </Text>
             </View>
 
-            <View style={styles.infoContainer}>
+            <View className="flex-row items-center mb-1">
               <Ionicons name="calculator-outline" size={16} color={defaultColors.textSecondary} />
-              <Text style={[styles.amountText, { color: defaultColors.textSecondary }]}>
+              <Text className="text-sm font-medium ml-2" style={{ color: defaultColors.textSecondary }}>
                 Cantidad: {saleService.quantity}
               </Text>
             </View>
           </View>
 
           {allDetails && (
-            <View style={[styles.infoContainer, styles.totalAmount]}>
+            <View className="flex-row items-center mt-2 pt-2 border-t border-gray-200">
               <Ionicons name="cash-outline" size={18} color={defaultColors.primary} />
-              <Text style={[styles.totalText, { color: defaultColors.primary }]}>Total: ${totalAmount.toFixed(2)}</Text>
+              <Text className="text-base font-semibold ml-2" style={{ color: defaultColors.primary }}>
+                Total: ${totalAmount.toFixed(2)}
+              </Text>
             </View>
           )}
         </View>
       </TouchableOpacity>
+
+      {/* Edit Modal */}
+      <MyModal isVisible={editModalVisible} onClose={() => setEditModalVisible(false)} title="Editar Venta de Servicio">
+        <FormEditServiceSale saleService={saleService} setModalVisible={setEditModalVisible} />
+      </MyModal>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 12
-  },
-  actionsContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4
-  },
-  iconButton: {
-    marginHorizontal: 4
-  },
-  titleContainer: {
-    flex: 1
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 2
-  },
-  subtitle: {
-    fontSize: 14,
-    marginBottom: 4
-  },
-  content: {
-    marginBottom: 12,
-    gap: 6
-  },
-  footer: {
-    marginTop: 8
-  },
-  infoContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 4
-  },
-  infoText: {
-    fontSize: 14,
-    marginLeft: 8
-  },
-  amountContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 8
-  },
-  amountText: {
-    fontSize: 14,
-    fontWeight: "500",
-    marginLeft: 8
-  },
-  totalAmount: {
-    marginTop: 8,
-    paddingTop: 8,
-    borderTopWidth: 1,
-    borderTopColor: "#eaeaea"
-  },
-  totalText: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginLeft: 8
-  }
-});
