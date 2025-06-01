@@ -58,7 +58,7 @@ export default function CreateServiceSale() {
   };
   const selectService = (service: ServiceModel) => {
     setSelectedService(service);
-    setValue("serviceId", service.id!, { shouldValidate: true });
+    setValue("serviceId", service.id!.toString(), { shouldValidate: true });
     setShowServiceModal(false);
   };
 
