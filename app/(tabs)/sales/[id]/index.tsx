@@ -27,6 +27,7 @@ import {
 } from "utilities/helpers/businessFinalSale.utils";
 import { formatCurrency } from "utilities/formatters";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
+import { isTodayDate } from "utilities/helpers/date.utils";
 
 // Componente para mostrar un elemento de trabajador
 function WorkerItem({ worker, salary }: { readonly worker: EmployeeModel; readonly salary: number }) {
@@ -70,20 +71,6 @@ export default function DailyReportDetailScreen() {
     router.back();
     return null;
   }
-
-  const isTodayReport = () => {
-    if (!report.createdAt) return false;
-
-    const reportDate = new Date(report.createdAt);
-    const today = new Date();
-
-    // Comparar solo día, mes y año
-    return (
-      reportDate.getDate() === today.getDate() &&
-      reportDate.getMonth() === today.getMonth() &&
-      reportDate.getFullYear() === today.getFullYear()
-    );
-  };
 
   // Calcular totales
   const totalCards = getTotalCards(report.cards);
@@ -204,7 +191,7 @@ export default function DailyReportDetailScreen() {
           )}
 
           {/* Trabajadores y Salarios */}
-          {report.workers.length > 0 && isTodayReport() && (
+          {report.workers.length > 0 && isTodayDate(new Date(report.createdAt || new Date())) && (
             <MyCard title="Trabajadores y Salarios" iconTitle="people-outline">
               {report.workers.map((worker) => (
                 <WorkerItem key={worker.id} worker={worker} salary={workersAndSalaries[worker.user.name] || 0} />
@@ -246,17 +233,19 @@ export default function DailyReportDetailScreen() {
       </ScrollView>
 
       {/* Botones de Acción */}
-      <ActionButtons
-        buttons={[
-          {
-            icon: "trash-outline",
-            color: colors.error.light,
-            onPress: handleDeleteReport,
-            label: "Eliminar"
-          }
-        ]}
-        fixed={true}
-      />
+      {isTodayDate(new Date(report.createdAt || new Date())) && (
+        <ActionButtons
+          buttons={[
+            {
+              icon: "trash-outline",
+              color: colors.error.light,
+              onPress: handleDeleteReport,
+              label: "Eliminar"
+            }
+          ]}
+          fixed={true}
+        />
+      )}
     </View>
   );
 }

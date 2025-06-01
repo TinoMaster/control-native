@@ -2,7 +2,7 @@ import { MyCard } from "components/ui/MyCard";
 import useColors from "hooks/useColors";
 import { BusinessModel } from "models/api";
 import { Text } from "react-native";
-import { formatDate } from "utilities/formatters";
+import { formatDate } from "utilities/helpers/date.utils";
 
 interface Props {
   readonly business: BusinessModel;

@@ -14,14 +14,6 @@ export function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
-export const formatDate = (date: Date): string => {
-  return date.toLocaleDateString("es-ES", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
-};
-
 export const formatRole = (role: ERole): string => {
   return traslateRole(role);
 };

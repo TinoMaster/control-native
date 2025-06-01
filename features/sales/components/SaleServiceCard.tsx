@@ -1,15 +1,15 @@
 import { Ionicons } from "@expo/vector-icons";
+import { MiniIconButton } from "components/ui/MIniIconButton";
+import { MyModal } from "components/ui/modals/myModal";
+import { useNotification } from "contexts/NotificationContext";
 import { format } from "date-fns";
+import { useServiceSale } from "hooks/api/useServiceSale";
+import useColors from "hooks/useColors";
+import { ServiceSaleModel } from "models/api/serviceSale.model";
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { MiniIconButton } from "../../../components/ui/MIniIconButton";
-import { MyModal } from "../../../components/ui/modals/myModal";
-import { useNotification } from "../../../contexts/NotificationContext";
-import { useServiceSale } from "../../../hooks/api/useServiceSale";
-import useColors from "../../../hooks/useColors";
-import { ServiceSaleModel } from "../../../models/api/serviceSale.model";
-import { useModalStore } from "../../../store/modal.store";
-import { adjustBrightness } from "../../../utilities/helpers/globals.helpers";
+import { useModalStore } from "store/modal.store";
+import { adjustBrightness } from "utilities/helpers/globals.helpers";
 import { FormEditServiceSale } from "./FormEditServiceSale";
 
 interface SaleServiceCardProps {
