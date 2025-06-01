@@ -5,7 +5,7 @@ import { MONTHS } from "data/global.data";
 import { ModalMonthPicker } from "features/sales/components/list/ModalMonthPicker";
 import { ModalYearPicker } from "features/sales/components/list/ModalYearPicker";
 import { SalesGroupByDay } from "features/sales/components/SalesGroupByDay";
-import { QueryTypeBusinessFinalSale, useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
+import { useMonthlySales } from "hooks/api/useMonthlySales";
 import useColors from "hooks/useColors";
 import { useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -17,9 +17,7 @@ export default function List() {
   const [showMonthPicker, setShowMonthPicker] = useState(false);
   const [showYearPicker, setShowYearPicker] = useState(false);
 
-  const { reports, loadingReports, selectedMonth, selectedYear, updateMonthAndYear } = useBusinessFinalSale(
-    QueryTypeBusinessFinalSale.MONTHLY
-  );
+  const { monthlyReports, loadingMonthlyReports, selectedMonth, selectedYear, updateMonthAndYear } = useMonthlySales();
 
   // Format the selected month and year for display
   const formattedMonthYear = useMemo(() => {
@@ -42,10 +40,10 @@ export default function List() {
 
   // Group sales by day
   const groupedSales = useMemo(() => {
-    return groupSalesByDay(reports ?? []);
-  }, [reports]);
+    return groupSalesByDay(monthlyReports ?? []);
+  }, [monthlyReports]);
 
-  if (loadingReports) {
+  if (loadingMonthlyReports) {
     return <LoadingPage />;
   }
 

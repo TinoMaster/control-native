@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { StepsHeader } from "features/sales/components/stepsHeader";
 import StepsNavigation from "features/sales/components/stepsNavigation";
 import { useDailyReportStore } from "features/sales/store/dailyReport.store";
-import { QueryTypeBusinessFinalSale, useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
+import { useDailySales } from "hooks/api/useDailySales";
 import useColors from "hooks/useColors";
 import { useMemo } from "react";
 import { View } from "react-native";
@@ -18,7 +18,7 @@ import Step4ServicesSales from "./steps/step-4-services-sales";
 export default function CreateReportWizard() {
   const currentStep = useDailyReportStore((state) => state.currentStep);
   const business = useBusinessStore((state) => state.business);
-  const { machinesAlreadySelected } = useBusinessFinalSale(QueryTypeBusinessFinalSale.DAILY);
+  const { machinesAlreadySelected } = useDailySales();
   const { machines, users } = business;
   const defaultColors = useColors();
   const router = useRouter();

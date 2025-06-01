@@ -10,13 +10,15 @@ import LoadingPage from "components/ui/loaders/LoadingPage";
 import { MyCard } from "components/ui/MyCard";
 import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
+import { useDailySales } from "hooks/api/useDailySales";
+import { useMonthlySales } from "hooks/api/useMonthlySales";
 import useColors from "hooks/useColors";
 import { CardPayment } from "models/api/businessFinalSale.model";
 import { EmployeeModel } from "models/api/employee.model";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import colors from "styles/colors";
+import { formatCurrency } from "utilities/formatters";
 import {
   calculateFinalCash,
   calculateSalaryFromReport,
@@ -25,9 +27,8 @@ import {
   getTotalServices,
   getWorkersAndSalaries
 } from "utilities/helpers/businessFinalSale.utils";
-import { formatCurrency } from "utilities/formatters";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
 import { isTodayDate } from "utilities/helpers/date.utils";
+import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 // Componente para mostrar un elemento de trabajador
 function WorkerItem({ worker, salary }: { readonly worker: EmployeeModel; readonly salary: number }) {
@@ -50,14 +51,16 @@ export default function DailyReportDetailScreen() {
   const defaultColors = useColors();
   const router = useRouter();
   const { showNotification } = useNotification();
-  const { reports, loadingReports, deleteBusinessFinalSale } = useBusinessFinalSale();
+  const { dailyReports, loadingDailyReports, deleteDailyReport } = useDailySales();
+  const { monthlyReports, loadingMonthlyReports } = useMonthlySales();
   const business = useBusinessStore((state) => state.business);
 
-  if (loadingReports) {
+  if (loadingDailyReports || loadingMonthlyReports) {
     return <LoadingPage message="Cargando detalles del reporte..." />;
   }
 
-  const report = reports?.find((r: any) => r.id === Number(id));
+  const report =
+    dailyReports?.find((r: any) => r.id === Number(id)) || monthlyReports?.find((r: any) => r.id === Number(id));
 
   const cards: CardPayment[] =
     report?.cards.map((card) => ({
@@ -96,7 +99,7 @@ export default function DailyReportDetailScreen() {
 
   const handleDeleteReport = () => {
     if (report.id) {
-      deleteBusinessFinalSale(report.id, {
+      deleteDailyReport(report.id, {
         onSuccess: () => {
           showNotification("Reporte eliminado correctamente", "success");
           router.back();

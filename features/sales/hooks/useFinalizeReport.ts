@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { useHomeSalesResume } from "features/home/sales-summary/hooks/useHomeSalesResume";
 import { useDailyReportStore } from "features/sales/store/dailyReport.store";
-import { QueryTypeBusinessFinalSale, useBusinessFinalSale } from "hooks/api/useBusinessFinalSale";
+import { useDailySales } from "hooks/api/useDailySales";
 import { useServiceSale } from "hooks/api/useServiceSale";
 import {
   BusinessFinalSaleModel,
@@ -20,7 +20,7 @@ import { useMachineStateFinalSaleStore } from "../store/useMachineStateFinalSale
 import { useWorkersFinalSaleStore } from "../store/useWorkersFinalSale.store";
 
 export const useFinalizeReport = () => {
-  const { saveBusinessFinalSale, loadingSave } = useBusinessFinalSale(QueryTypeBusinessFinalSale.DAILY);
+  const { saveDailyReport, loadingSave } = useDailySales();
   const { refetchSalesResume } = useHomeSalesResume();
   const { refetchServiceSales } = useServiceSale();
   const { businessId, business } = useBusinessStore();
@@ -61,7 +61,7 @@ export const useFinalizeReport = () => {
       debts: report.debts ?? []
     };
 
-    saveBusinessFinalSale(reportsToSave, {
+    saveDailyReport(reportsToSave, {
       onSuccess: (response) => {
         if (response.status === 200) {
           clearAllReports();
