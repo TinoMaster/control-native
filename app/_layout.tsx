@@ -15,9 +15,6 @@ import "./globals.css";
 
 /* Tareas pendientes de la app */
 // TODO: En la pagina de detalles de un negocio, hacer que se actualize la fecha de actualización cada vez que se modifique algo
-// TODO: Hacer funcionar la función de editar los servicios vendidos
-// TODO: Crear la funcionalidad de update para los insumos
-// TODO: Crear la funcionalidad de update para los servicios
 // TODO: Hacer que el reporte finalizado se pueda actualizar
 
 function RootLayoutNav() {
