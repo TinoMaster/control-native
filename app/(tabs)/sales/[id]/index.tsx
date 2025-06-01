@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import { ActionButtons } from "components/ActionButtons";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
+import { PageWrapper } from "components/PageWrapper";
 import { InfoRow } from "components/ui/InfoRow";
 import { CardItem } from "components/ui/items/CardItem.ui";
 import { DebtItem } from "components/ui/items/DebtItem.ui";
@@ -112,7 +113,7 @@ export default function DailyReportDetailScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+    <PageWrapper>
       {/* Header */}
       <BackButtonPlusTitle title="Detalles del Reporte" />
       <ScrollView style={styles.scrollView}>
@@ -249,7 +250,7 @@ export default function DailyReportDetailScreen() {
           fixed={true}
         />
       )}
-    </View>
+    </PageWrapper>
   );
 }
 

@@ -1,13 +1,14 @@
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
+import { PageWrapper } from "components/PageWrapper";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
 import { DailyReportCardLarge } from "features/sales/components/DailyReportCardLarge";
 import { useDailySales } from "hooks/api/useDailySales";
 import useColors from "hooks/useColors";
 import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import colors from "styles/colors";
 
 export default function CurrentDay() {
@@ -32,7 +33,7 @@ export default function CurrentDay() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+    <PageWrapper>
       <PageTitle title="Cuadres del día" />
 
       <GenericList
@@ -47,7 +48,7 @@ export default function CurrentDay() {
         backgroundColor={defaultColors.primary}
         iconColor={colors.darkMode.text.light}
       />
-    </View>
+    </PageWrapper>
   );
 }
 
