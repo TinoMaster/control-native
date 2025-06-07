@@ -8,7 +8,6 @@ import { DailyReportCardLarge } from "features/sales/current_day/components/Dail
 import { useDailySales } from "hooks/api/useDailySales";
 import useColors from "hooks/useColors";
 import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
-import { StyleSheet } from "react-native";
 import colors from "styles/colors";
 
 export default function CurrentDay() {
@@ -51,9 +50,3 @@ export default function CurrentDay() {
     </PageWrapper>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});

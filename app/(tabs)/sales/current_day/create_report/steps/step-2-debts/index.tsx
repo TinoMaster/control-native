@@ -9,7 +9,6 @@ import useColors from "hooks/useColors";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 
-//TODO: Continue here
 export default function Step2Debts() {
   const { debts, addDebts } = useDebtsFinalSaleStore();
   const { getDebtsInActualDay } = useDebts();
@@ -26,7 +25,7 @@ export default function Step2Debts() {
   }, []);
 
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <MyModal isVisible={isFormVisible} onClose={() => setIsFormVisible(false)} title="Agregar Deuda">
         <FormAddDebt onClose={() => setIsFormVisible(false)} />
       </MyModal>
@@ -56,6 +55,6 @@ export default function Step2Debts() {
           style={{ bottom: 25, right: 5 }}
         />
       </View>
-    </>
+    </View>
   );
 }

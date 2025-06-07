@@ -1,12 +1,12 @@
+import { PageWrapper } from "components/PageWrapper";
 import { MessageModal } from "components/ui/modals/messageModal";
+import { MyScrollView } from "components/ui/MyScrollView";
 import { useRouter } from "expo-router";
 import { StepsHeader } from "features/sales/current_day/components/stepsHeader";
 import StepsNavigation from "features/sales/current_day/components/stepsNavigation";
 import { useDailyReportStore } from "features/sales/current_day/store/dailyReport.store";
 import { useDailySales } from "hooks/api/useDailySales";
-import useColors from "hooks/useColors";
 import { useMemo } from "react";
-import { View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import { getActiveMachines } from "utilities/helpers/machines.utils";
 import ReviewFinalReport from "./steps/review_final_report";
@@ -20,7 +20,6 @@ export default function CreateReportWizard() {
   const business = useBusinessStore((state) => state.business);
   const { machinesAlreadySelected } = useDailySales();
   const { machines, users } = business;
-  const defaultColors = useColors();
   const router = useRouter();
 
   /* Seleccionar solo las maquinas activas y que no estén ya seleccionadas en un reporte del mismo dia */
@@ -70,15 +69,15 @@ export default function CreateReportWizard() {
   }
 
   return (
-    <View style={{ backgroundColor: defaultColors.background }} className="flex-1">
+    <PageWrapper>
       {/* Header */}
       <StepsHeader />
 
       {/* Step Content */}
-      <View className="flex-1 p-4">{renderCurrentStep()}</View>
+      <MyScrollView>{renderCurrentStep()}</MyScrollView>
 
       {/* Navigation */}
       <StepsNavigation />
-    </View>
+    </PageWrapper>
   );
 }

@@ -27,7 +27,7 @@ export default function Step4ServicesSales() {
   }, [serviceSales, selectedWorkers, setServicesSales]);
 
   return (
-    <View style={{ gap: 10, paddingBottom: 20 }} className="flex-1">
+    <View style={{ gap: 5, paddingBottom: 20 }} className="flex-1">
       <Text style={{ color: defaultColors.text }} className="text-lg font-semibold">
         Servicios vendidos
       </Text>

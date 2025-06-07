@@ -2,13 +2,13 @@ import { MachinesSelection } from "features/sales/current_day/components/step1/m
 import { MoneyDetails } from "features/sales/current_day/components/step1/moneyDetails";
 import { Workers } from "features/sales/current_day/components/step1/workers";
 import useColors from "hooks/useColors";
-import { ScrollView, Text } from "react-native";
+import { View, Text } from "react-native";
 
 export default function Step1Details() {
   const defaultColors = useColors();
 
   return (
-    <ScrollView style={{ gap: 10, paddingBottom: 20 }} className="flex-1">
+    <View>
       <Text style={{ color: defaultColors.text }} className="text-lg font-semibold mb-2">
         Detalles Monetarios
       </Text>
@@ -17,6 +17,6 @@ export default function Step1Details() {
       <MachinesSelection />
 
       <Workers />
-    </ScrollView>
+    </View>
   );
 }
