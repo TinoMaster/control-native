@@ -1,10 +1,10 @@
-import { SaleServiceCard } from "features/sales/components/SaleServiceCard";
-import { useWorkersFinalSaleStore } from "features/sales/store/useWorkersFinalSale.store";
+import { SaleServiceCard } from "features/sales/sale_services/components/SaleServiceCard";
+import { useWorkersFinalSaleStore } from "features/sales/current_day/store/useWorkersFinalSale.store";
 import { useServiceSale } from "hooks/api/useServiceSale";
 import useColors from "hooks/useColors";
 import { useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { useDailyReportStore } from "features/sales/store/dailyReport.store";
+import { useDailyReportStore } from "features/sales/current_day/store/dailyReport.store";
 
 export default function Step4ServicesSales() {
   const { serviceSales } = useServiceSale();

@@ -3,7 +3,7 @@ import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
-import { DebtCard } from "features/sales/components/DebtCard";
+import { DebtCard } from "features/sales/debts/components/DebtCard";
 import { useDebts } from "hooks/api/useDebts";
 import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";

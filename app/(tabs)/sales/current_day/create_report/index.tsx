@@ -1,8 +1,8 @@
 import { MessageModal } from "components/ui/modals/messageModal";
 import { useRouter } from "expo-router";
-import { StepsHeader } from "features/sales/components/stepsHeader";
-import StepsNavigation from "features/sales/components/stepsNavigation";
-import { useDailyReportStore } from "features/sales/store/dailyReport.store";
+import { StepsHeader } from "features/sales/current_day/components/stepsHeader";
+import StepsNavigation from "features/sales/current_day/components/stepsNavigation";
+import { useDailyReportStore } from "features/sales/current_day/store/dailyReport.store";
 import { useDailySales } from "hooks/api/useDailySales";
 import useColors from "hooks/useColors";
 import { useMemo } from "react";

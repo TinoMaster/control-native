@@ -4,7 +4,7 @@ import { PageTitle } from "components/PageTitle";
 import { PageWrapper } from "components/PageWrapper";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
-import { DailyReportCardLarge } from "features/sales/components/DailyReportCardLarge";
+import { DailyReportCardLarge } from "features/sales/current_day/components/DailyReportCardLarge";
 import { useDailySales } from "hooks/api/useDailySales";
 import useColors from "hooks/useColors";
 import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";

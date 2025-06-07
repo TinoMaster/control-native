@@ -1,7 +1,7 @@
 import { ETimeRange } from "data/global.data";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
-import { GroupedSale } from "features/sales/components/SalesGroupByDay";
+import { GroupedSale } from "features/sales/list/components/SalesGroupByDay";
 import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
 import { EmployeeModel } from "models/api/employee.model";
 import { MachineStateModel } from "models/api/machineState.model";

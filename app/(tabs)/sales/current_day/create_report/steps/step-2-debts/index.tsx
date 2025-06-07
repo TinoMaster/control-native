@@ -1,8 +1,8 @@
 import { FloatingActionButton } from "components/floating-action-button";
 import { MyModal } from "components/ui/modals/myModal";
-import { DebtItem } from "features/sales/components/step2/debts/debtItem";
-import { FormAddDebt } from "features/sales/components/step2/debts/formAddDebt";
-import { useDebtsFinalSaleStore } from "features/sales/store/useDebtsFinalSale.store";
+import { DebtItem } from "features/sales/current_day/components/step2/debts/debtItem";
+import { FormAddDebt } from "features/sales/current_day/components/step2/debts/formAddDebt";
+import { useDebtsFinalSaleStore } from "features/sales/current_day/store/useDebtsFinalSale.store";
 import useColors from "hooks/useColors";
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";

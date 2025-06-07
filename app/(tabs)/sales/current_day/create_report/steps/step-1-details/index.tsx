@@ -1,6 +1,6 @@
-import { MachinesSelection } from "features/sales/components/step1/machines";
-import { MoneyDetails } from "features/sales/components/step1/moneyDetails";
-import { Workers } from "features/sales/components/step1/workers";
+import { MachinesSelection } from "features/sales/current_day/components/step1/machines";
+import { MoneyDetails } from "features/sales/current_day/components/step1/moneyDetails";
+import { Workers } from "features/sales/current_day/components/step1/workers";
 import useColors from "hooks/useColors";
 import { ScrollView, Text } from "react-native";
 

@@ -8,7 +8,7 @@ import useColors from "hooks/useColors";
 import { StyleSheet, View } from "react-native";
 import colors from "styles/colors";
 import { ServiceSaleModel } from "models/api/serviceSale.model";
-import { SaleServiceCard } from "features/sales/components/SaleServiceCard";
+import { SaleServiceCard } from "features/sales/sale_services/components/SaleServiceCard";
 
 export default function SaleServices() {
   const defaultColors = useColors();

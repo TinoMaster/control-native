@@ -1,8 +1,8 @@
 import { FloatingActionButton } from "components/floating-action-button";
 import { MyModal } from "components/ui/modals/myModal";
-import { CardItem } from "features/sales/components/step3/cards/cardItem";
-import { FormAddCard } from "features/sales/components/step3/cards/formAddCard";
-import { useCardsFinalSaleStore } from "features/sales/store/useCardsFinalSale.store";
+import { CardItem } from "features/sales/current_day/components/step3/cards/cardItem";
+import { FormAddCard } from "features/sales/current_day/components/step3/cards/formAddCard";
+import { useCardsFinalSaleStore } from "features/sales/current_day/store/useCardsFinalSale.store";
 import useColors from "hooks/useColors";
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";

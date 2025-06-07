@@ -8,7 +8,7 @@ import { WorkerItem } from "components/ui/items/WorkerItem.ui";
 import { MyModal } from "components/ui/modals/myModal";
 import MyButton from "components/ui/MyButton";
 import { MyCard } from "components/ui/MyCard";
-import { useDailyReportStore } from "features/sales/store/dailyReport.store";
+import { useDailyReportStore } from "features/sales/current_day/store/dailyReport.store";
 import { useMachineStates } from "hooks/api/useMachineStates";
 import useColors from "hooks/useColors";
 import { useCallback, useEffect, useMemo, useState } from "react";

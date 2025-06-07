@@ -5,7 +5,7 @@ import GenericInput from "components/forms/generic-input";
 import { SelectModal } from "components/ui/modals/selectModal";
 import { useNotification } from "contexts/NotificationContext";
 import { useRouter } from "expo-router";
-import { serviceSaleSchema, ServiceSaleSchema } from "features/sales/schema/serviceSale.schema";
+import { serviceSaleSchema, ServiceSaleSchema } from "models/zod/serviceSale.schema";
 import { useEmployees } from "hooks/api/useEmployees";
 import { useService } from "hooks/api/useServices";
 import { useServiceSale } from "hooks/api/useServiceSale";
