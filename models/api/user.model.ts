@@ -1,5 +1,6 @@
-import { BusinessModel } from './business.model';
-import { ERole } from './roles.model';
+import { BusinessModel } from "./business.model";
+import { EmployeeModel } from "./employee.model";
+import { ERole } from "./roles.model";
 
 export interface UserModel {
   id?: number;
@@ -21,4 +22,13 @@ export interface UserRegisterModel {
   role: ERole;
   active: boolean;
   business: BusinessModel;
+}
+
+export interface RegisterOwnerModel {
+  name: string;
+  email: string;
+  password: string;
+  role: ERole;
+  business: BusinessModel;
+  employee: EmployeeModel;
 }

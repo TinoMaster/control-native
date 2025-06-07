@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { authService } from "services/auth.service";
-import { isEmailExistsError, getEmailExistsErrorMessage } from "utilities/helpers/errorPatterns";
+import { getEmailExistsErrorMessage, isEmailExistsError } from "utilities/helpers/errorPatterns";
 
 export default function BusinessRegistration() {
   const [isLoading, setIsLoading] = useState(false);
@@ -109,6 +109,25 @@ export default function BusinessRegistration() {
             />
             {errors.lastName && <Text className={errorTextClasses}>{errors.lastName.message}</Text>}
           </View>
+        </View>
+
+        <View className="mb-4">
+          <Text className={labelClasses}>Teléfono Personal</Text>
+          <Controller
+            control={control}
+            name="phone"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                className={`${inputBaseClasses} ${errors.phone ? inputErrorClasses : "border-gray-300"}`}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder="Ej: 12345678"
+                keyboardType="phone-pad"
+              />
+            )}
+          />
+          {errors.phone && <Text className={errorTextClasses}>{errors.phone.message}</Text>}
         </View>
 
         <View className="mb-4">

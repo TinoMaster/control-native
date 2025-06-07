@@ -64,7 +64,7 @@ export default function CreateServiceSale() {
 
   const selectEmployee = (employee: EmployeeModel) => {
     setSelectedEmployee(employee);
-    setValue("employeeId", employee.id.toString(), { shouldValidate: true });
+    setValue("employeeId", employee.id?.toString() ?? "", { shouldValidate: true });
     setShowEmployeeModal(false);
   };
 
@@ -270,7 +270,7 @@ export default function CreateServiceSale() {
           isLoading={loadingEmployees}
           renderItem={(item) => <Text>{item.user.name}</Text>}
           onSelect={selectEmployee}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id?.toString() ?? ""}
         />
       )}
     </View>

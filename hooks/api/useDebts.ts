@@ -32,7 +32,7 @@ export const useDebts = () => {
     onSuccess: (response) => {
       if (response.status === 200 && response.data) {
         showNotification("Deuda guardada correctamente", "success");
-        queryClient.invalidateQueries({ queryKey: ["debts"] });
+        queryClient.invalidateQueries({ queryKey: ["debts", businessId] });
         router.replace("/(tabs)/sales/debts");
       } else {
         showNotification(
@@ -51,7 +51,7 @@ export const useDebts = () => {
     onSuccess: (response) => {
       if (response.status === 200 && response.data) {
         showNotification("Deuda actualizada correctamente", "success");
-        queryClient.invalidateQueries({ queryKey: ["debts"] });
+        queryClient.invalidateQueries({ queryKey: ["debts", businessId] });
         router.replace("/(tabs)/sales/debts");
       } else {
         showNotification(

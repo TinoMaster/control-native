@@ -4,9 +4,12 @@ import { DebtFormValues, debtSchema } from "features/sales/schema/debtsFinalSale
 import { useDebtsFinalSaleStore } from "features/sales/store/useDebtsFinalSale.store";
 import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";
+import { EmployeeModel } from "models/api/employee.model";
 import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, TouchableOpacity, View } from "react-native";
+import { useAuthStore } from "store/auth.store";
+import { useBusinessStore } from "store/business.store";
 import { formatNumericInput } from "utilities/helpers/globals.helpers";
 
 interface FormAddDebtProps {
@@ -15,6 +18,8 @@ interface FormAddDebtProps {
 
 export const FormAddDebt = ({ onClose }: FormAddDebtProps) => {
   const { addDebt } = useDebtsFinalSaleStore();
+  const { businessId } = useBusinessStore();
+  const { employee } = useAuthStore();
   const defaultColors = useColors();
 
   const {
@@ -39,6 +44,8 @@ export const FormAddDebt = ({ onClose }: FormAddDebtProps) => {
         description: data.description,
         total: Number(data.total),
         paid: Number(data.paid),
+        business: businessId as number,
+        employee: employee as EmployeeModel,
         createdAt: new Date()
       };
 
@@ -46,7 +53,7 @@ export const FormAddDebt = ({ onClose }: FormAddDebtProps) => {
       reset();
       onClose();
     },
-    [addDebt, reset, onClose]
+    [addDebt, reset, onClose, employee]
   );
 
   return (

@@ -2,16 +2,15 @@ import { RegisterBusinessDataModel } from "models/zod/business.schema";
 import { TRegisterEmployeeDataModel } from "models/zod/employee.schema";
 import { TRegisterOwnerDataModel } from "models/zod/owner.schema";
 import { IAuthRequest } from "types/admin/admin.types";
-import { BusinessModel, ERole, UserModel, UserRegisterModel } from "../models/api";
+import { BusinessModel, ERole, RegisterOwnerModel, UserModel } from "../models/api";
 import { EmployeeModel } from "../models/api/employee.model";
 
-export const registerFormToRegisterOwnerMapper = (data: TRegisterOwnerDataModel): UserRegisterModel => {
+export const registerFormToRegisterOwnerMapper = (data: TRegisterOwnerDataModel): RegisterOwnerModel => {
   return {
     name: data.name + " " + data.lastName,
     email: data.email,
     password: data.password,
     role: ERole.OWNER,
-    active: true,
     business: {
       name: data.businessName,
       description: data.businessDescription,
@@ -23,6 +22,28 @@ export const registerFormToRegisterOwnerMapper = (data: TRegisterOwnerDataModel)
         municipality: data.addressMunicipality
       },
       phone: data.businessPhone
+    },
+    employee: {
+      user: {
+        name: data.name + " " + data.lastName,
+        email: data.email,
+        password: data.password,
+        role: ERole.OWNER,
+        active: true,
+        businesses: [],
+        businessesOwned: []
+      },
+      address: {
+        street: data.addressStreet,
+        number: data.addressNumber,
+        city: data.addressCity,
+        zip: data.addressZipCode,
+        municipality: data.addressMunicipality
+      },
+      dni: "00000000000",
+      fixedSalary: 0,
+      percentSalary: 0,
+      phone: ""
     }
   };
 };
@@ -55,7 +76,6 @@ export const zodEmployeeToEmployeeMapper = (
   businesses: BusinessModel[]
 ): EmployeeModel => {
   return {
-    id: "",
     phone: data.phone,
     address: {
       street: data.addressStreet,
