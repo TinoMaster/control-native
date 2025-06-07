@@ -1,18 +1,28 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { BlurView } from "expo-blur";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { loginSchema, TLoginSchema, zLoginDefaultValues } from "models/zod/login.schema";
 import React, { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Image, Pressable, Text, TextInput, useColorScheme, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { authService } from "services/auth.service";
 import { userService } from "services/user.service";
 import { useAuthStore } from "store/auth.store";
+import colors from "styles/colors";
 
 export default function LoginScreen() {
   const [error, setError] = useState("");
   const [isCheckingUser, setIsCheckingUser] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [emailFocused, setEmailFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
   const router = useRouter();
   const login = useAuthStore((state) => state.login);
+  const colorScheme = useColorScheme() ?? "dark";
 
   const {
     control,
@@ -44,6 +54,7 @@ export default function LoginScreen() {
   const onSubmit: SubmitHandler<TLoginSchema> = async (data) => {
     try {
       setError("");
+      setIsSubmitting(true);
       const response = await authService.login(data);
 
       if (response.status === 200 && response.data) {
@@ -59,133 +70,178 @@ export default function LoginScreen() {
     } catch (err) {
       console.error(err);
       setError("Error al iniciar sesión");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   if (isCheckingUser) {
     return (
-      <View style={[styles.container, styles.loadingContainer]}>
-        <Text>Cargando...</Text>
+      <View className="flex-1 items-center justify-center bg-[#1A1A1A]">
+        <Text className="text-white text-lg">Cargando...</Text>
       </View>
     );
   }
 
+  // Background colors based on theme
+  const bgGradient =
+    colorScheme === "dark"
+      ? ([colors.background.dark.primary, colors.background.dark.secondary] as const)
+      : ([colors.background.light.primary, colors.background.light.secondary] as const);
+
+  const textColor = colorScheme === "dark" ? colors.darkMode.text.light : colors.lightMode.text.light;
+  const textSecondaryColor =
+    colorScheme === "dark" ? colors.darkMode.textSecondary.light : colors.lightMode.textSecondary.light;
+  const primaryColor = colorScheme === "dark" ? colors.primary.dark : colors.primary.light;
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Iniciar Sesión</Text>
-      <Text style={styles.subtitle}>Ingresa tus credenciales para continuar</Text>
+    <SafeAreaView className="flex-1">
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+      <LinearGradient colors={bgGradient} className="flex-1" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
+        <View className="flex-1 px-6 justify-center">
+          {/* Logo Section */}
+          <View className="items-center mb-8">
+            <Image
+              source={require("../../assets/images/logo_png.png")}
+              className="mb-4"
+              resizeMode="contain"
+              style={{ width: 110, height: 110 }}
+            />
+            <Text className="text-3xl font-bold text-center" style={{ color: primaryColor }}>
+              Control Native
+            </Text>
+          </View>
 
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+          {/* Main Content with Blur */}
+          <BlurView
+            intensity={80}
+            tint={colorScheme === "dark" ? "dark" : "light"}
+            className="rounded-3xl overflow-hidden"
+          >
+            <View className="px-6 py-8">
+              <Text className="text-2xl font-bold text-center mb-1" style={{ color: textColor }}>
+                Iniciar Sesión
+              </Text>
+              <Text className="text-base text-center mb-6" style={{ color: textSecondaryColor }}>
+                Ingresa tus credenciales para continuar
+              </Text>
 
-      <View style={styles.form}>
-        <Controller
-          control={control}
-          name="email"
-          render={({ field: { onChange, value } }) => (
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={[styles.input, errors.email && styles.inputError]}
-                placeholder="Correo electrónico"
-                value={value}
-                onChangeText={onChange}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoComplete="email"
-                editable={!isCheckingUser}
-              />
-              {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
+              {error ? (
+                <View className="mb-4 p-3 rounded-lg bg-opacity-20 bg-red-500">
+                  <Text className="text-red-500 text-center">{error}</Text>
+                </View>
+              ) : null}
+
+              <View className="w-full max-w-md self-center">
+                <Controller
+                  control={control}
+                  name="email"
+                  render={({ field: { onChange, value } }) => (
+                    <View className="mb-4">
+                      <View
+                        className={`flex-row border items-center rounded-xl p-3 ${
+                          errors.email ? " border-red-500" : emailFocused ? "" : "border-gray-400 border-opacity-30"
+                        }`}
+                        style={emailFocused ? { borderColor: primaryColor } : {}}
+                      >
+                        <View className="mr-3 p-2 rounded-full" style={{ backgroundColor: primaryColor }}>
+                          <Text className="text-white font-bold">@</Text>
+                        </View>
+                        <TextInput
+                          className="flex-1 text-base outline-none"
+                          style={{ color: textColor }}
+                          placeholder="Correo electrónico"
+                          placeholderTextColor={textSecondaryColor}
+                          value={value}
+                          onChangeText={onChange}
+                          onFocus={() => setEmailFocused(true)}
+                          onBlur={() => setEmailFocused(false)}
+                          keyboardType="email-address"
+                          autoCapitalize="none"
+                          autoComplete="email"
+                          editable={!isCheckingUser && !isSubmitting}
+                        />
+                      </View>
+                      {errors.email && <Text className="text-red-500 text-sm ml-2 mt-1">{errors.email.message}</Text>}
+                    </View>
+                  )}
+                />
+
+                <Controller
+                  control={control}
+                  name="password"
+                  render={({ field: { onChange, value } }) => (
+                    <View className="mb-6">
+                      <View
+                        className={`flex-row border items-center rounded-xl p-3 ${
+                          errors.password
+                            ? " border-red-500"
+                            : passwordFocused
+                            ? ""
+                            : "border-gray-400 border-opacity-30"
+                        }`}
+                        style={passwordFocused ? { borderColor: primaryColor } : {}}
+                      >
+                        <View className="mr-3 p-2 rounded-full" style={{ backgroundColor: primaryColor }}>
+                          <Text className="text-white font-bold">🔒</Text>
+                        </View>
+                        <TextInput
+                          className="flex-1 text-base outline-none"
+                          style={{ color: textColor }}
+                          placeholder="Contraseña"
+                          placeholderTextColor={textSecondaryColor}
+                          value={value}
+                          onChangeText={onChange}
+                          onFocus={() => setPasswordFocused(true)}
+                          onBlur={() => setPasswordFocused(false)}
+                          secureTextEntry={secureTextEntry}
+                          editable={!isCheckingUser && !isSubmitting}
+                        />
+                        <Pressable onPress={() => setSecureTextEntry(!secureTextEntry)} className="p-2">
+                          <Text style={{ color: primaryColor }}>{secureTextEntry ? "👁️" : "🔒"}</Text>
+                        </Pressable>
+                      </View>
+                      {errors.password && (
+                        <Text className="text-red-500 text-sm ml-2 mt-1">{errors.password.message}</Text>
+                      )}
+                    </View>
+                  )}
+                />
+
+                <Pressable
+                  onPress={handleSubmit(onSubmit)}
+                  disabled={isCheckingUser || isSubmitting}
+                  className="rounded-xl py-4 mb-4"
+                  style={{ backgroundColor: primaryColor, opacity: isCheckingUser || isSubmitting ? 0.7 : 1 }}
+                >
+                  <Text className="text-white text-center font-bold">
+                    {isSubmitting ? "Iniciando sesión..." : "Iniciar Sesión"}
+                  </Text>
+                </Pressable>
+
+                <Pressable
+                  onPress={() => router.push("/(auth)/business")}
+                  className="rounded-xl py-3 border border-opacity-30"
+                  style={{ borderColor: primaryColor }}
+                >
+                  <Text className="text-center font-medium" style={{ color: primaryColor }}>
+                    Registrar Nuevo Negocio
+                  </Text>
+                </Pressable>
+              </View>
             </View>
-          )}
-        />
+          </BlurView>
 
-        <Controller
-          control={control}
-          name="password"
-          render={({ field: { onChange, value } }) => (
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={[styles.input, errors.password && styles.inputError]}
-                placeholder="Contraseña"
-                value={value}
-                onChangeText={onChange}
-                secureTextEntry
-                editable={!isCheckingUser}
-              />
-              {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
-            </View>
-          )}
-        />
-
-        <Button title="Iniciar Sesión" onPress={handleSubmit(onSubmit)} disabled={isCheckingUser} />
-
-        <Button onPress={() => router.push("/(auth)/business")} title="Registrar Nuevo Negocio" />
-      </View>
-    </View>
+          {/* Footer */}
+          <View className="mt-8 items-center">
+            <Text className="text-xs" style={{ color: textSecondaryColor }}>
+              © 2025 Control Native
+            </Text>
+          </View>
+        </View>
+      </LinearGradient>
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: "center"
-  },
-  loadingContainer: {
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 8
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#666",
-    textAlign: "center",
-    marginBottom: 32
-  },
-  form: {
-    width: "100%",
-    maxWidth: 400,
-    alignSelf: "center"
-  },
-  inputContainer: {
-    marginBottom: 16
-  },
-  input: {
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16
-  },
-  inputError: {
-    borderColor: "#ff3b30"
-  },
-  error: {
-    color: "#ff3b30",
-    textAlign: "center",
-    marginBottom: 16,
-    padding: 8,
-    backgroundColor: "#ffebee",
-    borderRadius: 8
-  },
-  errorText: {
-    color: "#ff3b30",
-    fontSize: 14,
-    marginTop: 4,
-    marginLeft: 4
-  },
-  button: {
-    marginTop: 8,
-    paddingVertical: 8,
-    borderRadius: 8
-  },
-  secondaryButton: {
-    marginTop: 12,
-    paddingVertical: 6
-  }
-});
+// Styles are now handled by TailwindCSS/NativeWind
