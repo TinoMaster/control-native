@@ -101,6 +101,10 @@ export const useDebts = () => {
     });
   };
 
+  const isDebtInActualDay = (debt: DebtModel): boolean => {
+    return debts.some((d) => d.id === debt.id);
+  };
+
   return {
     debts,
     loadingDebts,
@@ -112,6 +116,7 @@ export const useDebts = () => {
     loadingUpdate,
     deleteDebt,
     loadingDelete,
-    getDebtsInActualDay
+    getDebtsInActualDay,
+    isDebtInActualDay
   };
 };

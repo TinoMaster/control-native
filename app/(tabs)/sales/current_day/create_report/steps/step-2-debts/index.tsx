@@ -3,14 +3,27 @@ import { MyModal } from "components/ui/modals/myModal";
 import { DebtItem } from "features/sales/current_day/components/step2/debts/debtItem";
 import { FormAddDebt } from "features/sales/current_day/components/step2/debts/formAddDebt";
 import { useDebtsFinalSaleStore } from "features/sales/current_day/store/useDebtsFinalSale.store";
+import { useWorkersFinalSaleStore } from "features/sales/current_day/store/useWorkersFinalSale.store";
+import { useDebts } from "hooks/api/useDebts";
 import useColors from "hooks/useColors";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 
+//TODO: Continue here
 export default function Step2Debts() {
-  const { debts } = useDebtsFinalSaleStore();
+  const { debts, addDebts } = useDebtsFinalSaleStore();
+  const { getDebtsInActualDay } = useDebts();
+  const selectedWorkers = useWorkersFinalSaleStore((state) => state.selectedWorkers);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const defaultColors = useColors();
+
+  useEffect(() => {
+    addDebts(
+      getDebtsInActualDay()?.filter((debt) => {
+        return selectedWorkers.some((worker) => worker.id === debt.employee.id && !debt.businessFinalSale);
+      }) ?? []
+    );
+  }, []);
 
   return (
     <>
@@ -22,7 +35,7 @@ export default function Step2Debts() {
           Deudas
         </Text>
         {/* Debt List */}
-        {debts.length > 0 ? (
+        {debts?.length > 0 ? (
           <ScrollView style={{ gap: 10, borderRadius: 10, padding: 2 }}>
             {debts.map((debt) => (
               <DebtItem key={debt.name + debt.total} item={debt} />

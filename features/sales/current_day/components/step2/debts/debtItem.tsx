@@ -1,26 +1,18 @@
 import { useDebtsFinalSaleStore } from "features/sales/current_day/store/useDebtsFinalSale.store";
+import { useDebts } from "hooks/api/useDebts";
 import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";
-import { useCallback } from "react";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
+//TODO: Continue here, probar si funciona bien la convivencia entre las dos listas de notas
 export const DebtItem = ({ item }: { item: DebtModel }) => {
   const { deleteDebt } = useDebtsFinalSaleStore();
+  const { isDebtInActualDay } = useDebts();
   const defaultColors = useColors();
 
-  const handleDeleteDebt = useCallback(
-    (debt: DebtModel) => {
-      Alert.alert("Eliminar deuda", `¿Estás seguro de eliminar la deuda de ${debt.name}?`, [
-        { text: "Cancelar", style: "cancel" },
-        {
-          text: "Eliminar",
-          style: "destructive",
-          onPress: () => deleteDebt(debt)
-        }
-      ]);
-    },
-    [deleteDebt]
-  );
+  const handleDeleteDebt = () => {
+    deleteDebt(item);
+  };
 
   return (
     <View
@@ -50,13 +42,15 @@ export const DebtItem = ({ item }: { item: DebtModel }) => {
             </View>
           </View>
         </View>
-        <TouchableOpacity
-          onPress={() => handleDeleteDebt(item)}
-          className="p-2"
-          hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-        >
-          <Text style={{ color: defaultColors.secondary }}>Eliminar</Text>
-        </TouchableOpacity>
+        {!isDebtInActualDay(item) && (
+          <TouchableOpacity
+            onPress={handleDeleteDebt}
+            className="p-2"
+            hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+          >
+            <Text style={{ color: defaultColors.secondary }}>Eliminar</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

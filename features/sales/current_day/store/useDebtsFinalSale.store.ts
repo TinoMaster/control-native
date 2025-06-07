@@ -6,6 +6,7 @@ interface DebtsSectionState {
   debts: DebtModel[];
   deleteDebt: (debt: DebtModel) => void;
   addDebt: (debt: DebtModel) => void;
+  addDebts: (debts: DebtModel[]) => void;
   clearDebts: () => void;
 }
 
@@ -21,11 +22,23 @@ export const useDebtsFinalSaleStore = create<DebtsSectionState>((set, get) => ({
   },
   addDebt: (debt) => {
     const updatedDebts = get().debts.concat(debt);
+    const newSet = new Set(updatedDebts);
+    const updatedDebtsUnique = Array.from(newSet);
     set((state) => ({
-      debts: updatedDebts
+      debts: updatedDebtsUnique
     }));
 
     useDailyReportStore.getState().setDebts(updatedDebts);
+  },
+  addDebts: (debts) => {
+    const updatedDebts = get().debts.concat(debts);
+    const newSet = new Set(updatedDebts);
+    const updatedDebtsUnique = Array.from(newSet);
+    set((state) => ({
+      debts: updatedDebtsUnique
+    }));
+
+    useDailyReportStore.getState().setDebts(updatedDebtsUnique);
   },
   clearDebts: () => {
     set((state) => {
