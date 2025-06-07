@@ -115,16 +115,9 @@ export function getTimeRange(timeRange: ETimeRange): DatePeriod {
       break;
 
     case ETimeRange.THIS_WEEK: {
-      // Lunes de la semana actual
       startDate = new Date(now);
-      // getDay() devuelve 0 para domingo, 1 para lunes, 2 para martes, etc.
       const dayOfWeek = startDate.getDay();
 
-      // Calcular cuántos días hay que retroceder para llegar al lunes de esta semana
-      // Si es domingo (0), retroceder 6 días para llegar al lunes
-      // Si es lunes (1), no retroceder (0 días)
-      // Si es martes (2), retroceder 1 día, etc.
-      //TODO: Hacer esta prueba un dia que no sea domingo ni lunes, que con estos dos ya funciona
       const daysToSubtract = dayOfWeek === 0 ? 5 : dayOfWeek - 2;
 
       // Retroceder al lunes de la semana actual
