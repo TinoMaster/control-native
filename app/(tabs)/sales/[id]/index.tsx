@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import { ActionButtons } from "components/ActionButtons";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
+import { ContentWrapper } from "components/ContentWrapper";
 import { PageWrapper } from "components/PageWrapper";
 import { InfoRow } from "components/ui/InfoRow";
 import { CardItem } from "components/ui/items/CardItem.ui";
@@ -11,6 +12,7 @@ import LoadingPage from "components/ui/loaders/LoadingPage";
 import { MyCard } from "components/ui/MyCard";
 import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useHomeSalesResume } from "features/home/sales-summary/hooks/useHomeSalesResume";
 import { useDailySales } from "hooks/api/useDailySales";
 import { useMonthlySales } from "hooks/api/useMonthlySales";
 import useColors from "hooks/useColors";
@@ -52,6 +54,7 @@ export default function DailyReportDetailScreen() {
   const defaultColors = useColors();
   const router = useRouter();
   const { showNotification } = useNotification();
+  const { refetchSalesResume } = useHomeSalesResume();
   const { dailyReports, loadingDailyReports, deleteDailyReport } = useDailySales();
   const { monthlyReports, loadingMonthlyReports } = useMonthlySales();
   const business = useBusinessStore((state) => state.business);
@@ -103,6 +106,7 @@ export default function DailyReportDetailScreen() {
       deleteDailyReport(report.id, {
         onSuccess: () => {
           showNotification("Reporte eliminado correctamente", "success");
+          refetchSalesResume();
           router.back();
         },
         onError: () => {
@@ -114,11 +118,9 @@ export default function DailyReportDetailScreen() {
 
   return (
     <PageWrapper>
-      {/* Header */}
       <BackButtonPlusTitle title="Detalles del Reporte" />
       <ScrollView style={styles.scrollView}>
-        <View className="p-4 gap-4">
-          {/* Información Principal */}
+        <ContentWrapper>
           <MyCard title="Información Principal" iconTitle="receipt-outline">
             <Text style={[styles.reportName, { color: defaultColors.text }]}>{report.name}</Text>
             <Text style={[styles.price, { color: defaultColors.primary }]}>{formatCurrency(report.total)}</Text>
@@ -233,7 +235,7 @@ export default function DailyReportDetailScreen() {
               </Text>
             )}
           </MyCard>
-        </View>
+        </ContentWrapper>
       </ScrollView>
 
       {/* Botones de Acción */}

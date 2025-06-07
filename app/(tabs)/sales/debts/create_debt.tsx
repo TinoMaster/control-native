@@ -1,4 +1,4 @@
-import { PageTitle } from "components/PageTitle";
+import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import { PageWrapper } from "components/PageWrapper";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { CreateDebtForm } from "features/sales/debts/components/CreateDebtForm";
@@ -13,7 +13,7 @@ export default function CreateDebtScreen() {
 
   return (
     <PageWrapper>
-      <PageTitle title="Crear Deuda" />
+      <BackButtonPlusTitle title="Crear Deuda" />
       <CreateDebtForm />
     </PageWrapper>
   );

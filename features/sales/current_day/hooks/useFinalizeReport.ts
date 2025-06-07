@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { useHomeSalesResume } from "features/home/sales-summary/hooks/useHomeSalesResume";
 import { useDailyReportStore } from "features/sales/current_day/store/dailyReport.store";
 import { useDailySales } from "hooks/api/useDailySales";
+import { useDebts } from "hooks/api/useDebts";
 import { useServiceSale } from "hooks/api/useServiceSale";
 import {
   BusinessFinalSaleModel,
@@ -18,7 +19,6 @@ import { useDebtsFinalSaleStore } from "../store/useDebtsFinalSale.store";
 import { useMachineFinalSaleStore } from "../store/useMachineFinalSale.store";
 import { useMachineStateFinalSaleStore } from "../store/useMachineStateFinalSale.store";
 import { useWorkersFinalSaleStore } from "../store/useWorkersFinalSale.store";
-import { useDebts } from "hooks/api/useDebts";
 
 export const useFinalizeReport = () => {
   const { saveDailyReport, loadingSave } = useDailySales();
@@ -30,10 +30,10 @@ export const useFinalizeReport = () => {
 
   const router = useRouter();
 
-  const refreshDependingData = () => {
-    /* Refetch service sales y sales resume para que se actualicen los datos, en este caso
+  /* Refetch service sales y sales resume para que se actualicen los datos, en este caso
       para que detecte si las ventas de servicios pertenecen a un reporte finalizado o 
       en la pagina de inicio se actualice el resumen de ventas */
+  const refreshDependingData = () => {
     refetchServiceSales();
     refetchSalesResume();
     refetchDebts();
@@ -68,7 +68,6 @@ export const useFinalizeReport = () => {
       onSuccess: (response) => {
         if (response.status === 200) {
           clearAllReports();
-          //TODO: Hacer que refetchServiceSales y refetchSalesResume refetchen los datos, ahora no están funcionando
           refreshDependingData();
           router.replace("/(tabs)/sales/current_day");
         }

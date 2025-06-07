@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ETimeRange } from "data/global.data";
 import { homeStatsService } from "services/statistics/homeStats.service";
 import { useBusinessStore } from "store/business.store";
@@ -7,11 +7,12 @@ import { getTimeRange } from "utilities/helpers/globals.helpers";
 export function useHomeSalesResume(selectedTimeRange?: ETimeRange) {
   const businessId = useBusinessStore((state) => state.businessId);
   const timeRange = getTimeRange(selectedTimeRange ?? ETimeRange.THIS_WEEK);
+  const queryClient = useQueryClient();
 
   const {
     data: salesResumeData,
     isLoading: isLoadingSalesResume,
-    refetch: refetchSalesResume
+    refetch: originalRefetch
   } = useQuery({
     queryKey: ["salesData", selectedTimeRange],
     queryFn: async () => {
@@ -21,10 +22,15 @@ export function useHomeSalesResume(selectedTimeRange?: ETimeRange) {
       });
       return response;
     },
-    enabled: !!businessId && businessId > 0,
-    staleTime: 5 * 60 * 1000, // 5 minutos antes de considerar los datos obsoletos
-    gcTime: 10 * 60 * 1000 // 10 minutos antes de eliminar datos de la caché
+    enabled: !!businessId && businessId > 0
   });
+
+  // Función mejorada para refetch que invalidará todas las consultas relacionadas con salesData
+  const refetchSalesResume = async () => {
+    // Invalidar todas las consultas que comienzan con "salesData"
+    await queryClient.invalidateQueries({ queryKey: ["salesData"] });
+    return originalRefetch();
+  };
 
   return {
     salesResumeData,
