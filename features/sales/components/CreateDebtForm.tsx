@@ -4,9 +4,12 @@ import { useRouter } from "expo-router";
 import { useDebts } from "hooks/api/useDebts";
 import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";
+import { EmployeeModel } from "models/api/employee.model";
 import { Controller, useForm } from "react-hook-form";
 import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useAuthStore } from "store/auth.store";
 import { useBusinessStore } from "store/business.store";
+import colors from "styles/colors";
 import { z } from "zod";
 
 const debtSchema = z.object({
@@ -21,10 +24,11 @@ type DebtFormData = z.infer<typeof debtSchema>;
 export function CreateDebtForm() {
   const defaultColors = useColors();
   const { saveDebt, loadingSave } = useDebts();
+  const employee = useAuthStore((state) => state.employee);
   const { showNotification } = useNotification();
   const router = useRouter();
   const businessId = useBusinessStore((state) => state.businessId);
-  
+
   const {
     control,
     handleSubmit,
@@ -48,9 +52,10 @@ export function CreateDebtForm() {
 
     const newDebt: DebtModel = {
       ...data,
-      createdAt: new Date()
+      business: businessId,
+      employee: employee as EmployeeModel
     };
-    
+
     saveDebt(newDebt);
     reset();
   };
@@ -68,9 +73,9 @@ export function CreateDebtForm() {
             <TextInput
               className="border rounded-md p-2"
               style={{
-                borderColor: defaultColors.border,
+                borderColor: defaultColors.primary,
                 color: defaultColors.text,
-                backgroundColor: defaultColors.inputBackground
+                backgroundColor: defaultColors.background
               }}
               placeholder="Nombre de la deuda"
               placeholderTextColor={defaultColors.textSecondary}
@@ -80,7 +85,7 @@ export function CreateDebtForm() {
           )}
         />
         {errors.name && (
-          <Text className="text-sm mt-1" style={{ color: defaultColors.error }}>
+          <Text className="text-sm mt-1" style={{ color: colors.error.dark }}>
             {errors.name.message}
           </Text>
         )}
@@ -97,13 +102,13 @@ export function CreateDebtForm() {
             <TextInput
               className="border rounded-md p-2"
               style={{
-                borderColor: defaultColors.border,
+                borderColor: defaultColors.primary,
                 color: defaultColors.text,
-                backgroundColor: defaultColors.inputBackground
+                backgroundColor: defaultColors.background
               }}
               placeholder="Descripción de la deuda"
               placeholderTextColor={defaultColors.textSecondary}
-              value={value || ""}
+              value={value ?? ""}
               onChangeText={onChange}
               multiline
               numberOfLines={3}
@@ -123,9 +128,9 @@ export function CreateDebtForm() {
             <TextInput
               className="border rounded-md p-2"
               style={{
-                borderColor: defaultColors.border,
+                borderColor: defaultColors.primary,
                 color: defaultColors.text,
-                backgroundColor: defaultColors.inputBackground
+                backgroundColor: defaultColors.background
               }}
               placeholder="Total de la deuda"
               placeholderTextColor={defaultColors.textSecondary}
@@ -136,7 +141,7 @@ export function CreateDebtForm() {
           )}
         />
         {errors.total && (
-          <Text className="text-sm mt-1" style={{ color: defaultColors.error }}>
+          <Text className="text-sm mt-1" style={{ color: colors.error.dark }}>
             {errors.total.message}
           </Text>
         )}
@@ -153,9 +158,9 @@ export function CreateDebtForm() {
             <TextInput
               className="border rounded-md p-2"
               style={{
-                borderColor: defaultColors.border,
+                borderColor: defaultColors.primary,
                 color: defaultColors.text,
-                backgroundColor: defaultColors.inputBackground
+                backgroundColor: defaultColors.background
               }}
               placeholder="Monto pagado"
               placeholderTextColor={defaultColors.textSecondary}
@@ -166,7 +171,7 @@ export function CreateDebtForm() {
           )}
         />
         {errors.paid && (
-          <Text className="text-sm mt-1" style={{ color: defaultColors.error }}>
+          <Text className="text-sm mt-1" style={{ color: colors.error.dark }}>
             {errors.paid.message}
           </Text>
         )}
@@ -175,7 +180,7 @@ export function CreateDebtForm() {
       <View className="flex-row justify-end mt-4">
         <TouchableOpacity
           className="px-4 py-2 rounded-md mr-2"
-          style={{ backgroundColor: defaultColors.backgroundSecondary }}
+          style={{ backgroundColor: defaultColors.background }}
           onPress={() => router.back()}
         >
           <Text style={{ color: defaultColors.text }}>Cancelar</Text>

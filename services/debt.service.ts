@@ -48,6 +48,17 @@ class DebtService {
       return handleFetchError(error);
     }
   }
+
+  async deleteDebt(debtId: number): Promise<IResponse<void>> {
+    try {
+      return await requestService.fetch<void>(`${this.privateUrl}/debt/${debtId}`, {
+        method: "DELETE"
+      });
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError(error);
+    }
+  }
 }
 
 export const debtService = new DebtService();

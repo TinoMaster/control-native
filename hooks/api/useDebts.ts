@@ -18,6 +18,7 @@ export const useDebts = () => {
         return [];
       }
       const response = await debtService.getAllDebtsByBusinessId(businessId);
+      console.log(response);
       return response.data || [];
     },
     enabled: !!businessId
@@ -65,6 +66,25 @@ export const useDebts = () => {
     }
   });
 
+  const { mutate: deleteDebt, isPending: loadingDelete } = useMutation({
+    mutationFn: (debtId: number) => debtService.deleteDebt(debtId),
+    onSuccess: (response) => {
+      if (response.status === 200) {
+        showNotification("Deuda eliminada correctamente", "success");
+        queryClient.invalidateQueries({ queryKey: ["debts", businessId] });
+        router.replace("/(tabs)/sales/debts");
+      } else {
+        showNotification(
+          "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
+          "error"
+        );
+      }
+    },
+    onError: () => {
+      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+    }
+  });
+
   return {
     debts,
     loadingDebts,
@@ -72,6 +92,8 @@ export const useDebts = () => {
     saveDebt,
     loadingSave,
     updateDebt,
-    loadingUpdate
+    loadingUpdate,
+    deleteDebt,
+    loadingDelete
   };
 };

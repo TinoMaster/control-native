@@ -121,7 +121,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ user: response.data });
 
         const role = get().role;
-        if (role !== ERole.SUPERADMIN && role !== ERole.OWNER) {
+        if (role !== ERole.SUPERADMIN) {
           const employeeResponse = await employeeService.getEmployeeByUserId(response.data?.id ?? 0);
           if (employeeResponse.status === 200) {
             set({ employee: employeeResponse.data });

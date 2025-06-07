@@ -3,6 +3,7 @@ import { MiniIconButton } from "components/ui/MIniIconButton";
 import { MyModal } from "components/ui/modals/myModal";
 import { useNotification } from "contexts/NotificationContext";
 import { format } from "date-fns";
+import { useDebts } from "hooks/api/useDebts";
 import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";
 import { useState } from "react";
@@ -31,6 +32,7 @@ interface DebtCardProps {
 
 export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
   const defaultColors = useColors();
+  const { deleteDebt, loadingDelete } = useDebts();
   const { showConfirm } = useModalStore();
   const { showNotification } = useNotification();
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -47,7 +49,7 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
     showConfirm("Eliminar deuda", "¿Estás seguro de eliminar esta deuda?", {
       onConfirm: () => {
         if (debt.id) {
-          // TODO: Implement delete debt functionality
+          deleteDebt(debt.id);
           showNotification("Deuda eliminada correctamente", "success");
         } else {
           showNotification("No se pudo eliminar la deuda", "error");
@@ -76,10 +78,10 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
           </View>
           <View className="flex-row items-center gap-1">
             <>
-              <TouchableOpacity className="mx-1">
+              <TouchableOpacity disabled={loadingDelete} className="mx-1">
                 <MiniIconButton icon="pencil" onPress={handleEdit} />
               </TouchableOpacity>
-              <TouchableOpacity className="mx-1">
+              <TouchableOpacity disabled={loadingDelete} className="mx-1">
                 <MiniIconButton icon="trash-outline" onPress={handleDelete} />
               </TouchableOpacity>
             </>
