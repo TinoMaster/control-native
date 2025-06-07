@@ -11,7 +11,11 @@ export const useDebts = () => {
   const router = useRouter();
   const { showNotification } = useNotification();
 
-  const { data: debts = [], isLoading: loadingDebts } = useQuery({
+  const {
+    data: debts = [],
+    isLoading: loadingDebts,
+    refetch: refetchDebts
+  } = useQuery({
     queryKey: ["debts", businessId],
     queryFn: async () => {
       if (!businessId) {
@@ -85,15 +89,29 @@ export const useDebts = () => {
     }
   });
 
+  const getDebtsInActualDay = () => {
+    const today = new Date();
+    return debts.filter((debt) => {
+      const debtDate = debt.createdAt ? new Date(debt.createdAt) : null;
+      return (
+        debtDate?.getDate() === today.getDate() &&
+        debtDate?.getMonth() === today.getMonth() &&
+        debtDate?.getFullYear() === today.getFullYear()
+      );
+    });
+  };
+
   return {
     debts,
     loadingDebts,
+    refetchDebts,
     getDebtById,
     saveDebt,
     loadingSave,
     updateDebt,
     loadingUpdate,
     deleteDebt,
-    loadingDelete
+    loadingDelete,
+    getDebtsInActualDay
   };
 };

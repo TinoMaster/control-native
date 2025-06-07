@@ -12,17 +12,7 @@ import { useModalStore } from "store/modal.store";
 import colors from "styles/colors";
 import { formatCurrency } from "utilities/formatters";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
-
-// FormEditDebt will be implemented later
-interface FormEditDebtProps {
-  readonly debt: DebtModel;
-  readonly setModalVisible: (visible: boolean) => void;
-}
-
-function FormEditDebt({ debt, setModalVisible }: FormEditDebtProps) {
-  // Placeholder implementation
-  return <View />;
-}
+import { FormEditDebt } from "./FormEditDebt";
 
 interface DebtCardProps {
   readonly debt: DebtModel;
@@ -33,7 +23,7 @@ interface DebtCardProps {
 export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
   const defaultColors = useColors();
   const { deleteDebt, loadingDelete } = useDebts();
-  const { showConfirm } = useModalStore();
+  const { showConfirm, showAlert } = useModalStore();
   const { showNotification } = useNotification();
   const [editModalVisible, setEditModalVisible] = useState(false);
 
@@ -59,6 +49,13 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
     });
   };
 
+  const handleLock = () => {
+    showAlert(
+      "Acción no permitida",
+      "No es posible ejecutar ninguna acción sobre estas deudas porque ya pertenecen a un reporte guardado."
+    );
+  };
+
   return (
     <View>
       <TouchableOpacity
@@ -77,14 +74,18 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
             </Text>
           </View>
           <View className="flex-row items-center gap-1">
-            <>
-              <TouchableOpacity disabled={loadingDelete} className="mx-1">
-                <MiniIconButton icon="pencil" onPress={handleEdit} />
-              </TouchableOpacity>
-              <TouchableOpacity disabled={loadingDelete} className="mx-1">
-                <MiniIconButton icon="trash-outline" onPress={handleDelete} />
-              </TouchableOpacity>
-            </>
+            {!debt.businessFinalSale ? (
+              <>
+                <TouchableOpacity disabled={loadingDelete} className="mx-1">
+                  <MiniIconButton icon="pencil" onPress={handleEdit} />
+                </TouchableOpacity>
+                <TouchableOpacity disabled={loadingDelete} className="mx-1">
+                  <MiniIconButton icon="trash-outline" onPress={handleDelete} />
+                </TouchableOpacity>
+              </>
+            ) : (
+              <MiniIconButton icon="lock-closed" onPress={handleLock} />
+            )}
             {onPress && <Ionicons name="chevron-forward" size={24} color={defaultColors.textSecondary} />}
           </View>
         </View>

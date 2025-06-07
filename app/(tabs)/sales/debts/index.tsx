@@ -13,7 +13,7 @@ import colors from "styles/colors";
 export default function DebtsScreen() {
   const defaultColors = useColors();
   const router = useRouter();
-  const { debts, loadingDebts } = useDebts();
+  const { getDebtsInActualDay, loadingDebts } = useDebts();
 
   const renderDebt = (debt: DebtModel) => <DebtCard debt={debt} />;
 
@@ -25,7 +25,7 @@ export default function DebtsScreen() {
     <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
       <PageTitle title="Deudas" />
       <GenericList
-        data={debts ?? []}
+        data={getDebtsInActualDay()}
         renderItem={renderDebt}
         keyExtractor={(item) => item.id?.toString() ?? ""}
         emptyListMessage="No hay deudas registradas"

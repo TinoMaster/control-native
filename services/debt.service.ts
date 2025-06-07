@@ -16,6 +16,15 @@ class DebtService {
     }
   }
 
+  async getDebtsByDateRange(businessId: number, startDate: string, endDate: string): Promise<IResponse<DebtModel[]>> {
+    try {
+      return await requestService.fetch<DebtModel[]>(`${this.privateUrl}/debts/${businessId}/${startDate}/${endDate}`);
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError(error);
+    }
+  }
+
   async getPendingDebtsByBusinessId(businessId: number): Promise<IResponse<DebtModel[]>> {
     try {
       return await requestService.fetch<DebtModel[]>(`${this.privateUrl}/pending-debts/${businessId}`);

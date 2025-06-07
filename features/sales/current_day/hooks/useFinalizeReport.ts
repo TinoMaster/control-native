@@ -18,11 +18,13 @@ import { useDebtsFinalSaleStore } from "../store/useDebtsFinalSale.store";
 import { useMachineFinalSaleStore } from "../store/useMachineFinalSale.store";
 import { useMachineStateFinalSaleStore } from "../store/useMachineStateFinalSale.store";
 import { useWorkersFinalSaleStore } from "../store/useWorkersFinalSale.store";
+import { useDebts } from "hooks/api/useDebts";
 
 export const useFinalizeReport = () => {
   const { saveDailyReport, loadingSave } = useDailySales();
   const { refetchSalesResume } = useHomeSalesResume();
   const { refetchServiceSales } = useServiceSale();
+  const { refetchDebts } = useDebts();
   const { businessId, business } = useBusinessStore();
   const user = useAuthStore((state) => state.user);
 
@@ -34,6 +36,7 @@ export const useFinalizeReport = () => {
       en la pagina de inicio se actualice el resumen de ventas */
     refetchServiceSales();
     refetchSalesResume();
+    refetchDebts();
   };
 
   const finalizeReport = (report: BusinessFinalSaleModel, cards: CardPayment[], machineStates: MachineStateModel[]) => {
