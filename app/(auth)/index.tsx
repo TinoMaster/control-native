@@ -1,29 +1,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import LoadingPage from "components/ui/loaders/LoadingPage";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomInput } from "components/ui/inputs/CustomInput";
+import LoadingPage from "components/ui/loaders/LoadingPage";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { loginSchema, TLoginSchema, zLoginDefaultValues } from "models/zod/login.schema";
-import React, { useEffect, useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Image, Pressable, Text, TextInput, useColorScheme, View } from "react-native";
+import { useLoginScreen } from "features-auth/login/hooks/useLoginScreen";
+import { loginSchema, TLoginSchema, zLoginDefaultValues } from "features-auth/login/schemas/login.schema";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Image, Pressable, Text, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { authService } from "services/auth.service";
-import { userService } from "services/user.service";
-import { useAuthStore } from "store/auth.store";
 import colors from "styles/colors";
 
 export default function LoginScreen() {
-  const [error, setError] = useState("");
-  const [isCheckingUser, setIsCheckingUser] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const [emailFocused, setEmailFocused] = useState(false);
-  const [passwordFocused, setPasswordFocused] = useState(false);
-  const router = useRouter();
-  const login = useAuthStore((state) => state.login);
+  const { isCheckingUser, error, onSubmit, isSubmitting } = useLoginScreen();
   const colorScheme = useColorScheme() ?? "dark";
+  const router = useRouter();
 
   const {
     control,
@@ -33,54 +26,6 @@ export default function LoginScreen() {
     resolver: zodResolver(loginSchema),
     defaultValues: zLoginDefaultValues
   });
-
-  useEffect(() => {
-    checkUserExistence();
-  }, []);
-
-  const checkUserExistence = async () => {
-    try {
-      const response = await userService.existAnyUser();
-      if (!response) {
-        router.replace("/(auth)/superadmin");
-      }
-    } catch (error) {
-      console.error("Error checking user existence:", error);
-      setError("Error al verificar usuarios existentes");
-    } finally {
-      setIsCheckingUser(false);
-    }
-  };
-
-  const onSubmit: SubmitHandler<TLoginSchema> = async (data) => {
-    try {
-      setError("");
-      setIsSubmitting(true);
-      const response = await authService.login(data);
-
-      if (response.status === 200 && response.data) {
-        if (response.data.active) {
-          await login(response.data.token, response.data.role, response.data.refreshToken);
-          router.replace("/(tabs)");
-        } else {
-          const lastLogin = await userService.getLastLogin(data.email);
-          console.log(lastLogin);
-          if (lastLogin.status === 200 && lastLogin.data) {
-            setError("Tu cuenta está inactiva. Por favor, contacta al administrador.");
-          } else {
-            setError("Tu cuenta está inactiva. Debe esperar a ser autorizado por el administrador.");
-          }
-        }
-      } else {
-        setError("Credenciales no validas");
-      }
-    } catch (err) {
-      console.error(err);
-      setError("Error al iniciar sesión");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   if (isCheckingUser) {
     return <LoadingPage />;
@@ -132,33 +77,13 @@ export default function LoginScreen() {
                 control={control}
                 name="email"
                 render={({ field: { onChange, value } }) => (
-                  <View className="mb-4">
-                    <View
-                      className={`flex-row border items-center rounded-xl p-3 ${
-                        errors.email ? " border-red-500" : emailFocused ? "" : "border-gray-400 border-opacity-30"
-                      }`}
-                      style={emailFocused ? { borderColor: colors.primary.dark } : {}}
-                    >
-                      <View className="mr-3 p-2 rounded-full" style={{ backgroundColor: colors.primary.dark }}>
-                        <Text className="text-white font-bold">@</Text>
-                      </View>
-                      <TextInput
-                        className="flex-1 text-base outline-none"
-                        style={{ color: colors.darkMode.text.dark }}
-                        placeholder="Correo electrónico"
-                        placeholderTextColor={colors.darkMode.textSecondary.dark}
-                        value={value}
-                        onChangeText={onChange}
-                        onFocus={() => setEmailFocused(true)}
-                        onBlur={() => setEmailFocused(false)}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        autoComplete="email"
-                        editable={!isCheckingUser && !isSubmitting}
-                      />
-                    </View>
-                    {errors.email && <Text className="text-red-500 text-sm ml-2 mt-1">{errors.email.message}</Text>}
-                  </View>
+                  <CustomInput
+                    placeholder="Correo Electrónico"
+                    icon="@"
+                    value={value}
+                    onChangeText={onChange}
+                    error={errors.email?.message}
+                  />
                 )}
               />
 
@@ -166,36 +91,14 @@ export default function LoginScreen() {
                 control={control}
                 name="password"
                 render={({ field: { onChange, value } }) => (
-                  <View className="mb-6">
-                    <View
-                      className={`flex-row border items-center rounded-xl p-3 ${
-                        errors.password ? " border-red-500" : passwordFocused ? "" : "border-gray-400 border-opacity-30"
-                      }`}
-                      style={passwordFocused ? { borderColor: colors.primary.dark } : {}}
-                    >
-                      <View className="mr-3 p-2 rounded-full" style={{ backgroundColor: colors.primary.dark }}>
-                        <Text className="text-white font-bold">🔒</Text>
-                      </View>
-                      <TextInput
-                        className="flex-1 text-base outline-none"
-                        style={{ color: colors.darkMode.text.dark }}
-                        placeholder="Contraseña"
-                        placeholderTextColor={colors.darkMode.textSecondary.dark}
-                        value={value}
-                        onChangeText={onChange}
-                        onFocus={() => setPasswordFocused(true)}
-                        onBlur={() => setPasswordFocused(false)}
-                        secureTextEntry={secureTextEntry}
-                        editable={!isCheckingUser && !isSubmitting}
-                      />
-                      <Pressable onPress={() => setSecureTextEntry(!secureTextEntry)} className="p-2">
-                        <Text style={{ color: colors.primary.dark }}>{secureTextEntry ? "👁️" : "🔒"}</Text>
-                      </Pressable>
-                    </View>
-                    {errors.password && (
-                      <Text className="text-red-500 text-sm ml-2 mt-1">{errors.password.message}</Text>
-                    )}
-                  </View>
+                  <CustomInput
+                    placeholder="Contraseña"
+                    icon="🔒"
+                    value={value}
+                    isPassword
+                    onChangeText={onChange}
+                    error={errors.password?.message}
+                  />
                 )}
               />
 
