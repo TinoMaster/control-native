@@ -14,7 +14,7 @@ class UserService {
       return await requestService.fetch<UserModel>(`${this.privateUrl}/users/byEmail/${email}`);
     } catch (error: any) {
       console.log(error);
-      return handleFetchError(error);
+      return handleFetchError<UserModel>(error);
     }
   }
 
@@ -42,7 +42,7 @@ class UserService {
       return data;
     } catch (error: any) {
       console.log(error);
-      return handleFetchError(error);
+      return handleFetchError<UserModel>(error);
     }
   }
 
@@ -53,7 +53,7 @@ class UserService {
       return data;
     } catch (error: any) {
       console.log(error);
-      return handleFetchError(error);
+      return handleFetchError<string>(error);
     }
   }
 }
