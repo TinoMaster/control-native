@@ -1,9 +1,9 @@
 import { apiConfig } from "config/api.config";
 import { UserModel } from "models/api";
+import { SuperAdminModel } from "models/api/superadmin.model";
 import { IResponse } from "types/request.types";
 import { handleFetchError } from "utilities/helpers/errorManager";
 import { requestService } from "./request.service";
-import { SuperAdminModel } from "models/api/superadmin.model";
 
 class UserService {
   private readonly privateUrl = apiConfig.privateUrl;
@@ -39,6 +39,17 @@ class UserService {
         body: JSON.stringify(user)
       });
       const data: IResponse<UserModel> = await response.json();
+      return data;
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError(error);
+    }
+  }
+
+  async getLastLogin(email: string): Promise<IResponse<string>> {
+    try {
+      const response = await fetch(`${this.publicUrl}/last-logged-user/${email}`);
+      const data = await response.json();
       return data;
     } catch (error: any) {
       console.log(error);

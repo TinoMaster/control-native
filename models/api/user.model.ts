@@ -9,6 +9,7 @@ export interface UserModel {
   password?: string;
   role: ERole;
   active: boolean;
+  lastLoginAt?: Date;
   businessesOwned: BusinessModel[];
   businesses: BusinessModel[];
   createdAt?: Date;
