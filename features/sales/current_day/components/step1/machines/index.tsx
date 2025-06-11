@@ -1,3 +1,4 @@
+import { MyView } from "components/ui/MyView";
 import { SelectionControls } from "features/sales/current_day/components/step1/machines/selectionControls";
 import { useDailySales } from "hooks/api/useDailySales";
 import useColors from "hooks/useColors";
@@ -29,7 +30,7 @@ export function MachinesSelection() {
   }
 
   return (
-    <View>
+    <MyView>
       <SelectionControls machines={activeMachines} />
 
       {activeMachines.length > 0 ? (
@@ -45,6 +46,6 @@ export function MachinesSelection() {
           </Text>
         </View>
       )}
-    </View>
+    </MyView>
   );
 }

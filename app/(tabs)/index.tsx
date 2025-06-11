@@ -23,8 +23,7 @@ export default function Dashboard() {
         <View
           style={{
             flexDirection: "row",
-            gap: 12,
-            marginTop: 20
+            gap: 12
           }}
         >
           <StatsCard title="Profit" percentage="53.2%" trend="up" style={{ flex: 1 }} />

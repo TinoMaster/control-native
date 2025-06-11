@@ -1,7 +1,6 @@
 import useColors from "hooks/useColors";
 import { Text, View } from "react-native";
 import colors from "styles/colors";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 export function InfoRow({
   label,
@@ -41,10 +40,7 @@ export function InfoRow({
   const colorText = getTextColor();
 
   return (
-    <View
-      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
-      className="flex-row justify-between py-2"
-    >
+    <View className="flex-row justify-between py-2">
       <Text
         style={{ color: colorText, fontWeight: bold ? "bold" : "normal", fontSize: bold ? 16 : 14 }}
         className="font-medium"

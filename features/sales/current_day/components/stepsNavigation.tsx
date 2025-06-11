@@ -67,7 +67,7 @@ export default function StepsNavigation() {
       {loadingSave && <LoadingPage message="Guardando reporte..." absolute />}
       <MessageModal isVisible={showModal} onClose={() => setShowModal(false)} title={title} message={message} />
       <View className="flex-row justify-between p-4 border-t border-gray-600">
-        <View className="flex-row space-x-2">
+        <View className="flex-row gap-2">
           <MyButton onPress={handleCancel} label="Cancelar" />
 
           {currentStep > 1 && <MyButton onPress={handlePrevious} label="Anterior" />}

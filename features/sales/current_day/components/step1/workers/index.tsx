@@ -1,3 +1,4 @@
+import { MyView } from "components/ui/MyView";
 import { useEmployees } from "hooks/api/useEmployees";
 import useColors from "hooks/useColors";
 import { Text, View } from "react-native";
@@ -13,16 +14,16 @@ export function Workers() {
 
   if (!employeesReadyToWork || employeesReadyToWork.length === 0) {
     return (
-      <View className="flex-1 justify-center items-center p-4">
+      <MyView className="justify-center items-center p-4">
         <Text style={{ color: defaultColors.text }} className="text-center">
           No hay trabajadores disponibles para seleccionar
         </Text>
-      </View>
+      </MyView>
     );
   }
 
   return (
-    <View className="flex-1">
+    <MyView>
       <SelectionControls workers={employeesReadyToWork} />
 
       {employeesReadyToWork.length > 0 ? (
@@ -38,6 +39,6 @@ export function Workers() {
           </Text>
         </View>
       )}
-    </View>
+    </MyView>
   );
 }

@@ -9,7 +9,6 @@ interface GlassCardProps {
   isDark?: boolean;
   tint?: "light" | "dark" | "default";
   style?: object;
-  rounded?: boolean;
   withBorder?: boolean;
   customGradient?: [ColorValue, ColorValue];
 }
@@ -20,7 +19,6 @@ export const GlassCard = ({
   isDark = true,
   tint: propTint,
   style = {},
-  rounded = true,
   withBorder = true,
   customGradient
 }: GlassCardProps) => {
