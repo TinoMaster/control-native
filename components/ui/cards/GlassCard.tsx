@@ -38,28 +38,24 @@ export const GlassCard = ({
   const gradientColors = customGradient ?? defaultGradientColors;
 
   return (
-    <View
-      className={`overflow-hidden shadow-lg ${rounded ? "rounded-3xl" : ""} w-full max-w-[500px]`}
+    <BlurView
+      intensity={intensity}
+      tint={tint}
       style={[styles.container, withBorder && { borderColor, borderWidth: 1 }, style]}
-      accessibilityRole="none"
     >
-      <BlurView intensity={intensity} tint={tint} style={styles.blurContainer}>
-        <LinearGradient colors={gradientColors} style={styles.gradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-          <View className="p-4 w-full">{children}</View>
-        </LinearGradient>
-      </BlurView>
-    </View>
+      <LinearGradient colors={gradientColors} style={styles.gradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
+        <View className="p-4 w-full">{children}</View>
+      </LinearGradient>
+    </BlurView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    position: "relative"
-  },
-  blurContainer: {
-    width: "100%",
-    overflow: "hidden"
+    position: "relative",
+    overflow: "hidden",
+    borderRadius: 16
   },
   gradient: {
     width: "100%"

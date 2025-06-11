@@ -1,8 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import useColors from "hooks/useColors";
 import { Text, View } from "react-native";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
 import { MiniIconButton } from "./MIniIconButton";
+import { GlassCard } from "./cards/GlassCard";
 
 interface Props {
   readonly children: React.ReactNode;
@@ -18,10 +18,7 @@ export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, ic
   const defaultColors = useColors();
 
   return (
-    <View
-      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
-      className="rounded-xl shadow-sm pb-2"
-    >
+    <GlassCard>
       {header && (
         <View
           className="flex-row items-center justify-between mb-3 p-2 border-b"
@@ -39,8 +36,8 @@ export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, ic
         </View>
       )}
       <View className="flex-row justify-between items-center">
-        <View className="flex-1 p-4">{children}</View>
+        <View className="flex-1">{children}</View>
       </View>
-    </View>
+    </GlassCard>
   );
 }
