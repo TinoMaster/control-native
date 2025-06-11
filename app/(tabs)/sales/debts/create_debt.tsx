@@ -1,5 +1,5 @@
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
-import { PageWrapper } from "components/PageWrapper";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { CreateDebtForm } from "features/sales/debts/components/CreateDebtForm";
 import { useDebts } from "hooks/api/useDebts";
@@ -12,9 +12,9 @@ export default function CreateDebtScreen() {
   }
 
   return (
-    <PageWrapper>
+    <GradientBackground>
       <BackButtonPlusTitle title="Crear Deuda" />
       <CreateDebtForm />
-    </PageWrapper>
+    </GradientBackground>
   );
 }

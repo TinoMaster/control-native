@@ -18,7 +18,6 @@ export default function GenericList<T>({
   keyExtractor,
   emptyListMessage = "No hay elementos para mostrar"
 }: GenericListProps<T>) {
-
   return (
     <View style={styles.container}>
       <FlatList
@@ -44,7 +43,6 @@ const styles = StyleSheet.create({
   },
   listContent: {
     flexGrow: 1,
-    padding: 16,
     rowGap: 16
   },
   emptyContainer: {

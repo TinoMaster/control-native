@@ -25,7 +25,7 @@ export const AdditionalInfo = ({ service }: { service: ServiceModel }) => {
 
 const styles = StyleSheet.create({
   infoText: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 8
   }
 });

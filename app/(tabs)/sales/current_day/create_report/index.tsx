@@ -1,4 +1,4 @@
-import { PageWrapper } from "components/PageWrapper";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { MessageModal } from "components/ui/modals/messageModal";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { useRouter } from "expo-router";
@@ -69,7 +69,7 @@ export default function CreateReportWizard() {
   }
 
   return (
-    <PageWrapper>
+    <GradientBackground>
       {/* Header */}
       <StepsHeader />
 
@@ -78,6 +78,6 @@ export default function CreateReportWizard() {
 
       {/* Navigation */}
       <StepsNavigation />
-    </PageWrapper>
+    </GradientBackground>
   );
 }

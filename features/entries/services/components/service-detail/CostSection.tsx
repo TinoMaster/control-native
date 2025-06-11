@@ -22,16 +22,17 @@ export const CostSection = ({ service }: { service: ServiceModel }) => {
 
 const styles = StyleSheet.create({
   costItem: {
+    fontSize: 16,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 8
   },
   costName: {
-    fontSize: 16
+    fontSize: 14
   },
   costAmount: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "500"
   }
 });

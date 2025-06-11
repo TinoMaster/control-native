@@ -19,17 +19,17 @@ export const PrincipalInfo = ({ service }: { service: ServiceModel }) => {
 
 const styles = StyleSheet.create({
   serviceName: {
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: "bold",
     marginVertical: 8
   },
   price: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "600",
     marginVertical: 8
   },
   description: {
-    fontSize: 16,
+    fontSize: 14,
     lineHeight: 24
   }
 });

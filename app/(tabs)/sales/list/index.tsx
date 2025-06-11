@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { PageTitle } from "components/PageTitle";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { MONTHS } from "data/global.data";
 import { ModalMonthPicker } from "features/sales/list/components/ModalMonthPicker";
@@ -12,6 +13,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { adjustBrightness, groupSalesByDay } from "utilities/helpers/globals.helpers";
 
+//TODO: arreglar este componente, ya que no me deja seleccionar los detalles de los reportes del mes corriente
 export default function List() {
   const defaultColors = useColors();
   const [showMonthPicker, setShowMonthPicker] = useState(false);
@@ -48,7 +50,7 @@ export default function List() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+    <GradientBackground>
       <PageTitle title="Ventas por mes" />
 
       <View style={styles.selectors}>
@@ -106,7 +108,7 @@ export default function List() {
           </Text>
         </View>
       )}
-    </View>
+    </GradientBackground>
   );
 }
 

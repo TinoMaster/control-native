@@ -1,5 +1,6 @@
 import { ActionButtons } from "components/ActionButtons";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { MyModal } from "components/ui/modals/myModal";
 import { MyScrollView } from "components/ui/MyScrollView";
@@ -10,14 +11,12 @@ import { FormEditConsumable } from "features/entries/consumables/consumable-deta
 import { PrincipalInfo } from "features/entries/consumables/consumable-detail/PrincipalInfo";
 import { StockSection } from "features/entries/consumables/consumable-detail/StockSection";
 import { useConsumables } from "hooks/api/useConsumables";
-import useColors from "hooks/useColors";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import colors from "styles/colors";
 
 export default function ConsumableDetailScreen() {
   const { id } = useLocalSearchParams();
-  const defaultColors = useColors();
   const router = useRouter();
   const { showNotification } = useNotification();
   const { consumables, loadingConsumables, onDeleteConsumable, deletingConsumable, updatingConsumable } =
@@ -41,7 +40,7 @@ export default function ConsumableDetailScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+    <GradientBackground>
       {/* Header */}
       <BackButtonPlusTitle title="Detalles del Insumo" />
       <MyScrollView>
@@ -62,13 +61,13 @@ export default function ConsumableDetailScreen() {
             icon: "trash-outline",
             label: "Eliminar",
             onPress: () => handleDeleteConsumable(consumable.id ?? 0),
-            color: colors.secondary.light
+            color: colors.background.dark.secondary
           },
           {
             icon: "pencil-outline",
             label: "Editar",
             onPress: () => setModalVisible(true),
-            color: colors.primary.light
+            color: colors.background.dark.secondary
           }
         ]}
         fixed={false}
@@ -77,7 +76,7 @@ export default function ConsumableDetailScreen() {
       <MyModal isVisible={modalVisible} onClose={() => setModalVisible(false)} title="Editar Información General">
         <FormEditConsumable setModalVisible={setModalVisible} consumable={consumable} />
       </MyModal>
-    </View>
+    </GradientBackground>
   );
 }
 

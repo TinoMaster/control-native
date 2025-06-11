@@ -1,7 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import { ActionButtons } from "components/ActionButtons";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
-import { PageWrapper } from "components/PageWrapper";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { InfoRow } from "components/ui/InfoRow";
 import { CardItem } from "components/ui/items/CardItem.ui";
 import { DebtItem } from "components/ui/items/DebtItem.ui";
@@ -117,7 +117,7 @@ export default function DailyReportDetailScreen() {
   };
 
   return (
-    <PageWrapper>
+    <GradientBackground>
       <BackButtonPlusTitle title="Detalles del Reporte" />
       <MyScrollView>
         <MyCard title="Información Principal" iconTitle="receipt-outline">
@@ -233,7 +233,6 @@ export default function DailyReportDetailScreen() {
           )}
         </MyCard>
       </MyScrollView>
-
       {/* Botones de Acción */}
       {isTodayDate(new Date(report.createdAt || new Date())) && (
         <ActionButtons
@@ -248,7 +247,7 @@ export default function DailyReportDetailScreen() {
           fixed={true}
         />
       )}
-    </PageWrapper>
+    </GradientBackground>
   );
 }
 

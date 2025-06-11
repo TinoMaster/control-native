@@ -1,13 +1,15 @@
+import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
 import ServiceCard from "features/entries/services/components/ServiceCard";
 import { useService } from "hooks/api/useServices";
 import useColors from "hooks/useColors";
 import { ServiceModel } from "models/api/service.model";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import colors from "styles/colors";
 
 export default function ServicesScreen() {
@@ -31,20 +33,23 @@ export default function ServicesScreen() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+    <GradientBackground>
       <PageTitle title="Servicios" />
-      <GenericList
-        data={services}
-        renderItem={renderService}
-        keyExtractor={(item) => item.id?.toString() ?? ""}
-        emptyListMessage="No hay servicios registrados"
-      />
+      <ContentWrapper>
+        <GenericList
+          data={services}
+          renderItem={renderService}
+          keyExtractor={(item) => item.id?.toString() ?? ""}
+          emptyListMessage="No hay servicios registrados"
+        />
+      </ContentWrapper>
+
       <FloatingActionButton
         onPress={() => router.push("/(tabs)/entries/services/create" as any)}
         backgroundColor={defaultColors.primary}
         iconColor={colors.darkMode.text.light}
       />
-    </View>
+    </GradientBackground>
   );
 }
 

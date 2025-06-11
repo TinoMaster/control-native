@@ -1,13 +1,13 @@
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
 import { DebtCard } from "features/sales/debts/components/DebtCard";
 import { useDebts } from "hooks/api/useDebts";
 import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";
-import { StyleSheet, View } from "react-native";
 import colors from "styles/colors";
 
 export default function DebtsScreen() {
@@ -22,7 +22,7 @@ export default function DebtsScreen() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+    <GradientBackground>
       <PageTitle title="Deudas" />
       <GenericList
         data={getDebtsInActualDay()}
@@ -35,12 +35,6 @@ export default function DebtsScreen() {
         backgroundColor={defaultColors.primary}
         iconColor={colors.darkMode.text.light}
       />
-    </View>
+    </GradientBackground>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});

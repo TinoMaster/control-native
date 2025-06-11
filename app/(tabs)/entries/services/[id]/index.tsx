@@ -1,5 +1,7 @@
 import { ActionButtons } from "components/ActionButtons";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
+import { ErrorState } from "components/ErrorState";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { MyModal } from "components/ui/modals/myModal";
 import { MyScrollView } from "components/ui/MyScrollView";
@@ -10,15 +12,12 @@ import { CostSection } from "features/entries/services/components/service-detail
 import { FormEditService } from "features/entries/services/components/service-detail/FormEditService";
 import { PrincipalInfo } from "features/entries/services/components/service-detail/PrincipalInfo";
 import { useService } from "hooks/api/useServices";
-import useColors from "hooks/useColors";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import colors from "styles/colors";
-import { ErrorState } from "components/ErrorState";
 
 export default function ServiceDetailScreen() {
   const { id } = useLocalSearchParams();
-  const defaultColors = useColors();
   const router = useRouter();
   const { showNotification } = useNotification();
   const { loadingServices, getServiceById, deleteService } = useService();
@@ -54,7 +53,7 @@ export default function ServiceDetailScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+    <GradientBackground>
       {/* Header */}
       <BackButtonPlusTitle title="Detalles del Servicio" />
       <MyScrollView>
@@ -90,7 +89,7 @@ export default function ServiceDetailScreen() {
       <MyModal isVisible={modalVisible} onClose={() => setModalVisible(false)} title="Editar Información General">
         <FormEditService service={service} setModalVisible={setModalVisible} />
       </MyModal>
-    </View>
+    </GradientBackground>
   );
 }
 

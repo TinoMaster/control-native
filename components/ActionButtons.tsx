@@ -39,7 +39,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ buttons, fixed = f
         {buttons.map((button) => (
           <TouchableOpacity
             key={button.label}
-            style={[styles.actionButtonFixed, { backgroundColor: button.color ?? colors.primary.light }]}
+            style={[styles.actionButtonFixed, { backgroundColor: button.color ?? colors.background.dark.secondary }]}
             onPress={button.onPress}
           >
             <Ionicons name={button.icon} size={18} color="white" />
@@ -52,7 +52,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ buttons, fixed = f
 
   return (
     <View style={[styles.container, position === "bottom" ? styles.bottom : styles.top]}>
-      <TouchableOpacity style={[styles.mainButton, { backgroundColor: colors.primary.light }]} onPress={toggleExpanded}>
+      <TouchableOpacity style={[styles.mainButton, { backgroundColor: colors.background.dark.secondary }]} onPress={toggleExpanded}>
         <Ionicons name="ellipsis-horizontal" size={24} color="white" />
       </TouchableOpacity>
 
@@ -67,7 +67,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ buttons, fixed = f
             key={button.label}
             style={[
               styles.actionButton,
-              { backgroundColor: button.color ?? colors.primary.light },
+              { backgroundColor: button.color ?? colors.background.dark.secondary },
               {
                 transform: [{ translateY }],
                 opacity: animation
@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 12,
     borderTopWidth: 1,
-    borderTopColor: "rgba(255,255,255,0.1)"
+    borderTopColor: "rgba(255,255,255,0.1)",
+    backgroundColor: colors.background.dark.primary
   },
   actionButtonFixed: {
     flex: 1,
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     marginHorizontal: 8,
-    backgroundColor: colors.secondary.dark
+    backgroundColor: colors.background.dark.secondary
   },
   container: {
     position: "absolute",

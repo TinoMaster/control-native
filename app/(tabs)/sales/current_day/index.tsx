@@ -1,7 +1,8 @@
+import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
-import { PageWrapper } from "components/PageWrapper";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
 import { DailyReportCardLarge } from "features/sales/current_day/components/DailyReportCardLarge";
@@ -32,21 +33,23 @@ export default function CurrentDay() {
   }
 
   return (
-    <PageWrapper>
+    <GradientBackground>
       <PageTitle title="Cuadres del día" />
 
-      <GenericList
-        data={dailyReports ?? []}
-        renderItem={renderReport}
-        keyExtractor={(item) => item.id?.toString() ?? ""}
-        emptyListMessage={"No hay reportes registrados en el día de hoy"}
-      />
+      <ContentWrapper>
+        <GenericList
+          data={dailyReports ?? []}
+          renderItem={renderReport}
+          keyExtractor={(item) => item.id?.toString() ?? ""}
+          emptyListMessage={"No hay reportes registrados en el día de hoy"}
+        />
+      </ContentWrapper>
 
       <FloatingActionButton
         onPress={() => router.push("/(tabs)/sales/current_day/create_report" as any)}
         backgroundColor={defaultColors.primary}
         iconColor={colors.darkMode.text.light}
       />
-    </PageWrapper>
+    </GradientBackground>
   );
 }

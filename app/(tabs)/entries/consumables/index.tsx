@@ -1,13 +1,15 @@
-import ConsumableCard from "features/entries/consumables/ConsumableCard";
+import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
-import LoadingPage from "components/ui/loaders/LoadingPage";
 import { PageTitle } from "components/PageTitle";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
+import ConsumableCard from "features/entries/consumables/ConsumableCard";
 import { useConsumables } from "hooks/api/useConsumables";
 import useColors from "hooks/useColors";
 import { ConsumableModel } from "models/api/consumables.model";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import colors from "styles/colors";
 
 export default function ConsumablesScreen() {
@@ -31,20 +33,22 @@ export default function ConsumablesScreen() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+    <GradientBackground>
       <PageTitle title="Insumos" />
-      <GenericList
-        data={consumables}
-        renderItem={renderConsumable}
-        keyExtractor={(item) => item.id?.toString() ?? ""}
-        emptyListMessage="No hay insumos registrados"
-      />
+      <ContentWrapper>
+        <GenericList
+          data={consumables}
+          renderItem={renderConsumable}
+          keyExtractor={(item) => item.id?.toString() ?? ""}
+          emptyListMessage="No hay insumos registrados"
+        />
+      </ContentWrapper>
       <FloatingActionButton
         onPress={() => router.push("/(tabs)/entries/consumables/create" as any)}
         backgroundColor={defaultColors.primary}
         iconColor={colors.darkMode.text.light}
       />
-    </View>
+    </GradientBackground>
   );
 }
 
