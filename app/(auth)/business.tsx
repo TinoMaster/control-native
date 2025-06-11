@@ -2,8 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { useNotification } from "contexts/NotificationContext";
 import { router } from "expo-router";
-import { registerOwnerSchema, TRegisterOwnerDataModel, zRegisterDefaultValues } from "models/zod/registerOwner.schema";
-import React, { useState } from "react";
+import { PersonalInfo } from "features-auth/business/components/PersonalInfo";
+import {
+  registerOwnerSchema,
+  TRegisterOwnerDataModel,
+  zRegisterDefaultValues
+} from "features-auth/business/schemas/registerOwner.schema";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { authService } from "services/auth.service";
@@ -62,138 +67,19 @@ export default function BusinessRegistration() {
       <GradientBackground
         variant="primary"
         intensity="medium"
-        style={{ justifyContent: "center", alignItems: "center", padding: 24 }}
+        style={{ justifyContent: "center", alignItems: "center", padding: 24, gap: 24 }}
       >
-        <Text className="text-3xl font-bold text-center" style={{ color: colors.darkMode.text.light }}>
-          Registrar Nuevo Negocio
-        </Text>
-        <Text className="text-base text-center mb-6" style={{ color: colors.darkMode.textSecondary.light }}>
-          Completa la información requerida para registrar tu negocio
-        </Text>
+        <View>
+          <Text className="text-3xl font-bold text-center" style={{ color: colors.darkMode.text.light }}>
+            Registrar Nuevo Negocio
+          </Text>
+          <Text className="text-base text-center mb-6" style={{ color: colors.darkMode.textSecondary.light }}>
+            Completa la información requerida para registrar tu negocio
+          </Text>
+        </View>
 
         {/* Personal Information Section */}
-        <View className={sectionClasses}>
-          <Text className={sectionTitleClasses}>Información Personal</Text>
-
-          <View className="flex-row justify-between mb-1">
-            <View className="flex-1 mr-2">
-              <Text className={labelClasses}>Nombre</Text>
-              <Controller
-                control={control}
-                name="name"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    className={`${inputBaseClasses} ${errors.name ? inputErrorClasses : "border-gray-300"}`}
-                    value={value}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    placeholder="Nombre"
-                    autoCapitalize="words"
-                  />
-                )}
-              />
-              {errors.name && <Text className={errorTextClasses}>{errors.name.message}</Text>}
-            </View>
-
-            <View className="flex-1 ml-2">
-              <Text className={labelClasses}>Apellido</Text>
-              <Controller
-                control={control}
-                name="lastName"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    className={`${inputBaseClasses} ${errors.lastName ? inputErrorClasses : "border-gray-300"}`}
-                    value={value}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    placeholder="Apellido"
-                    autoCapitalize="words"
-                  />
-                )}
-              />
-              {errors.lastName && <Text className={errorTextClasses}>{errors.lastName.message}</Text>}
-            </View>
-          </View>
-
-          <View className="mb-4">
-            <Text className={labelClasses}>Teléfono Personal</Text>
-            <Controller
-              control={control}
-              name="phone"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  className={`${inputBaseClasses} ${errors.phone ? inputErrorClasses : "border-gray-300"}`}
-                  value={value}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  placeholder="Ej: 12345678"
-                  keyboardType="phone-pad"
-                />
-              )}
-            />
-            {errors.phone && <Text className={errorTextClasses}>{errors.phone.message}</Text>}
-          </View>
-
-          <View className="mb-4">
-            <Text className={labelClasses}>Correo Electrónico</Text>
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  className={`${inputBaseClasses} ${errors.email ? inputErrorClasses : "border-gray-300"}`}
-                  value={value}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  placeholder="correo@ejemplo.com"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                />
-              )}
-            />
-            {errors.email && <Text className={errorTextClasses}>{errors.email.message}</Text>}
-          </View>
-
-          <View className="flex-row justify-between mb-1">
-            <View className="flex-1 mr-2">
-              <Text className={labelClasses}>Contraseña</Text>
-              <Controller
-                control={control}
-                name="password"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    className={`${inputBaseClasses} ${errors.password ? inputErrorClasses : "border-gray-300"}`}
-                    value={value}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    placeholder="••••••••"
-                    secureTextEntry
-                  />
-                )}
-              />
-              {errors.password && <Text className={errorTextClasses}>{errors.password.message}</Text>}
-            </View>
-
-            <View className="flex-1 ml-2">
-              <Text className={labelClasses}>Confirmar Contraseña</Text>
-              <Controller
-                control={control}
-                name="confirmPassword"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    className={`${inputBaseClasses} ${errors.confirmPassword ? inputErrorClasses : "border-gray-300"}`}
-                    value={value}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    placeholder="••••••••"
-                    secureTextEntry
-                  />
-                )}
-              />
-              {errors.confirmPassword && <Text className={errorTextClasses}>{errors.confirmPassword.message}</Text>}
-            </View>
-          </View>
-        </View>
+        <PersonalInfo control={control} errors={errors} sectionTitleClasses={sectionTitleClasses} />
 
         {/* Business Information Section */}
         <View className={sectionClasses}>

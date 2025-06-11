@@ -40,7 +40,7 @@ export function CustomInput({
     <View className="mb-4">
       {label && <Text className="text-sm font-medium mb-1">{label}</Text>}
       <View
-        className={`flex-row border items-center rounded-xl p-3 ${getBorderStyle()}`}
+        className={`flex-row border items-center rounded-xl p-2 ${getBorderStyle()}`}
         style={isFocused ? { borderColor: colors.primary.dark } : {}}
       >
         {icon && (
@@ -50,8 +50,8 @@ export function CustomInput({
         )}
         {iconComponent && <View className="mr-3">{iconComponent}</View>}
         <TextInput
-          className="flex-1 text-base outline-none"
-          style={{ color: colors.darkMode.text.dark }}
+          className="flex-1 p-1 text-base outline-none"
+          style={{ color: colors.darkMode.text.dark, overflow: "hidden", width: "100%" }}
           placeholder={placeholder}
           placeholderTextColor={colors.darkMode.textSecondary.dark}
           value={value}
@@ -63,12 +63,12 @@ export function CustomInput({
           {...rest}
         />
         {isPassword && (
-          <Pressable onPress={toggleSecureEntry} className="p-2">
+          <Pressable onPress={toggleSecureEntry} className="p-1">
             <Text style={{ color: colors.primary.dark }}>{secureTextEntry ? "👁️" : "🔒"}</Text>
           </Pressable>
         )}
       </View>
-      {error && <Text className="text-red-500 text-sm ml-2 mt-1">{error}</Text>}
+      {error && <Text className="text-red-500 text-xs ml-2 mt-1">{error}</Text>}
     </View>
   );
 }

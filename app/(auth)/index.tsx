@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { GlassCard } from "components/ui/cards/GlassCard";
 import { CustomInput } from "components/ui/inputs/CustomInput";
 import LoadingPage from "components/ui/loaders/LoadingPage";
-import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useLoginScreen } from "features-auth/login/hooks/useLoginScreen";
@@ -53,11 +53,13 @@ export default function LoginScreen() {
         </View>
 
         {/* Main Content with Blur */}
-        <BlurView
-          intensity={80}
-          tint={colorScheme === "dark" ? "dark" : "light"}
-          className="rounded-3xl overflow-hidden w-full max-w-[500px] shadow-xl"
-        >
+        <GlassCard>
+          <Image
+            source={require("../../assets/images/logo_png.png")}
+            className="rounded-full shadow-xl"
+            resizeMode="contain"
+            style={{ width: 110, height: 110, position: "absolute", top: -50, opacity: 0.5 }}
+          />
           <View className="px-6 py-8">
             <Text className="text-2xl font-bold text-center mb-1" style={{ color: colors.darkMode.text.light }}>
               Iniciar Sesión
@@ -124,7 +126,7 @@ export default function LoginScreen() {
               </Pressable>
             </View>
           </View>
-        </BlurView>
+        </GlassCard>
 
         {/* Footer */}
         <View className="mt-8 items-center">

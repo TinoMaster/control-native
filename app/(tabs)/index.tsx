@@ -1,4 +1,3 @@
-import BalanceCard from "components/BalanceCard";
 import ExpenseCard from "components/ExpenseCard";
 import StatsCard from "components/StatsCard";
 import { MyScrollView } from "components/ui/MyScrollView";
@@ -20,8 +19,6 @@ export default function Dashboard() {
       <MyScrollView>
         <SalesSummaryCard />
         <ExpenseCard />
-
-        <BalanceCard />
 
         <View
           style={{
