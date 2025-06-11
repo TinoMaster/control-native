@@ -1,8 +1,9 @@
 import { SettingButton } from "components/ui/SettingButton";
-import { useTheme } from "contexts/ThemeContext";
+import { useThemeStore } from "contexts/ThemeContext";
 
 export function ToggleAppMode() {
-  const { isDarkMode, toggleTheme } = useTheme();
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
   return (
     <SettingButton
       onPress={toggleTheme}

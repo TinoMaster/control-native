@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from "contexts/ThemeContext";
+import { useThemeStore } from "contexts/ThemeContext";
 import useColors from "hooks/useColors";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -7,7 +7,7 @@ import colors from "styles/colors";
 import ui from "styles/ui";
 
 const ExpenseCard = () => {
-  const { isDarkMode } = useTheme();
+  const { isDarkMode } = useThemeStore();
   const colors = useColors();
 
   return (

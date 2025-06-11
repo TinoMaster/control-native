@@ -1,5 +1,5 @@
 import { Feather } from "@expo/vector-icons";
-import { useTheme } from "contexts/ThemeContext";
+import { useThemeStore } from "contexts/ThemeContext";
 import { BlurView } from "expo-blur";
 import { useWorkersFinalSaleStore } from "features/sales/current_day/store/useWorkersFinalSale.store";
 import useColors from "hooks/useColors";
@@ -11,7 +11,7 @@ export function WorkerItem({ worker }: Readonly<{ worker: EmployeeModel }>) {
   const { isSelected, toggleWorker } = useWorkersFinalSaleStore();
   const isActive = isSelected(worker);
   const defaultColors = useColors();
-  const { isDarkMode } = useTheme();
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   return (
     <Animated.View entering={FadeIn.duration(300)} className="mx-1 my-1">

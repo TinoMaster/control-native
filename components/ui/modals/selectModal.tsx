@@ -1,5 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { useTheme } from "contexts/ThemeContext";
+import { useThemeStore } from "contexts/ThemeContext";
 import { BlurView } from "expo-blur";
 import useColors from "hooks/useColors";
 import {
@@ -38,7 +38,7 @@ export function SelectModal<T>({
   keyExtractor
 }: SelectModalProps<T>) {
   const defaultColors = useColors();
-  const { isDarkMode } = useTheme();
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   function handleItemPress(item: T) {
     onSelect(item);

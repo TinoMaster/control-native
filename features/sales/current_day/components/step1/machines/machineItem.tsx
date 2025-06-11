@@ -1,5 +1,5 @@
 import { Feather } from "@expo/vector-icons";
-import { useTheme } from "contexts/ThemeContext";
+import { useThemeStore } from "contexts/ThemeContext";
 import { BlurView } from "expo-blur";
 import { MachineStateModal } from "features/sales/current_day/components/step1/machines/MachineStateModal";
 import { useMachineStateModal } from "features/sales/current_day/hooks/useMachineStateModal";
@@ -17,7 +17,7 @@ export function MachineItem({ machine }: Readonly<{ machine: MachineModel }>) {
   const { isModalVisible, openModal, closeModal } = useMachineStateModal();
   const isActive = isSelected(machine);
   const defaultColors = useColors();
-  const { isDarkMode } = useTheme();
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   // Check if this machine has a state with fund
   const machineState = selectedMachineStates.find((state) => state.machine.id === machine.id);

@@ -1,32 +1,40 @@
-import React, { createContext, useContext, useState } from 'react';
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { secureStorage } from "../utilities/storage/secure-storage";
 
-type ThemeContextType = {
+type ThemeState = {
   isDarkMode: boolean;
   toggleTheme: () => void;
 };
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
-
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
-  return (
-    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
-};
-
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+/**
+ * Adaptador de storage para usar secureStorage con Zustand
+ */
+const secureStorageAdapter = {
+  getItem: async (name: string): Promise<string | null> => {
+    return secureStorage.getItem(name);
+  },
+  setItem: async (name: string, value: string): Promise<void> => {
+    await secureStorage.setItem(name, value);
+  },
+  removeItem: async (name: string): Promise<void> => {
+    await secureStorage.removeItem(name);
   }
-  return context;
 };
+
+/**
+ * Store para el manejo del tema de la aplicación usando Zustand
+ * No requiere un provider como el contexto de React
+ */
+export const useThemeStore = create<ThemeState>()(
+  persist(
+    (set) => ({
+      isDarkMode: true,
+      toggleTheme: () => set((state) => ({ isDarkMode: !state.isDarkMode }))
+    }),
+    {
+      name: "theme-storage",
+      storage: createJSONStorage(() => secureStorageAdapter)
+    }
+  )
+);

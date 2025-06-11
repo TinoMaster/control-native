@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ContentWrapper } from "components/ContentWrapper";
-import GenericInput from "components/forms/generic-input";
+import { CustomInput } from "components/ui/inputs/CustomInput";
 import { useDebts } from "hooks/api/useDebts";
 import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";
@@ -10,16 +10,7 @@ import { Text, TouchableOpacity } from "react-native";
 import { useAuthStore } from "store/auth.store";
 import { useBusinessStore } from "store/business.store";
 import { formatNumericInput } from "utilities/helpers/globals.helpers";
-import { z } from "zod";
-
-const debtSchema = z.object({
-  name: z.string().min(1, "El nombre es requerido"),
-  description: z.string().optional(),
-  total: z.number().min(0.01, "El total debe ser mayor a 0"),
-  paid: z.number().min(0, "El pago no puede ser negativo")
-});
-
-type DebtFormData = z.infer<typeof debtSchema>;
+import { DebtFormData, debtSchema } from "../schema/createForm.schema";
 
 export function CreateDebtForm() {
   const defaultColors = useColors();
@@ -59,12 +50,13 @@ export function CreateDebtForm() {
         control={control}
         name="name"
         render={({ field: { onChange, value } }) => (
-          <GenericInput
+          <CustomInput
+            whiteBackground
             label="Nombre"
+            value={value}
             placeholder="Nombre del deudor"
             keyboardType="default"
-            watch={value}
-            error={errors.name}
+            error={errors.name?.message}
             onChangeText={onChange}
           />
         )}
@@ -74,12 +66,13 @@ export function CreateDebtForm() {
         control={control}
         name="description"
         render={({ field: { onChange, value } }) => (
-          <GenericInput
+          <CustomInput
+            whiteBackground
             label="Descripción (opcional)"
             placeholder="Descripción de la deuda"
             keyboardType="default"
-            watch={value}
-            error={errors.description}
+            value={value}
+            error={errors.description?.message}
             onChangeText={onChange}
             multiline={true}
             numberOfLines={3}
@@ -91,12 +84,13 @@ export function CreateDebtForm() {
         control={control}
         name="total"
         render={({ field: { onChange, value } }) => (
-          <GenericInput
+          <CustomInput
+            whiteBackground
             label="Total de la deuda"
             placeholder="Monto total"
             keyboardType="decimal-pad"
-            watch={value.toString()}
-            error={errors.total}
+            value={value.toString()}
+            error={errors.total?.message}
             onChangeText={(text) => onChange(parseFloat(formatNumericInput(text)) || 0)}
           />
         )}
@@ -106,12 +100,13 @@ export function CreateDebtForm() {
         control={control}
         name="paid"
         render={({ field: { onChange, value } }) => (
-          <GenericInput
+          <CustomInput
+            whiteBackground
             label="Monto pagado"
             placeholder="Monto pagado"
             keyboardType="decimal-pad"
-            watch={value.toString()}
-            error={errors.paid}
+            value={value.toString()}
+            error={errors.paid?.message}
             onChangeText={(text) => onChange(parseFloat(formatNumericInput(text)) || 0)}
           />
         )}

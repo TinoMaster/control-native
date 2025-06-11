@@ -1,3 +1,4 @@
+import useColors from "hooks/useColors";
 import React, { useState } from "react";
 import { Pressable, Text, TextInput, TextInputProps, View } from "react-native";
 import colors from "styles/colors";
@@ -9,6 +10,8 @@ interface CustomInputProps extends TextInputProps {
   readonly iconComponent?: React.ReactNode;
   readonly isPassword?: boolean;
   readonly disabled?: boolean;
+  readonly darkMode?: boolean;
+  readonly whiteBackground?: boolean;
 }
 
 export function CustomInput({
@@ -18,6 +21,8 @@ export function CustomInput({
   iconComponent,
   isPassword = false,
   disabled = false,
+  darkMode = false,
+  whiteBackground = false,
   value,
   onChangeText,
   placeholder,
@@ -25,6 +30,7 @@ export function CustomInput({
 }: CustomInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(isPassword);
+  const defaultColors = useColors();
 
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
@@ -36,24 +42,47 @@ export function CustomInput({
     return "border-gray-400 border-opacity-30";
   };
 
+  const getPlaceHolderColor = () => {
+    if (whiteBackground) return colors.lightMode.textSecondary.dark;
+    return darkMode ? colors.darkMode.textSecondary.dark : defaultColors.textSecondary;
+  };
+
+  const getTextColor = () => {
+    if (whiteBackground) return colors.lightMode.text.dark;
+    return darkMode ? colors.darkMode.text.dark : defaultColors.text;
+  };
+
   return (
     <View className="mb-4">
-      {label && <Text className="text-sm font-medium mb-1">{label}</Text>}
+      {label && (
+        <Text
+          style={{ color: darkMode ? colors.darkMode.text.dark : defaultColors.text }}
+          className="text-sm font-medium mb-1"
+        >
+          {label}
+        </Text>
+      )}
       <View
-        className={`flex-row border items-center rounded-xl p-2 ${getBorderStyle()}`}
-        style={isFocused ? { borderColor: colors.primary.dark } : {}}
+        className={`flex-row border items-center rounded-xl p-2 ${getBorderStyle()} ${
+          whiteBackground ? "bg-white" : ""
+        }`}
+        style={isFocused ? { borderColor: defaultColors.primary } : {}}
       >
         {icon && (
-          <View className="mr-3 p-2 rounded-full" style={{ backgroundColor: colors.primary.dark }}>
+          <View className="mr-3 p-2 rounded-full" style={{ backgroundColor: defaultColors.primary }}>
             <Text className="text-white font-bold">{icon}</Text>
           </View>
         )}
         {iconComponent && <View className="mr-3">{iconComponent}</View>}
         <TextInput
           className="flex-1 p-1 text-base outline-none"
-          style={{ color: colors.darkMode.text.dark, overflow: "hidden", width: "100%" }}
+          style={{
+            color: getTextColor(),
+            overflow: "hidden",
+            width: "100%"
+          }}
           placeholder={placeholder}
-          placeholderTextColor={colors.darkMode.textSecondary.dark}
+          placeholderTextColor={getPlaceHolderColor()}
           value={value}
           onChangeText={onChangeText}
           onFocus={handleFocus}
@@ -64,7 +93,7 @@ export function CustomInput({
         />
         {isPassword && (
           <Pressable onPress={toggleSecureEntry} className="p-1">
-            <Text style={{ color: colors.primary.dark }}>{secureTextEntry ? "👁️" : "🔒"}</Text>
+            <Text style={{ color: getTextColor() }}>{secureTextEntry ? "👁️" : "🔒"}</Text>
           </Pressable>
         )}
       </View>

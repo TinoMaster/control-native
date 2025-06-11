@@ -3,7 +3,6 @@ import LoadingPage from "components/ui/loaders/LoadingPage";
 import { ModalProvider } from "components/ui/modals/ModalProvider";
 import { queryClient } from "config/react-query.config";
 import { NotificationProvider } from "contexts/NotificationContext";
-import { ThemeProvider } from "contexts/ThemeContext";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import useColors from "hooks/useColors";
@@ -78,14 +77,12 @@ export default function RootLayout() {
       {/* GestureHandlerRootView es necesario para que los gestos funcionen correctamente */}
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaProvider>
-          <ThemeProvider>
-            <NotificationProvider>
-              <ModalProvider>
-                <StatusBar style="light" />
-                <RootLayoutNav />
-              </ModalProvider>
-            </NotificationProvider>
-          </ThemeProvider>
+          <NotificationProvider>
+            <ModalProvider>
+              <StatusBar style="light" />
+              <RootLayoutNav />
+            </ModalProvider>
+          </NotificationProvider>
         </SafeAreaProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>
