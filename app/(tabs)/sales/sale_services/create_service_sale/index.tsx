@@ -2,10 +2,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import GenericInput from "components/forms/generic-input";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { SelectModal } from "components/ui/modals/selectModal";
 import { useNotification } from "contexts/NotificationContext";
 import { useRouter } from "expo-router";
-import { serviceSaleSchema, ServiceSaleSchema } from "models/zod/serviceSale.schema";
 import { useEmployees } from "hooks/api/useEmployees";
 import { useService } from "hooks/api/useServices";
 import { useServiceSale } from "hooks/api/useServiceSale";
@@ -14,6 +14,7 @@ import { EmployeeModel } from "models/api/employee.model";
 import { ERole } from "models/api/roles.model";
 import { ServiceModel } from "models/api/service.model";
 import { ServiceSaleModel } from "models/api/serviceSale.model";
+import { serviceSaleSchema, ServiceSaleSchema } from "models/zod/serviceSale.schema";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
@@ -95,17 +96,11 @@ export default function CreateServiceSale() {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: defaultColors.background
-      }}
-    >
+    <GradientBackground>
       <BackButtonPlusTitle title="Registrar Venta de Servicio" />
 
       <ScrollView
         style={{
-          backgroundColor: defaultColors.background,
           padding: 16
         }}
       >
@@ -273,6 +268,6 @@ export default function CreateServiceSale() {
           keyExtractor={(item) => item.id?.toString() ?? ""}
         />
       )}
-    </View>
+    </GradientBackground>
   );
 }

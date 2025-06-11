@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
-import useColors from "hooks/useColors";
-import React, { ComponentProps } from "react";
+import { ComponentProps } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import colors from "styles/colors";
 import { AddIcon } from "./Icons";
 
 interface PageTitleProps {
@@ -12,19 +12,30 @@ interface PageTitleProps {
 }
 
 export const PageTitle = ({ title, showAddButton = false, onPressAddButton, icon }: PageTitleProps) => {
-  const defaultColors = useColors();
   return (
-    <View className="flex-row items-center justify-between gap-2 p-4 shadow shadow-black/60">
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 6,
+        paddingVertical: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: "rgba(0,0,0,0.1)"
+      }}
+    >
       <View className="flex-row items-center">
-        {icon && <Ionicons name={icon} size={24} color={defaultColors.primary} />}
-        <Text className="text-xl font-bold ml-2" style={{ color: defaultColors.text, textTransform: "capitalize" }}>
+        {icon && <Ionicons name={icon} size={24} color={colors.primary.light} />}
+        <Text
+          className="text-xl font-bold ml-2"
+          style={{ color: colors.darkMode.text.light, textTransform: "capitalize" }}
+        >
           {title}
         </Text>
       </View>
       {showAddButton && (
         <TouchableOpacity
           className="bg-opacity-90 rounded-full p-2"
-          style={{ backgroundColor: defaultColors.primary }}
+          style={{ backgroundColor: colors.primary.light }}
           onPress={onPressAddButton}
           accessibilityLabel="Añadir nuevo negocio"
           accessibilityRole="button"

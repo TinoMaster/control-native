@@ -4,6 +4,7 @@ import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 import colors from "styles/colors";
+import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 interface FloatingActionButtonProps {
   readonly onPress: () => void;
@@ -34,16 +35,15 @@ export function FloatingActionButton({
   const finalIconColor = iconColorProp ?? "#FFFFFF";
 
   // Colores para el gradiente - usando ColorValue compatible con LinearGradient
-  const gradientColors = isDarkMode
-    ? ([colors.primary.dark, colors.primary.light] as const)
-    : ([colors.primary.light, colors.primary.dark] as const);
+  const gradientColors = [colors.background.dark.secondary, adjustBrightness(colors.background.dark.secondary, 20)] as const;
 
   // Color de fondo para cuando no hay gradiente
-  const baseBackgroundColor = backgroundColorProp ?? (isDarkMode ? colors.primary.dark : colors.primary.light);
+  const baseBackgroundColor =
+    backgroundColorProp ?? (isDarkMode ? colors.background.dark.secondary : colors.background.dark.primary);
 
   // Sombra adaptada al tema
   const shadowStyle = {
-    shadowColor: colors.primary.dark,
+    shadowColor: colors.background.dark.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,

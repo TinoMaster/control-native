@@ -1,14 +1,14 @@
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
+import { SaleServiceCard } from "features/sales/sale_services/components/SaleServiceCard";
 import { useServiceSale } from "hooks/api/useServiceSale";
 import useColors from "hooks/useColors";
-import { StyleSheet, View } from "react-native";
-import colors from "styles/colors";
 import { ServiceSaleModel } from "models/api/serviceSale.model";
-import { SaleServiceCard } from "features/sales/sale_services/components/SaleServiceCard";
+import colors from "styles/colors";
 
 export default function SaleServices() {
   const defaultColors = useColors();
@@ -22,7 +22,7 @@ export default function SaleServices() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+    <GradientBackground>
       <PageTitle title="Ventas de servicios" />
       <GenericList
         data={serviceSales ?? []}
@@ -35,12 +35,6 @@ export default function SaleServices() {
         backgroundColor={defaultColors.primary}
         iconColor={colors.darkMode.text.light}
       />
-    </View>
+    </GradientBackground>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});

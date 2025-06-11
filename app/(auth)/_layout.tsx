@@ -1,9 +1,5 @@
 import { Stack } from "expo-router";
 
-type Props = {
-  children: React.ReactNode;
-};
-
 export default function AuthLayout() {
   return (
     <Stack

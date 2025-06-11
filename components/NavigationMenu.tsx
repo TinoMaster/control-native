@@ -82,9 +82,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     paddingHorizontal: 5,
-    paddingVertical: 16,
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5
+    paddingVertical: 16
   },
   button: {
     width: 60,

@@ -38,13 +38,11 @@ export default function TabsLayout() {
       <Tabs
         screenOptions={{
           tabBarStyle: {
-            backgroundColor: colors.background.dark.primary,
+            backgroundColor: colors.background.dark.secondary,
             borderTopWidth: 0,
             elevation: 0,
             height: 60,
             paddingTop: 4,
-            borderTopLeftRadius: 5,
-            borderTopRightRadius: 5
           },
           tabBarActiveTintColor: colors.primary.light,
           tabBarInactiveTintColor: colors.darkMode.textSecondary.light,

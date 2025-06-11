@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import useColors from "hooks/useColors";
 import { Text, View } from "react-native";
+import colors from "styles/colors";
 import { MiniIconButton } from "./MIniIconButton";
 import { GlassCard } from "./cards/GlassCard";
 
@@ -15,18 +15,16 @@ interface Props {
 }
 
 export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, iconButtonLabel, header = true }: Props) {
-  const defaultColors = useColors();
-
   return (
     <GlassCard>
       {header && (
         <View
           className="flex-row items-center justify-between mb-3 p-2 border-b"
-          style={{ borderColor: defaultColors.background }}
+          style={{ borderColor: colors.darkMode.text.light }}
         >
           <View className="flex-row items-center">
-            {iconTitle && <Ionicons name={iconTitle} size={24} color={defaultColors.primary} />}
-            <Text style={{ color: defaultColors.text }} className="text-lg font-semibold ml-2">
+            {iconTitle && <Ionicons name={iconTitle} size={24} color={colors.primary.light} />}
+            <Text style={{ color: colors.darkMode.text.dark }} className="text-lg font-semibold ml-2">
               {title}
             </Text>
           </View>

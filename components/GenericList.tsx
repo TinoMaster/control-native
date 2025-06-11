@@ -1,5 +1,5 @@
 import { View, FlatList, StyleSheet, Text } from "react-native";
-import useColors from "hooks/useColors";
+import colors from "styles/colors";
 
 interface EmptyListMessageProps {
   message: string;
@@ -18,7 +18,6 @@ export default function GenericList<T>({
   keyExtractor,
   emptyListMessage = "No hay elementos para mostrar"
 }: GenericListProps<T>) {
-  const colors = useColors();
 
   return (
     <View style={styles.container}>
@@ -27,7 +26,7 @@ export default function GenericList<T>({
         renderItem={({ item }) => renderItem(item)}
         keyExtractor={keyExtractor}
         contentContainerStyle={styles.listContent}
-        ListEmptyComponent={<EmptyListMessage message={emptyListMessage} textColor={colors.text} />}
+        ListEmptyComponent={<EmptyListMessage message={emptyListMessage} textColor={colors.darkMode.text.light} />}
       />
     </View>
   );

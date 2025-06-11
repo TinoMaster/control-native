@@ -12,8 +12,8 @@ interface GradientBackgroundProps extends ViewProps {
 
 export function GradientBackground({
   children,
-  variant = "primary",
-  intensity = "medium",
+  variant = "dark",
+  intensity = "soft",
   className = "",
   style,
   borderRadius = 0,
