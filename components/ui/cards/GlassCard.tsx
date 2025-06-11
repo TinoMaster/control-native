@@ -29,7 +29,6 @@ export const GlassCard = ({
 
   // Colors for different themes
   const borderColor = isDark ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.6)";
-  const shadowColor = isDark ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.12)";
 
   // Default gradient colors based on theme
   const defaultGradientColors: [ColorValue, ColorValue] = isDark
@@ -41,8 +40,8 @@ export const GlassCard = ({
 
   return (
     <View
-      className={`overflow-hidden ${rounded ? "rounded-3xl" : ""} w-full max-w-[500px]`}
-      style={[styles.container, withBorder && { borderColor, borderWidth: 1 }, { shadowColor }, style]}
+      className={`overflow-hidden shadow-lg ${rounded ? "rounded-3xl" : ""} w-full max-w-[500px]`}
+      style={[styles.container, withBorder && { borderColor, borderWidth: 1 }, style]}
       accessibilityRole="none"
     >
       <BlurView intensity={intensity} tint={tint} style={styles.blurContainer}>
