@@ -1,7 +1,6 @@
 import { GRADIENT_PALETTE_TO_BACKGROUND } from "data/global.data";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
-import { StyleSheet, ViewProps, useColorScheme } from "react-native";
+import { StyleSheet, ViewProps } from "react-native";
 
 interface GradientBackgroundProps extends ViewProps {
   readonly variant?: "primary" | "secondary" | "dark" | "light" | "glass" | "neon";
@@ -21,8 +20,7 @@ export function GradientBackground({
   direction = "tl-br",
   ...props
 }: GradientBackgroundProps) {
-  const colorScheme = useColorScheme() ?? "dark";
-  const isDark = colorScheme === "dark";
+  const isDark = true;
 
   const gradientDirections = {
     "tl-br": { start: { x: 0, y: 0 }, end: { x: 1, y: 1 } },
@@ -36,14 +34,9 @@ export function GradientBackground({
     const colorsByVariant = GRADIENT_PALETTE_TO_BACKGROUND[variant] || GRADIENT_PALETTE_TO_BACKGROUND["primary"];
     const colors = colorsByVariant[theme]?.[intensity] || GRADIENT_PALETTE_TO_BACKGROUND["primary"][theme][intensity];
 
-    // Ensure we have at least 2 colors as required by the LinearGradient component
-    // All our color arrays in the palette have 3 colors, but we're being defensive
     if (!colors || colors.length < 2) {
-      // Fallback to a safe default
       return ["#141E30", "#243B55"] as const;
     }
-
-    // Return the first two colors at minimum, plus any additional colors
     const [first, second, ...rest] = colors;
     return [first, second, ...rest] as const;
   };

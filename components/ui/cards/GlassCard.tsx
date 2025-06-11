@@ -1,11 +1,12 @@
-import React from "react";
-import { View, StyleSheet, useColorScheme, ColorValue } from "react-native";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
+import React from "react";
+import { ColorValue, StyleSheet, View } from "react-native";
 
 interface GlassCardProps {
   children: React.ReactNode;
   intensity?: number;
+  isDark?: boolean;
   tint?: "light" | "dark" | "default";
   style?: object;
   rounded?: boolean;
@@ -16,16 +17,14 @@ interface GlassCardProps {
 export const GlassCard = ({
   children,
   intensity = 50,
+  isDark = true,
   tint: propTint,
   style = {},
   rounded = true,
   withBorder = true,
   customGradient
 }: GlassCardProps) => {
-  const colorScheme = useColorScheme();
-  const tint = propTint ?? (colorScheme === "dark" ? "dark" : "light");
-
-  const isDark = tint === "dark" || colorScheme === "dark";
+  const tint = propTint ?? (isDark ? "dark" : "light");
 
   // Colors for different themes
   const borderColor = isDark ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.6)";
@@ -56,19 +55,13 @@ export const GlassCard = ({
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
-    elevation: 5,
     position: "relative"
   },
   blurContainer: {
     width: "100%",
-    height: "100%",
     overflow: "hidden"
   },
   gradient: {
-    width: "100%",
-    height: "100%"
+    width: "100%"
   }
 });

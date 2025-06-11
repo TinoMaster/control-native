@@ -58,9 +58,9 @@ export default function LoginScreen() {
             source={require("../../assets/images/logo_png.png")}
             className="rounded-full shadow-xl"
             resizeMode="contain"
-            style={{ width: 110, height: 110, position: "absolute", top: -50, opacity: 0.5 }}
+            style={{ width: 110, height: 110, position: "absolute", top: -55, opacity: 0.4 }}
           />
-          <View className="px-6 py-8">
+          <View className="py-8">
             <Text className="text-2xl font-bold text-center mb-1" style={{ color: colors.darkMode.text.light }}>
               Iniciar Sesión
             </Text>
