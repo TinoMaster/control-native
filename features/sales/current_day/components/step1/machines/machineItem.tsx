@@ -5,10 +5,10 @@ import { MachineStateModal } from "features/sales/current_day/components/step1/m
 import { useMachineStateModal } from "features/sales/current_day/hooks/useMachineStateModal";
 import { useMachineFinalSaleStore } from "features/sales/current_day/store/useMachineFinalSale.store";
 import { useMachineStateFinalSaleStore } from "features/sales/current_day/store/useMachineStateFinalSale.store";
-import useColors from "hooks/useColors";
 import { MachineModel } from "models/api/machine.model";
 import { Pressable, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
+import colors from "styles/colors";
 import { formatCurrency } from "utilities/formatters";
 
 export function MachineItem({ machine }: Readonly<{ machine: MachineModel }>) {
@@ -16,7 +16,6 @@ export function MachineItem({ machine }: Readonly<{ machine: MachineModel }>) {
   const { selectedMachineStates, deleteMachineState } = useMachineStateFinalSaleStore();
   const { isModalVisible, openModal, closeModal } = useMachineStateModal();
   const isActive = isSelected(machine);
-  const defaultColors = useColors();
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   // Check if this machine has a state with fund
@@ -34,11 +33,7 @@ export function MachineItem({ machine }: Readonly<{ machine: MachineModel }>) {
   };
 
   return (
-    <Animated.View
-      entering={FadeIn.duration(300)}
-      style={{ backgroundColor: defaultColors.background }}
-      className="mx-1 my-1"
-    >
+    <Animated.View entering={FadeIn.duration(300)} className="mx-1 my-1">
       <Pressable
         onPress={toggleMachineState}
         className={`p-3 rounded-xl border overflow-hidden ${isActive ? "border-primary-light" : "border-white"}`}
@@ -62,10 +57,10 @@ export function MachineItem({ machine }: Readonly<{ machine: MachineModel }>) {
         )}
         <View className="flex-row justify-between items-center">
           <View className="flex-1">
-            <Text style={{ color: defaultColors.text }} className="text-base font-medium">
+            <Text style={{ color: colors.darkMode.text.light }} className="text-base font-medium">
               {machine.name}
             </Text>
-            <Text style={{ color: defaultColors.textSecondary }} className="text-xs">
+            <Text style={{ color: colors.darkMode.textSecondary.light }} className="text-xs">
               Fondo: {hasFund ? formatCurrency(machineState?.fund ?? 0) : ""}
             </Text>
           </View>

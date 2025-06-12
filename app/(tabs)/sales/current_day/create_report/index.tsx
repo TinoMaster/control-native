@@ -1,6 +1,5 @@
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { MessageModal } from "components/ui/modals/messageModal";
-import { MyScrollView } from "components/ui/MyScrollView";
 import { useRouter } from "expo-router";
 import { StepsHeader } from "features/sales/current_day/components/stepsHeader";
 import StepsNavigation from "features/sales/current_day/components/stepsNavigation";
@@ -74,7 +73,7 @@ export default function CreateReportWizard() {
       <StepsHeader />
 
       {/* Step Content */}
-      <MyScrollView>{renderCurrentStep()}</MyScrollView>
+      {renderCurrentStep()}
 
       {/* Navigation */}
       <StepsNavigation />

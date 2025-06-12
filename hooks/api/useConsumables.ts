@@ -24,7 +24,6 @@ export const useConsumables = () => {
   const { mutate: onSaveConsumable, isPending: loadingSave } = useMutation({
     mutationFn: (consumable: ConsumableModel) => consumableService.saveConsumable(consumable),
     onSuccess: (response) => {
-      console.log("response", response);
       if (response.status === 200 && response.data) {
         showNotification("Consumible guardado correctamente", "success");
         queryClient.invalidateQueries({ queryKey: ["consumables"] });
@@ -44,7 +43,6 @@ export const useConsumables = () => {
   const { mutate: onUpdateConsumable, isPending: updatingConsumable } = useMutation({
     mutationFn: (consumable: ConsumableModel) => consumableService.updateConsumable(consumable),
     onSuccess: (response) => {
-      console.log("response", response);
       if (response.status === 200 && response.data) {
         showNotification("Consumible actualizado correctamente", "success");
         queryClient.invalidateQueries({ queryKey: ["consumables"] });
@@ -64,7 +62,6 @@ export const useConsumables = () => {
   const { mutate: onDeleteConsumable, isPending: deletingConsumable } = useMutation({
     mutationFn: (id: number) => consumableService.deleteConsumable(id),
     onSuccess: (response) => {
-      console.log("response", response);
       if (response.status === 200) {
         showNotification("Consumible eliminado correctamente", "success");
         router.back();

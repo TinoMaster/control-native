@@ -55,10 +55,7 @@ export function CustomInput({
   return (
     <View className="mb-4">
       {label && (
-        <Text
-          style={{ color: darkMode ? colors.darkMode.text.dark : defaultColors.text }}
-          className="text-sm font-medium mb-1"
-        >
+        <Text style={{ color: colors.darkMode.text.light }} className="text-sm font-medium mb-1 ml-1">
           {label}
         </Text>
       )}

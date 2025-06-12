@@ -39,8 +39,8 @@ const colors = {
       dark: "#FEFEFE"
     },
     textSecondary: {
-      light: "#9CA3AF",
-      dark: "#6B7280"
+      light: "#d1d2d3",
+      dark: "#9CA3AF"
     }
   },
   lightMode: {

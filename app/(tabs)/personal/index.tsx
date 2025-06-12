@@ -1,13 +1,14 @@
-import { EmployeeCard } from "features/personal/EmployeeCard";
+import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
-import LoadingPage from "components/ui/loaders/LoadingPage";
 import { PageTitle } from "components/PageTitle";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
+import { EmployeeCard } from "features/personal/EmployeeCard";
 import { useEmployees } from "hooks/api/useEmployees";
 import useColors from "hooks/useColors";
 import { EmployeeModel } from "models/api/employee.model";
-import { StyleSheet, View } from "react-native";
 import colors from "styles/colors";
 
 export default function Personal() {
@@ -31,25 +32,21 @@ export default function Personal() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+    <GradientBackground>
       <PageTitle title="Personal" />
-      <GenericList
-        data={employees}
-        renderItem={renderEmployee}
-        keyExtractor={(item) => item.id?.toString() ?? ""}
-        emptyListMessage="No hay empleados registrados"
-      />
+      <ContentWrapper>
+        <GenericList
+          data={employees}
+          renderItem={renderEmployee}
+          keyExtractor={(item) => item.id?.toString() ?? ""}
+          emptyListMessage="No hay empleados registrados"
+        />
+      </ContentWrapper>
       <FloatingActionButton
         onPress={() => router.push("/(tabs)/personal/create" as any)}
         backgroundColor={defaultColors.primary}
         iconColor={colors.darkMode.text.light}
       />
-    </View>
+    </GradientBackground>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});

@@ -44,7 +44,6 @@ export const useLoginScreen = () => {
           router.replace("/(tabs)");
         } else {
           const lastLogin = await userService.getLastLogin(data.email);
-          console.log(lastLogin);
           if (lastLogin.status === 200 && lastLogin.data) {
             setError("Tu cuenta está inactiva. Por favor, contacta al administrador.");
           } else {

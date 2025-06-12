@@ -36,7 +36,6 @@ export const useEmployees = () => {
       if (response.status === 200 && response.data) {
         showNotification("Empleado guardado correctamente", "success");
         if (businessId && business) {
-          console.log("business se ejecuto", response.data);
           updateBusiness(businessId, {
             users: [...(business.users ?? []), Number(response.data.user.id)]
           });

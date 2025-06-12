@@ -47,7 +47,7 @@ export function FloatingActionButton({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
-    elevation: 8
+    elevation: 5
   };
 
   // Renderiza el contenido del botón con efectos
@@ -128,8 +128,8 @@ export function FloatingActionButton({
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    right: 16,
-    bottom: 16,
+    right: 10,
+    bottom: 10,
     width: 56,
     height: 56,
     borderRadius: 28,

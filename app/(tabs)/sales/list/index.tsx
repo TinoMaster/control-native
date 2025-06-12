@@ -28,14 +28,12 @@ export default function List() {
 
   // Handle month selection
   const handleMonthSelect = (month: number) => {
-    console.log(month);
     updateMonthAndYear(month, selectedYear);
     setShowMonthPicker(false);
   };
 
   // Handle year selection
   const handleYearSelect = (year: number) => {
-    console.log(year);
     updateMonthAndYear(selectedMonth, year);
     setShowYearPicker(false);
   };

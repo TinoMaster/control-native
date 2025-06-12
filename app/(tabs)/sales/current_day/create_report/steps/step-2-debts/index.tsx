@@ -1,3 +1,4 @@
+import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import { MyModal } from "components/ui/modals/myModal";
 import { DebtItem } from "features/sales/current_day/components/step2/debts/debtItem";
@@ -5,16 +6,15 @@ import { FormAddDebt } from "features/sales/current_day/components/step2/debts/f
 import { useDebtsFinalSaleStore } from "features/sales/current_day/store/useDebtsFinalSale.store";
 import { useWorkersFinalSaleStore } from "features/sales/current_day/store/useWorkersFinalSale.store";
 import { useDebts } from "hooks/api/useDebts";
-import useColors from "hooks/useColors";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
+import colors from "styles/colors";
 
 export default function Step2Debts() {
   const { debts, addDebts } = useDebtsFinalSaleStore();
   const { getDebtsInActualDay } = useDebts();
   const selectedWorkers = useWorkersFinalSaleStore((state) => state.selectedWorkers);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const defaultColors = useColors();
 
   useEffect(() => {
     addDebts(
@@ -25,12 +25,12 @@ export default function Step2Debts() {
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <ContentWrapper>
       <MyModal isVisible={isFormVisible} onClose={() => setIsFormVisible(false)} title="Agregar Deuda">
         <FormAddDebt onClose={() => setIsFormVisible(false)} />
       </MyModal>
       <View style={{ gap: 10, paddingBottom: 20 }} className="flex-1">
-        <Text style={{ color: defaultColors.text }} className="text-lg font-semibold">
+        <Text style={{ color: colors.darkMode.text.light }} className="text-lg font-semibold">
           Deudas
         </Text>
         {/* Debt List */}
@@ -42,7 +42,9 @@ export default function Step2Debts() {
           </ScrollView>
         ) : (
           <View className="flex-1 justify-center items-center">
-            <Text className="text-gray-500 dark:text-gray-400 text-center">No hay deudas registradas</Text>
+            <Text style={{ color: colors.darkMode.text.light }} className="text-center">
+              No hay deudas registradas
+            </Text>
           </View>
         )}
 
@@ -50,11 +52,9 @@ export default function Step2Debts() {
           onPress={() => setIsFormVisible(true)}
           iconName="add"
           iconSize={24}
-          iconColor={defaultColors.text}
-          backgroundColor={defaultColors.primary}
-          style={{ bottom: 25, right: 5 }}
+          iconColor={colors.darkMode.text.light}
         />
       </View>
-    </View>
+    </ContentWrapper>
   );
 }

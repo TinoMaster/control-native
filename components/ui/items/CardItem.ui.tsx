@@ -1,23 +1,17 @@
-import useColors from "hooks/useColors";
 import { CardPayment } from "models/api/businessFinalSale.model";
 import { Text, View } from "react-native";
+import colors from "styles/colors";
 import { formatCurrency } from "utilities/formatters";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 export function CardItem({ card }: { readonly card: CardPayment }) {
-  const defaultColors = useColors();
-
   return (
-    <View
-      style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }}
-      className="flex-row justify-between items-center py-2"
-    >
+    <View className="flex-row justify-between items-center py-2">
       <View>
-        <Text style={{ color: defaultColors.text }} className="font-medium">
+        <Text style={{ color: colors.darkMode.text.light }} className="font-medium">
           Tarjeta {card.cardNumber}
         </Text>
       </View>
-      <Text style={{ color: defaultColors.text }} className="font-semibold">
+      <Text style={{ color: colors.darkMode.text.light }} className="font-semibold">
         {formatCurrency(card.amount)}
       </Text>
     </View>

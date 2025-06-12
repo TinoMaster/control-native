@@ -1,4 +1,3 @@
-import useColors from "hooks/useColors";
 import { Text, View } from "react-native";
 import colors from "styles/colors";
 
@@ -21,14 +20,12 @@ export function InfoRow({
   readonly warning?: boolean;
   readonly error?: boolean;
 }) {
-  const defaultColors = useColors();
-
   // Determinar color de texto seg n estado
   function getTextColor() {
     if (success) return colors.success.light;
     if (warning) return colors.warning.light;
     if (error) return colors.error.light;
-    return defaultColors.text;
+    return colors.darkMode.text.light;
   }
 
   function getSign() {

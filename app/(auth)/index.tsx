@@ -7,7 +7,6 @@ import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useLoginScreen } from "features-auth/login/hooks/useLoginScreen";
 import { loginSchema, TLoginSchema, zLoginDefaultValues } from "features-auth/login/schemas/login.schema";
-import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Image, Pressable, Text, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";

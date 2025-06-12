@@ -22,7 +22,6 @@ export const useDebts = () => {
         return [];
       }
       const response = await debtService.getAllDebtsByBusinessId(businessId);
-      console.log(response);
       return response.data || [];
     },
     enabled: !!businessId

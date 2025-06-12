@@ -15,6 +15,7 @@ import useColors from "hooks/useColors";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
+import colors from "styles/colors";
 import { formatCurrency } from "utilities/formatters";
 import {
   calculateFinalCash,
@@ -96,7 +97,7 @@ export default function ReviewFinalReport() {
   return (
     <MyScrollView>
       <View className="flex-row justify-between items-center">
-        <Text style={{ color: defaultColors.text }} className="text-xl font-bold text-center">
+        <Text style={{ color: colors.darkMode.text.light }} className="text-xl font-bold text-center">
           Resumen del Reporte Diario
         </Text>
         <TouchableOpacity
@@ -105,7 +106,7 @@ export default function ReviewFinalReport() {
           accessibilityLabel="Agregar nota al reporte"
           accessibilityRole="button"
         >
-          <Feather name={report.note ? "edit-3" : "plus-circle"} size={24} color={defaultColors.primary} />
+          <Feather name={report.note ? "edit-3" : "plus-circle"} size={24} color={colors.darkMode.text.light} />
         </TouchableOpacity>
       </View>
 
@@ -117,17 +118,14 @@ export default function ReviewFinalReport() {
         <InfoRow label="Fondo Hoy" value={formatCurrency(report.fund || 0)} />
         <InfoRow label="Fondo Anterior" value={formatCurrency(lastFund)} />
         {Boolean(report.note) && (
-          <View
-            style={{ backgroundColor: adjustBrightness(defaultColors.background, 10) }}
-            className="mt-2 p-3 rounded-lg"
-          >
+          <View className="mt-2 p-3 rounded-lg bg-black/10">
             <View className="flex-row items-center mb-1">
-              <Feather name="file-text" size={16} color={defaultColors.primary} />
-              <Text style={{ color: defaultColors.text }} className="ml-2 font-medium">
+              <Feather name="file-text" size={16} color={colors.darkMode.text.light} />
+              <Text style={{ color: colors.darkMode.text.light }} className="ml-2 font-medium">
                 Nota:
               </Text>
             </View>
-            <Text style={{ color: defaultColors.text }}>{report.note}</Text>
+            <Text style={{ color: colors.darkMode.text.light }}>{report.note}</Text>
           </View>
         )}
       </MyCard>

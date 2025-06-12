@@ -31,7 +31,6 @@ import {
   getWorkersAndSalaries
 } from "utilities/helpers/businessFinalSale.utils";
 import { isTodayDate } from "utilities/helpers/date.utils";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 // Componente para mostrar un elemento de trabajador
 function WorkerItem({ worker, salary }: { readonly worker: EmployeeModel; readonly salary: number }) {
@@ -127,12 +126,12 @@ export default function DailyReportDetailScreen() {
             {new Date(report.createdAt || new Date()).toLocaleDateString()}
           </Text>
           {Boolean(report.note) && (
-            <View style={[styles.noteContainer, { backgroundColor: adjustBrightness(defaultColors.background, 10) }]}>
+            <View className="mt-2 p-3 rounded-lg bg-black/10">
               <View style={styles.noteHeader}>
-                <Feather name="file-text" size={16} color={defaultColors.primary} />
-                <Text style={[styles.noteTitle, { color: defaultColors.text }]}>Nota:</Text>
+                <Feather name="file-text" size={16} color={colors.primary.light} />
+                <Text style={[styles.noteTitle, { color: colors.darkMode.text.light }]}>Nota:</Text>
               </View>
-              <Text style={[styles.noteText, { color: defaultColors.text }]}>{report.note}</Text>
+              <Text style={[styles.noteText, { color: colors.darkMode.text.light }]}>{report.note}</Text>
             </View>
           )}
         </MyCard>
@@ -271,11 +270,6 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 14,
     marginBottom: 16
-  },
-  noteContainer: {
-    marginTop: 12,
-    padding: 12,
-    borderRadius: 8
   },
   noteHeader: {
     flexDirection: "row",

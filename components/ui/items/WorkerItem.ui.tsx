@@ -1,6 +1,6 @@
-import useColors from "hooks/useColors";
 import { EmployeeModel } from "models/api/employee.model";
 import { Text, View } from "react-native";
+import colors from "styles/colors";
 import { formatCurrency } from "utilities/formatters";
 
 export function WorkerItem({
@@ -10,14 +10,12 @@ export function WorkerItem({
   readonly worker: EmployeeModel;
   readonly workersAndSalaries: Record<string, number>;
 }) {
-  const defaultColors = useColors();
-
   return (
     <View className="py-2 flex-row justify-between">
-      <Text style={{ color: defaultColors.text }} className="font-medium">
+      <Text style={{ color: colors.darkMode.text.light }} className="font-medium">
         {worker.user.name}
       </Text>
-      <Text style={{ color: defaultColors.text }} className="font-medium">
+      <Text style={{ color: colors.darkMode.text.light }} className="font-medium">
         {formatCurrency(workersAndSalaries[worker.user.name])}
       </Text>
     </View>

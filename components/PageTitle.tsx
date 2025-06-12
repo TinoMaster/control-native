@@ -9,19 +9,23 @@ interface PageTitleProps {
   showAddButton?: boolean;
   onPressAddButton?: () => void;
   icon?: ComponentProps<typeof Ionicons>["name"];
+  style?: ComponentProps<typeof View>["style"];
 }
 
-export const PageTitle = ({ title, showAddButton = false, onPressAddButton, icon }: PageTitleProps) => {
+export const PageTitle = ({ title, showAddButton = false, onPressAddButton, icon, style }: PageTitleProps) => {
   return (
     <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: 6,
-        paddingVertical: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: "rgba(0,0,0,0.1)"
-      }}
+      style={[
+        {
+          flexDirection: "row",
+          alignItems: "center",
+          paddingHorizontal: 6,
+          paddingVertical: 20,
+          borderBottomWidth: 1,
+          borderBottomColor: "rgba(0,0,0,0.1)"
+        },
+        style
+      ]}
     >
       <View className="flex-row items-center">
         {icon && <Ionicons name={icon} size={24} color={colors.primary.light} />}

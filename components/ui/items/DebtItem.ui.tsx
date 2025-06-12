@@ -1,24 +1,21 @@
-import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";
 import { Text, View } from "react-native";
+import colors from "styles/colors";
 import { formatCurrency } from "utilities/formatters";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
 
 export function DebtItem({ debt }: { readonly debt: DebtModel }) {
-  const defaultColors = useColors();
-
   return (
-    <View style={{ backgroundColor: adjustBrightness(defaultColors.background, 20) }} className="py-2">
+    <View className="py-2">
       <View className="flex-row justify-between">
-        <Text style={{ color: defaultColors.text }} className="font-medium">
+        <Text style={{ color: colors.darkMode.text.light }} className="font-medium">
           {debt.name}
         </Text>
-        <Text style={{ color: defaultColors.text }} className="font-semibold">
+        <Text style={{ color: colors.darkMode.text.light }} className="font-semibold">
           {formatCurrency(debt.total)}
         </Text>
       </View>
       {debt.description && (
-        <Text style={{ color: defaultColors.textSecondary }} className="text-sm mt-1">
+        <Text style={{ color: colors.darkMode.textSecondary.light }} className="text-sm mt-1">
           {debt.description}
         </Text>
       )}

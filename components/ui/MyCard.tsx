@@ -19,12 +19,12 @@ export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, ic
     <GlassCard>
       {header && (
         <View
-          className="flex-row items-center justify-between mb-3 p-2 border-b"
+          className="flex-row items-center justify-between p-2 bg-black/10 rounded-lg"
           style={{ borderColor: colors.darkMode.text.light }}
         >
           <View className="flex-row items-center">
-            {iconTitle && <Ionicons name={iconTitle} size={24} color={colors.primary.light} />}
-            <Text style={{ color: colors.darkMode.text.dark }} className="text-lg font-semibold ml-2">
+            {iconTitle && <Ionicons name={iconTitle} size={16} color={colors.primary.light} />}
+            <Text style={{ color: colors.darkMode.text.dark }} className="text-md font-semibold ml-2">
               {title}
             </Text>
           </View>
@@ -34,7 +34,7 @@ export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, ic
         </View>
       )}
       <View className="flex-row justify-between items-center">
-        <View className="flex-1">{children}</View>
+        <View className="flex-1 p-2">{children}</View>
       </View>
     </GlassCard>
   );
