@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
     width: "100%",
     position: "relative",
     overflow: "hidden",
-    borderRadius: 16
+    borderRadius: 16,
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)"
   },
   gradient: {
     width: "100%"

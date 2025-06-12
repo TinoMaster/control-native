@@ -18,6 +18,7 @@ import { useMonthlySales } from "hooks/api/useMonthlySales";
 import useColors from "hooks/useColors";
 import { CardPayment } from "models/api/businessFinalSale.model";
 import { EmployeeModel } from "models/api/employee.model";
+import { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import colors from "styles/colors";
@@ -58,8 +59,30 @@ export default function DailyReportDetailScreen() {
   const { monthlyReports, loadingMonthlyReports } = useMonthlySales();
   const business = useBusinessStore((state) => state.business);
 
+  console.log("monthlyReports", monthlyReports?.[0]?.createdAt);
+
+  // Utiliza useEffect para manejar el caso en que no se encuentre el reporte - colocado en el nivel superior antes de cualquier return condicional
+  useEffect(() => {
+    if (!loadingDailyReports && !loadingMonthlyReports) {
+      const foundReport =
+        dailyReports?.find((r: any) => r.id === Number(id)) || monthlyReports?.find((r: any) => r.id === Number(id));
+
+      if (!foundReport) {
+        showNotification("Reporte no encontrado", "error");
+        router.back();
+      }
+    }
+  }, [id, dailyReports, monthlyReports, loadingDailyReports, loadingMonthlyReports, showNotification, router]);
+
   if (loadingDailyReports || loadingMonthlyReports) {
     return <LoadingPage message="Cargando detalles del reporte..." />;
+  }
+
+  if (dailyReports?.length > 0) {
+    console.log("dailyReports", dailyReports[0].createdAt);
+  }
+  if (monthlyReports?.length > 0) {
+    console.log("monthlyReports", monthlyReports[0].createdAt);
   }
 
   const report =
@@ -73,9 +96,7 @@ export default function DailyReportDetailScreen() {
     })) || [];
 
   if (!report) {
-    showNotification("Reporte no encontrado", "error");
-    router.back();
-    return null;
+    return <LoadingPage message="Buscando reporte..." />;
   }
 
   // Calcular totales

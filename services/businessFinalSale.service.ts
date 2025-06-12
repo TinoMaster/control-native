@@ -31,6 +31,9 @@ class BusinessFinalSaleService {
     month: number,
     year: number
   ): Promise<IResponse<BusinessFinalSaleModelResponse[]>> {
+    console.log("businessId", businessId);
+    console.log("month", month);
+    console.log("year", year);
     try {
       return await requestService.fetch<BusinessFinalSaleModelResponse[]>(
         `${this.privateUrl}/business-final-sale/bymonth/${businessId}`,

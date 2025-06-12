@@ -13,7 +13,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { adjustBrightness, groupSalesByDay } from "utilities/helpers/globals.helpers";
 
-//TODO: arreglar este componente, ya que no me deja seleccionar los detalles de los reportes del mes corriente
 export default function List() {
   const defaultColors = useColors();
   const [showMonthPicker, setShowMonthPicker] = useState(false);
@@ -23,7 +22,7 @@ export default function List() {
 
   // Format the selected month and year for display
   const formattedMonthYear = useMemo(() => {
-    return `${MONTHS[selectedMonth - 1]} ${selectedYear}`;
+    return `${MONTHS[selectedMonth]} ${selectedYear}`;
   }, [selectedMonth, selectedYear]);
 
   // Handle month selection

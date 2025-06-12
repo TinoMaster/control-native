@@ -4,7 +4,6 @@ import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";
 import { Text, TouchableOpacity, View } from "react-native";
 
-//TODO: Continue here, probar si funciona bien la convivencia entre las dos listas de notas
 export const DebtItem = ({ item }: { item: DebtModel }) => {
   const { deleteDebt } = useDebtsFinalSaleStore();
   const { isDebtInActualDay } = useDebts();

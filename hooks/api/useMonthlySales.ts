@@ -5,24 +5,35 @@ import { useState } from "react";
 import { businessFinalSaleService } from "services/businessFinalSale.service";
 import { useBusinessStore } from "store/business.store";
 
+// Interfaz para el objeto de selección de mes y año
+interface MonthYearSelection {
+  month: number;
+  year: number;
+}
+
+// Clave para almacenar el mes y año seleccionados en el QueryClient
+const MONTH_YEAR_CACHE_KEY = ["monthYearSelection"] as const;
+
 /**
- * Hook for managing monthly sales data
+ * Hook para gestionar los datos de ventas mensuales
  */
 export const useMonthlySales = () => {
   const businessId = useBusinessStore((state) => state.businessId);
   const queryClient = useQueryClient();
   const { showNotification } = useNotification();
 
-  // State for controlling month and year
+  // Obtener el mes y año del caché de TanStack Query o usar valores por defecto
+  const cachedMonthYear = queryClient.getQueryData<MonthYearSelection>(MONTH_YEAR_CACHE_KEY);
   const currentDate = new Date();
-  const [selectedMonth, setSelectedMonth] = useState<number>(currentDate.getMonth());
-  const [selectedYear, setSelectedYear] = useState<number>(currentDate.getFullYear());
+
+  // Estado local que se inicializa con los valores del caché o valores por defecto
+  const [selectedMonth, setSelectedMonth] = useState<number>(cachedMonthYear?.month ?? currentDate.getMonth() + 1);
+  const [selectedYear, setSelectedYear] = useState<number>(cachedMonthYear?.year ?? currentDate.getFullYear());
 
   // Query for monthly reports
   const {
     data: monthlyReports = [],
     isLoading: loadingMonthlyReports,
-    refetch: refetchMonthlyReports,
     isError: isMonthlyError,
     error: monthlyError
   } = useQuery<BusinessFinalSaleModelResponse[] | undefined>({
@@ -35,8 +46,6 @@ export const useMonthlySales = () => {
       );
       return response.data || [];
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    refetchOnWindowFocus: false,
     enabled: !!businessId
   });
 
@@ -54,10 +63,19 @@ export const useMonthlySales = () => {
     }
   });
 
-  // Update month and year
+  // Actualizar mes y año, y guardar en caché
   const updateMonthAndYear = (month: number, year: number) => {
+    // Actualizar estado local
     setSelectedMonth(month);
     setSelectedYear(year);
+
+    // Guardar en caché para compartir entre componentes
+    queryClient.setQueryData<MonthYearSelection>(MONTH_YEAR_CACHE_KEY, { month, year });
+
+    // Invalidar consulta para forzar recarga de datos
+    queryClient.invalidateQueries({
+      queryKey: ["reports", "monthly", businessId, month, year]
+    });
   };
 
   // Helper functions to check already selected items
@@ -75,7 +93,6 @@ export const useMonthlySales = () => {
     loadingMonthlyReports,
     isMonthlyError,
     monthlyError,
-    refetchMonthlyReports,
 
     // Current query state
     selectedMonth,
