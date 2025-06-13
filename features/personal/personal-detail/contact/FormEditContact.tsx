@@ -14,20 +14,17 @@ interface Props {
   readonly employee: EmployeeModel;
 }
 
-// Define validation schema with Zod
 const contactSchema = z.object({
   email: z.string().email("Email no válido").min(1, "El email es obligatorio"),
   phone: z.string().min(1, "El teléfono es obligatorio")
 });
 
-// Type inferred from Zod schema
 type ContactFormData = z.infer<typeof contactSchema>;
 
 export function FormEditContact({ setModalVisible, employee }: Props) {
   const defaultColors = useColors();
   const { updateEmployee, loadingUpdate } = useEmployees();
 
-  // Configure React Hook Form with Zod
   const {
     control,
     handleSubmit,
@@ -41,7 +38,6 @@ export function FormEditContact({ setModalVisible, employee }: Props) {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    // Create updated employee object
     const updatedEmployee: EmployeeModel = {
       ...employee,
       phone: data.phone,
@@ -51,7 +47,6 @@ export function FormEditContact({ setModalVisible, employee }: Props) {
       }
     };
 
-    // Update employee
     updateEmployee(updatedEmployee, {
       onSuccess: () => {
         setModalVisible(false);

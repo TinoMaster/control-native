@@ -1,9 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
-import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import colors from "../styles/colors";
 import useColors from "hooks/useColors";
+import { useState } from "react";
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";
+import colors from "../styles/colors";
 
 interface ActionButton {
   icon: keyof typeof Ionicons.glyphMap;
@@ -52,7 +52,10 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ buttons, fixed = f
 
   return (
     <View style={[styles.container, position === "bottom" ? styles.bottom : styles.top]}>
-      <TouchableOpacity style={[styles.mainButton, { backgroundColor: colors.background.dark.secondary }]} onPress={toggleExpanded}>
+      <TouchableOpacity
+        style={[styles.mainButton, { backgroundColor: colors.background.dark.secondary }]}
+        onPress={toggleExpanded}
+      >
         <Ionicons name="ellipsis-horizontal" size={24} color="white" />
       </TouchableOpacity>
 

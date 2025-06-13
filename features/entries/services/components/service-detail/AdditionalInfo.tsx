@@ -1,7 +1,6 @@
 import { MyCard } from "components/ui/MyCard";
 import useColors from "hooks/useColors";
 import { ServiceModel } from "models/api";
-import React from "react";
 import { StyleSheet, Text } from "react-native";
 
 export const AdditionalInfo = ({ service }: { service: ServiceModel }) => {

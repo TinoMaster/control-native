@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import useColors from "hooks/useColors";
-import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type NotificationType = "success" | "error" | "info" | "warning";

@@ -1,5 +1,4 @@
 import useColors from "hooks/useColors";
-import React from "react";
 import { FieldError } from "react-hook-form";
 import { KeyboardTypeOptions, Text, TextInput, View } from "react-native";
 import colors from "styles/colors";

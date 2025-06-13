@@ -1,6 +1,6 @@
 // components/ui/modals/ModalProvider.tsx
 import useColors from "hooks/useColors";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BackHandler, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useModalStore } from "store/modal.store";
 import colors from "styles/colors";

@@ -14,7 +14,6 @@ interface Props {
   readonly employee: EmployeeModel;
 }
 
-// Define validation schema with Zod
 const salarySchema = z.object({
   fixedSalary: z
     .string()
@@ -30,7 +29,6 @@ const salarySchema = z.object({
     })
 });
 
-// Define the form data type explicitly
 interface SalaryFormData {
   fixedSalary: string;
   percentSalary: string;
@@ -40,7 +38,6 @@ export function FormEditSalary({ setModalVisible, employee }: Props) {
   const defaultColors = useColors();
   const { updateEmployee, loadingUpdate } = useEmployees();
 
-  // Configure React Hook Form with Zod
   const {
     control,
     handleSubmit,
@@ -49,21 +46,17 @@ export function FormEditSalary({ setModalVisible, employee }: Props) {
     resolver: zodResolver(salarySchema),
     defaultValues: {
       fixedSalary: employee.fixedSalary.toString(),
-      // Multiplicamos por 100 para mostrar como porcentaje
       percentSalary: (employee.percentSalary * 100).toFixed(0)
     }
   });
 
   const onSubmit = async (data: SalaryFormData) => {
-    // Create updated employee object
     const updatedEmployee: EmployeeModel = {
       ...employee,
       fixedSalary: parseFloat(data.fixedSalary),
-      // Dividimos entre 100 para guardar como decimal (0.XX)
       percentSalary: parseFloat(data.percentSalary) / 100
     };
 
-    // Update employee
     updateEmployee(updatedEmployee, {
       onSuccess: () => {
         setModalVisible(false);

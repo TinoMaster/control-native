@@ -24,14 +24,12 @@ const addressSchema = z.object({
   zip: z.string().min(1, "El código postal es obligatorio")
 });
 
-// Type inferred from Zod schema
 type AddressFormData = z.infer<typeof addressSchema>;
 
 export function FormEditAddress({ setModalVisible, employee }: Props) {
   const defaultColors = useColors();
   const { updateEmployee, loadingUpdate } = useEmployees();
 
-  // Get current address or create empty one
   const currentAddress = employee.address || {
     street: "",
     number: "",
@@ -40,7 +38,6 @@ export function FormEditAddress({ setModalVisible, employee }: Props) {
     zip: ""
   };
 
-  // Configure React Hook Form with Zod
   const {
     control,
     handleSubmit,
@@ -57,7 +54,6 @@ export function FormEditAddress({ setModalVisible, employee }: Props) {
   });
 
   const onSubmit = async (data: AddressFormData) => {
-    // Create updated address object
     const updatedAddress: AddressModel = {
       street: data.street,
       number: data.number,
@@ -66,13 +62,11 @@ export function FormEditAddress({ setModalVisible, employee }: Props) {
       zip: data.zip
     };
 
-    // Create updated employee object
     const updatedEmployee: EmployeeModel = {
       ...employee,
       address: updatedAddress
     };
 
-    // Update employee
     updateEmployee(updatedEmployee, {
       onSuccess: () => {
         setModalVisible(false);

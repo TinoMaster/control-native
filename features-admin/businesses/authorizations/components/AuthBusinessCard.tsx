@@ -1,7 +1,7 @@
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import useColors from "hooks/useColors";
 import { BusinessModel } from "models/api";
-import React, { useState } from "react";
+import { useState } from "react";
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import colors from "styles/colors";
 import { adjustBrightness } from "utilities/helpers/globals.helpers";

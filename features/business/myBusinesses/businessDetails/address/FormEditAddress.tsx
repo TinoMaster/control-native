@@ -16,7 +16,6 @@ interface Props {
   readonly business: BusinessModel;
 }
 
-// Definir el esquema de validación con Zod
 const addressSchema = z.object({
   street: z.string().min(1, "La calle es obligatoria"),
   number: z.string().min(1, "El número es obligatorio"),
@@ -25,7 +24,6 @@ const addressSchema = z.object({
   zip: z.string().min(5, "El código postal debe tener al menos 5 caracteres")
 });
 
-// Tipo inferido del esquema de Zod
 type AddressFormData = z.infer<typeof addressSchema>;
 
 export function FormEditAddress({ setModalVisible, business }: Props) {
@@ -33,7 +31,6 @@ export function FormEditAddress({ setModalVisible, business }: Props) {
   const { updateBusiness } = useBusinessStore();
   const { showNotification } = useNotification();
 
-  // Configurar React Hook Form con Zod
   const {
     control,
     handleSubmit,
@@ -50,13 +47,10 @@ export function FormEditAddress({ setModalVisible, business }: Props) {
   });
 
   const onSubmit = async (data: AddressFormData) => {
-    // Crear un nuevo objeto de dirección
     const updatedAddress: AddressModel = {
       ...business.address,
       ...data
     };
-
-    // Actualizar el negocio con la nueva dirección
     const response = await addressService.saveAddress(updatedAddress);
 
     if (response.status === 200) {

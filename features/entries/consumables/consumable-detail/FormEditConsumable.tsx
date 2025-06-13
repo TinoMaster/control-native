@@ -14,7 +14,6 @@ interface Props {
   readonly consumable: ConsumableModel;
 }
 
-// Define validation schema with Zod
 const consumableInfoSchema = z.object({
   name: z.string().min(1, "El nombre es obligatorio"),
   price: z
@@ -29,14 +28,12 @@ const consumableInfoSchema = z.object({
   description: z.string().optional()
 });
 
-// Type inferred from Zod schema
 type ConsumableInfoFormData = z.infer<typeof consumableInfoSchema>;
 
 export function FormEditConsumable({ setModalVisible, consumable }: Props) {
   const defaultColors = useColors();
   const { onUpdateConsumable, updatingConsumable } = useConsumables();
 
-  // Configure React Hook Form with Zod
   const {
     control,
     handleSubmit,
@@ -52,7 +49,6 @@ export function FormEditConsumable({ setModalVisible, consumable }: Props) {
   });
 
   const onSubmit = async (data: ConsumableInfoFormData) => {
-    // Create updated consumable object
     const updatedConsumable: ConsumableModel = {
       ...consumable,
       name: data.name,
@@ -61,7 +57,6 @@ export function FormEditConsumable({ setModalVisible, consumable }: Props) {
       description: data.description ?? ""
     };
 
-    // Update consumable
     onUpdateConsumable(updatedConsumable, {
       onSuccess: () => {
         setModalVisible(false);
@@ -69,7 +64,6 @@ export function FormEditConsumable({ setModalVisible, consumable }: Props) {
     });
   };
 
-  // Get available units from EUnit enum
   const units = Object.values(EUnit);
 
   return (

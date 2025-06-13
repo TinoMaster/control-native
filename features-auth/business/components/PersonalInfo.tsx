@@ -1,6 +1,5 @@
 import { GlassCard } from "components/ui/cards/GlassCard";
 import { CustomInput } from "components/ui/inputs/CustomInput";
-import React from "react";
 import { Controller } from "react-hook-form";
 import { Text, View } from "react-native";
 import { businessFormStyles } from "../styles/businessFormStyles";

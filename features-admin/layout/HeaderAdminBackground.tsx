@@ -1,4 +1,3 @@
-import React from "react";
 import { ImageBackground, View } from "react-native";
 
 export const HeaderAdminBackground = () => {

@@ -1,6 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useThemeStore } from "contexts/ThemeContext";
-import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 interface StatsCardProps {

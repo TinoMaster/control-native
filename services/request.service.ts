@@ -9,9 +9,6 @@ class RequestService {
     await secureStorage.removeItem("role");
     await secureStorage.removeItem("refreshToken");
     alert("Sesión expirada. Por favor, inicia sesión nuevamente.");
-
-    // En React Native, necesitarás usar la navegación apropiada
-    // window.location.href = "/login";
   }
 
   private async getToken(): Promise<string | null> {

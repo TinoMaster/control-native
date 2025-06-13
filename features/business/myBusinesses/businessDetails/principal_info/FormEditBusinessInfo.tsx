@@ -17,14 +17,12 @@ interface Props {
   readonly business: BusinessModel;
 }
 
-// Define validation schema with Zod
 const businessInfoSchema = z.object({
   name: z.string().min(1, "El nombre es obligatorio"),
   description: z.string().optional(),
   phone: z.string().min(1, "El teléfono es obligatorio")
 });
 
-// Type inferred from Zod schema
 type BusinessInfoFormData = z.infer<typeof businessInfoSchema>;
 
 export function FormEditBusinessInfo({ setModalVisible, business }: Props) {
@@ -33,7 +31,6 @@ export function FormEditBusinessInfo({ setModalVisible, business }: Props) {
   const { showNotification } = useNotification();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Configure React Hook Form with Zod
   const {
     control,
     handleSubmit,

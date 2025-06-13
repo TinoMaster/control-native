@@ -15,7 +15,6 @@ interface Props {
   readonly employee: EmployeeModel;
 }
 
-// Define validation schema with Zod
 const principalInfoSchema = z.object({
   name: z.string().min(1, "El nombre es obligatorio"),
   dni: z.string().min(1, "El DNI es obligatorio"),
@@ -25,14 +24,12 @@ const principalInfoSchema = z.object({
   active: z.boolean()
 });
 
-// Type inferred from Zod schema
 type PrincipalInfoFormData = z.infer<typeof principalInfoSchema>;
 
 export function FormEditPrincipalInfo({ setModalVisible, employee }: Props) {
   const defaultColors = useColors();
   const { updateEmployee, loadingUpdate } = useEmployees();
 
-  // Configure React Hook Form with Zod
   const {
     control,
     handleSubmit,
@@ -48,7 +45,6 @@ export function FormEditPrincipalInfo({ setModalVisible, employee }: Props) {
   });
 
   const onSubmit = async (data: PrincipalInfoFormData) => {
-    // Create updated employee object
     const updatedEmployee: EmployeeModel = {
       ...employee,
       dni: data.dni,
@@ -60,7 +56,6 @@ export function FormEditPrincipalInfo({ setModalVisible, employee }: Props) {
       }
     };
 
-    // Update employee
     updateEmployee(updatedEmployee, {
       onSuccess: () => {
         setModalVisible(false);
@@ -68,7 +63,6 @@ export function FormEditPrincipalInfo({ setModalVisible, employee }: Props) {
     });
   };
 
-  // Get available roles from ERole enum
   const roles = Object.values(ERole).filter((role) => role !== ERole.OWNER && role !== ERole.SUPERADMIN);
 
   return (

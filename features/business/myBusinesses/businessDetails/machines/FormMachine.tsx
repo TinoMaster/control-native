@@ -18,13 +18,11 @@ interface Props {
   readonly isEditing: boolean;
 }
 
-// Definir el esquema de validación con Zod
 const machineSchema = z.object({
   name: z.string().min(1, "El nombre es obligatorio"),
   active: z.boolean()
 });
 
-// Tipo inferido del esquema de Zod
 type MachineFormData = z.infer<typeof machineSchema>;
 
 export function FormMachine({ setModalVisible, business, machine, isEditing }: Props) {
@@ -32,7 +30,6 @@ export function FormMachine({ setModalVisible, business, machine, isEditing }: P
   const { updateBusiness } = useBusinessStore();
   const { showNotification } = useNotification();
 
-  // Configurar React Hook Form con Zod
   const {
     control,
     handleSubmit,

@@ -5,7 +5,7 @@ import { useDebtsFinalSaleStore } from "features/sales/current_day/store/useDebt
 import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";
 import { EmployeeModel } from "models/api/employee.model";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useAuthStore } from "store/auth.store";
