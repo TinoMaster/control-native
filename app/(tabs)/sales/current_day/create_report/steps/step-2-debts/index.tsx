@@ -1,13 +1,14 @@
 import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import { MyModal } from "components/ui/modals/myModal";
+import { MyScrollView } from "components/ui/MyScrollView";
 import { DebtItem } from "features/sales/current_day/components/step2/debts/debtItem";
 import { FormAddDebt } from "features/sales/current_day/components/step2/debts/formAddDebt";
 import { useDebtsFinalSaleStore } from "features/sales/current_day/store/useDebtsFinalSale.store";
 import { useWorkersFinalSaleStore } from "features/sales/current_day/store/useWorkersFinalSale.store";
 import { useDebts } from "hooks/api/useDebts";
 import { useEffect, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import colors from "styles/colors";
 
 export default function Step2Debts() {
@@ -35,11 +36,11 @@ export default function Step2Debts() {
         </Text>
         {/* Debt List */}
         {debts?.length > 0 ? (
-          <ScrollView style={{ gap: 10, borderRadius: 10, padding: 2 }}>
+          <MyScrollView>
             {debts.map((debt) => (
               <DebtItem key={debt.name + debt.total} item={debt} />
             ))}
-          </ScrollView>
+          </MyScrollView>
         ) : (
           <View className="flex-1 justify-center items-center">
             <Text style={{ color: colors.darkMode.text.light }} className="text-center">

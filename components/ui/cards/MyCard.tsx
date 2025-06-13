@@ -1,8 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import colors from "styles/colors";
-import { MiniIconButton } from "./MIniIconButton";
-import { GlassCard } from "./cards/GlassCard";
+import { MiniIconButton } from "../MIniIconButton";
+import { GlassCard } from "./GlassCard";
 
 interface Props {
   readonly children: React.ReactNode;
@@ -24,7 +24,7 @@ export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, ic
         >
           <View className="flex-row items-center">
             {iconTitle && <Ionicons name={iconTitle} size={16} color={colors.primary.light} />}
-            <Text style={{ color: colors.darkMode.text.dark }} className="text-md font-semibold ml-2">
+            <Text style={{ color: colors.darkMode.text.dark }} className="text-lg font-semibold ml-2">
               {title}
             </Text>
           </View>
@@ -34,7 +34,7 @@ export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, ic
         </View>
       )}
       <View className="flex-row justify-between items-center">
-        <View className="flex-1 p-2">{children}</View>
+        <View className="flex-1 p-3">{children}</View>
       </View>
     </GlassCard>
   );

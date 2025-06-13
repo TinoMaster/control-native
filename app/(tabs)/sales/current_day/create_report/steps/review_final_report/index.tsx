@@ -8,7 +8,7 @@ import { ServiceSaleItem } from "components/ui/items/ServiceSaleItem.ui";
 import { WorkerItem } from "components/ui/items/WorkerItem.ui";
 import { MyModal } from "components/ui/modals/myModal";
 import MyButton from "components/ui/MyButton";
-import { MyCard } from "components/ui/MyCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { useDailyReportStore } from "features/sales/current_day/store/dailyReport.store";
 import { useMachineStates } from "hooks/api/useMachineStates";

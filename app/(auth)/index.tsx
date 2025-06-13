@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
-import { GlassCard } from "components/ui/cards/GlassCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import { CustomInput } from "components/ui/inputs/CustomInput";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
@@ -48,7 +48,7 @@ export default function LoginScreen() {
           </View>
 
           {/* Main Content with Blur */}
-          <GlassCard>
+          <MyCard header={false}>
             <Image
               source={require("../../assets/images/logo_png.png")}
               className="rounded-full shadow-xl"
@@ -124,7 +124,7 @@ export default function LoginScreen() {
                 </Pressable>
               </View>
             </View>
-          </GlassCard>
+          </MyCard>
 
           {/* Footer */}
           <View className="mt-8 items-center">

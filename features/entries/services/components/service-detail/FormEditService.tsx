@@ -1,5 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CustomInput } from "components/ui/inputs/CustomInput";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { SelectModal } from "components/ui/modals/selectModal";
 import { useConsumables } from "hooks/api/useConsumables";
@@ -9,7 +10,7 @@ import { ConsumableModel } from "models/api/consumables.model";
 import { ServiceModel } from "models/api/service.model";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { adjustBrightness, formatNumericInput } from "utilities/helpers/globals.helpers";
 import { z } from "zod";
 
@@ -128,138 +129,115 @@ export function FormEditService({ setModalVisible, service }: Props) {
   };
 
   return (
-    <View className="flex-1">
+    <View>
       {updatingService && <LoadingPage message="Actualizando..." absolute />}
-      <ScrollView className="flex-1 p-4">
-        <Text style={{ color: defaultColors.text }} className="mb-1 font-medium">
-          Nombre
-        </Text>
-        <Controller
-          control={control}
-          name="name"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              className={`p-2 border rounded-lg mb-1 ${
-                errors.name ? "border-red-500" : "border-gray-300 dark:border-gray-600"
-              }`}
-              style={{ color: defaultColors.text, backgroundColor: adjustBrightness(defaultColors.background, 10) }}
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              placeholder="Nombre del servicio"
-              placeholderTextColor={defaultColors.textSecondary}
-            />
-          )}
-        />
-        {errors.name && <Text className="text-red-500 text-xs mb-2">{errors.name.message}</Text>}
 
-        <Text style={{ color: defaultColors.text }} className="mb-1 font-medium mt-4">
-          Precio
-        </Text>
-        <Controller
-          control={control}
-          name="price"
-          render={({ field: { onChange, onBlur, value } }) => (
+      <Controller
+        control={control}
+        name="name"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <CustomInput
+            label="Nombre"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={errors.name?.message}
+            placeholder="Nombre del servicio"
+            placeholderTextColor={defaultColors.textSecondary}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="price"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <CustomInput
+            label="Precio"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={errors.price?.message}
+            placeholder="0.00"
+            placeholderTextColor={defaultColors.textSecondary}
+            keyboardType="numeric"
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="description"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <CustomInput
+            label="Descripción"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={errors.description?.message}
+            placeholder="Descripción del servicio"
+            placeholderTextColor={defaultColors.textSecondary}
+            multiline
+            numberOfLines={4}
+          />
+        )}
+      />
+
+      {/* Consumibles Section */}
+      <View className="mb-6">
+        <View className="flex-row justify-between items-center mb-3">
+          <Text style={{ color: defaultColors.text }} className="text-lg font-medium">
+            Insumos
+          </Text>
+          <TouchableOpacity
+            onPress={addCost}
+            className="p-2 rounded-lg"
+            style={{ backgroundColor: defaultColors.primary }}
+          >
+            <MaterialIcons name="add" size={20} color="white" />
+          </TouchableOpacity>
+        </View>
+
+        {costs.map((cost, index) => (
+          <View key={`cost-${cost.consumable?.id || "new"}-${index}`} className="flex-row items-center mb-3">
+            <TouchableOpacity
+              className="flex-1 p-3 rounded-lg mr-2"
+              style={{ backgroundColor: adjustBrightness(defaultColors.background, 10) }}
+              onPress={() => {
+                setSelectedConsumableIndex(index);
+                setShowConsumableModal(true);
+              }}
+            >
+              <Text style={{ color: cost.consumable?.name ? defaultColors.text : defaultColors.textSecondary }}>
+                {cost.consumable?.name || "Seleccionar insumo"}
+              </Text>
+            </TouchableOpacity>
+
             <TextInput
-              className={`p-2 border rounded-lg mb-1 ${
-                errors.price ? "border-red-500" : "border-gray-300 dark:border-gray-600"
-              }`}
-              style={{ color: defaultColors.text, backgroundColor: adjustBrightness(defaultColors.background, 10) }}
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              placeholder="0.00"
+              className="p-3 rounded-lg mr-2 w-20"
+              style={{
+                backgroundColor: adjustBrightness(defaultColors.background, 10),
+                color: defaultColors.text
+              }}
+              value={cost.quantity}
+              onChangeText={(text) => handleNumericInput(text, index)}
+              placeholder="Cant."
               placeholderTextColor={defaultColors.textSecondary}
               keyboardType="numeric"
             />
-          )}
-        />
-        {errors.price && <Text className="text-red-500 text-xs mb-2">{errors.price.message}</Text>}
 
-        <Text style={{ color: defaultColors.text }} className="mb-1 font-medium mt-4">
-          Descripción (Opcional)
-        </Text>
-        <Controller
-          control={control}
-          name="description"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              className={`p-2 border rounded-lg mb-1 h-20 text-justify ${
-                errors.description ? "border-red-500" : "border-gray-300 dark:border-gray-600"
-              }`}
-              style={{
-                color: defaultColors.text,
-                backgroundColor: adjustBrightness(defaultColors.background, 10),
-                textAlignVertical: "top"
-              }}
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              placeholder="Descripción del servicio"
-              placeholderTextColor={defaultColors.textSecondary}
-              multiline
-              numberOfLines={4}
-            />
-          )}
-        />
-        {errors.description && <Text className="text-red-500 text-xs mb-2">{errors.description.message}</Text>}
-
-        {/* Consumibles Section */}
-        <View className="mb-6">
-          <View className="flex-row justify-between items-center mb-3">
-            <Text style={{ color: defaultColors.text }} className="text-lg font-medium">
-              Insumos
-            </Text>
             <TouchableOpacity
-              onPress={addCost}
-              className="p-2 rounded-lg"
-              style={{ backgroundColor: defaultColors.primary }}
+              onPress={() => removeCost(index)}
+              className="p-3 rounded-lg"
+              style={{ backgroundColor: defaultColors.secondary }}
             >
-              <MaterialIcons name="add" size={20} color="white" />
+              <MaterialIcons name="delete" size={20} color="white" />
             </TouchableOpacity>
           </View>
+        ))}
+      </View>
 
-          {costs.map((cost, index) => (
-            <View key={`cost-${cost.consumable?.id || "new"}-${index}`} className="flex-row items-center mb-3">
-              <TouchableOpacity
-                className="flex-1 p-3 rounded-lg mr-2"
-                style={{ backgroundColor: adjustBrightness(defaultColors.background, 10) }}
-                onPress={() => {
-                  setSelectedConsumableIndex(index);
-                  setShowConsumableModal(true);
-                }}
-              >
-                <Text style={{ color: cost.consumable?.name ? defaultColors.text : defaultColors.textSecondary }}>
-                  {cost.consumable?.name || "Seleccionar insumo"}
-                </Text>
-              </TouchableOpacity>
-
-              <TextInput
-                className="p-3 rounded-lg mr-2 w-20"
-                style={{
-                  backgroundColor: adjustBrightness(defaultColors.background, 10),
-                  color: defaultColors.text
-                }}
-                value={cost.quantity}
-                onChangeText={(text) => handleNumericInput(text, index)}
-                placeholder="Cant."
-                placeholderTextColor={defaultColors.textSecondary}
-                keyboardType="numeric"
-              />
-
-              <TouchableOpacity
-                onPress={() => removeCost(index)}
-                className="p-3 rounded-lg"
-                style={{ backgroundColor: defaultColors.secondary }}
-              >
-                <MaterialIcons name="delete" size={20} color="white" />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-      </ScrollView>
-
-      <View className="flex-row justify-between p-4 border-t border-gray-200 dark:border-gray-700">
+      <View className="flex-row justify-end gap-4 py-4 border-t border-gray-200 dark:border-gray-700">
         <Pressable
           className="py-3 px-6 rounded-lg border border-gray-300 dark:border-gray-600"
           disabled={updatingService}
@@ -273,7 +251,7 @@ export function FormEditService({ setModalVisible, service }: Props) {
           disabled={updatingService}
           onPress={handleSubmit(onSubmit)}
         >
-          <Text className="text-white font-medium">Guardar Cambios</Text>
+          <Text className="text-white font-medium">Guardar</Text>
         </Pressable>
       </View>
 

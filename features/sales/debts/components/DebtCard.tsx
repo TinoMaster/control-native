@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { MiniCard } from "components/ui/cards/MiniCard";
 import { MiniIconButton } from "components/ui/MIniIconButton";
 import { MyModal } from "components/ui/modals/myModal";
 import { useNotification } from "contexts/NotificationContext";
@@ -11,7 +12,6 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { useModalStore } from "store/modal.store";
 import colors from "styles/colors";
 import { formatCurrency } from "utilities/formatters";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
 import { FormEditDebt } from "./FormEditDebt";
 
 interface DebtCardProps {
@@ -57,13 +57,8 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
   };
 
   return (
-    <View>
-      <TouchableOpacity
-        onPress={onPress}
-        className="rounded-xl p-4 mb-3"
-        style={{ backgroundColor: adjustBrightness(defaultColors.background, 18) }}
-        activeOpacity={0.8}
-      >
+    <MiniCard>
+      <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
         <View className="flex-row justify-between items-center mb-3">
           <View className="flex-1">
             <Text className="text-lg font-semibold mb-0.5" style={{ color: defaultColors.text }}>
@@ -140,6 +135,6 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
       <MyModal isVisible={editModalVisible} onClose={() => setEditModalVisible(false)} title="Editar Deuda">
         <FormEditDebt debt={debt} setModalVisible={setEditModalVisible} />
       </MyModal>
-    </View>
+    </MiniCard>
   );
 }

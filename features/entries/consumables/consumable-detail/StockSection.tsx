@@ -1,4 +1,4 @@
-import { MyCard } from "components/ui/MyCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import useColors from "hooks/useColors";
 import { ConsumableModel } from "models/api/consumables.model";
 import { TRANSLATE_UNIT } from "models/api/unit.model";

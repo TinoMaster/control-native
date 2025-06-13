@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { MiniCard } from "components/ui/cards/MiniCard";
 import { MiniIconButton } from "components/ui/MIniIconButton";
 import { MyModal } from "components/ui/modals/myModal";
 import { useNotification } from "contexts/NotificationContext";
@@ -9,7 +10,6 @@ import { ServiceSaleModel } from "models/api/serviceSale.model";
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useModalStore } from "store/modal.store";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
 import { FormEditServiceSale } from "./FormEditServiceSale";
 
 interface SaleServiceCardProps {
@@ -54,13 +54,8 @@ export function SaleServiceCard({ saleService, onPress, allDetails = true }: Sal
   };
 
   return (
-    <View>
-      <TouchableOpacity
-        onPress={onPress}
-        className="rounded-xl p-4 mb-3"
-        style={{ backgroundColor: adjustBrightness(defaultColors.background, 18) }}
-        activeOpacity={0.8}
-      >
+    <MiniCard>
+      <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
         <View className="flex-row justify-between items-center mb-3">
           <View className="flex-1">
             <Text className="text-lg font-semibold mb-0.5" style={{ color: defaultColors.text }}>
@@ -137,6 +132,6 @@ export function SaleServiceCard({ saleService, onPress, allDetails = true }: Sal
       <MyModal isVisible={editModalVisible} onClose={() => setEditModalVisible(false)} title="Editar Venta de Servicio">
         <FormEditServiceSale saleService={saleService} setModalVisible={setEditModalVisible} />
       </MyModal>
-    </View>
+    </MiniCard>
   );
 }

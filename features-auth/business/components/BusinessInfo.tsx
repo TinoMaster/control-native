@@ -1,4 +1,4 @@
-import { GlassCard } from "components/ui/cards/GlassCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import { CustomInput } from "components/ui/inputs/CustomInput";
 import { Controller } from "react-hook-form";
 import { Text, View } from "react-native";
@@ -11,9 +11,7 @@ interface BusinessInfoProps {
 
 export const BusinessInfo = ({ control, errors }: BusinessInfoProps) => {
   return (
-    <GlassCard>
-      <Text style={businessFormStyles.title}>Información del Negocio</Text>
-
+    <MyCard title="Información del Negocio">
       <View className="mb-4">
         <Text style={businessFormStyles.label}>Nombre del Negocio</Text>
         <Controller
@@ -64,6 +62,6 @@ export const BusinessInfo = ({ control, errors }: BusinessInfoProps) => {
           )}
         />
       </View>
-    </GlassCard>
+    </MyCard>
   );
 };

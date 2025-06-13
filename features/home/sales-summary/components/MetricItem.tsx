@@ -16,7 +16,7 @@ export const MetricItem = ({ label, value, icon, color, isLoading = false }: Met
   const defaultColors = useColors();
 
   return (
-    <View style={{ backgroundColor: adjustBrightness(defaultColors.background, 5) }} className="w-[48%] p-3 rounded-lg">
+    <View style={{ backgroundColor: adjustBrightness(defaultColors.background, 5) }} className="w-[48%] p-3 rounded-2xl">
       {isLoading ? (
         <SkeletonItemLoader color={color} />
       ) : (

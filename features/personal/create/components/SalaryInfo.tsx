@@ -1,5 +1,5 @@
 import { CustomInput } from "components/ui/inputs/CustomInput";
-import { MyCard } from "components/ui/MyCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import { Controller } from "react-hook-form";
 
 interface Props {

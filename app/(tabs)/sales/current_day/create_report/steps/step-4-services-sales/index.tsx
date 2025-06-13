@@ -1,10 +1,11 @@
 import { ContentWrapper } from "components/ContentWrapper";
+import { MyScrollView } from "components/ui/MyScrollView";
 import { useDailyReportStore } from "features/sales/current_day/store/dailyReport.store";
 import { useWorkersFinalSaleStore } from "features/sales/current_day/store/useWorkersFinalSale.store";
 import { SaleServiceCard } from "features/sales/sale_services/components/SaleServiceCard";
 import { useServiceSale } from "hooks/api/useServiceSale";
 import { useEffect } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import colors from "styles/colors";
 
 export default function Step4ServicesSales() {
@@ -39,11 +40,11 @@ export default function Step4ServicesSales() {
       </View>
       {/* Card List */}
       {servicesByWorker?.length > 0 ? (
-        <ScrollView style={{ gap: 10, borderRadius: 10, padding: 2 }}>
+        <MyScrollView style={{ gap: 10 }}>
           {servicesByWorker?.map((serviceSale) => (
             <SaleServiceCard key={serviceSale.id} saleService={serviceSale} allDetails={false} />
           ))}
-        </ScrollView>
+        </MyScrollView>
       ) : (
         <View className="flex-1 justify-center items-center">
           <Text style={{ color: colors.darkMode.text.light }} className="text-center">

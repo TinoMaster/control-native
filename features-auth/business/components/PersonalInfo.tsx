@@ -1,4 +1,4 @@
-import { GlassCard } from "components/ui/cards/GlassCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import { CustomInput } from "components/ui/inputs/CustomInput";
 import { Controller } from "react-hook-form";
 import { Text, View } from "react-native";
@@ -11,9 +11,7 @@ interface PersonalInfoProps {
 
 export const PersonalInfo = ({ control, errors }: PersonalInfoProps) => {
   return (
-    <GlassCard>
-      <Text style={businessFormStyles.title}>Información Personal</Text>
-
+    <MyCard title="Información Personal">
       <View className="flex-row justify-between gap-4">
         <View className="flex-1">
           <Text style={businessFormStyles.label}>Nombre</Text>
@@ -124,6 +122,6 @@ export const PersonalInfo = ({ control, errors }: PersonalInfoProps) => {
           )}
         />
       </View>
-    </GlassCard>
+    </MyCard>
   );
 };

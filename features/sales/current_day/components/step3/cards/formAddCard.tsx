@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import GenericInput from "components/forms/generic-input";
+import { ContentWrapper } from "components/ContentWrapper";
+import { CustomInput } from "components/ui/inputs/CustomInput";
 import { CardFormValues, cardSchema } from "features/sales/current_day/schema/cardsFinalSale.schema";
 import { useCardsFinalSaleStore } from "features/sales/current_day/store/useCardsFinalSale.store";
 import useColors from "hooks/useColors";
@@ -48,74 +49,76 @@ export function FormAddCard({ onClose }: FormAddCardProps) {
   );
 
   return (
-    <View>
-      <Controller
-        control={control}
-        name="cardType"
-        render={({ field: { onChange, value } }) => (
-          <GenericInput
-            label="Tipo de tarjeta"
-            placeholder="Visa, Mastercard, etc."
-            keyboardType="default"
-            watch={value}
-            error={errors.cardType}
-            onChangeText={onChange}
-          />
-        )}
-      />
+    <ContentWrapper style={{ flex: 0 }}>
+      <View style={{ gap: 3 }}>
+        <Controller
+          control={control}
+          name="cardType"
+          render={({ field: { onChange, value } }) => (
+            <CustomInput
+              label="Tipo de tarjeta"
+              placeholder="Visa, Mastercard, etc."
+              keyboardType="default"
+              value={value}
+              error={errors?.cardType?.message}
+              onChangeText={onChange}
+            />
+          )}
+        />
 
-      <Controller
-        control={control}
-        name="cardNumber"
-        render={({ field: { onChange, value } }) => (
-          <GenericInput
-            label="Últimos 4 dígitos"
-            placeholder="Últimos 4 dígitos de la tarjeta"
-            keyboardType="number-pad"
-            watch={value}
-            error={errors.cardNumber}
-            onChangeText={onChange}
-          />
-        )}
-      />
+        <Controller
+          control={control}
+          name="cardNumber"
+          render={({ field: { onChange, value } }) => (
+            <CustomInput
+              label="Últimos 4 dígitos"
+              placeholder="Últimos 4 dígitos de la tarjeta"
+              keyboardType="number-pad"
+              value={value}
+              error={errors?.cardNumber?.message}
+              onChangeText={onChange}
+            />
+          )}
+        />
 
-      <Controller
-        control={control}
-        name="amount"
-        render={({ field: { onChange, value } }) => (
-          <GenericInput
-            label="Monto"
-            placeholder="Monto pagado con tarjeta"
-            keyboardType="decimal-pad"
-            watch={value}
-            error={errors.amount}
-            onChangeText={(text) => onChange(formatNumericInput(text))}
-          />
-        )}
-      />
+        <Controller
+          control={control}
+          name="amount"
+          render={({ field: { onChange, value } }) => (
+            <CustomInput
+              label="Monto"
+              placeholder="Monto pagado con tarjeta"
+              keyboardType="decimal-pad"
+              value={value}
+              error={errors?.amount?.message}
+              onChangeText={(text) => onChange(formatNumericInput(text))}
+            />
+          )}
+        />
 
-      <Controller
-        control={control}
-        name="reference"
-        render={({ field: { onChange, value } }) => (
-          <GenericInput
-            label="Referencia (opcional)"
-            placeholder="Número de referencia o autorización"
-            keyboardType="default"
-            watch={value}
-            error={errors.reference}
-            onChangeText={onChange}
-          />
-        )}
-      />
+        <Controller
+          control={control}
+          name="reference"
+          render={({ field: { onChange, value } }) => (
+            <CustomInput
+              label="Referencia (opcional)"
+              placeholder="Número de referencia o autorización"
+              keyboardType="default"
+              value={value}
+              error={errors?.reference?.message}
+              onChangeText={onChange}
+            />
+          )}
+        />
 
-      <TouchableOpacity
-        onPress={handleSubmit(handleAddCard)}
-        className="mt-4 p-3 rounded-lg"
-        style={{ backgroundColor: defaultColors.primary }}
-      >
-        <Text className="text-center text-white font-semibold">Guardar Tarjeta</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          onPress={handleSubmit(handleAddCard)}
+          className="mt-4 p-3 rounded-lg"
+          style={{ backgroundColor: defaultColors.primary }}
+        >
+          <Text className="text-center text-white font-semibold">Guardar Tarjeta</Text>
+        </TouchableOpacity>
+      </View>
+    </ContentWrapper>
   );
 }

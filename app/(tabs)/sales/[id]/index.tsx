@@ -9,7 +9,7 @@ import { DebtItem } from "components/ui/items/DebtItem.ui";
 import { MachineItem } from "components/ui/items/MachineItem.ui";
 import { ServiceSaleItem } from "components/ui/items/ServiceSaleItem.ui";
 import LoadingPage from "components/ui/loaders/LoadingPage";
-import { MyCard } from "components/ui/MyCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";

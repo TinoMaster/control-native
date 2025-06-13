@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { MyCard } from "components/ui/MyCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import useColors from "hooks/useColors";
 import { ServiceModel } from "models/api/service.model";
 import { StyleSheet, Text, View } from "react-native";

@@ -1,5 +1,5 @@
 import { Picker } from "@react-native-picker/picker";
-import { MyCard } from "components/ui/MyCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import Checkbox from "expo-checkbox";
 import { BusinessModel, ERole } from "models/api";
 import { Controller } from "react-hook-form";

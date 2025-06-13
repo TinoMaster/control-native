@@ -1,11 +1,13 @@
 import { Feather } from "@expo/vector-icons";
 import { CloseSessionButton } from "components/CloseSessionButton";
+import { ContentWrapper } from "components/ContentWrapper";
+import { MyScrollView } from "components/ui/MyScrollView";
 import { SettingButton } from "components/ui/SettingButton";
 import { useRouter } from "expo-router";
 import { SettingSection } from "features/settings/components/SettingSection";
 import { ToggleAppMode } from "features/settings/components/ToggleAppMode";
 import useColors from "hooks/useColors";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "styles/colors";
 
@@ -38,35 +40,37 @@ export default function Settings() {
 
       {/* Contenido con SafeAreaView para los bordes inferiores */}
       <SafeAreaView edges={["bottom"]} style={styles.contentContainer}>
-        <ScrollView style={styles.content}>
-          <SettingSection title="Apariencia">
-            <ToggleAppMode />
-          </SettingSection>
+        <MyScrollView>
+          <ContentWrapper>
+            <SettingSection title="Apariencia">
+              <ToggleAppMode />
+            </SettingSection>
 
-          <SettingSection title="Cuenta">
-            <SettingButton
-              onPress={() => router.push("/(tabs)/profile")}
-              icon="person"
-              title="Mi Perfil"
-              accessibilityRole="button"
-              accessibilityLabel="Ver perfil de usuario"
-              iconRight
-            />
+            <SettingSection title="Cuenta">
+              <SettingButton
+                onPress={() => router.push("/(tabs)/profile")}
+                icon="person"
+                title="Mi Perfil"
+                accessibilityRole="button"
+                accessibilityLabel="Ver perfil de usuario"
+                iconRight
+              />
 
-            <CloseSessionButton />
-          </SettingSection>
+              <CloseSessionButton />
+            </SettingSection>
 
-          <SettingSection title="Información">
-            <SettingButton
-              onPress={() => router.push("/(tabs)/profile")}
-              icon="link"
-              title="Acerca de"
-              accessibilityRole="button"
-              accessibilityLabel="Ver información de la aplicación"
-              iconRight
-            />
-          </SettingSection>
-        </ScrollView>
+            <SettingSection title="Información">
+              <SettingButton
+                onPress={() => router.push("/(tabs)/profile")}
+                icon="link"
+                title="Acerca de"
+                accessibilityRole="button"
+                accessibilityLabel="Ver información de la aplicación"
+                iconRight
+              />
+            </SettingSection>
+          </ContentWrapper>
+        </MyScrollView>
       </SafeAreaView>
     </View>
   );
@@ -101,10 +105,5 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingVertical: 16
   }
 });

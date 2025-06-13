@@ -1,4 +1,4 @@
-import { GlassCard } from "components/ui/cards/GlassCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import { CustomInput } from "components/ui/inputs/CustomInput";
 import { Controller } from "react-hook-form";
 import { Text, View } from "react-native";
@@ -11,9 +11,7 @@ interface BusinessAddressProps {
 
 export const BusinessAddress = ({ control, errors }: BusinessAddressProps) => {
   return (
-    <GlassCard>
-      <Text style={businessFormStyles.title}>Dirección del Negocio</Text>
-
+    <MyCard title="Dirección del Negocio">
       <View className="flex-row justify-between gap-2">
         <View className="flex-1">
           <Text style={businessFormStyles.label}>Calle</Text>
@@ -41,7 +39,7 @@ export const BusinessAddress = ({ control, errors }: BusinessAddressProps) => {
               <CustomInput
                 value={value}
                 onChangeText={onChange}
-                icon="📍"
+                icon="🔢"
                 onBlur={onBlur}
                 placeholder="123"
                 keyboardType="numeric"
@@ -58,7 +56,7 @@ export const BusinessAddress = ({ control, errors }: BusinessAddressProps) => {
             control={control}
             name="addressMunicipality"
             render={({ field: { onChange, onBlur, value } }) => (
-              <CustomInput value={value} onChangeText={onChange} onBlur={onBlur} placeholder="Municipio" />
+              <CustomInput icon="🏘️" value={value} onChangeText={onChange} onBlur={onBlur} placeholder="Municipio" />
             )}
           />
         </View>
@@ -69,7 +67,7 @@ export const BusinessAddress = ({ control, errors }: BusinessAddressProps) => {
             control={control}
             name="addressCity"
             render={({ field: { onChange, onBlur, value } }) => (
-              <CustomInput value={value} onChangeText={onChange} onBlur={onBlur} placeholder="Ciudad" />
+              <CustomInput icon="🏙️" value={value} onChangeText={onChange} onBlur={onBlur} placeholder="Ciudad" />
             )}
           />
         </View>
@@ -82,6 +80,7 @@ export const BusinessAddress = ({ control, errors }: BusinessAddressProps) => {
           name="addressZipCode"
           render={({ field: { onChange, onBlur, value } }) => (
             <CustomInput
+              icon="zip"
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -91,6 +90,6 @@ export const BusinessAddress = ({ control, errors }: BusinessAddressProps) => {
           )}
         />
       </View>
-    </GlassCard>
+    </MyCard>
   );
 };

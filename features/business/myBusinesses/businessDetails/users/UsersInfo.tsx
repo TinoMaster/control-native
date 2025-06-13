@@ -1,5 +1,5 @@
 import MiniLoader from "components/ui/loaders/MiniLoader";
-import { MyCard } from "components/ui/MyCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import useColors from "hooks/useColors";
 import { BusinessModel } from "models/api";
 import { EmployeeModel } from "models/api/employee.model";

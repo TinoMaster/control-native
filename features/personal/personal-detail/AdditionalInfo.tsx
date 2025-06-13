@@ -1,4 +1,4 @@
-import { MyCard } from "components/ui/MyCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import useColors from "hooks/useColors";
 import { EmployeeModel } from "models/api/employee.model";
 import { Text } from "react-native";

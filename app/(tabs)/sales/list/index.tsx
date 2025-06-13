@@ -2,6 +2,7 @@ import { Feather } from "@expo/vector-icons";
 import { PageTitle } from "components/PageTitle";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
+import { MyScrollView } from "components/ui/MyScrollView";
 import { MONTHS } from "data/global.data";
 import { ModalMonthPicker } from "features/sales/list/components/ModalMonthPicker";
 import { ModalYearPicker } from "features/sales/list/components/ModalYearPicker";
@@ -10,7 +11,6 @@ import { useMonthlySales } from "hooks/api/useMonthlySales";
 import useColors from "hooks/useColors";
 import { useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import { adjustBrightness, groupSalesByDay } from "utilities/helpers/globals.helpers";
 
 export default function List() {
@@ -93,11 +93,11 @@ export default function List() {
       />
 
       {groupedSales.length > 0 ? (
-        <ScrollView style={styles.scrollContainer}>
+        <MyScrollView style={{ gap: 10 }}>
           {groupedSales.map((group) => (
             <SalesGroupByDay key={group.date} date={group.date} reports={group.reports} />
           ))}
-        </ScrollView>
+        </MyScrollView>
       ) : (
         <View style={styles.emptyContainer}>
           <Text style={[styles.emptyText, { color: defaultColors.text }]}>
@@ -177,10 +177,6 @@ const styles = StyleSheet.create({
   },
   pickerItemText: {
     fontSize: 16
-  },
-  scrollContainer: {
-    flex: 1,
-    padding: 16
   },
   emptyContainer: {
     flex: 1,

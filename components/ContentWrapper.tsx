@@ -7,7 +7,7 @@ interface ContentWrapperProps {
 
 export const ContentWrapper = ({ children, style }: ContentWrapperProps) => {
   return (
-    <View className="p-4 gap-4" style={[style, { flex: 1 }]}>
+    <View className="p-4 gap-4" style={[{ flex: 1 }, style]}>
       {children}
     </View>
   );

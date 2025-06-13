@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { MyCard } from "components/ui/MyCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import { MyModal } from "components/ui/modals/myModal";
 import useColors from "hooks/useColors";
 import { BusinessModel } from "models/api";

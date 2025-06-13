@@ -1,10 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import GenericInput from "components/forms/generic-input";
-import { DebtFormValues, debtSchema } from "models/zod/debt.schema";
+import { ContentWrapper } from "components/ContentWrapper";
+import { CustomInput } from "components/ui/inputs/CustomInput";
 import { useDebtsFinalSaleStore } from "features/sales/current_day/store/useDebtsFinalSale.store";
 import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";
 import { EmployeeModel } from "models/api/employee.model";
+import { DebtFormValues, debtSchema } from "models/zod/debt.schema";
 import { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -57,68 +58,69 @@ export const FormAddDebt = ({ onClose }: FormAddDebtProps) => {
   );
 
   return (
-    <View>
-      <Controller
-        control={control}
-        name="name"
-        render={({ field: { onChange, value } }) => (
-          <GenericInput
-            label="Nombre"
-            placeholder="Nombre del deudor"
-            keyboardType="default"
-            watch={value}
-            error={errors.name}
-            onChangeText={onChange}
-          />
-        )}
-      />
+    <ContentWrapper style={{ flex: 0 }}>
+      <View style={{ gap: 3 }}>
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { onChange, value } }) => (
+            <CustomInput
+              label="Nombre"
+              placeholder="Nombre del deudor"
+              keyboardType="default"
+              value={value}
+              error={errors?.name?.message}
+              onChangeText={onChange}
+            />
+          )}
+        />
 
-      <Controller
-        control={control}
-        name="description"
-        render={({ field: { onChange, value } }) => (
-          <GenericInput
-            label="Descripción (opcional)"
-            placeholder="Descripción de la deuda"
-            keyboardType="default"
-            watch={value}
-            error={errors.description}
-            onChangeText={onChange}
-            multiline={true}
-            numberOfLines={3}
-          />
-        )}
-      />
+        <Controller
+          control={control}
+          name="description"
+          render={({ field: { onChange, value } }) => (
+            <CustomInput
+              label="Descripción (opcional)"
+              placeholder="Descripción de la deuda"
+              keyboardType="default"
+              value={value}
+              error={errors?.description?.message}
+              onChangeText={onChange}
+              multiline={true}
+            />
+          )}
+        />
 
-      <Controller
-        control={control}
-        name="total"
-        render={({ field: { onChange, value } }) => (
-          <GenericInput
-            label="Total de la deuda"
-            placeholder="Monto total"
-            keyboardType="decimal-pad"
-            watch={value}
-            error={errors.total}
-            onChangeText={(text) => onChange(formatNumericInput(text))}
-          />
-        )}
-      />
+        <Controller
+          control={control}
+          name="total"
+          render={({ field: { onChange, value } }) => (
+            <CustomInput
+              label="Total de la deuda"
+              placeholder="Monto total"
+              keyboardType="decimal-pad"
+              value={value}
+              error={errors?.total?.message}
+              onChangeText={(text) => onChange(formatNumericInput(text))}
+            />
+          )}
+        />
 
-      <Controller
-        control={control}
-        name="paid"
-        render={({ field: { onChange, value } }) => (
-          <GenericInput
-            label="Monto pagado"
-            placeholder="Monto pagado"
-            keyboardType="decimal-pad"
-            watch={value}
-            error={errors.paid}
-            onChangeText={(text) => onChange(formatNumericInput(text))}
-          />
-        )}
-      />
+        <Controller
+          control={control}
+          name="paid"
+          render={({ field: { onChange, value } }) => (
+            <CustomInput
+              label="Monto pagado"
+              placeholder="Monto pagado"
+              keyboardType="decimal-pad"
+              value={value}
+              error={errors?.paid?.message}
+              onChangeText={(text) => onChange(formatNumericInput(text))}
+            />
+          )}
+        />
+      </View>
 
       <TouchableOpacity
         onPress={handleSubmit(handleAddDebt)}
@@ -127,6 +129,6 @@ export const FormAddDebt = ({ onClose }: FormAddDebtProps) => {
       >
         <Text className="text-center text-white font-semibold">Guardar Deuda</Text>
       </TouchableOpacity>
-    </View>
+    </ContentWrapper>
   );
 };

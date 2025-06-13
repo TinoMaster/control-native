@@ -1,5 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { MyCard } from "components/ui/MyCard";
+import { MyCard } from "components/ui/cards/MyCard";
 import { SelectModal } from "components/ui/modals/selectModal";
 import { TIME_RANGE_OPTIONS_TRANSLATION } from "data/global.data";
 import useColors from "hooks/useColors";
