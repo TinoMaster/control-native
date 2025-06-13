@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { useNotification } from "contexts/NotificationContext";
 import { router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { BusinessAddress } from "features-auth/business/components/BusinessAddress";
 import { BusinessInfo } from "features-auth/business/components/BusinessInfo";
 import { PersonalInfo } from "features-auth/business/components/PersonalInfo";
@@ -58,18 +59,16 @@ export default function BusinessRegistration() {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1
-      }}
-    >
-      <ScrollView className="flex-1">
-        <GradientBackground
-          variant="primary"
-          intensity="medium"
-          direction="left-right"
-          style={{ justifyContent: "center", alignItems: "center", padding: 24, gap: 24 }}
-        >
+    <ScrollView className="flex-1">
+      <StatusBar style="light" />
+
+      <GradientBackground
+        variant="primary"
+        intensity="medium"
+        direction="left-right"
+        style={{ justifyContent: "center", alignItems: "center", padding: 24 }}
+      >
+        <SafeAreaView className="flex-1 w-full" style={{ justifyContent: "center", gap: 24 }}>
           <View>
             <Text className="text-3xl font-bold text-center" style={{ color: colors.darkMode.text.light }}>
               Registrar Nuevo Negocio
@@ -109,8 +108,8 @@ export default function BusinessRegistration() {
               Volver al inicio
             </Text>
           </Pressable>
-        </GradientBackground>
-      </ScrollView>
-    </SafeAreaView>
+        </SafeAreaView>
+      </GradientBackground>
+    </ScrollView>
   );
 }

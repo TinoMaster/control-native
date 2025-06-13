@@ -63,6 +63,7 @@ export const PersonalInfo = ({ control, errors }: PersonalInfoProps) => {
               value={value}
               onChangeText={onChange}
               error={errors.phone?.message}
+              keyboardType="phone-pad"
             />
           )}
         />
@@ -80,6 +81,8 @@ export const PersonalInfo = ({ control, errors }: PersonalInfoProps) => {
               value={value}
               onChangeText={onChange}
               error={errors.email?.message}
+              keyboardType="email-address"
+              autoCapitalize="none"
             />
           )}
         />
@@ -98,6 +101,7 @@ export const PersonalInfo = ({ control, errors }: PersonalInfoProps) => {
               isPassword
               onChangeText={onChange}
               error={errors.password?.message}
+              autoCapitalize="none"
             />
           )}
         />
@@ -116,6 +120,7 @@ export const PersonalInfo = ({ control, errors }: PersonalInfoProps) => {
               isPassword
               onChangeText={onChange}
               error={errors.confirmPassword?.message}
+              autoCapitalize="none"
             />
           )}
         />

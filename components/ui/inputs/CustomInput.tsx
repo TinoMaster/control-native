@@ -14,6 +14,7 @@ interface CustomInputProps extends TextInputProps {
   readonly whiteBackground?: boolean;
 }
 
+// TODO: provar a agregar el input de react-native-paper, ver video tutorial de react min 53 (https://www.youtube.com/watch?v=J50gwzwLvAk&list=PLW3qEwMIk2NWByBJOoHKDI_Hbi-jdeJme&index=15)
 export function CustomInput({
   label,
   error,

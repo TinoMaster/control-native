@@ -59,8 +59,6 @@ export default function DailyReportDetailScreen() {
   const { monthlyReports, loadingMonthlyReports } = useMonthlySales();
   const business = useBusinessStore((state) => state.business);
 
-  console.log("monthlyReports", monthlyReports?.[0]?.createdAt);
-
   // Utiliza useEffect para manejar el caso en que no se encuentre el reporte - colocado en el nivel superior antes de cualquier return condicional
   useEffect(() => {
     if (!loadingDailyReports && !loadingMonthlyReports) {
@@ -76,13 +74,6 @@ export default function DailyReportDetailScreen() {
 
   if (loadingDailyReports || loadingMonthlyReports) {
     return <LoadingPage message="Cargando detalles del reporte..." />;
-  }
-
-  if (dailyReports?.length > 0) {
-    console.log("dailyReports", dailyReports[0].createdAt);
-  }
-  if (monthlyReports?.length > 0) {
-    console.log("monthlyReports", monthlyReports[0].createdAt);
   }
 
   const report =
