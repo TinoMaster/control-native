@@ -2,7 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import useColors from "hooks/useColors";
 import { ReactNode } from "react";
-import { Modal, SafeAreaView, Text, TouchableOpacity, View, useColorScheme } from "react-native";
+import { Modal, SafeAreaView, StatusBar, Text, TouchableOpacity, View, useColorScheme } from "react-native";
 import colors from "styles/colors";
 
 interface MyModalProps {
@@ -33,18 +33,31 @@ export function MyModal({
   const isDarkMode = colorScheme === "dark";
 
   return (
-    <Modal animationType="fade" transparent={true} visible={isVisible} onRequestClose={onClose}>
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={isVisible}
+      onRequestClose={onClose}
+      statusBarTranslucent={true}
+    >
+      <StatusBar translucent backgroundColor="transparent" />
+
       {/* Background Blur */}
-      <BlurView intensity={isDarkMode ? 40 : 30} tint={isDarkMode ? "dark" : "light"} className="absolute inset-0" />
+      <BlurView
+        intensity={isDarkMode ? 40 : 30}
+        tint="dark"
+        style={{ position: "absolute", width: "100%", height: "100%" }}
+      />
 
       {/* Background Dimming Touchable */}
       <TouchableOpacity
         activeOpacity={1}
         onPress={disableBackdropPress ? undefined : onClose}
         className="absolute inset-0 bg-black/40 dark:bg-black/60"
+        style={{ position: "absolute", width: "100%", height: "100%" }}
       />
 
-      <SafeAreaView className="flex-1 justify-center items-center p-5">
+      <SafeAreaView className="flex-1 justify-center items-center" style={{ width: "100%" }}>
         {/* Modal Content Box */}
         <View
           style={{

@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import { ActionButtons } from "components/ActionButtons";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
+import { ContentWrapper } from "components/ContentWrapper";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { InfoRow } from "components/ui/InfoRow";
 import { CardItem } from "components/ui/items/CardItem.ui";
@@ -131,118 +132,122 @@ export default function DailyReportDetailScreen() {
     <GradientBackground>
       <BackButtonPlusTitle title="Detalles del Reporte" />
       <MyScrollView>
-        <MyCard title="Información Principal" iconTitle="receipt-outline">
-          <Text style={[styles.reportName, { color: defaultColors.text }]}>{report.name}</Text>
-          <Text style={[styles.price, { color: defaultColors.primary }]}>{formatCurrency(report.total)}</Text>
-          <Text style={[styles.date, { color: defaultColors.textSecondary }]}>
-            {new Date(report.createdAt || new Date()).toLocaleDateString()}
-          </Text>
-          {Boolean(report.note) && (
-            <View className="mt-2 p-3 rounded-lg bg-black/10">
-              <View style={styles.noteHeader}>
-                <Feather name="file-text" size={16} color={colors.primary.light} />
-                <Text style={[styles.noteTitle, { color: colors.darkMode.text.light }]}>Nota:</Text>
+        <ContentWrapper>
+          <MyCard title="Información Principal" iconTitle="receipt-outline">
+            <Text style={[styles.reportName, { color: defaultColors.text }]}>{report.name}</Text>
+            <Text style={[styles.price, { color: defaultColors.primary }]}>{formatCurrency(report.total)}</Text>
+            <Text style={[styles.date, { color: defaultColors.textSecondary }]}>
+              {new Date(report.createdAt || new Date()).toLocaleDateString()}
+            </Text>
+            {Boolean(report.note) && (
+              <View className="mt-2 p-3 rounded-lg bg-black/10">
+                <View style={styles.noteHeader}>
+                  <Feather name="file-text" size={16} color={colors.primary.light} />
+                  <Text style={[styles.noteTitle, { color: colors.darkMode.text.light }]}>Nota:</Text>
+                </View>
+                <Text style={[styles.noteText, { color: colors.darkMode.text.light }]}>{report.note}</Text>
               </View>
-              <Text style={[styles.noteText, { color: colors.darkMode.text.light }]}>{report.note}</Text>
-            </View>
+            )}
+          </MyCard>
+
+          {/* Desglose de Efectivo */}
+          <MyCard title="Desglose de Efectivo" iconTitle="cash-outline">
+            <InfoRow label="Total Efectivo" bold={true} value={formatCurrency(report.total)} />
+            <InfoRow label="Tarjetas" negative={true} error={true} value={formatCurrency(totalCards)} />
+            <InfoRow label="Deudas" negative={true} error={true} value={formatCurrency(totalDebts)} />
+            <InfoRow label="Salarios" negative={true} error={true} value={formatCurrency(totalSalary)} />
+            <InfoRow
+              label="Efectivo Final"
+              positive={calculateCash() > 0}
+              negative={calculateCash() < 0}
+              success={calculateCash() > 0}
+              error={calculateCash() < 0}
+              bold={true}
+              value={formatCurrency(calculateCash())}
+            />
+          </MyCard>
+
+          {/* Servicios Vendidos */}
+          {report.servicesSales.length > 0 && (
+            <MyCard title="Servicios Vendidos" iconTitle="cash-outline">
+              {report.servicesSales.map((service) => (
+                <ServiceSaleItem key={service.id} service={service} />
+              ))}
+              <View style={styles.totalRow}>
+                <Text style={[styles.totalLabel, { color: defaultColors.text }]}>Total Servicios:</Text>
+                <Text style={[styles.totalValue, { color: defaultColors.primary }]}>
+                  {formatCurrency(totalServices)}
+                </Text>
+              </View>
+            </MyCard>
           )}
-        </MyCard>
 
-        {/* Desglose de Efectivo */}
-        <MyCard title="Desglose de Efectivo" iconTitle="cash-outline">
-          <InfoRow label="Total Efectivo" bold={true} value={formatCurrency(report.total)} />
-          <InfoRow label="Tarjetas" negative={true} error={true} value={formatCurrency(totalCards)} />
-          <InfoRow label="Deudas" negative={true} error={true} value={formatCurrency(totalDebts)} />
-          <InfoRow label="Salarios" negative={true} error={true} value={formatCurrency(totalSalary)} />
-          <InfoRow
-            label="Efectivo Final"
-            positive={calculateCash() > 0}
-            negative={calculateCash() < 0}
-            success={calculateCash() > 0}
-            error={calculateCash() < 0}
-            bold={true}
-            value={formatCurrency(calculateCash())}
-          />
-        </MyCard>
+          {/* Pagos con Tarjeta */}
+          {cards.length > 0 && (
+            <MyCard title="Pagos con Tarjeta" iconTitle="card-outline">
+              {cards.map((card) => (
+                <CardItem key={card.id} card={card} />
+              ))}
+              <View style={styles.totalRow}>
+                <Text style={[styles.totalLabel, { color: defaultColors.text }]}>Total Tarjetas:</Text>
+                <Text style={[styles.totalValue, { color: defaultColors.primary }]}>{formatCurrency(totalCards)}</Text>
+              </View>
+            </MyCard>
+          )}
 
-        {/* Servicios Vendidos */}
-        {report.servicesSales.length > 0 && (
-          <MyCard title="Servicios Vendidos" iconTitle="cash-outline">
-            {report.servicesSales.map((service) => (
-              <ServiceSaleItem key={service.id} service={service} />
-            ))}
-            <View style={styles.totalRow}>
-              <Text style={[styles.totalLabel, { color: defaultColors.text }]}>Total Servicios:</Text>
-              <Text style={[styles.totalValue, { color: defaultColors.primary }]}>{formatCurrency(totalServices)}</Text>
-            </View>
-          </MyCard>
-        )}
+          {/* Deudas Registradas */}
+          {report.debts.length > 0 && (
+            <MyCard title="Deudas Registradas" iconTitle="file-tray-full">
+              {report.debts.map((debt) => (
+                <DebtItem key={debt.id} debt={debt} />
+              ))}
+              <View style={styles.totalRow}>
+                <Text style={[styles.totalLabel, { color: defaultColors.text }]}>Total Deudas:</Text>
+                <Text style={[styles.totalValue, { color: colors.error.light }]}>{formatCurrency(totalDebts)}</Text>
+              </View>
+            </MyCard>
+          )}
 
-        {/* Pagos con Tarjeta */}
-        {cards.length > 0 && (
-          <MyCard title="Pagos con Tarjeta" iconTitle="card-outline">
-            {cards.map((card) => (
-              <CardItem key={card.id} card={card} />
-            ))}
-            <View style={styles.totalRow}>
-              <Text style={[styles.totalLabel, { color: defaultColors.text }]}>Total Tarjetas:</Text>
-              <Text style={[styles.totalValue, { color: defaultColors.primary }]}>{formatCurrency(totalCards)}</Text>
-            </View>
-          </MyCard>
-        )}
+          {/* Trabajadores y Salarios */}
+          {report.workers.length > 0 && isTodayDate(new Date(report.createdAt || new Date())) && (
+            <MyCard title="Trabajadores y Salarios" iconTitle="people-outline">
+              {report.workers.map((worker) => (
+                <WorkerItem key={worker.id} worker={worker} salary={workersAndSalaries[worker.user.name] || 0} />
+              ))}
+              <View style={styles.totalRow}>
+                <Text style={[styles.totalLabel, { color: defaultColors.text }]}>Total Salarios:</Text>
+                <Text style={[styles.totalValue, { color: defaultColors.primary }]}>{formatCurrency(totalSalary)}</Text>
+              </View>
+            </MyCard>
+          )}
 
-        {/* Deudas Registradas */}
-        {report.debts.length > 0 && (
-          <MyCard title="Deudas Registradas" iconTitle="file-tray-full">
-            {report.debts.map((debt) => (
-              <DebtItem key={debt.id} debt={debt} />
-            ))}
-            <View style={styles.totalRow}>
-              <Text style={[styles.totalLabel, { color: defaultColors.text }]}>Total Deudas:</Text>
-              <Text style={[styles.totalValue, { color: colors.error.light }]}>{formatCurrency(totalDebts)}</Text>
-            </View>
-          </MyCard>
-        )}
+          {/* Máquinas Utilizadas */}
+          {report.machines.length > 0 && (
+            <MyCard title="Máquinas Utilizadas" iconTitle="desktop-outline">
+              {report.machines.map((machine) => (
+                <MachineItem key={machine.id} machine={machine} />
+              ))}
+            </MyCard>
+          )}
 
-        {/* Trabajadores y Salarios */}
-        {report.workers.length > 0 && isTodayDate(new Date(report.createdAt || new Date())) && (
-          <MyCard title="Trabajadores y Salarios" iconTitle="people-outline">
-            {report.workers.map((worker) => (
-              <WorkerItem key={worker.id} worker={worker} salary={workersAndSalaries[worker.user.name] || 0} />
-            ))}
-            <View style={styles.totalRow}>
-              <Text style={[styles.totalLabel, { color: defaultColors.text }]}>Total Salarios:</Text>
-              <Text style={[styles.totalValue, { color: defaultColors.primary }]}>{formatCurrency(totalSalary)}</Text>
-            </View>
-          </MyCard>
-        )}
-
-        {/* Máquinas Utilizadas */}
-        {report.machines.length > 0 && (
-          <MyCard title="Máquinas Utilizadas" iconTitle="desktop-outline">
-            {report.machines.map((machine) => (
-              <MachineItem key={machine.id} machine={machine} />
-            ))}
-          </MyCard>
-        )}
-
-        {/* Información Adicional */}
-        <MyCard title="Información Adicional" iconTitle="information-circle-outline">
-          <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>ID del Reporte: {report.id}</Text>
-          <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>
-            Negocio: {business?.name || "Sin nombre"}
-          </Text>
-          {report.createdAt && (
+          {/* Información Adicional */}
+          <MyCard title="Información Adicional" iconTitle="information-circle-outline">
+            <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>ID del Reporte: {report.id}</Text>
             <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>
-              Creado: {new Date(report.createdAt).toLocaleString()}
+              Negocio: {business?.name || "Sin nombre"}
             </Text>
-          )}
-          {report.updatedAt && (
-            <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>
-              Última actualización: {new Date(report.updatedAt).toLocaleString()}
-            </Text>
-          )}
-        </MyCard>
+            {report.createdAt && (
+              <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>
+                Creado: {new Date(report.createdAt).toLocaleString()}
+              </Text>
+            )}
+            {report.updatedAt && (
+              <Text style={[styles.infoText, { color: defaultColors.textSecondary }]}>
+                Última actualización: {new Date(report.updatedAt).toLocaleString()}
+              </Text>
+            )}
+          </MyCard>
+        </ContentWrapper>
       </MyScrollView>
       {/* Botones de Acción */}
       {isTodayDate(new Date(report.createdAt || new Date())) && (

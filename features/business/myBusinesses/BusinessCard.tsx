@@ -13,7 +13,7 @@ export function BusinessCard({ business, onPress }: BusinessCardProps) {
 
   return (
     <TouchableOpacity
-      className="rounded-lg p-4 mb-4 flex-row items-center justify-between"
+      className="rounded-lg p-4 flex-row items-center justify-between"
       style={{ backgroundColor: defaultColors.background === "#F5F5F5" ? "#FFFFFF" : "#2A2A2A" }}
       onPress={onPress}
       accessibilityLabel={`Ver detalles de ${business.name}`}

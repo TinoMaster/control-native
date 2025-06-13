@@ -19,7 +19,7 @@ export const PageTitle = ({ title, showAddButton = false, onPressAddButton, icon
         {
           flexDirection: "row",
           alignItems: "center",
-          paddingHorizontal: 6,
+          paddingHorizontal: 16,
           paddingVertical: 20,
           borderBottomWidth: 1,
           borderBottomColor: "rgba(0,0,0,0.1)"
@@ -27,10 +27,10 @@ export const PageTitle = ({ title, showAddButton = false, onPressAddButton, icon
         style
       ]}
     >
-      <View className="flex-row items-center">
+      <View className="flex-row items-center gap-2">
         {icon && <Ionicons name={icon} size={24} color={colors.primary.light} />}
         <Text
-          className="text-xl font-bold ml-2"
+          className="text-xl font-bold"
           style={{ color: colors.darkMode.text.light, textTransform: "capitalize" }}
         >
           {title}

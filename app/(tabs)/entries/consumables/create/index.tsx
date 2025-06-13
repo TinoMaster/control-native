@@ -1,7 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
+import { ContentWrapper } from "components/ContentWrapper";
 import GenericInput from "components/forms/generic-input";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { SelectModal } from "components/ui/modals/selectModal";
+import { MyScrollView } from "components/ui/MyScrollView";
 import { useConsumables } from "hooks/api/useConsumables";
 import useColors from "hooks/useColors";
 import { ConsumableModel } from "models/api/consumables.model";
@@ -9,7 +12,7 @@ import { EUnit, TRANSLATE_UNIT } from "models/api/unit.model";
 import { consumableDefaultValues, consumableSchema, ConsumableSchema } from "models/zod/consumable.schema";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
 import colors from "styles/colors";
 import { formatNumericInput } from "utilities/helpers/globals.helpers";
@@ -63,22 +66,12 @@ export default function CreateConsumable() {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: defaultColors.background
-      }}
-    >
+    <GradientBackground>
       <BackButtonPlusTitle title="Crear Insumo" />
 
-      <ScrollView
-        style={{
-          backgroundColor: defaultColors.background,
-          padding: 16
-        }}
-      >
-        {/* Consumable Name */}
-        <View style={{ marginBottom: 16 }}>
+      <MyScrollView>
+        <ContentWrapper>
+          {/* Consumable Name */}
           <GenericInput
             label="Nombre del Insumo"
             placeholder="Ingrese el nombre del insumo"
@@ -87,9 +80,7 @@ export default function CreateConsumable() {
             error={errors.name}
             onChangeText={(text) => setValue("name", text, { shouldValidate: true })}
           />
-        </View>
-        {/* Consumable Description */}
-        <View style={{ marginBottom: 16 }}>
+          {/* Consumable Description */}
           <GenericInput
             label="Descripción"
             placeholder="Ingrese una descripción del insumo"
@@ -100,9 +91,7 @@ export default function CreateConsumable() {
             multiline
             numberOfLines={3}
           />
-        </View>
-        {/* Consumable Price */}
-        <View style={{ marginBottom: 16 }}>
+          {/* Consumable Price */}
           <GenericInput
             label="Precio del Stock"
             placeholder="Ingrese el precio de todo el stock de entrada"
@@ -111,40 +100,38 @@ export default function CreateConsumable() {
             error={errors.price}
             onChangeText={(text) => handleNumericInput(text, "price")}
           />
-        </View>
-        {/* Consumable Unit */}
-        <View style={{ marginBottom: 16 }}>
-          <Text
-            style={{
-              color: defaultColors.text,
-              marginBottom: 8
-            }}
-          >
-            Unidad de Medida
-          </Text>
-          <TouchableOpacity
-            style={{
-              backgroundColor: colors.background.light.primary,
-              padding: 12,
-              borderRadius: 8,
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center"
-            }}
-            onPress={() => setShowUnitModal(true)}
-          >
+          {/* Consumable Unit */}
+          <View>
             <Text
               style={{
-                color: colors.lightMode.text.dark
+                color: defaultColors.text,
+                marginBottom: 2
               }}
             >
-              {watch("unit") ? TRANSLATE_UNIT[watch("unit")] : "Seleccione una unidad"}
+              Unidad de Medida
             </Text>
-          </TouchableOpacity>
-          {errors.unit && <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>{errors.unit.message}</Text>}
-        </View>
-        {/* Consumable Stock */}
-        <View style={{ marginBottom: 16 }}>
+            <TouchableOpacity
+              style={{
+                backgroundColor: colors.background.light.primary,
+                padding: 12,
+                borderRadius: 8,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center"
+              }}
+              onPress={() => setShowUnitModal(true)}
+            >
+              <Text
+                style={{
+                  color: colors.lightMode.text.dark
+                }}
+              >
+                {watch("unit") ? TRANSLATE_UNIT[watch("unit")] : "Seleccione una unidad"}
+              </Text>
+            </TouchableOpacity>
+            {errors.unit && <Text style={{ color: defaultColors.secondary, marginTop: 4 }}>{errors.unit.message}</Text>}
+          </View>
+          {/* Consumable Stock */}
           <GenericInput
             label="Stock Disponible"
             placeholder="Ingrese la cantidad disponible"
@@ -153,36 +140,35 @@ export default function CreateConsumable() {
             error={errors.stock}
             onChangeText={(text) => handleNumericInput(text, "stock")}
           />
-        </View>
-        {/* Consumable Submit Button */}
-        <TouchableOpacity
-          onPress={handleSubmit(onSubmit)}
-          style={{
-            backgroundColor: colors.primary.light,
-            padding: 16,
-            borderRadius: 8,
-            alignItems: "center",
-            marginTop: 16,
-            marginBottom: 30,
-            opacity: loadingSave || !isValid ? 0.5 : 1
-          }}
-          disabled={loadingSave || !isValid}
-        >
-          {loadingSave ? (
-            <ActivityIndicator color={colors.background.light.primary} />
-          ) : (
-            <Text
-              style={{
-                color: colors.background.light.primary,
-                fontWeight: "bold",
-                fontSize: 16
-              }}
-            >
-              Crear Insumo
-            </Text>
-          )}
-        </TouchableOpacity>
-      </ScrollView>
+          {/* Consumable Submit Button */}
+          <TouchableOpacity
+            onPress={handleSubmit(onSubmit)}
+            style={{
+              backgroundColor: colors.primary.light,
+              padding: 16,
+              borderRadius: 8,
+              alignItems: "center",
+              marginTop: 20,
+              opacity: loadingSave || !isValid ? 0.5 : 1
+            }}
+            disabled={loadingSave || !isValid}
+          >
+            {loadingSave ? (
+              <ActivityIndicator color={colors.background.light.primary} />
+            ) : (
+              <Text
+                style={{
+                  color: colors.background.light.primary,
+                  fontWeight: "bold",
+                  fontSize: 16
+                }}
+              >
+                Crear Insumo
+              </Text>
+            )}
+          </TouchableOpacity>
+        </ContentWrapper>
+      </MyScrollView>
 
       {/* Unit Selection Modal */}
       {showUnitModal && (
@@ -197,6 +183,6 @@ export default function CreateConsumable() {
           keyExtractor={(item) => item}
         />
       )}
-    </View>
+    </GradientBackground>
   );
 }

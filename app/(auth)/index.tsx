@@ -32,11 +32,7 @@ export default function LoginScreen() {
   return (
     <View className="flex-1">
       <StatusBar style="light" />
-      <GradientBackground
-        variant="primary"
-        intensity="medium"
-        style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingHorizontal: 24 }}
-      >
+      <GradientBackground style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingHorizontal: 16 }}>
         <SafeAreaView className="flex-1 w-full" style={{ justifyContent: "center" }}>
           {/* Logo Section */}
           <View className="items-center mb-8">
@@ -57,7 +53,7 @@ export default function LoginScreen() {
               source={require("../../assets/images/logo_png.png")}
               className="rounded-full shadow-xl"
               resizeMode="contain"
-              style={{ width: 110, height: 110, position: "absolute", top: -55, opacity: 0.4 }}
+              style={{ width: 110, height: 110, position: "absolute", top: -55, opacity: 0.1 }}
             />
             <View className="py-8">
               <Text className="text-2xl font-bold text-center mb-1" style={{ color: colors.darkMode.text.light }}>

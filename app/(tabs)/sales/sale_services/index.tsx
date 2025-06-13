@@ -1,3 +1,4 @@
+import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
@@ -24,12 +25,14 @@ export default function SaleServices() {
   return (
     <GradientBackground>
       <PageTitle title="Ventas de servicios" />
-      <GenericList
-        data={serviceSales ?? []}
-        renderItem={renderSaleService}
-        keyExtractor={(item) => item.id?.toString() ?? ""}
-        emptyListMessage="No hay ventas de servicios registradas"
-      />
+      <ContentWrapper>
+        <GenericList
+          data={serviceSales ?? []}
+          renderItem={renderSaleService}
+          keyExtractor={(item) => item.id?.toString() ?? ""}
+          emptyListMessage="No hay ventas de servicios registradas"
+        />
+      </ContentWrapper>
       <FloatingActionButton
         onPress={() => router.push("/(tabs)/sales/sale_services/create_service_sale" as any)}
         backgroundColor={defaultColors.primary}

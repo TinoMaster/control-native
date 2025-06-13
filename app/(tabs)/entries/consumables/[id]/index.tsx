@@ -1,5 +1,6 @@
 import { ActionButtons } from "components/ActionButtons";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
+import { ContentWrapper } from "components/ContentWrapper";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { MyModal } from "components/ui/modals/myModal";
@@ -44,14 +45,16 @@ export default function ConsumableDetailScreen() {
       {/* Header */}
       <BackButtonPlusTitle title="Detalles del Insumo" />
       <MyScrollView>
-        {/* Información Principal */}
-        <PrincipalInfo consumable={consumable} />
+        <ContentWrapper>
+          {/* Información Principal */}
+          <PrincipalInfo consumable={consumable} />
 
-        {/* Información de Stock */}
-        <StockSection consumable={consumable} />
+          {/* Información de Stock */}
+          <StockSection consumable={consumable} />
 
-        {/* Información Adicional */}
-        <AdditionalInfo consumable={consumable} />
+          {/* Información Adicional */}
+          <AdditionalInfo consumable={consumable} />
+        </ContentWrapper>
       </MyScrollView>
 
       {/* Botones de Acción */}

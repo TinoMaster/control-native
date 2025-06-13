@@ -8,7 +8,7 @@ export function BusinessesResume() {
   const { businessList } = useBusinessStore();
   return (
     <View
-      className="rounded-lg p-4 mt-4"
+      className="rounded-lg p-4"
       style={{ backgroundColor: defaultColors.background === "#F5F5F5" ? "#FFFFFF" : "#2A2A2A" }}
     >
       <Text className="text-lg font-semibold mb-3" style={{ color: defaultColors.text }}>

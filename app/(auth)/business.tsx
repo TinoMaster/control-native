@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { MyScrollView } from "components/ui/MyScrollView";
 import { useNotification } from "contexts/NotificationContext";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -13,7 +14,7 @@ import {
 } from "features-auth/business/schemas/registerOwner.schema";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { ActivityIndicator, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { authService } from "services/auth.service";
 import colors from "styles/colors";
@@ -59,15 +60,10 @@ export default function BusinessRegistration() {
   };
 
   return (
-    <ScrollView className="flex-1">
+    <MyScrollView>
       <StatusBar style="light" />
 
-      <GradientBackground
-        variant="primary"
-        intensity="medium"
-        direction="left-right"
-        style={{ justifyContent: "center", alignItems: "center", padding: 24 }}
-      >
+      <GradientBackground style={{ justifyContent: "center", alignItems: "center", padding: 16 }}>
         <SafeAreaView className="flex-1 w-full" style={{ justifyContent: "center", gap: 24 }}>
           <View>
             <Text className="text-3xl font-bold text-center" style={{ color: colors.darkMode.text.light }}>
@@ -110,6 +106,6 @@ export default function BusinessRegistration() {
           </Pressable>
         </SafeAreaView>
       </GradientBackground>
-    </ScrollView>
+    </MyScrollView>
   );
 }

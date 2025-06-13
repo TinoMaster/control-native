@@ -27,11 +27,11 @@ export function GenericInput({
 }: GenericInputProps) {
   const defaultColors = useColors();
   return (
-    <View style={{ marginBottom: 16 }}>
+    <View>
       <Text
         style={{
           color: defaultColors.text,
-          marginBottom: 8
+          marginBottom: 2
         }}
       >
         {label}

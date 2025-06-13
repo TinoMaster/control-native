@@ -1,5 +1,6 @@
 import { ActionButtons } from "components/ActionButtons";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
+import { ContentWrapper } from "components/ContentWrapper";
 import { ErrorState } from "components/ErrorState";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
@@ -57,14 +58,16 @@ export default function ServiceDetailScreen() {
       {/* Header */}
       <BackButtonPlusTitle title="Detalles del Servicio" />
       <MyScrollView>
-        {/* Información Principal */}
-        <PrincipalInfo service={service} />
+        <ContentWrapper>
+          {/* Información Principal */}
+          <PrincipalInfo service={service} />
 
-        {/* Costos Asociados */}
-        <CostSection service={service} />
+          {/* Costos Asociados */}
+          <CostSection service={service} />
 
-        {/* Información Adicional */}
-        <AdditionalInfo service={service} />
+          {/* Información Adicional */}
+          <AdditionalInfo service={service} />
+        </ContentWrapper>
       </MyScrollView>
 
       {/* Botones de Acción */}

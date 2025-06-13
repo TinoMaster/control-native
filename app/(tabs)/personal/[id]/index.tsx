@@ -1,5 +1,7 @@
 import { ActionButtons } from "components/ActionButtons";
 import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
+import { ContentWrapper } from "components/ContentWrapper";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { useNotification } from "contexts/NotificationContext";
@@ -11,16 +13,13 @@ import { ContactSection } from "features/personal/personal-detail/contact/Contac
 import { PrincipalInfo } from "features/personal/personal-detail/principal-info/PrincipalInfo";
 import { SalarySection } from "features/personal/personal-detail/salary/SalarySection";
 import { useEmployees } from "hooks/api/useEmployees";
-import useColors from "hooks/useColors";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
 import { businessFinalSaleService } from "services/businessFinalSale.service";
 import { useModalStore } from "store/modal.store";
 import colors from "styles/colors";
 
 export default function EmployeeDetails() {
   const { id } = useLocalSearchParams();
-  const defaultColors = useColors();
   const router = useRouter();
   const { showNotification } = useNotification();
   const { loadingEmployees, getEmployeeById, deleteEmployee, loadingDelete } = useEmployees();
@@ -76,27 +75,29 @@ export default function EmployeeDetails() {
   }
 
   return (
-    <View className="flex-1" style={{ backgroundColor: defaultColors.background }}>
+    <GradientBackground>
       <BackButtonPlusTitle title="Detalles del Empleado" />
 
       <MyScrollView>
-        {/* Información Principal */}
-        <PrincipalInfo employee={employee} />
+        <ContentWrapper>
+          {/* Información Principal */}
+          <PrincipalInfo employee={employee} />
 
-        {/* Contacto */}
-        <ContactSection employee={employee} />
+          {/* Contacto */}
+          <ContactSection employee={employee} />
 
-        {/* Dirección */}
-        <AddressSection employee={employee} />
+          {/* Dirección */}
+          <AddressSection employee={employee} />
 
-        {/* Salario */}
-        <SalarySection employee={employee} />
+          {/* Salario */}
+          <SalarySection employee={employee} />
 
-        {/* Negocios Asignados */}
-        <BusinessesSection employee={employee} />
+          {/* Negocios Asignados */}
+          <BusinessesSection employee={employee} />
 
-        {/* Información Adicional */}
-        <AdditionalInfo employee={employee} />
+          {/* Información Adicional */}
+          <AdditionalInfo employee={employee} />
+        </ContentWrapper>
       </MyScrollView>
 
       {/* Botones de Acción */}
@@ -105,12 +106,12 @@ export default function EmployeeDetails() {
           {
             icon: "trash-outline",
             label: "Eliminar",
-            onPress: () => onDeleteEmployee(employee.id),
+            onPress: () => onDeleteEmployee(employee.id ?? ""),
             color: !existEmployeeInFinalSale ? colors.error.dark : `${colors.error.dark}50`
           }
         ]}
         fixed
       />
-    </View>
+    </GradientBackground>
   );
 }
