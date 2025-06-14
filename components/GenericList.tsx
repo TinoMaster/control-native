@@ -23,6 +23,7 @@ export default function GenericList<T>({
       <FlatList
         data={data}
         renderItem={({ item }) => renderItem(item)}
+        showsVerticalScrollIndicator={false}
         keyExtractor={keyExtractor}
         contentContainerStyle={styles.listContent}
         ListEmptyComponent={<EmptyListMessage message={emptyListMessage} textColor={colors.darkMode.text.light} />}
@@ -43,7 +44,8 @@ const styles = StyleSheet.create({
   },
   listContent: {
     flexGrow: 1,
-    rowGap: 16
+    rowGap: 16,
+    padding: 16
   },
   emptyContainer: {
     flex: 1,

@@ -1,4 +1,3 @@
-import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
@@ -25,14 +24,12 @@ export default function DebtsScreen() {
   return (
     <GradientBackground>
       <PageTitle title="Deudas" />
-      <ContentWrapper>
-        <GenericList
-          data={getDebtsInActualDay()}
-          renderItem={renderDebt}
-          keyExtractor={(item) => item.id?.toString() ?? ""}
-          emptyListMessage="No hay deudas registradas"
-        />
-      </ContentWrapper>
+      <GenericList
+        data={getDebtsInActualDay()}
+        renderItem={renderDebt}
+        keyExtractor={(item) => item.id?.toString() ?? ""}
+        emptyListMessage="No hay deudas registradas"
+      />
 
       <FloatingActionButton
         onPress={() => router.push("/(tabs)/sales/debts/create_debt" as any)}

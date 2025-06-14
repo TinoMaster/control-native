@@ -1,4 +1,3 @@
-import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
@@ -35,14 +34,12 @@ export default function ServicesScreen() {
   return (
     <GradientBackground>
       <PageTitle title="Servicios" />
-      <ContentWrapper>
-        <GenericList
-          data={services}
-          renderItem={renderService}
-          keyExtractor={(item) => item.id?.toString() ?? ""}
-          emptyListMessage="No hay servicios registrados"
-        />
-      </ContentWrapper>
+      <GenericList
+        data={services}
+        renderItem={renderService}
+        keyExtractor={(item) => item.id?.toString() ?? ""}
+        emptyListMessage="No hay servicios registrados"
+      />
 
       <FloatingActionButton
         onPress={() => router.push("/(tabs)/entries/services/create" as any)}

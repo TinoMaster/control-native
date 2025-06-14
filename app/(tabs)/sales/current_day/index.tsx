@@ -1,4 +1,3 @@
-import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
@@ -36,14 +35,12 @@ export default function CurrentDay() {
     <GradientBackground>
       <PageTitle title="Cuadres del día" />
 
-      <ContentWrapper>
-        <GenericList
-          data={dailyReports ?? []}
-          renderItem={renderReport}
-          keyExtractor={(item) => item.id?.toString() ?? ""}
-          emptyListMessage={"No hay reportes registrados en el día de hoy"}
-        />
-      </ContentWrapper>
+      <GenericList
+        data={dailyReports ?? []}
+        renderItem={renderReport}
+        keyExtractor={(item) => item.id?.toString() ?? ""}
+        emptyListMessage={"No hay reportes registrados en el día de hoy"}
+      />
 
       <FloatingActionButton
         onPress={() => router.push("/(tabs)/sales/current_day/create_report" as any)}

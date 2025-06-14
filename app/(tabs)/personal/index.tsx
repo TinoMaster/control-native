@@ -1,4 +1,3 @@
-import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
@@ -34,14 +33,12 @@ export default function Personal() {
   return (
     <GradientBackground>
       <PageTitle title="Personal" />
-      <ContentWrapper>
-        <GenericList
-          data={employees}
-          renderItem={renderEmployee}
-          keyExtractor={(item) => item.id?.toString() ?? ""}
-          emptyListMessage="No hay empleados registrados"
-        />
-      </ContentWrapper>
+      <GenericList
+        data={employees}
+        renderItem={renderEmployee}
+        keyExtractor={(item) => item.id?.toString() ?? ""}
+        emptyListMessage="No hay empleados registrados"
+      />
       <FloatingActionButton
         onPress={() => router.push("/(tabs)/personal/create" as any)}
         backgroundColor={defaultColors.primary}

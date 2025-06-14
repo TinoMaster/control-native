@@ -1,4 +1,3 @@
-import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
 import { PageTitle } from "components/PageTitle";
@@ -35,14 +34,12 @@ export default function ConsumablesScreen() {
   return (
     <GradientBackground>
       <PageTitle title="Insumos" />
-      <ContentWrapper>
-        <GenericList
-          data={consumables}
-          renderItem={renderConsumable}
-          keyExtractor={(item) => item.id?.toString() ?? ""}
-          emptyListMessage="No hay insumos registrados"
-        />
-      </ContentWrapper>
+      <GenericList
+        data={consumables}
+        renderItem={renderConsumable}
+        keyExtractor={(item) => item.id?.toString() ?? ""}
+        emptyListMessage="No hay insumos registrados"
+      />
       <FloatingActionButton
         onPress={() => router.push("/(tabs)/entries/consumables/create" as any)}
         backgroundColor={defaultColors.primary}
