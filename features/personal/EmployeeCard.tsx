@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { MiniCard } from "components/ui/cards/MiniCard";
 import useColors from "hooks/useColors";
 import { EmployeeModel } from "models/api/employee.model";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -12,12 +13,8 @@ export function EmployeeCard({ employee, onPress }: EmployeeCardProps) {
   const colors = useColors();
 
   return (
-    <View>
-      <TouchableOpacity
-        onPress={onPress}
-        style={[styles.container, { backgroundColor: colors.background }]}
-        activeOpacity={0.8}
-      >
+    <MiniCard>
+      <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
         <View style={styles.header}>
           <View style={styles.titleContainer}>
             <Text style={[styles.title, { color: colors.text }]}>{employee.user.name}</Text>
@@ -61,16 +58,11 @@ export function EmployeeCard({ employee, onPress }: EmployeeCardProps) {
           </View>
         </View>
       </TouchableOpacity>
-    </View>
+    </MiniCard>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12
-  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
