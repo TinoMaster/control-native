@@ -1,5 +1,5 @@
-import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { CreateDebtForm } from "features/sales/debts/components/CreateDebtForm";
 import { useDebts } from "hooks/api/useDebts";
@@ -13,7 +13,7 @@ export default function CreateDebtScreen() {
 
   return (
     <GradientBackground>
-      <BackButtonPlusTitle title="Crear Deuda" />
+      <CustomHeader title="Crear Deuda" showBackButton />
       <CreateDebtForm />
     </GradientBackground>
   );

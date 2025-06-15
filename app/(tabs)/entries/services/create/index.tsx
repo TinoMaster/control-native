@@ -1,8 +1,8 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import { ContentWrapper } from "components/ContentWrapper";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import { SelectModal } from "components/ui/modals/selectModal";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { useConsumables } from "hooks/api/useConsumables";
@@ -87,7 +87,7 @@ export default function CreateService() {
 
   return (
     <GradientBackground>
-      <BackButtonPlusTitle title="Crear Servicio" />
+      <CustomHeader title="Crear Servicio" showBackButton />
 
       <MyScrollView>
         <ContentWrapper>

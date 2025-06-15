@@ -1,6 +1,6 @@
 import { ContentWrapper } from "components/ContentWrapper";
-import { PageTitle } from "components/PageTitle";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { SettingButton } from "components/ui/SettingButton";
 import { useRouter } from "expo-router";
@@ -30,7 +30,7 @@ export default function BusinessScreen() {
 
   return (
     <GradientBackground>
-      <PageTitle title="Gestión de Negocios" icon="business" />
+      <CustomHeader title="Gestión de Negocios" icon="business" />
 
       <MyScrollView>
         <ContentWrapper>

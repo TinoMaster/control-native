@@ -1,6 +1,6 @@
-import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import { ContentWrapper } from "components/ContentWrapper";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { useRouter } from "expo-router";
 import { BusinessCard } from "features/business/myBusinesses/BusinessCard";
@@ -15,7 +15,7 @@ export default function MyBusinesses() {
   const router = useRouter();
   return (
     <GradientBackground>
-      <BackButtonPlusTitle title="Gestión de Negocios" />
+      <CustomHeader title="Gestión de Negocios" showBackButton />
       <MyScrollView>
         <ContentWrapper>
           <Text className="mb-4" style={{ color: defaultColors.textSecondary }}>

@@ -13,7 +13,7 @@ import { useAuthStore } from "store/auth.store";
 import "./globals.css";
 
 /* Tareas pendientes de la app */
-// TODO: En la pagina de detalles de insumos y servicios hacer que haya un boton para agregar y quitar stock
+// TODO: En la pagina de detalles de insumos y servicios hacer que haya un botón para agregar y quitar stock
 // TODO: En la pagina de detalles de un negocio, hacer que se actualize la fecha de actualización cada vez que se modifique algo
 
 function RootLayoutNav() {

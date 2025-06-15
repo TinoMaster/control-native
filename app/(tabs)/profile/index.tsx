@@ -1,5 +1,5 @@
 import { CloseSessionButton } from "components/CloseSessionButton";
-import { PageTitle } from "components/PageTitle";
+import { CustomHeader } from "components/ui/CustomHeader";
 import useColors from "hooks/useColors";
 import { StyleSheet, View } from "react-native";
 
@@ -8,7 +8,7 @@ export default function ProfileScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
-      <PageTitle title="Perfil" />
+      <CustomHeader title="Perfil" />
 
       <View style={styles.section}>
         <CloseSessionButton />

@@ -1,7 +1,7 @@
 import { ActionButtons } from "components/ActionButtons";
-import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import { ContentWrapper } from "components/ContentWrapper";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { useNotification } from "contexts/NotificationContext";
@@ -76,7 +76,7 @@ export default function EmployeeDetails() {
 
   return (
     <GradientBackground>
-      <BackButtonPlusTitle title="Detalles del Empleado" />
+      <CustomHeader title="Detalles del Empleado" showBackButton />
 
       <MyScrollView>
         <ContentWrapper>

@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   fewItemsText: {
     fontSize: 12,
     fontWeight: "600",
-    marginTop: 6,
+    marginTop: 4,
     textAlign: "center"
   }
 });

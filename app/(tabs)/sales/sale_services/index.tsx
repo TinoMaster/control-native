@@ -1,7 +1,7 @@
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
-import { PageTitle } from "components/PageTitle";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
 import { SaleServiceCard } from "features/sales/sale_services/components/SaleServiceCard";
@@ -10,7 +10,7 @@ import useColors from "hooks/useColors";
 import { ServiceSaleModel } from "models/api/serviceSale.model";
 import colors from "styles/colors";
 
-export default function SaleServices() {
+export default function SaleServicesScreen() {
   const defaultColors = useColors();
   const router = useRouter();
   const { serviceSales, loadingServiceSales } = useServiceSale();
@@ -23,7 +23,7 @@ export default function SaleServices() {
 
   return (
     <GradientBackground>
-      <PageTitle title="Ventas de servicios" />
+      <CustomHeader title="Ventas de Servicios" />
       <GenericList
         data={serviceSales ?? []}
         renderItem={renderSaleService}

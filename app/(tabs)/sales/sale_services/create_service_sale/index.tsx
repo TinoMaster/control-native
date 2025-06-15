@@ -1,9 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import { ContentWrapper } from "components/ContentWrapper";
 import GenericInput from "components/forms/generic-input";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import { SelectModal } from "components/ui/modals/selectModal";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { useNotification } from "contexts/NotificationContext";
@@ -99,7 +99,7 @@ export default function CreateServiceSale() {
 
   return (
     <GradientBackground>
-      <BackButtonPlusTitle title="Registrar Venta de Servicio" />
+      <CustomHeader title="Registrar Venta de Servicio" showBackButton />
 
       <MyScrollView>
         <ContentWrapper>

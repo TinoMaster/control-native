@@ -1,7 +1,7 @@
 import { ActionButtons } from "components/ActionButtons";
-import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import { ContentWrapper } from "components/ContentWrapper";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { MyModal } from "components/ui/modals/myModal";
 import { MyScrollView } from "components/ui/MyScrollView";
@@ -43,7 +43,7 @@ export default function ConsumableDetailScreen() {
   return (
     <GradientBackground>
       {/* Header */}
-      <BackButtonPlusTitle title="Detalles del Insumo" />
+      <CustomHeader title="Detalles del Insumo" showBackButton />
       <MyScrollView>
         <ContentWrapper>
           {/* Información Principal */}

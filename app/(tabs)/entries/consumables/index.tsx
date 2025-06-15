@@ -1,7 +1,7 @@
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
-import { PageTitle } from "components/PageTitle";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
 import ConsumableCard from "features/entries/consumables/ConsumableCard";
@@ -33,7 +33,7 @@ export default function ConsumablesScreen() {
 
   return (
     <GradientBackground>
-      <PageTitle title="Insumos" />
+      <CustomHeader title="Insumos" />
       <GenericList
         data={consumables}
         renderItem={renderConsumable}

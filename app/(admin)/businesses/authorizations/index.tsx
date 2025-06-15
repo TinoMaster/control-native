@@ -1,6 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { PageTitle } from "components/PageTitle";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { AuthBusinessCard } from "features-admin/businesses/authorizations/components/AuthBusinessCard";
 import { useAuthRequests } from "features-admin/businesses/authorizations/hooks/useAuthRequests";
@@ -38,7 +38,7 @@ export default function Authorizations() {
 
   return (
     <GradientBackground>
-      <PageTitle title="Autorizaciones" icon="shield-checkmark-outline" />
+      <CustomHeader title="Autorizaciones" icon="shield-checkmark-outline" />
 
       <View style={styles.container}>
         {authRequests && authRequests.length > 0 ? (

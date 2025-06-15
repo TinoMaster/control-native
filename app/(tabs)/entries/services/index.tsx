@@ -1,7 +1,7 @@
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
-import { PageTitle } from "components/PageTitle";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
 import ServiceCard from "features/entries/services/components/ServiceCard";
@@ -33,7 +33,7 @@ export default function ServicesScreen() {
 
   return (
     <GradientBackground>
-      <PageTitle title="Servicios" />
+      <CustomHeader title="Servicios" />
       <GenericList
         data={services}
         renderItem={renderService}

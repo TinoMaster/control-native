@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import { ContentWrapper } from "components/ContentWrapper";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import { CustomInput } from "components/ui/inputs/CustomInput";
 import { SelectModal } from "components/ui/modals/selectModal";
 import { MyScrollView } from "components/ui/MyScrollView";
@@ -68,7 +68,7 @@ export default function CreateConsumable() {
 
   return (
     <GradientBackground>
-      <BackButtonPlusTitle title="Crear Insumo" />
+      <CustomHeader title="Crear Insumo" showBackButton />
 
       <MyScrollView>
         <ContentWrapper>

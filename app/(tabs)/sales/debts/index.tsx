@@ -1,7 +1,7 @@
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
-import { PageTitle } from "components/PageTitle";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
 import { DebtCard } from "features/sales/debts/components/DebtCard";
@@ -23,7 +23,7 @@ export default function DebtsScreen() {
 
   return (
     <GradientBackground>
-      <PageTitle title="Deudas" />
+      <CustomHeader title="Deudas" />
       <GenericList
         data={getDebtsInActualDay()}
         renderItem={renderDebt}

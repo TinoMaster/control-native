@@ -1,15 +1,15 @@
 import { Feather } from "@expo/vector-icons";
 import { ActionButtons } from "components/ActionButtons";
-import { BackButtonPlusTitle } from "components/BackButtonPlusTitle";
 import { ContentWrapper } from "components/ContentWrapper";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { MyCard } from "components/ui/cards/MyCard";
+import { CustomHeader } from "components/ui/CustomHeader";
 import { InfoRow } from "components/ui/InfoRow";
 import { CardItem } from "components/ui/items/CardItem.ui";
 import { DebtItem } from "components/ui/items/DebtItem.ui";
 import { MachineItem } from "components/ui/items/MachineItem.ui";
 import { ServiceSaleItem } from "components/ui/items/ServiceSaleItem.ui";
 import LoadingPage from "components/ui/loaders/LoadingPage";
-import { MyCard } from "components/ui/cards/MyCard";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -130,7 +130,7 @@ export default function DailyReportDetailScreen() {
 
   return (
     <GradientBackground>
-      <BackButtonPlusTitle title="Detalles del Reporte" />
+      <CustomHeader title="Detalles del Reporte" showBackButton />
       <MyScrollView>
         <ContentWrapper>
           <MyCard title="Información Principal" iconTitle="receipt-outline">

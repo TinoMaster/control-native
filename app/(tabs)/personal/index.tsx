@@ -1,7 +1,7 @@
 import { FloatingActionButton } from "components/floating-action-button";
 import GenericList from "components/GenericList";
-import { PageTitle } from "components/PageTitle";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { CustomHeader } from "components/ui/CustomHeader";
 import LoadingPage from "components/ui/loaders/LoadingPage";
 import { useRouter } from "expo-router";
 import { EmployeeCard } from "features/personal/EmployeeCard";
@@ -32,7 +32,7 @@ export default function Personal() {
 
   return (
     <GradientBackground>
-      <PageTitle title="Personal" />
+      <CustomHeader title="Personal" />
       <GenericList
         data={employees}
         renderItem={renderEmployee}
