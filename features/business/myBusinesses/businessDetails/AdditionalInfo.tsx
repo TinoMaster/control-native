@@ -18,12 +18,6 @@ export function AdditionalInfo({ business }: Props) {
           Creado: {formatDate(new Date(business.createdAt))}
         </Text>
       )}
-
-      {business.updatedAt && (
-        <Text style={{ color: defaultColors.textSecondary }} className="text-base mb-2">
-          Última actualización: {formatDate(new Date(business.updatedAt))}
-        </Text>
-      )}
     </MyCard>
   );
 }

@@ -12,16 +12,11 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useAuthStore } from "store/auth.store";
 import "./globals.css";
 
-/* Tareas pendientes de la app */
-// TODO: En la pagina de detalles de insumos y servicios hacer que haya un botón para agregar y quitar stock
-// TODO: En la pagina de detalles de un negocio, hacer que se actualize la fecha de actualización cada vez que se modifique algo
-
 function RootLayoutNav() {
   const colors = useColors();
   const { loadingUser, initializeAuth } = useAuthStore();
   const [isInitializing, setIsInitializing] = useState(true);
 
-  // Aseguramos que la autenticación se inicialice antes de decidir la redirección
   useEffect(() => {
     const init = async () => {
       try {
@@ -36,7 +31,6 @@ function RootLayoutNav() {
     init();
   }, []);
 
-  // Mostramos un estado de carga mientras se inicializa la autenticación o se carga el usuario
   if (isInitializing || loadingUser) {
     return <LoadingPage message="Cargando aplicación..." />;
   }
@@ -75,7 +69,6 @@ function RootLayoutNav() {
 export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      {/* GestureHandlerRootView es necesario para que los gestos funcionen correctamente */}
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaProvider>
           <NotificationProvider>
