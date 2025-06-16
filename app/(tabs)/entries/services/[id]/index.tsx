@@ -14,8 +14,6 @@ import { FormEditService } from "features/entries/services/components/service-de
 import { PrincipalInfo } from "features/entries/services/components/service-detail/PrincipalInfo";
 import { useService } from "hooks/api/useServices";
 import { useState } from "react";
-import { StyleSheet } from "react-native";
-import colors from "styles/colors";
 
 export default function ServiceDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -55,49 +53,41 @@ export default function ServiceDetailScreen() {
 
   return (
     <GradientBackground>
-      {/* Header */}
       <CustomHeader title="Detalles del Servicio" showBackButton />
+
       <MyScrollView>
         <ContentWrapper>
-          {/* Información Principal */}
           <PrincipalInfo service={service} />
 
-          {/* Costos Asociados */}
           <CostSection service={service} />
 
-          {/* Información Adicional */}
           <AdditionalInfo service={service} />
         </ContentWrapper>
       </MyScrollView>
 
-      {/* Botones de Acción */}
       <ActionButtons
         buttons={[
           {
             icon: "trash-outline",
             label: "Eliminar",
-            onPress: () => onDeleteService(service.id ?? 0),
-            color: colors.secondary.light
+            onPress: () => onDeleteService(service.id ?? 0)
           },
           {
             icon: "pencil-outline",
             label: "Editar",
-            onPress: () => setModalVisible(true),
-            color: colors.primary.light
+            onPress: () => setModalVisible(true)
           }
         ]}
         fixed={false}
       />
 
-      <MyModal isVisible={modalVisible} onClose={() => setModalVisible(false)} title="Editar Información General">
+      <MyModal
+        isVisible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        title="Editar Información General"
+      >
         <FormEditService service={service} setModalVisible={setModalVisible} />
       </MyModal>
     </GradientBackground>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});

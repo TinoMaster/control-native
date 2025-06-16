@@ -23,6 +23,7 @@ export const BusinessAddress = ({ control, errors }: BusinessAddressProps) => {
                 placeholder="Calle Principal"
                 icon="📍"
                 value={value}
+                onBlur={onBlur}
                 onChangeText={onChange}
                 error={errors.addressStreet?.message}
               />
@@ -56,7 +57,13 @@ export const BusinessAddress = ({ control, errors }: BusinessAddressProps) => {
             control={control}
             name="addressMunicipality"
             render={({ field: { onChange, onBlur, value } }) => (
-              <CustomInput icon="🏘️" value={value} onChangeText={onChange} onBlur={onBlur} placeholder="Municipio" />
+              <CustomInput
+                icon="🏘️"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder="Municipio"
+              />
             )}
           />
         </View>
@@ -67,7 +74,13 @@ export const BusinessAddress = ({ control, errors }: BusinessAddressProps) => {
             control={control}
             name="addressCity"
             render={({ field: { onChange, onBlur, value } }) => (
-              <CustomInput icon="🏙️" value={value} onChangeText={onChange} onBlur={onBlur} placeholder="Ciudad" />
+              <CustomInput
+                icon="🏙️"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder="Ciudad"
+              />
             )}
           />
         </View>

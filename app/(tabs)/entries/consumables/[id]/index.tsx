@@ -9,6 +9,7 @@ import { useNotification } from "contexts/NotificationContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { AdditionalInfo } from "features/entries/consumables/consumable-detail/AdditionalInfo";
 import { FormEditConsumable } from "features/entries/consumables/consumable-detail/FormEditConsumable";
+import { FormUpdateStock } from "features/entries/consumables/consumable-detail/FormUpdateStock";
 import { PrincipalInfo } from "features/entries/consumables/consumable-detail/PrincipalInfo";
 import { StockSection } from "features/entries/consumables/consumable-detail/StockSection";
 import { useConsumables } from "hooks/api/useConsumables";
@@ -23,6 +24,7 @@ export default function ConsumableDetailScreen() {
   const { consumables, loadingConsumables, onDeleteConsumable, deletingConsumable, updatingConsumable } =
     useConsumables();
   const [modalVisible, setModalVisible] = useState(false);
+  const [stockModalVisible, setStockModalVisible] = useState(false);
 
   if (loadingConsumables || deletingConsumable || updatingConsumable) {
     return <LoadingPage message="Cargando detalles del insumo..." />;
@@ -71,6 +73,12 @@ export default function ConsumableDetailScreen() {
             label: "Editar",
             onPress: () => setModalVisible(true),
             color: colors.background.dark.secondary
+          },
+          {
+            icon: "add",
+            label: "Agregar Stock",
+            onPress: () => setStockModalVisible(true),
+            color: colors.background.dark.secondary
           }
         ]}
         fixed={false}
@@ -78,6 +86,10 @@ export default function ConsumableDetailScreen() {
 
       <MyModal isVisible={modalVisible} onClose={() => setModalVisible(false)} title="Editar Información General">
         <FormEditConsumable setModalVisible={setModalVisible} consumable={consumable} />
+      </MyModal>
+
+      <MyModal isVisible={stockModalVisible} onClose={() => setStockModalVisible(false)} title="Actualizar Stock">
+        <FormUpdateStock setModalVisible={setStockModalVisible} consumable={consumable} />
       </MyModal>
     </GradientBackground>
   );

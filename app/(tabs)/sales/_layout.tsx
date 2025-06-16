@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import NavigationMenu from "components/NavigationMenu";
 import { Stack } from "expo-router";
-import { HeaderActionsServiceSales } from "features/sales/sale_services/components/HeaderActions";
 import { View } from "react-native";
 
 const menuItems: {
@@ -14,18 +13,14 @@ const menuItems: {
   {
     label: "Reportes",
     path: "/(tabs)/sales/list",
-    icon: "calendar"
+    icon: "calendar",
   },
   {
     label: "Deudas",
     path: "/(tabs)/sales/debts",
-    icon: "cash-outline"
-  }
+    icon: "cash-outline",
+  },
 ];
-
-const HeaderRightSaleServices = () => {
-  return <HeaderActionsServiceSales />;
-};
 
 export default function SalesLayout() {
   return (
@@ -33,11 +28,9 @@ export default function SalesLayout() {
       <NavigationMenu items={menuItems} />
       <Stack
         screenOptions={{
-          headerShown: false
+          headerShown: false,
         }}
-      >
-        <Stack.Screen name="sale_services/index" />
-      </Stack>
+      />
     </View>
   );
 }

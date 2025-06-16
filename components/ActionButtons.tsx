@@ -1,8 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import useColors from "hooks/useColors";
 import { useState } from "react";
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { adjustBrightness } from "utilities/helpers/globals.helpers";
 import colors from "../styles/colors";
 
 interface ActionButton {
@@ -18,31 +16,37 @@ interface ActionButtonsProps {
   position?: "bottom" | "top";
 }
 
-export const ActionButtons: React.FC<ActionButtonsProps> = ({ buttons, fixed = false, position = "bottom" }) => {
+export const ActionButtons: React.FC<ActionButtonsProps> = ({
+  buttons,
+  fixed = false,
+  position = "bottom",
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [animation] = useState(new Animated.Value(0));
-  const defaultColors = useColors();
 
   const toggleExpanded = () => {
     const toValue = isExpanded ? 0 : 1;
     Animated.spring(animation, {
       toValue,
       useNativeDriver: true,
-      friction: 8
+      friction: 8,
     }).start();
     setIsExpanded(!isExpanded);
   };
 
   if (fixed) {
     return (
-      <View style={[styles.containerFixed, { backgroundColor: adjustBrightness(defaultColors.background, 15) }]}>
+      <View style={[styles.containerFixed, { backgroundColor: colors.background.dark.primary }]}>
         {buttons.map((button) => (
           <TouchableOpacity
             key={button.label}
-            style={[styles.actionButtonFixed, { backgroundColor: button.color ?? colors.background.dark.secondary }]}
+            style={[
+              styles.actionButtonFixed,
+              { backgroundColor: button.color ?? colors.background.dark.secondary },
+            ]}
             onPress={button.onPress}
           >
-            <Ionicons name={button.icon} size={18} color="white" />
+            <Ionicons name={button.icon} size={16} color="white" />
             <Text style={styles.actionButtonText}>{button.label}</Text>
           </TouchableOpacity>
         ))}
@@ -56,13 +60,13 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ buttons, fixed = f
         style={[styles.mainButton, { backgroundColor: colors.background.dark.secondary }]}
         onPress={toggleExpanded}
       >
-        <Ionicons name="ellipsis-horizontal" size={24} color="white" />
+        <Ionicons name="ellipsis-horizontal" size={20} color="white" />
       </TouchableOpacity>
 
       {buttons.map((button) => {
         const translateY = animation.interpolate({
           inputRange: [0, 1],
-          outputRange: [0, -(buttons.indexOf(button) + 1) * 60]
+          outputRange: [0, -(buttons.indexOf(button) + 1) * 50],
         });
 
         return (
@@ -73,8 +77,8 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ buttons, fixed = f
               { backgroundColor: button.color ?? colors.background.dark.secondary },
               {
                 transform: [{ translateY }],
-                opacity: animation
-              }
+                opacity: animation,
+              },
             ]}
           >
             <TouchableOpacity
@@ -88,7 +92,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({ buttons, fixed = f
                 }, 100);
               }}
             >
-              <Ionicons name={button.icon} size={24} color="white" />
+              <Ionicons name={button.icon} size={20} color="white" />
             </TouchableOpacity>
           </Animated.View>
         );
@@ -103,7 +107,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderTopWidth: 1,
     borderTopColor: "rgba(255,255,255,0.1)",
-    backgroundColor: colors.background.dark.primary
+    backgroundColor: colors.background.dark.primary,
   },
   actionButtonFixed: {
     flex: 1,
@@ -113,18 +117,18 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     marginHorizontal: 8,
-    backgroundColor: colors.background.dark.secondary
+    backgroundColor: colors.background.dark.secondary,
   },
   container: {
     position: "absolute",
     right: 24,
-    zIndex: 1000
+    zIndex: 1000,
   },
   bottom: {
-    bottom: 16
+    bottom: 16,
   },
   top: {
-    top: 16
+    top: 16,
   },
   mainButton: {
     width: 50,
@@ -132,27 +136,27 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-    elevation: 4
+    elevation: 4,
   },
   actionButton: {
     position: "absolute",
-    right: 0,
+    right: 8,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    elevation: 4
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    elevation: 4,
   },
   buttonContent: {
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   actionButtonText: {
     color: "white",
     marginLeft: 8,
     fontSize: 16,
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 });

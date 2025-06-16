@@ -8,7 +8,6 @@ import ServiceCard from "features/entries/services/components/ServiceCard";
 import { useService } from "hooks/api/useServices";
 import useColors from "hooks/useColors";
 import { ServiceModel } from "models/api/service.model";
-import { StyleSheet } from "react-native";
 import colors from "styles/colors";
 
 export default function ServicesScreen() {
@@ -49,9 +48,3 @@ export default function ServicesScreen() {
     </GradientBackground>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
