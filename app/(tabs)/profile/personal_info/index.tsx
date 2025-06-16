@@ -1,22 +1,18 @@
-import { CloseSessionButton } from "components/CloseSessionButton";
 import { ContentWrapper } from "components/ContentWrapper";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { CustomHeader } from "components/ui/CustomHeader";
 import { MyScrollView } from "components/ui/MyScrollView";
-import { ProfileInfoLinkButton } from "features/profile/profile_info/components/ProfileInfoLinkButton";
-import { View } from "react-native";
+import { Text } from "react-native";
 
-export default function ProfileScreen() {
+// TODO: Implementar la pantalla de información personal
+export default function PersonalInfoScreen() {
   return (
     <GradientBackground>
-      <CustomHeader title="Perfil" />
+      <CustomHeader title="Información Personal" showBackButton />
 
       <MyScrollView>
         <ContentWrapper>
-          <View className="p-2 gap-8">
-            <ProfileInfoLinkButton />
-            <CloseSessionButton />
-          </View>
+          <Text>Información Personal</Text>
         </ContentWrapper>
       </MyScrollView>
     </GradientBackground>

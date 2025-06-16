@@ -13,17 +13,14 @@ export default function BusinessScreen() {
   const { role, isLoggedIn } = useAuthStore();
   const router = useRouter();
 
-  // Verificar si el usuario tiene permisos de administrador o propietario
   const hasBusinessAccess = isLoggedIn && (role === ERole.ADMIN || role === ERole.OWNER);
 
-  // Redirigir si no tiene permisos
   useEffect(() => {
     if (!hasBusinessAccess) {
       router.replace("/");
     }
   }, [hasBusinessAccess, router]);
 
-  // Si no tiene permisos, no mostrar nada mientras se redirige
   if (!hasBusinessAccess) {
     return null;
   }
@@ -34,7 +31,7 @@ export default function BusinessScreen() {
 
       <MyScrollView>
         <ContentWrapper>
-          <View className="p-6 gap-8">
+          <View className="p-2 gap-8">
             <SettingButton
               onPress={() => router.push("/(tabs)/business/my_businesses")}
               icon="business"

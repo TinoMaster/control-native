@@ -22,7 +22,7 @@ export const tabsConfig = [
     icon: StatsIcon
   },
   {
-    name: "profile/index",
+    name: "profile",
     title: "Perfil",
     icon: ProfileIcon
   }

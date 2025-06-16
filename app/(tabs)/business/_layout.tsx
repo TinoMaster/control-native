@@ -7,13 +7,11 @@ export default function BusinessLayout() {
   return (
     <ProtectedRoute roles={[ERole.OWNER, ERole.ADMIN]}>
       <View className="flex-1">
-        <View className="flex-1">
-          <Stack
-            screenOptions={{
-              headerShown: false
-            }}
-          />
-        </View>
+        <Stack
+          screenOptions={{
+            headerShown: false
+          }}
+        />
       </View>
     </ProtectedRoute>
   );
