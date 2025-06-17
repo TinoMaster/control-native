@@ -1,7 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
+import { BlurView } from "expo-blur";
 import { useState } from "react";
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import colors from "../styles/colors";
+import { useThemeStore } from "contexts/ThemeContext";
 
 interface ActionButton {
   icon: keyof typeof Ionicons.glyphMap;
@@ -21,6 +23,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   fixed = false,
   position = "bottom",
 }) => {
+  const { isDarkMode } = useThemeStore();
   const [isExpanded, setIsExpanded] = useState(false);
   const [animation] = useState(new Animated.Value(0));
 
@@ -34,9 +37,10 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
     setIsExpanded(!isExpanded);
   };
 
+  // TODO: Ver porque el efecto blur no se muestra correctamente
   if (fixed) {
     return (
-      <View style={[styles.containerFixed, { backgroundColor: colors.background.dark.primary }]}>
+      <BlurView tint={isDarkMode ? "dark" : "light"} intensity={50} style={styles.containerFixed}>
         {buttons.map((button) => (
           <TouchableOpacity
             key={button.label}
@@ -50,7 +54,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
             <Text style={styles.actionButtonText}>{button.label}</Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </BlurView>
     );
   }
 
@@ -105,9 +109,10 @@ const styles = StyleSheet.create({
   containerFixed: {
     flexDirection: "row",
     padding: 12,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(255,255,255,0.1)",
-    backgroundColor: colors.background.dark.primary,
+    position: "absolute",
+    bottom: 0,
+    zIndex: 1000,
+
   },
   actionButtonFixed: {
     flex: 1,

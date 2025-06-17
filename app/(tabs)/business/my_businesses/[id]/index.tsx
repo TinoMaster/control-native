@@ -46,7 +46,7 @@ export default function BusinessDetails() {
       <CustomHeader title="Detalles del Negocio" showBackButton />
 
       <MyScrollView>
-        <ContentWrapper>
+        <ContentWrapper style={{ paddingBottom: 100 }}>
           {/* Información Principal */}
           <PrincipalInfo business={business} />
 

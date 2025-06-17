@@ -54,6 +54,7 @@ export const GRADIENT_PALETTE_TO_BACKGROUND = {
       strong: ["#ff758c", "#ff7eb3", "#fca6c9"]
     }
   },
+  /* ------ Variantes del fondo */
   dark: {
     dark: {
       soft: ["#232526", "#414345", "#2c2c2c"],
@@ -61,11 +62,12 @@ export const GRADIENT_PALETTE_TO_BACKGROUND = {
       strong: ["#0f0c29", "#302b63", "#24243e"]
     },
     light: {
-      soft: ["#2C3E50", "#4CA1AF", "#606c88"],
+      soft: ["#FFFFFF", "#ededed", "#FFFFFF"],
       medium: ["#2c2c54", "#474787", "#3c3c3c"],
       strong: ["#000000", "#434343", "#282828"]
     }
   },
+  /* ------ Variantes del fondo */
   light: {
     dark: {
       soft: ["#fefcea", "#f1da36", "#e2c044"],

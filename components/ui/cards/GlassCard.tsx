@@ -1,3 +1,4 @@
+import { useThemeStore } from "contexts/ThemeContext";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { ColorValue, StyleSheet, View } from "react-native";
@@ -21,7 +22,8 @@ export const GlassCard = ({
   withBorder = false,
   customGradient
 }: GlassCardProps) => {
-  const tint = propTint ?? "dark";
+  const { isDarkMode } = useThemeStore();
+  const tint = propTint ?? (isDarkMode ? "dark" : "light");
 
   // Colors for different themes
   const borderColor = isDark ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.6)";
@@ -40,8 +42,13 @@ export const GlassCard = ({
       tint={tint}
       style={[styles.container, withBorder && { borderColor, borderWidth: 1 }, style]}
     >
-      <LinearGradient colors={gradientColors} style={styles.gradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-        <View className="w-full bg-black/10">{children}</View>
+      <LinearGradient
+        colors={gradientColors}
+        style={styles.gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+      >
+        <View className={`w-full ${isDarkMode ? "bg-black/10" : "bg-white/80"}`}>{children}</View>
       </LinearGradient>
     </BlurView>
   );
@@ -53,7 +60,7 @@ const styles = StyleSheet.create({
     position: "relative",
     overflow: "hidden",
     borderRadius: 16,
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)"
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
   },
   gradient: {
     width: "100%"

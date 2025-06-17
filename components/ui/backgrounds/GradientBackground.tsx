@@ -1,3 +1,4 @@
+import { useThemeStore } from "contexts/ThemeContext";
 import { GRADIENT_PALETTE_TO_BACKGROUND } from "data/global.data";
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, ViewProps } from "react-native";
@@ -20,7 +21,8 @@ export function GradientBackground({
   direction = "tl-br",
   ...props
 }: GradientBackgroundProps) {
-  const isDark = true;
+  const { isDarkMode } = useThemeStore();
+  const isDark = isDarkMode;
 
   const gradientDirections = {
     "tl-br": { start: { x: 0, y: 0 }, end: { x: 1, y: 1 } },
@@ -31,8 +33,11 @@ export function GradientBackground({
 
   const getGradientColors = () => {
     const theme = isDark ? "dark" : "light";
-    const colorsByVariant = GRADIENT_PALETTE_TO_BACKGROUND[variant] || GRADIENT_PALETTE_TO_BACKGROUND["primary"];
-    const colors = colorsByVariant[theme]?.[intensity] || GRADIENT_PALETTE_TO_BACKGROUND["primary"][theme][intensity];
+    const colorsByVariant =
+      GRADIENT_PALETTE_TO_BACKGROUND[variant] || GRADIENT_PALETTE_TO_BACKGROUND["primary"];
+    const colors =
+      colorsByVariant[theme]?.[intensity] ||
+      GRADIENT_PALETTE_TO_BACKGROUND["primary"][theme][intensity];
 
     if (!colors || colors.length < 2) {
       return ["#141E30", "#243B55"] as const;

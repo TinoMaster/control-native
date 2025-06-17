@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useThemeStore } from "contexts/ThemeContext";
 import { useRouter } from "expo-router";
 import { ComponentProps } from "react";
 import { Pressable, Text, View } from "react-native";
@@ -7,8 +8,6 @@ interface CustomHeaderProps {
   readonly title: string;
   readonly showBackButton?: boolean;
   readonly rightComponent?: React.ReactNode;
-  readonly backgroundColor?: string;
-  readonly textColor?: string;
   readonly onBackPress?: () => void;
   readonly compact?: boolean;
   readonly icon?: ComponentProps<typeof Ionicons>["name"];
@@ -18,12 +17,11 @@ export function CustomHeader({
   title,
   showBackButton = false,
   rightComponent,
-  backgroundColor = "rgba(0,0,0,0.1)",
-  textColor = "#FFFFFF",
   onBackPress,
   compact = false,
   icon
 }: CustomHeaderProps) {
+  const { isDarkMode } = useThemeStore();
   const router = useRouter();
 
   const headerHeight = compact ? 40 : 56;
@@ -39,7 +37,7 @@ export function CustomHeader({
   return (
     <View
       style={{
-        backgroundColor,
+        backgroundColor: isDarkMode ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)",
         height: headerHeight,
         paddingTop: 0,
         flexDirection: "row",
@@ -58,13 +56,13 @@ export function CustomHeader({
               padding: 4
             }}
           >
-            <Ionicons name="arrow-back" size={24} color={textColor} />
+            <Ionicons name="arrow-back" size={24} color={isDarkMode ? "#FFFFFF" : "#000000"} />
           </Pressable>
         )}
-        {icon && <Ionicons name={icon} size={24} color={textColor} />}
+        {icon && <Ionicons name={icon} size={24} color={isDarkMode ? "#FFFFFF" : "#000000"} />}
         <Text
           style={{
-            color: textColor,
+            color: isDarkMode ? "#FFFFFF" : "#000000",
             fontSize: 18,
             fontWeight: "600"
           }}
