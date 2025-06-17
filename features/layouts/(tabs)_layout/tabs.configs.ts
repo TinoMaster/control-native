@@ -1,4 +1,4 @@
-import { EntryIcon, GridIcon, ProfileIcon, StatsIcon, WalletIcon } from "components/Icons";
+import { EntryIcon, GridIcon, ProfileIcon, WalletIcon } from "components/Icons";
 
 export const tabsConfig = [
   {
@@ -15,11 +15,6 @@ export const tabsConfig = [
     name: "entries",
     title: "Entradas",
     icon: EntryIcon
-  },
-  {
-    name: "personal",
-    title: "Personal",
-    icon: StatsIcon
   },
   {
     name: "profile",

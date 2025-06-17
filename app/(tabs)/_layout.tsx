@@ -1,5 +1,5 @@
 import ProtectedRoute from "components/auth/ProtectedRoute";
-import { BusinessIcon } from "components/Icons";
+import { BusinessIcon, StatsIcon } from "components/Icons";
 import { Redirect, Tabs } from "expo-router";
 import { HeaderBackground } from "features/layouts/(tabs)_layout/HeaderBackground";
 import { HeaderLeft } from "features/layouts/(tabs)_layout/HeaderLeft";
@@ -18,14 +18,16 @@ export default function TabsLayout() {
     return <Redirect href="/(admin)" />;
   }
 
-  // Verificar si el usuario tiene permisos de administrador o propietario
-  const hasBusinessAccess = isLoggedIn && (role === ERole.ADMIN || role === ERole.OWNER);
+  const hasAdminAccess = isLoggedIn && (role === ERole.ADMIN || role === ERole.OWNER);
 
-  // Crear una copia local del array de configuración de pestañas
   const localTabsConfig = [...tabsConfig];
 
-  // Si el usuario tiene permisos, agregar la pestaña de negocios a la copia local
-  if (hasBusinessAccess) {
+  if (hasAdminAccess) {
+    localTabsConfig.push({
+      name: "personal",
+      title: "Personal",
+      icon: StatsIcon
+    });
     localTabsConfig.push({
       name: "business",
       title: "Gestión",
@@ -69,8 +71,10 @@ export default function TabsLayout() {
             options={{
               title: tab.title,
               tabBarIcon: ({ color, size }) => tab.icon({ color, size }),
-              // Proteger la ruta de negocios a nivel de navegación
-              href: tab.name === "business" && !hasBusinessAccess ? null : undefined
+              href:
+                !hasAdminAccess && (tab.name === "personal" || tab.name === "business")
+                  ? null
+                  : undefined
             }}
           />
         ))}
