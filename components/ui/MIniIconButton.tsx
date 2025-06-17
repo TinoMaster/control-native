@@ -16,11 +16,15 @@ export function MiniIconButton({ icon, onPress, style, iconSize = 12, iconColor,
 
   return (
     <TouchableOpacity
-      style={[{ backgroundColor: defaultColors.background }, style]}
+      style={[{ backgroundColor: defaultColors.background, borderRadius: 8 }, style]}
       onPress={onPress}
-      className="p-2 rounded-lg shadow-sm flex-row items-center justify-center gap-2"
+      className="p-2 shadow-sm flex-row items-center justify-center gap-2"
     >
-      {label && <Text style={{ color: defaultColors.text, marginBottom: 2 }} className="text-xs">{label}</Text>}
+      {label && (
+        <Text style={{ color: defaultColors.text, marginBottom: 2 }} className="text-xs">
+          {label}
+        </Text>
+      )}
       <Ionicons name={icon} size={iconSize} color={iconColor ?? defaultColors.primary} />
     </TouchableOpacity>
   );

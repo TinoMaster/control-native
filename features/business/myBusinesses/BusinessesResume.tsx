@@ -1,4 +1,5 @@
 import { Feather } from "@expo/vector-icons";
+import { MyCard } from "components/ui/cards/MyCard";
 import useColors from "hooks/useColors";
 import { Text, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
@@ -7,14 +8,7 @@ export function BusinessesResume() {
   const defaultColors = useColors();
   const { businessList } = useBusinessStore();
   return (
-    <View
-      className="rounded-lg p-4"
-      style={{ backgroundColor: defaultColors.background === "#F5F5F5" ? "#FFFFFF" : "#2A2A2A" }}
-    >
-      <Text className="text-lg font-semibold mb-3" style={{ color: defaultColors.text }}>
-        Resumen
-      </Text>
-
+    <MyCard title="Resumen" iconTitle="briefcase-outline">
       <View className="flex-row justify-between mb-2">
         <View className="flex-row items-center">
           <Feather name="briefcase" size={16} color={defaultColors.primary} />
@@ -50,6 +44,6 @@ export function BusinessesResume() {
           {businessList.reduce((total, business) => total + (business.machines?.length ?? 0), 0)}
         </Text>
       </View>
-    </View>
+    </MyCard>
   );
 }

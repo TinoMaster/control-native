@@ -18,7 +18,7 @@ export const GlassCard = ({
   isDark = true,
   tint: propTint,
   style = {},
-  withBorder = true,
+  withBorder = false,
   customGradient
 }: GlassCardProps) => {
   const tint = propTint ?? "dark";
@@ -41,7 +41,7 @@ export const GlassCard = ({
       style={[styles.container, withBorder && { borderColor, borderWidth: 1 }, style]}
     >
       <LinearGradient colors={gradientColors} style={styles.gradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-        <View className="w-full bg-primary-dark/5">{children}</View>
+        <View className="w-full bg-black/10">{children}</View>
       </LinearGradient>
     </BlurView>
   );
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     position: "relative",
     overflow: "hidden",
     borderRadius: 16,
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)"
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)"
   },
   gradient: {
     width: "100%"

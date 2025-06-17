@@ -9,6 +9,7 @@ import useColors from "hooks/useColors";
 import { Text } from "react-native";
 import { useBusinessStore } from "store/business.store";
 
+// TODO: implementar la funcionalidad de creación de negocios
 export default function MyBusinesses() {
   const defaultColors = useColors();
   const { businessList } = useBusinessStore();
@@ -19,7 +20,8 @@ export default function MyBusinesses() {
       <MyScrollView>
         <ContentWrapper>
           <Text className="mb-4" style={{ color: defaultColors.textSecondary }}>
-            Administra tus negocios. Puedes crear, editar y gestionar todos los negocios desde esta sección.
+            Administra tus negocios. Puedes crear, editar y gestionar todos los negocios desde esta
+            sección.
           </Text>
 
           {/* Lista de negocios */}

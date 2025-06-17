@@ -19,7 +19,7 @@ export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, ic
     <GlassCard>
       {header && (
         <View
-          className="flex-row items-center justify-between p-2 bg-black/10 rounded-lg"
+          className="flex-row items-center justify-between p-2 rounded-lg"
           style={{ borderColor: colors.darkMode.text.light }}
         >
           <View className="flex-row items-center">
@@ -29,7 +29,7 @@ export function MyCard({ children, onPressIcon, iconTitle, iconButton, title, ic
             </Text>
           </View>
           {onPressIcon && (
-            <MiniIconButton icon={iconButton ?? "add"} onPress={onPressIcon} iconSize={16} label={iconButtonLabel} />
+            <MiniIconButton icon={iconButton ?? "add"} onPress={onPressIcon} iconSize={16} label={iconButtonLabel} style={{ borderRadius: 10 }}/>
           )}
         </View>
       )}
