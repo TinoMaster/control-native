@@ -10,7 +10,7 @@ export default function Dashboard() {
   return (
     <GradientBackground>
       <MyScrollView>
-        <ContentWrapper>
+        <ContentWrapper withHeader={false}>
           <SalesSummaryCard />
           <ExpenseCard />
 

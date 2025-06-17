@@ -1,5 +1,5 @@
-import { View, FlatList, StyleSheet, Text } from "react-native";
-import colors from "styles/colors";
+import useColors from "hooks/useColors";
+import { FlatList, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 interface EmptyListMessageProps {
   message: string;
@@ -10,25 +10,35 @@ interface GenericListProps<T> {
   readonly renderItem: (item: T) => React.ReactElement;
   readonly keyExtractor: (item: T) => string;
   readonly emptyListMessage?: string;
+  readonly contentContainerStyle?: StyleProp<ViewStyle>;
+  readonly withHeader?: boolean;
 }
 
 export default function GenericList<T>({
   data,
   renderItem,
   keyExtractor,
-  emptyListMessage = "No hay elementos para mostrar"
+  emptyListMessage = "No hay elementos para mostrar",
+  contentContainerStyle,
+  withHeader = true
 }: GenericListProps<T>) {
+  const defaultColors = useColors();
+
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={data}
-        renderItem={({ item }) => renderItem(item)}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={keyExtractor}
-        contentContainerStyle={styles.listContent}
-        ListEmptyComponent={<EmptyListMessage message={emptyListMessage} textColor={colors.darkMode.text.light} />}
-      />
-    </View>
+    <FlatList
+      data={data}
+      renderItem={({ item }) => renderItem(item)}
+      showsVerticalScrollIndicator={false}
+      keyExtractor={keyExtractor}
+      contentContainerStyle={[
+        styles.listContent,
+        { paddingTop: withHeader ? 66 : 16 },
+        contentContainerStyle
+      ]}
+      ListEmptyComponent={
+        <EmptyListMessage message={emptyListMessage} textColor={defaultColors.text} />
+      }
+    />
   );
 }
 
@@ -39,13 +49,10 @@ const EmptyListMessage = ({ message, textColor }: EmptyListMessageProps) => (
 );
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   listContent: {
-    flexGrow: 1,
-    rowGap: 16,
-    padding: 16
+    gap: 16,
+    paddingHorizontal: 16,
+    paddingBottom: 16
   },
   emptyContainer: {
     flex: 1,

@@ -2,7 +2,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useThemeStore } from "contexts/ThemeContext";
 import { useRouter } from "expo-router";
 import { ComponentProps } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, ViewStyle } from "react-native";
+import { BlurBar } from "./BlurBar";
 
 interface CustomHeaderProps {
   readonly title: string;
@@ -34,21 +35,9 @@ export function CustomHeader({
     }
   };
 
-  return (
-    <View
-      style={{
-        backgroundColor: isDarkMode ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)",
-        height: headerHeight,
-        paddingTop: 0,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        paddingHorizontal: 16,
-        borderBottomWidth: 2,
-        borderBottomColor: "rgba(0,0,0,0.1)"
-      }}
-    >
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+  const headerContent = (
+    <>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8, flex: 1 }}>
         {showBackButton && (
           <Pressable
             onPress={handleBackPress}
@@ -66,12 +55,27 @@ export function CustomHeader({
             fontSize: 18,
             fontWeight: "600"
           }}
+          numberOfLines={1}
         >
           {title}
         </Text>
       </View>
 
       {rightComponent && <View>{rightComponent}</View>}
-    </View>
+    </>
   );
+
+  const headerStyle: ViewStyle = {
+    height: headerHeight,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    position: "absolute",
+    top: 0,
+    zIndex: 1000,
+    width: "100%"
+  };
+
+  return <BlurBar style={headerStyle}>{headerContent}</BlurBar>;
 }

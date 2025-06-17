@@ -1,9 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
 import { useState } from "react";
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import colors from "../styles/colors";
-import { useThemeStore } from "contexts/ThemeContext";
+import colors from "styles/colors";
+import { BlurBar } from "./ui/BlurBar";
 
 interface ActionButton {
   icon: keyof typeof Ionicons.glyphMap;
@@ -21,9 +20,8 @@ interface ActionButtonsProps {
 export const ActionButtons: React.FC<ActionButtonsProps> = ({
   buttons,
   fixed = false,
-  position = "bottom",
+  position = "bottom"
 }) => {
-  const { isDarkMode } = useThemeStore();
   const [isExpanded, setIsExpanded] = useState(false);
   const [animation] = useState(new Animated.Value(0));
 
@@ -32,30 +30,27 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
     Animated.spring(animation, {
       toValue,
       useNativeDriver: true,
-      friction: 8,
+      friction: 8
     }).start();
     setIsExpanded(!isExpanded);
   };
 
-  // TODO: Ver porque el efecto blur no se muestra correctamente
   if (fixed) {
-    return (
-      <BlurView tint={isDarkMode ? "dark" : "light"} intensity={50} style={styles.containerFixed}>
-        {buttons.map((button) => (
-          <TouchableOpacity
-            key={button.label}
-            style={[
-              styles.actionButtonFixed,
-              { backgroundColor: button.color ?? colors.background.dark.secondary },
-            ]}
-            onPress={button.onPress}
-          >
-            <Ionicons name={button.icon} size={16} color="white" />
-            <Text style={styles.actionButtonText}>{button.label}</Text>
-          </TouchableOpacity>
-        ))}
-      </BlurView>
-    );
+    const actionButtonsContent = buttons.map((button) => (
+      <TouchableOpacity
+        key={button.label}
+        style={[
+          styles.actionButtonFixed,
+          { backgroundColor: button.color ?? colors.background.dark.secondary }
+        ]}
+        onPress={button.onPress}
+      >
+        <Ionicons name={button.icon} size={16} color="white" />
+        <Text style={styles.actionButtonText}>{button.label}</Text>
+      </TouchableOpacity>
+    ));
+
+    return <BlurBar>{actionButtonsContent}</BlurBar>;
   }
 
   return (
@@ -70,7 +65,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
       {buttons.map((button) => {
         const translateY = animation.interpolate({
           inputRange: [0, 1],
-          outputRange: [0, -(buttons.indexOf(button) + 1) * 50],
+          outputRange: [0, -(buttons.indexOf(button) + 1) * 50]
         });
 
         return (
@@ -81,8 +76,8 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
               { backgroundColor: button.color ?? colors.background.dark.secondary },
               {
                 transform: [{ translateY }],
-                opacity: animation,
-              },
+                opacity: animation
+              }
             ]}
           >
             <TouchableOpacity
@@ -111,8 +106,7 @@ const styles = StyleSheet.create({
     padding: 12,
     position: "absolute",
     bottom: 0,
-    zIndex: 1000,
-
+    zIndex: 1000
   },
   actionButtonFixed: {
     flex: 1,
@@ -122,18 +116,18 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     marginHorizontal: 8,
-    backgroundColor: colors.background.dark.secondary,
+    backgroundColor: colors.background.dark.secondary
   },
   container: {
     position: "absolute",
     right: 24,
-    zIndex: 1000,
+    zIndex: 1000
   },
   bottom: {
-    bottom: 16,
+    bottom: 16
   },
   top: {
-    top: 16,
+    top: 16
   },
   mainButton: {
     width: 50,
@@ -141,7 +135,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-    elevation: 4,
+    elevation: 4
   },
   actionButton: {
     position: "absolute",
@@ -152,16 +146,16 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    elevation: 4,
+    elevation: 4
   },
   buttonContent: {
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   actionButtonText: {
     color: "white",
     marginLeft: 8,
     fontSize: 16,
-    fontWeight: "bold",
-  },
+    fontWeight: "bold"
+  }
 });

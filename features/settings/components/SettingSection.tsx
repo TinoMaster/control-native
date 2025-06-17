@@ -19,7 +19,7 @@ export function SettingSection({ children, title }: SettingSectionProps) {
 
 const styles = StyleSheet.create({
   section: {
-    marginBottom: 24
+    marginBottom: 10
   },
   innerSection: {
     padding: 16,

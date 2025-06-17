@@ -79,7 +79,7 @@ export default function EmployeeDetails() {
       <CustomHeader title="Detalles del Empleado" showBackButton />
 
       <MyScrollView>
-        <ContentWrapper>
+        <ContentWrapper style={{ paddingBottom: 70 }}>
           {/* Información Principal */}
           <PrincipalInfo employee={employee} />
 

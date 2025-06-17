@@ -38,6 +38,7 @@ export default function Personal() {
         renderItem={renderEmployee}
         keyExtractor={(item) => item.id?.toString() ?? ""}
         emptyListMessage="No hay empleados registrados"
+        contentContainerStyle={{ paddingTop: 66 }}
       />
       <FloatingActionButton
         onPress={() => router.push("/(tabs)/personal/create" as any)}

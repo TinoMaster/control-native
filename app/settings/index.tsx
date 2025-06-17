@@ -1,26 +1,25 @@
 import { Feather } from "@expo/vector-icons";
 import { CloseSessionButton } from "components/CloseSessionButton";
 import { ContentWrapper } from "components/ContentWrapper";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { SettingButton } from "components/ui/SettingButton";
 import { useRouter } from "expo-router";
 import { SettingSection } from "features/settings/components/SettingSection";
 import { ToggleAppMode } from "features/settings/components/ToggleAppMode";
-import useColors from "hooks/useColors";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "styles/colors";
 
 export default function Settings() {
   const router = useRouter();
-  const defaultColors = useColors();
 
   const handleGoBack = () => {
     router.back();
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: defaultColors.background }]}>
+    <GradientBackground>
       {/* Header con SafeAreaView específico para la parte superior */}
       <View style={[styles.headerContainer, { backgroundColor: colors.background.dark.primary }]}>
         <SafeAreaView edges={["top"]} style={styles.safeHeader}>
@@ -41,7 +40,7 @@ export default function Settings() {
       {/* Contenido con SafeAreaView para los bordes inferiores */}
       <SafeAreaView edges={["bottom"]} style={styles.contentContainer}>
         <MyScrollView>
-          <ContentWrapper>
+          <ContentWrapper withHeader={false}>
             <SettingSection title="Apariencia">
               <ToggleAppMode />
             </SettingSection>
@@ -72,7 +71,7 @@ export default function Settings() {
           </ContentWrapper>
         </MyScrollView>
       </SafeAreaView>
-    </View>
+    </GradientBackground>
   );
 }
 

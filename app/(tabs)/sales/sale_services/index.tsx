@@ -15,7 +15,9 @@ export default function SaleServicesScreen() {
   const router = useRouter();
   const { serviceSales, loadingServiceSales } = useServiceSale();
 
-  const renderSaleService = (saleService: ServiceSaleModel) => <SaleServiceCard saleService={saleService} />;
+  const renderSaleService = (saleService: ServiceSaleModel) => (
+    <SaleServiceCard saleService={saleService} />
+  );
 
   if (loadingServiceSales) {
     return <LoadingPage />;
