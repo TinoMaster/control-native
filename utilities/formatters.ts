@@ -14,6 +14,14 @@ export function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
+export const formatPercentToNumber = (percent: number): number => {
+  return percent * 100;
+};
+
+export const formatNumberToPercent = (number: number): number => {
+  return number / 100;
+};
+
 export const formatRole = (role: ERole): string => {
   return traslateRole(role);
 };
