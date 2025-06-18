@@ -58,7 +58,7 @@ export const FormAddDebt = ({ onClose }: FormAddDebtProps) => {
   );
 
   return (
-    <ContentWrapper style={{ flex: 0 }}>
+    <ContentWrapper withHeader={false} style={{ flex: 0 }}>
       <View style={{ gap: 3 }}>
         <Controller
           control={control}

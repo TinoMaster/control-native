@@ -50,7 +50,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
       </TouchableOpacity>
     ));
 
-    return <BlurBar>{actionButtonsContent}</BlurBar>;
+    return <BlurBar style={{ bottom: 0 }}>{actionButtonsContent}</BlurBar>;
   }
 
   return (

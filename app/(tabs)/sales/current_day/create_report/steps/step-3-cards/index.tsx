@@ -5,21 +5,26 @@ import { MyScrollView } from "components/ui/MyScrollView";
 import { CardItem } from "features/sales/current_day/components/step3/cards/cardItem";
 import { FormAddCard } from "features/sales/current_day/components/step3/cards/formAddCard";
 import { useCardsFinalSaleStore } from "features/sales/current_day/store/useCardsFinalSale.store";
+import useColors from "hooks/useColors";
 import { useState } from "react";
 import { Text, View } from "react-native";
-import colors from "styles/colors";
 
 export default function Step3Cards() {
   const { cards } = useCardsFinalSaleStore();
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const defaultColors = useColors();
 
   return (
-    <ContentWrapper>
-      <MyModal isVisible={isFormVisible} onClose={() => setIsFormVisible(false)} title="Agregar Tarjeta">
+    <ContentWrapper withFooter>
+      <MyModal
+        isVisible={isFormVisible}
+        onClose={() => setIsFormVisible(false)}
+        title="Agregar Tarjeta"
+      >
         <FormAddCard onClose={() => setIsFormVisible(false)} />
       </MyModal>
       <View style={{ gap: 10, paddingBottom: 20 }} className="flex-1">
-        <Text style={{ color: colors.darkMode.text.light }} className="text-lg font-semibold">
+        <Text style={{ color: defaultColors.text }} className="text-lg font-semibold">
           Tarjetas
         </Text>
         {/* Card List */}
@@ -31,18 +36,13 @@ export default function Step3Cards() {
           </MyScrollView>
         ) : (
           <View className="flex-1 justify-center items-center">
-            <Text style={{ color: colors.darkMode.text.light }} className="text-center">
+            <Text style={{ color: defaultColors.text }} className="text-center">
               No hay tarjetas registradas
             </Text>
           </View>
         )}
 
-        <FloatingActionButton
-          onPress={() => setIsFormVisible(true)}
-          iconName="add"
-          iconSize={24}
-          iconColor={colors.darkMode.text.light}
-        />
+        <FloatingActionButton onPress={() => setIsFormVisible(true)} iconName="add" iconSize={24} />
       </View>
     </ContentWrapper>
   );

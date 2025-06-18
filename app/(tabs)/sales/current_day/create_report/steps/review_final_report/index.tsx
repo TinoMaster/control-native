@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { ContentWrapper } from "components/ContentWrapper";
+import { MyCard } from "components/ui/cards/MyCard";
 import { InfoRow } from "components/ui/InfoRow";
 import { CardItem } from "components/ui/items/CardItem.ui";
 import { DebtItem } from "components/ui/items/DebtItem.ui";
@@ -8,7 +9,6 @@ import { ServiceSaleItem } from "components/ui/items/ServiceSaleItem.ui";
 import { WorkerItem } from "components/ui/items/WorkerItem.ui";
 import { MyModal } from "components/ui/modals/myModal";
 import MyButton from "components/ui/MyButton";
-import { MyCard } from "components/ui/cards/MyCard";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { useDailyReportStore } from "features/sales/current_day/store/dailyReport.store";
 import { useMachineStates } from "hooks/api/useMachineStates";
@@ -16,7 +16,6 @@ import useColors from "hooks/useColors";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useBusinessStore } from "store/business.store";
-import colors from "styles/colors";
 import { formatCurrency } from "utilities/formatters";
 import {
   calculateFinalCash,
@@ -97,9 +96,9 @@ export default function ReviewFinalReport() {
 
   return (
     <MyScrollView>
-      <ContentWrapper>
+      <ContentWrapper withFooter>
         <View className="flex-row justify-between items-center">
-          <Text style={{ color: colors.darkMode.text.light }} className="text-xl font-bold text-center">
+          <Text style={{ color: defaultColors.text }} className="text-xl font-bold text-center">
             Resumen del Reporte Diario
           </Text>
           <TouchableOpacity
@@ -108,7 +107,11 @@ export default function ReviewFinalReport() {
             accessibilityLabel="Agregar nota al reporte"
             accessibilityRole="button"
           >
-            <Feather name={report.note ? "edit-3" : "plus-circle"} size={24} color={colors.darkMode.text.light} />
+            <Feather
+              name={report.note ? "edit-3" : "plus-circle"}
+              size={24}
+              color={defaultColors.text}
+            />
           </TouchableOpacity>
         </View>
 
@@ -122,21 +125,31 @@ export default function ReviewFinalReport() {
           {Boolean(report.note) && (
             <View className="mt-2 p-3 rounded-lg bg-black/10">
               <View className="flex-row items-center mb-1">
-                <Feather name="file-text" size={16} color={colors.darkMode.text.light} />
-                <Text style={{ color: colors.darkMode.text.light }} className="ml-2 font-medium">
+                <Feather name="file-text" size={16} color={defaultColors.text} />
+                <Text style={{ color: defaultColors.text }} className="ml-2 font-medium">
                   Nota:
                 </Text>
               </View>
-              <Text style={{ color: colors.darkMode.text.light }}>{report.note}</Text>
+              <Text style={{ color: defaultColors.text }}>{report.note}</Text>
             </View>
           )}
         </MyCard>
 
         <MyCard title="Desglose de efectivo">
           <InfoRow label="Total Efectivo" bold={true} value={formatCurrency(report.total ?? 0)} />
-          <InfoRow label="Tarjetas" negative={true} error={true} value={formatCurrency(totalCards)} />
+          <InfoRow
+            label="Tarjetas"
+            negative={true}
+            error={true}
+            value={formatCurrency(totalCards)}
+          />
           <InfoRow label="Deudas" negative={true} error={true} value={formatCurrency(totalDebts)} />
-          <InfoRow label="Salarios" negative={true} error={true} value={formatCurrency(totalSalary)} />
+          <InfoRow
+            label="Salarios"
+            negative={true}
+            error={true}
+            value={formatCurrency(totalSalary)}
+          />
           <InfoRow
             label="Diferencia entre fondos (hoy - anterior)"
             positive={fundDifference > 0}

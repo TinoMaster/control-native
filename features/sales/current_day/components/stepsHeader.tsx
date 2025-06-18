@@ -1,19 +1,29 @@
+import { BlurBar } from "components/ui/BlurBar";
 import { useDailyReportStore } from "features/sales/current_day/store/dailyReport.store";
-import { Text, View } from "react-native";
-import colors from "styles/colors";
+import useColors from "hooks/useColors";
+import { Text } from "react-native";
 
 export function StepsHeader() {
   const currentStep = useDailyReportStore((state) => state.currentStep);
   const totalSteps = useDailyReportStore((state) => state.totalSteps);
+  const defaultColors = useColors();
 
   return (
-    <View className="p-4 border-b border-gray-600">
-      <Text style={{ color: colors.darkMode.text.light }} className="text-center text-xl font-bold">
+    <BlurBar
+      style={{
+        top: 0,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
+      <Text style={{ color: defaultColors.text }} className="text-center text-xl font-bold">
         Crear Reporte de Venta
       </Text>
-      <Text style={{ color: colors.darkMode.textSecondary.light }} className="text-center text-sm">
+      <Text style={{ color: defaultColors.textSecondary }} className="text-center text-sm">
         Paso {currentStep} de {totalSteps}
       </Text>
-    </View>
+    </BlurBar>
   );
 }

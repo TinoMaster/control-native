@@ -7,31 +7,38 @@ import { FormAddDebt } from "features/sales/current_day/components/step2/debts/f
 import { useDebtsFinalSaleStore } from "features/sales/current_day/store/useDebtsFinalSale.store";
 import { useWorkersFinalSaleStore } from "features/sales/current_day/store/useWorkersFinalSale.store";
 import { useDebts } from "hooks/api/useDebts";
+import useColors from "hooks/useColors";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
-import colors from "styles/colors";
 
 export default function Step2Debts() {
   const { debts, addDebts } = useDebtsFinalSaleStore();
   const { getDebtsInActualDay } = useDebts();
+  const defaultColors = useColors();
   const selectedWorkers = useWorkersFinalSaleStore((state) => state.selectedWorkers);
   const [isFormVisible, setIsFormVisible] = useState(false);
 
   useEffect(() => {
     addDebts(
       getDebtsInActualDay()?.filter((debt) => {
-        return selectedWorkers.some((worker) => worker.id === debt.employee.id && !debt.businessFinalSale);
+        return selectedWorkers.some(
+          (worker) => worker.id === debt.employee.id && !debt.businessFinalSale
+        );
       }) ?? []
     );
   }, []);
 
   return (
-    <ContentWrapper>
-      <MyModal isVisible={isFormVisible} onClose={() => setIsFormVisible(false)} title="Agregar Deuda">
+    <ContentWrapper withFooter>
+      <MyModal
+        isVisible={isFormVisible}
+        onClose={() => setIsFormVisible(false)}
+        title="Agregar Deuda"
+      >
         <FormAddDebt onClose={() => setIsFormVisible(false)} />
       </MyModal>
       <View style={{ gap: 10, paddingBottom: 20 }} className="flex-1">
-        <Text style={{ color: colors.darkMode.text.light }} className="text-lg font-semibold">
+        <Text style={{ color: defaultColors.text }} className="text-lg font-semibold">
           Deudas
         </Text>
         {/* Debt List */}
@@ -43,18 +50,13 @@ export default function Step2Debts() {
           </MyScrollView>
         ) : (
           <View className="flex-1 justify-center items-center">
-            <Text style={{ color: colors.darkMode.text.light }} className="text-center">
+            <Text style={{ color: defaultColors.text }} className="text-center">
               No hay deudas registradas
             </Text>
           </View>
         )}
 
-        <FloatingActionButton
-          onPress={() => setIsFormVisible(true)}
-          iconName="add"
-          iconSize={24}
-          iconColor={colors.darkMode.text.light}
-        />
+        <FloatingActionButton onPress={() => setIsFormVisible(true)} iconName="add" iconSize={24} />
       </View>
     </ContentWrapper>
   );

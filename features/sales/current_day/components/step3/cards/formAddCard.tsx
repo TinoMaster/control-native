@@ -1,7 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ContentWrapper } from "components/ContentWrapper";
 import { CustomInput } from "components/ui/inputs/CustomInput";
-import { CardFormValues, cardSchema } from "features/sales/current_day/schema/cardsFinalSale.schema";
+import {
+  CardFormValues,
+  cardSchema
+} from "features/sales/current_day/schema/cardsFinalSale.schema";
 import { useCardsFinalSaleStore } from "features/sales/current_day/store/useCardsFinalSale.store";
 import useColors from "hooks/useColors";
 import { CardPayment } from "models/api/businessFinalSale.model";
@@ -49,7 +52,7 @@ export function FormAddCard({ onClose }: FormAddCardProps) {
   );
 
   return (
-    <ContentWrapper style={{ flex: 0 }}>
+    <ContentWrapper withHeader={false} style={{ flex: 0 }}>
       <View style={{ gap: 3 }}>
         <Controller
           control={control}

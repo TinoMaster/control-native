@@ -40,10 +40,10 @@ export const BlurBar = ({ children, style }: BlurBarProps) => {
 
 const styles = StyleSheet.create({
   containerFixed: {
+    width: "100%",
     flexDirection: "row",
     padding: 12,
     position: "absolute",
-    bottom: 0,
     zIndex: 1000
   }
 });

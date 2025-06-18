@@ -6,6 +6,7 @@ import { useDailyReportStore } from "features/sales/current_day/store/dailyRepor
 import { useState } from "react";
 import { View } from "react-native";
 import { useFinalizeReport } from "../hooks/useFinalizeReport";
+import { BlurBar } from "components/ui/BlurBar";
 
 const toShowInModal = (step: number) => {
   switch (step) {
@@ -19,7 +20,10 @@ const toShowInModal = (step: number) => {
   - Al menos un trabajador`
       };
     case 2:
-      return { title: "Detalles Monetarios", message: "Por favor, completa los detalles monetarios" };
+      return {
+        title: "Detalles Monetarios",
+        message: "Por favor, completa los detalles monetarios"
+      };
     case 3:
       return { title: "Detalles de Ventas", message: "Por favor, completa los detalles de ventas" };
     default:
@@ -65,16 +69,31 @@ export default function StepsNavigation() {
   return (
     <>
       {loadingSave && <LoadingPage message="Guardando reporte..." absolute />}
-      <MessageModal isVisible={showModal} onClose={() => setShowModal(false)} title={title} message={message} />
-      <View className="flex-row justify-between p-4 border-t border-gray-600">
+      <MessageModal
+        isVisible={showModal}
+        onClose={() => setShowModal(false)}
+        title={title}
+        message={message}
+      />
+      <BlurBar
+        style={{
+          bottom: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between"
+        }}
+      >
         <View className="flex-row gap-2">
           <MyButton onPress={handleCancel} label="Cancelar" />
 
           {currentStep > 1 && <MyButton onPress={handlePrevious} label="Anterior" />}
         </View>
 
-        <MyButton onPress={handleNext} label={currentStep === totalSteps ? "Finalizar" : "Siguiente"} />
-      </View>
+        <MyButton
+          onPress={handleNext}
+          label={currentStep === totalSteps ? "Finalizar" : "Siguiente"}
+        />
+      </BlurBar>
     </>
   );
 }
