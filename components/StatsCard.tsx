@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useThemeStore } from "contexts/ThemeContext";
 import { StyleSheet, Text, View } from "react-native";
+import { MyCard } from "./ui/cards/MyCard";
 
 interface StatsCardProps {
   title: string;
@@ -13,18 +14,12 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, percentage, trend, style }
   const { isDarkMode } = useThemeStore();
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor: isDarkMode ? "#262626" : "#F3F4F6"
-        },
-        style
-      ]}
-    >
+    <MyCard header={false} style={{ width: "48%" }}>
       <Text style={[styles.title, { color: isDarkMode ? "#9CA3AF" : "#6B7280" }]}>{title}</Text>
       <View style={styles.content}>
-        <Text style={[styles.percentage, { color: isDarkMode ? "#FFFFFF" : "#1F2937" }]}>{percentage}</Text>
+        <Text style={[styles.percentage, { color: isDarkMode ? "#FFFFFF" : "#1F2937" }]}>
+          {percentage}
+        </Text>
         <View
           style={[
             styles.trendContainer,
@@ -33,7 +28,11 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, percentage, trend, style }
             }
           ]}
         >
-          <Ionicons name={trend === "up" ? "trending-up" : "trending-down"} size={16} color="#FFFFFF" />
+          <Ionicons
+            name={trend === "up" ? "trending-up" : "trending-down"}
+            size={16}
+            color="#FFFFFF"
+          />
         </View>
       </View>
       <View style={styles.dots}>
@@ -41,7 +40,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, percentage, trend, style }
         <View style={[styles.dot, { backgroundColor: isDarkMode ? "#374151" : "#E5E7EB" }]} />
         <View style={[styles.dot, { backgroundColor: isDarkMode ? "#374151" : "#E5E7EB" }]} />
       </View>
-    </View>
+    </MyCard>
   );
 };
 

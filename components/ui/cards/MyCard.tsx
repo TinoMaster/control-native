@@ -12,6 +12,7 @@ interface Props {
   readonly iconButton?: keyof typeof Ionicons.glyphMap;
   readonly title?: string;
   readonly iconButtonLabel?: string;
+  readonly style?: object;
 }
 
 export function MyCard({
@@ -21,11 +22,12 @@ export function MyCard({
   iconButton,
   title,
   iconButtonLabel,
-  header = true
+  header = true,
+  style
 }: Props) {
   const defaultColors = useColors();
   return (
-    <GlassCard>
+    <GlassCard style={style}>
       {header && (
         <View
           className="flex-row items-center justify-between p-2 rounded-lg"

@@ -9,16 +9,18 @@ import { ModalMonthPicker } from "features/sales/list/components/ModalMonthPicke
 import { ModalYearPicker } from "features/sales/list/components/ModalYearPicker";
 import { SalesGroupByDay } from "features/sales/list/components/SalesGroupByDay";
 import { useMonthlySales } from "hooks/api/useMonthlySales";
+import useColors from "hooks/useColors";
 import { useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import colors from "styles/colors";
 import { groupSalesByDay } from "utilities/helpers/globals.helpers";
 
 export default function List() {
   const [showMonthPicker, setShowMonthPicker] = useState(false);
   const [showYearPicker, setShowYearPicker] = useState(false);
+  const defaultColors = useColors();
 
-  const { monthlyReports, loadingMonthlyReports, selectedMonth, selectedYear, updateMonthAndYear } = useMonthlySales();
+  const { monthlyReports, loadingMonthlyReports, selectedMonth, selectedYear, updateMonthAndYear } =
+    useMonthlySales();
 
   // Format the selected month and year for display
   const formattedMonthYear = useMemo(() => {
@@ -55,27 +57,27 @@ export default function List() {
           {/* Month Selector */}
           <TouchableOpacity
             onPress={() => setShowMonthPicker(true)}
-            style={[styles.selectorButton, { backgroundColor: colors.background.dark.secondary }]}
+            style={[styles.selectorButton, { backgroundColor: defaultColors.background }]} // defaultColors.background.dark.secondary
             accessibilityLabel="Seleccionar mes para ver reportes"
             accessibilityRole="button"
           >
-            <Feather name="calendar" size={18} color={colors.primary.light} style={styles.icon} />
-            <Text style={[styles.selectorText, { color: colors.darkMode.text.light }]}>
+            <Feather name="calendar" size={18} color={defaultColors.primary} style={styles.icon} />
+            <Text style={[styles.selectorText, { color: defaultColors.text }]}>
               {MONTHS[selectedMonth - 1]}
             </Text>
-            <Feather name="chevron-down" size={18} color={colors.darkMode.text.light} />
+            <Feather name="chevron-down" size={18} color={defaultColors.text} />
           </TouchableOpacity>
 
           {/* Year Selector */}
           <TouchableOpacity
             onPress={() => setShowYearPicker(true)}
-            style={[styles.selectorButton, { backgroundColor: colors.background.dark.secondary }]}
+            style={[styles.selectorButton, { backgroundColor: defaultColors.background }]} // defaultColors.background.dark.secondary
             accessibilityLabel="Seleccionar año para ver reportes"
             accessibilityRole="button"
           >
-            <Feather name="calendar" size={18} color={colors.primary.light} style={styles.icon} />
-            <Text style={[styles.selectorText, { color: colors.darkMode.text.light }]}>{selectedYear}</Text>
-            <Feather name="chevron-down" size={18} color={colors.darkMode.text.light} />
+            <Feather name="calendar" size={18} color={defaultColors.primary} style={styles.icon} />
+            <Text style={[styles.selectorText, { color: defaultColors.text }]}>{selectedYear}</Text>
+            <Feather name="chevron-down" size={18} color={defaultColors.text} />
           </TouchableOpacity>
         </View>
 
@@ -87,7 +89,7 @@ export default function List() {
           </MyScrollView>
         ) : (
           <View style={styles.emptyContainer}>
-            <Text style={[styles.emptyText, { color: colors.darkMode.text.light }]}>
+            <Text style={[styles.emptyText, { color: defaultColors.text }]}>
               No hay reportes registrados para {formattedMonthYear}
             </Text>
           </View>

@@ -4,23 +4,19 @@ import useColors from "hooks/useColors";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import colors from "styles/colors";
 import ui from "styles/ui";
+import { MyCard } from "./ui/cards/MyCard";
 
 const ExpenseCard = () => {
   const { isDarkMode } = useThemeStore();
   const colors = useColors();
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor: isDarkMode ? "#262626" : "#F3F4F6"
-        }
-      ]}
-    >
+    <MyCard header={false}>
       <View style={styles.content}>
         <View style={styles.textContainer}>
-          <Text style={[ui.card.title, { color: isDarkMode ? "#FFFFFF" : "#1F2937" }]}>Monitor your expenses</Text>
+          <Text style={[ui.card.title, { color: isDarkMode ? "#FFFFFF" : "#1F2937" }]}>
+            Monitor your expenses
+          </Text>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Get</Text>
           </TouchableOpacity>
@@ -34,7 +30,7 @@ const ExpenseCard = () => {
           </View>
         </View>
       </View>
-    </View>
+    </MyCard>
   );
 };
 
