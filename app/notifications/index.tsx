@@ -1,17 +1,13 @@
 import { Feather } from "@expo/vector-icons";
-import { CloseSessionButton } from "components/CloseSessionButton";
 import { ContentWrapper } from "components/ContentWrapper";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { MyScrollView } from "components/ui/MyScrollView";
-import { SettingButton } from "components/ui/SettingButton";
 import { useRouter } from "expo-router";
-import { SettingSection } from "features/settings/components/SettingSection";
-import { ToggleAppMode } from "features/settings/components/ToggleAppMode";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "styles/colors";
 
-export default function Settings() {
+export default function Notifications() {
   const router = useRouter();
 
   const handleGoBack = () => {
@@ -32,7 +28,7 @@ export default function Settings() {
             >
               <Feather name="arrow-left" size={24} color="#FFFFFF" />
             </TouchableOpacity>
-            <Text style={styles.headerTitle}>Configuración</Text>
+            <Text style={styles.headerTitle}>Notificaciones</Text>
           </View>
         </SafeAreaView>
       </View>
@@ -41,33 +37,7 @@ export default function Settings() {
       <SafeAreaView edges={["bottom"]} style={styles.contentContainer}>
         <MyScrollView>
           <ContentWrapper withHeader={false}>
-            <SettingSection title="Apariencia">
-              <ToggleAppMode />
-            </SettingSection>
-
-            <SettingSection title="Cuenta">
-              <SettingButton
-                onPress={() => router.push("/(tabs)/profile")}
-                icon="person"
-                title="Mi Perfil"
-                accessibilityRole="button"
-                accessibilityLabel="Ver perfil de usuario"
-                iconRight
-              />
-
-              <CloseSessionButton />
-            </SettingSection>
-
-            <SettingSection title="Información">
-              <SettingButton
-                onPress={() => router.push("/(tabs)/profile")}
-                icon="link"
-                title="Acerca de"
-                accessibilityRole="button"
-                accessibilityLabel="Ver información de la aplicación"
-                iconRight
-              />
-            </SettingSection>
+            <Text style={{ color: "#FFFFFF" }}>Lista de Notificaciones</Text>
           </ContentWrapper>
         </MyScrollView>
       </SafeAreaView>
