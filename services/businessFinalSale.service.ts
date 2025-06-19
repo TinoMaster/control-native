@@ -1,5 +1,8 @@
 import { apiConfig } from "config/api.config";
-import { BusinessFinalSaleModelResponse, BusinessFinalSaleModelToCreate } from "models/api/businessFinalSale.model";
+import {
+  BusinessFinalSaleModelResponse,
+  BusinessFinalSaleModelToCreate
+} from "models/api/businessFinalSale.model";
 import { ByBusinessAndDateRequestModel } from "models/api/requests/byBusinessAndDateRequest.model";
 import { IResponse } from "types/request.types";
 import { handleFetchError } from "utilities/helpers/errorManager";
@@ -31,9 +34,6 @@ class BusinessFinalSaleService {
     month: number,
     year: number
   ): Promise<IResponse<BusinessFinalSaleModelResponse[]>> {
-    console.log("businessId", businessId);
-    console.log("month", month);
-    console.log("year", year);
     try {
       return await requestService.fetch<BusinessFinalSaleModelResponse[]>(
         `${this.privateUrl}/business-final-sale/bymonth/${businessId}`,
@@ -62,7 +62,9 @@ class BusinessFinalSaleService {
   }
 
   /* Verifica si un empleado existe en alguna venta final en general de negocio */
-  async existEmployeeInAnyBusinessFinalSale(employeeId: string): Promise<IResponse<{ response: boolean }>> {
+  async existEmployeeInAnyBusinessFinalSale(
+    employeeId: string
+  ): Promise<IResponse<{ response: boolean }>> {
     try {
       return await requestService.fetch<{ response: boolean }>(
         `${this.adminUrl}/business-final-sale/exist-employee/${employeeId}`
@@ -73,7 +75,9 @@ class BusinessFinalSaleService {
     }
   }
 
-  async saveBusinessFinalSale(businessSale: BusinessFinalSaleModelToCreate): Promise<IResponse<boolean>> {
+  async saveBusinessFinalSale(
+    businessSale: BusinessFinalSaleModelToCreate
+  ): Promise<IResponse<boolean>> {
     try {
       return await requestService.fetch<boolean>(`${this.privateUrl}/business-final-sale`, {
         method: "POST",

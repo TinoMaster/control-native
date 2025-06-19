@@ -21,7 +21,6 @@ export default function CreateReportWizard() {
   const { machines, users } = business;
   const router = useRouter();
 
-  /* Seleccionar solo las maquinas activas y que no estén ya seleccionadas en un reporte del mismo dia */
   const activeMachines = useMemo(() => {
     return getActiveMachines(machines, machinesAlreadySelected?.());
   }, [machines, machinesAlreadySelected]);
@@ -69,13 +68,8 @@ export default function CreateReportWizard() {
 
   return (
     <GradientBackground>
-      {/* Header */}
       <StepsHeader />
-
-      {/* Step Content */}
       {renderCurrentStep()}
-
-      {/* Navigation */}
       <StepsNavigation />
     </GradientBackground>
   );

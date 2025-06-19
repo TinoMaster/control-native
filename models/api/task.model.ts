@@ -1,16 +1,18 @@
-export enum TaskStatus {
-  PENDING = 'pending',
-  IN_PROGRESS = 'in-progress',
-  COMPLETED = 'completed',
+export enum ETaskStatus {
+  PENDING = "PENDING",
+  IN_PROGRESS = "IN_PROGRESS",
+  COMPLETED = "COMPLETED",
+  CANCELLED = "CANCELLED"
 }
 
 export interface TaskModel {
   id: number;
   title: string;
   description: string;
-  status: TaskStatus;
+  status: ETaskStatus;
   assignedTo: number;
   businessId: number;
+  dateLimit: Date;
   createdAt: Date;
   updatedAt: Date;
 }
