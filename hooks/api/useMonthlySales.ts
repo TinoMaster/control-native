@@ -14,9 +14,6 @@ interface MonthYearSelection {
 // Clave para almacenar el mes y año seleccionados en el QueryClient
 const MONTH_YEAR_CACHE_KEY = ["monthYearSelection"] as const;
 
-/**
- * Hook para gestionar los datos de ventas mensuales
- */
 export const useMonthlySales = () => {
   const businessId = useBusinessStore((state) => state.businessId);
   const queryClient = useQueryClient();
@@ -27,8 +24,12 @@ export const useMonthlySales = () => {
   const currentDate = new Date();
 
   // Estado local que se inicializa con los valores del caché o valores por defecto
-  const [selectedMonth, setSelectedMonth] = useState<number>(cachedMonthYear?.month ?? currentDate.getMonth() + 1);
-  const [selectedYear, setSelectedYear] = useState<number>(cachedMonthYear?.year ?? currentDate.getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState<number>(
+    cachedMonthYear?.month ?? currentDate.getMonth() + 1
+  );  
+  const [selectedYear, setSelectedYear] = useState<number>(
+    cachedMonthYear?.year ?? currentDate.getFullYear()
+  );
 
   // Query for monthly reports
   const {
