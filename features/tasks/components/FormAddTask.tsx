@@ -1,12 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from "@react-native-picker/picker";
+import { CustomInput } from "components/ui/inputs/CustomInput";
 import { format } from "date-fns";
+import { useEmployees } from "hooks/api/useEmployees";
 import { useTasks } from "hooks/api/useTasks";
 import useColors from "hooks/useColors";
-import { ETaskStatus, TaskModel } from "models/api";
+import { ERole, ETaskStatus, TaskModel } from "models/api";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { useAuthStore } from "store/auth.store";
 import { useBusinessStore } from "store/business.store";
 import { z } from "zod";
@@ -15,21 +18,27 @@ import { z } from "zod";
 const taskSchema = z.object({
   title: z.string().min(1, "El título es requerido"),
   description: z.string().min(1, "La descripción es requerida"),
-  dateLimit: z.date()
+  dateLimit: z.date(),
+  assignedTo: z.number().optional()
 });
 
 type TaskFormData = z.infer<typeof taskSchema>;
 
 interface FormAddTaskProps {
-  onClose: () => void;
+  readonly onClose: () => void;
 }
 
 export function FormAddTask({ onClose }: FormAddTaskProps) {
   const employee = useAuthStore((state) => state.employee);
+  const role = useAuthStore((state) => state.role);
+  const { employees } = useEmployees();
   const defaultColors = useColors();
   const businessId = useBusinessStore((state) => state.businessId);
   const { saveTask, loadingSaveTask } = useTasks();
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+  // Verificar si el usuario puede editar la asignación de tareas
+  const canEditAssignment = role === ERole.ADMIN || role === ERole.OWNER;
 
   const {
     control,
@@ -42,7 +51,8 @@ export function FormAddTask({ onClose }: FormAddTaskProps) {
     defaultValues: {
       title: "",
       description: "",
-      dateLimit: new Date()
+      dateLimit: new Date(),
+      assignedTo: employee?.id ? Number(employee.id) : undefined
     }
   });
 
@@ -57,7 +67,7 @@ export function FormAddTask({ onClose }: FormAddTaskProps) {
       status: ETaskStatus.PENDING,
       businessId: businessId,
       dateLimit: data.dateLimit,
-      assignedTo: Number(employee?.id)
+      assignedToId: data.assignedTo ?? Number(employee?.id)
     };
 
     saveTask(newTask as TaskModel);
@@ -74,72 +84,50 @@ export function FormAddTask({ onClose }: FormAddTaskProps) {
   return (
     <View className=" gap-4">
       {/* Title Input */}
-      <View className="space-y-1">
-        <Text style={{ color: defaultColors.text }} className="text-sm font-medium">
-          Título
-        </Text>
-        <Controller
-          control={control}
-          name="title"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={{
-                color: defaultColors.text,
-                borderColor: errors.title ? "red" : defaultColors.primary
-              }}
-              className="border rounded-md p-2 bg-transparent"
-              placeholder="Título de la tarea"
-              placeholderTextColor={defaultColors.textSecondary}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        />
-        {errors.title && <Text className="text-red-500 text-xs">{errors.title.message}</Text>}
-      </View>
+      <Controller
+        control={control}
+        name="title"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <CustomInput
+            value={value}
+            label="Título"
+            placeholder="Título de la tarea"
+            placeholderTextColor={defaultColors.textSecondary}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            error={errors.title?.message}
+          />
+        )}
+      />
 
       {/* Description Input */}
-      <View className="space-y-1">
-        <Text style={{ color: defaultColors.text }} className="text-sm font-medium">
-          Descripción
-        </Text>
-        <Controller
-          control={control}
-          name="description"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={{
-                color: defaultColors.text,
-                borderColor: errors.description ? "red" : defaultColors.primary,
-                height: 100,
-                textAlignVertical: "top"
-              }}
-              className="border rounded-md p-2 bg-transparent"
-              placeholder="Descripción de la tarea"
-              placeholderTextColor={defaultColors.textSecondary}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              multiline
-              numberOfLines={4}
-            />
-          )}
-        />
-        {errors.description && (
-          <Text className="text-red-500 text-xs">{errors.description.message}</Text>
+
+      <Controller
+        control={control}
+        name="description"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <CustomInput
+            value={value}
+            label="Descripción"
+            multiline
+            numberOfLines={4}
+            placeholder="Descripción de la tarea"
+            placeholderTextColor={defaultColors.textSecondary}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            error={errors.description?.message}
+          />
         )}
-      </View>
+      />
 
       {/* Date Limit Input */}
       <View className="space-y-1">
-        <Text style={{ color: defaultColors.text }} className="text-sm font-medium">
+        <Text style={{ color: defaultColors.text }} className="text-sm font-medium mb-1 ml-1">
           Fecha límite
         </Text>
         <TouchableOpacity
           onPress={() => setShowDatePicker(true)}
-          style={{ borderColor: defaultColors.primary }}
-          className="border rounded-md p-3 bg-transparent"
+          className="border border-gray-400 border-opacity-30 rounded-lg p-3 bg-transparent"
         >
           <Text style={{ color: defaultColors.text }}>{format(dateLimit, "dd/MM/yyyy")}</Text>
         </TouchableOpacity>
@@ -150,6 +138,45 @@ export function FormAddTask({ onClose }: FormAddTaskProps) {
             display="default"
             onChange={handleDateChange}
           />
+        )}
+      </View>
+
+      {/* Assigned Employee Input */}
+      <View className="space-y-1">
+        <Text style={{ color: defaultColors.text }} className="text-sm font-medium mb-1 ml-1">
+          Asignado a
+        </Text>
+        <View className="border border-gray-400 border-opacity-30 rounded-lg overflow-hidden">
+          <Controller
+            control={control}
+            name="assignedTo"
+            render={({ field: { onChange, value } }) => (
+              <Picker
+                selectedValue={value}
+                onValueChange={onChange}
+                enabled={canEditAssignment}
+                dropdownIconColor={defaultColors.text}
+                itemStyle={{ height: 120, backgroundColor: defaultColors.background }}
+                style={{
+                  color: defaultColors.text,
+                  backgroundColor: canEditAssignment ? "transparent" : "rgba(0,0,0,0.05)"
+                }}
+              >
+                {employees?.map((emp) => (
+                  <Picker.Item
+                    key={emp.id}
+                    label={`${emp.user?.name ?? "Sin nombre"}`}
+                    value={Number(emp.id)}
+                  />
+                ))}
+              </Picker>
+            )}
+          />
+        </View>
+        {!canEditAssignment && (
+          <Text style={{ color: defaultColors.textSecondary }} className="text-xs italic mt-1">
+            Solo administradores pueden cambiar la asignación
+          </Text>
         )}
       </View>
 

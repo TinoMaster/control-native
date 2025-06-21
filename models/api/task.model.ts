@@ -10,7 +10,7 @@ export interface TaskModel {
   title: string;
   description: string;
   status: ETaskStatus;
-  assignedTo: number;
+  assignedToId: number;
   businessId: number;
   dateLimit: Date;
   createdAt: Date;

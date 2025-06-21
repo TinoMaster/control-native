@@ -44,15 +44,6 @@ export default function Tasks() {
         </SafeAreaView>
       </View>
 
-      {/* Modal para agregar tareas */}
-      <MyModal
-        isVisible={isFormVisible}
-        onClose={() => setIsFormVisible(false)}
-        title="Agregar Tarea"
-      >
-        <FormAddTask onClose={() => setIsFormVisible(false)} />
-      </MyModal>
-
       {/* Contenido con SafeAreaView para los bordes inferiores */}
       <SafeAreaView edges={["bottom"]} style={styles.contentContainer}>
         <MyScrollView
@@ -64,38 +55,46 @@ export default function Tasks() {
           onEndReachedThreshold={0.5}
         >
           <ContentWrapper withHeader={false}>
-            <View style={{ gap: 10, paddingBottom: 20 }} className="flex-1">
-              <Text style={{ color: defaultColors.text }} className="text-lg font-semibold">
-                Tareas
-              </Text>
-              
-              {loadingTasks ? (
-                <LoadingPage />
-              ) : (
-                <>
-                  {tasks?.pages.some(page => page.content.length > 0) ? (
-                    tasks.pages.map((page) => (
-                      <View key={page.page}>
-                        {page.content.map((task) => (
-                          <TaskItem key={task.id} item={task} />
-                        ))}
-                      </View>
-                    ))
-                  ) : (
-                    <View className="flex-1 justify-center items-center py-10">
-                      <Text style={{ color: defaultColors.text }} className="text-center">
-                        No hay tareas registradas
-                      </Text>
+            {loadingTasks ? (
+              <LoadingPage />
+            ) : (
+              <>
+                {tasks?.pages.some((page) => page.content.length > 0) ? (
+                  tasks.pages.map((page) => (
+                    <View key={page.page}>
+                      {page.content.map((task) => (
+                        <TaskItem key={task.id} item={task} />
+                      ))}
                     </View>
-                  )}
-                </>
-              )}
-            </View>
+                  ))
+                ) : (
+                  <View className="flex-1 justify-center items-center py-10">
+                    <Text style={{ color: defaultColors.text }} className="text-center">
+                      No hay tareas registradas
+                    </Text>
+                  </View>
+                )}
+              </>
+            )}
           </ContentWrapper>
         </MyScrollView>
 
-        <FloatingActionButton onPress={() => setIsFormVisible(true)} iconName="add" iconSize={24} />
+        <FloatingActionButton
+          style={{ position: "absolute", bottom: 30, right: 20 }}
+          onPress={() => setIsFormVisible(true)}
+          iconName="add"
+          iconSize={24}
+        />
       </SafeAreaView>
+
+      {/* Modal para agregar tareas */}
+      <MyModal
+        isVisible={isFormVisible}
+        onClose={() => setIsFormVisible(false)}
+        title="Agregar Tarea"
+      >
+        <FormAddTask onClose={() => setIsFormVisible(false)} />
+      </MyModal>
     </GradientBackground>
   );
 }

@@ -33,7 +33,7 @@ export function CustomInput({
   const defaultColors = useColors();
 
   const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
+  const handleEndEditing = () => setIsFocused(false);
   const toggleSecureEntry = () => setSecureTextEntry(!secureTextEntry);
 
   const getBorderStyle = () => {
@@ -66,7 +66,10 @@ export function CustomInput({
         style={isFocused ? { borderColor: defaultColors.primary } : {}}
       >
         {icon && (
-          <View className="mr-3 p-2 rounded-full" style={{ backgroundColor: defaultColors.primary }}>
+          <View
+            className="mr-3 p-2 rounded-full"
+            style={{ backgroundColor: defaultColors.primary }}
+          >
             <Text className="text-white font-bold">{icon}</Text>
           </View>
         )}
@@ -83,7 +86,7 @@ export function CustomInput({
           value={value}
           onChangeText={onChangeText}
           onFocus={handleFocus}
-          onBlur={handleBlur}
+          onEndEditing={handleEndEditing}
           secureTextEntry={secureTextEntry}
           editable={!disabled}
           {...rest}
