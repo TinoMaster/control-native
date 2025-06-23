@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import { MiniCard } from "components/ui/cards/MiniCard";
 import { format } from "date-fns";
+import { useEmployees } from "hooks/api/useEmployees";
 import useColors from "hooks/useColors";
 import { ETaskStatus, TaskModel } from "models/api";
 import { Text, View } from "react-native";
@@ -13,6 +14,15 @@ interface TaskItemProps {
 
 export function TaskItem({ item, onPress }: TaskItemProps) {
   const defaultColors = useColors();
+  const { getEmployeeById } = useEmployees();
+
+  const employee = getEmployeeById(item.assignedToId);
+  const getAssignedName = () => {
+    if (employee) {
+      return `${employee.user.name}`;
+    }
+    return "General";
+  };
 
   // Get status color based on task status
   const getStatusColor = (status: ETaskStatus) => {
@@ -49,7 +59,10 @@ export function TaskItem({ item, onPress }: TaskItemProps) {
   const getDateColorText = (date: Date, status: ETaskStatus) => {
     const today = new Date().setHours(0, 0, 0, 0);
     const taskDate = new Date(date).setHours(0, 0, 0, 0);
-    if (taskDate < today && (status === ETaskStatus.PENDING || status === ETaskStatus.IN_PROGRESS)) {
+    if (
+      taskDate < today &&
+      (status === ETaskStatus.PENDING || status === ETaskStatus.IN_PROGRESS)
+    ) {
       return colors.error.dark;
     } else {
       return defaultColors.textSecondary;
@@ -103,6 +116,13 @@ export function TaskItem({ item, onPress }: TaskItemProps) {
               className="text-xs ml-1"
             >
               Límite: {formatDate(item.dateLimit)}
+            </Text>
+          </View>
+
+          <View className="flex-row items-center">
+            <Feather name="user" size={14} color={defaultColors.textSecondary} />
+            <Text style={{ color: defaultColors.textSecondary }} className="text-xs ml-1">
+              {getAssignedName()}
             </Text>
           </View>
         </View>
