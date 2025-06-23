@@ -1,12 +1,14 @@
 import { Feather } from "@expo/vector-icons";
+import { MiniCard } from "components/ui/cards/MiniCard";
 import { format } from "date-fns";
-import { ETaskStatus, TaskModel } from "models/api";
-import { Text, TouchableOpacity, View } from "react-native";
 import useColors from "hooks/useColors";
+import { ETaskStatus, TaskModel } from "models/api";
+import { Text, View } from "react-native";
+import colors from "styles/colors";
 
 interface TaskItemProps {
-  item: TaskModel;
-  onPress?: (task: TaskModel) => void;
+  readonly item: TaskModel;
+  readonly onPress?: (task: TaskModel) => void;
 }
 
 export function TaskItem({ item, onPress }: TaskItemProps) {
@@ -44,6 +46,16 @@ export function TaskItem({ item, onPress }: TaskItemProps) {
     }
   };
 
+  const getDateColorText = (date: Date, status: ETaskStatus) => {
+    const today = new Date().setHours(0, 0, 0, 0);
+    const taskDate = new Date(date).setHours(0, 0, 0, 0);
+    if (taskDate < today && (status === ETaskStatus.PENDING || status === ETaskStatus.IN_PROGRESS)) {
+      return colors.error.dark;
+    } else {
+      return defaultColors.textSecondary;
+    }
+  };
+
   // Format date as DD/MM/YYYY
   const formatDate = (date: Date) => {
     if (!date) return "Sin fecha";
@@ -51,15 +63,7 @@ export function TaskItem({ item, onPress }: TaskItemProps) {
   };
 
   return (
-    <TouchableOpacity
-      onPress={() => onPress?.(item)}
-      className="mb-3 rounded-lg overflow-hidden"
-      style={{
-        backgroundColor: defaultColors.background,
-        borderLeftWidth: 4,
-        borderLeftColor: getStatusColor(item.status)
-      }}
-    >
+    <MiniCard accentColor={getStatusColor(item.status)}>
       <View className="p-4">
         <View className="flex-row justify-between items-start">
           <Text
@@ -89,13 +93,20 @@ export function TaskItem({ item, onPress }: TaskItemProps) {
 
         <View className="flex-row justify-between items-center mt-3">
           <View className="flex-row items-center">
-            <Feather name="calendar" size={14} color={defaultColors.textSecondary} />
-            <Text style={{ color: defaultColors.textSecondary }} className="text-xs ml-1">
+            <Feather
+              name="calendar"
+              size={14}
+              color={getDateColorText(item.dateLimit, item.status)}
+            />
+            <Text
+              style={{ color: getDateColorText(item.dateLimit, item.status) }}
+              className="text-xs ml-1"
+            >
               Límite: {formatDate(item.dateLimit)}
             </Text>
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </MiniCard>
   );
 }

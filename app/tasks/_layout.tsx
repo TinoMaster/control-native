@@ -39,7 +39,7 @@ export default function TasksLayout() {
 
   const handleGoBack = () => {
     if (prevPathState) {
-      router.replace(prevPathState);
+      router.navigate(prevPathState ?? "/");
       setPrevPathState(null);
     }
   };

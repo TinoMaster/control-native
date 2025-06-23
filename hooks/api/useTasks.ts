@@ -5,7 +5,7 @@ import { PaginationRequest } from "models/api/requests/paginationRequest.model";
 import { taskService } from "services/task.service";
 import { useBusinessStore } from "store/business.store";
 
-export function useTasks() {
+export function useTasks({ status }: { status?: ETaskStatus }) {
   const businessId = useBusinessStore((state) => state.businessId);
   const { showNotification } = useNotification();
   const queryClient = useQueryClient();
@@ -17,7 +17,7 @@ export function useTasks() {
     totalElements: 0,
     totalPages: 0,
     hasNext: false,
-    hasPrevious: false,
+    hasPrevious: false
   };
 
   const {
@@ -25,7 +25,7 @@ export function useTasks() {
     isLoading: loadingTasks,
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
+    isFetchingNextPage
   } = useInfiniteQuery<PaginationRequest<TaskModel>>({
     queryKey: ["tasks", "byBusinessAndStatus", businessId],
     initialPageParam: 0,
@@ -34,11 +34,21 @@ export function useTasks() {
         return emptyPaginationResponse;
       }
 
+      if (!status) {
+        const response = await taskService.getTasksByBusinessId({
+          businessId: String(businessId),
+          page: pageParam as number,
+          size: 10
+        });
+
+        return response.data ?? emptyPaginationResponse;
+      }
+
       const response = await taskService.getTaskByBusinessIdAndStatus({
         businessId: String(businessId),
-        status: ETaskStatus.PENDING,
+        status,
         page: pageParam as number,
-        size: 10,
+        size: 10
       });
 
       return response.data ?? emptyPaginationResponse;
@@ -46,7 +56,7 @@ export function useTasks() {
     getNextPageParam: (lastPage: PaginationRequest<TaskModel>) => {
       return lastPage.hasNext ? lastPage.page + 1 : undefined;
     },
-    enabled: !!businessId,
+    enabled: !!businessId
   });
 
   const { mutate: saveTask, isPending: loadingSaveTask } = useMutation({
@@ -67,7 +77,7 @@ export function useTasks() {
         "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
         "error"
       );
-    },
+    }
   });
 
   return {
@@ -77,6 +87,6 @@ export function useTasks() {
     hasNextPage,
     isFetchingNextPage,
     saveTask,
-    loadingSaveTask,
+    loadingSaveTask
   };
 }

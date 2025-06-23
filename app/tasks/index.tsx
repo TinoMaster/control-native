@@ -13,7 +13,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Tasks() {
-  const { tasks, loadingTasks, fetchNextPage, hasNextPage, isFetchingNextPage } = useTasks();
+  const { tasks, loadingTasks, fetchNextPage, hasNextPage, isFetchingNextPage } = useTasks({});
   const defaultColors = useColors();
   const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -36,7 +36,7 @@ export default function Tasks() {
               <>
                 {tasks?.pages.some((page) => page.content.length > 0) ? (
                   tasks.pages.map((page) => (
-                    <View key={page.page}>
+                    <View style={{ gap: 10 }} key={page.page}>
                       {page.content.map((task) => (
                         <TaskItem key={task.id} item={task} />
                       ))}
