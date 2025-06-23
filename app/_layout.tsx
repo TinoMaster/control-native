@@ -3,7 +3,7 @@ import LoadingPage from "components/ui/loaders/LoadingPage";
 import { ModalProvider } from "components/ui/modals/ModalProvider";
 import { queryClient } from "config/react-query.config";
 import { NotificationProvider } from "contexts/NotificationContext";
-import { Stack } from "expo-router";
+import { Href, Stack, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import useColors from "hooks/useColors";
 import { useEffect, useState } from "react";
@@ -11,10 +11,12 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useAuthStore } from "store/auth.store";
 import "./globals.css";
+import { navigationStore } from "store/navigation.store";
 
 function RootLayoutNav() {
   const colors = useColors();
-  const { loadingUser, initializeAuth } = useAuthStore();
+  const initializeAuth = useAuthStore((state) => state.initializeAuth);
+  const loadingUser = useAuthStore((state) => state.loadingUser);
   const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
@@ -67,6 +69,13 @@ function RootLayoutNav() {
 }
 
 export default function RootLayout() {
+  const addPath = navigationStore((state) => state.addPath);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    addPath(pathname as Href);
+  }, [pathname]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
