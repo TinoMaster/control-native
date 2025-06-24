@@ -1,11 +1,16 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTaskDetail } from "hooks/api/useTaskDetail";
 import useColors from "hooks/useColors";
-import { ETaskStatus } from "models/api";
+import { ERole, ETaskStatus, TaskModel } from "models/api";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
+import { useState } from "react";
+import { MyModal } from "components/ui/modals/myModal";
+import { FormEditTask } from "features/tasks/components/FormEditTask";
+import { useEmployees } from "hooks/api/useEmployees";
+import { useAuthStore } from "store/auth.store";
 
 const statusConfig = {
   [ETaskStatus.PENDING]: {
@@ -34,13 +39,21 @@ export default function TaskDetail() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const colors = useColors();
-  
-  const {
-    task,
-    loadingTask,
-    updateTaskStatus,
-    loadingUpdateTask
-  } = useTaskDetail(id as string);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const { getEmployeeById } = useEmployees();
+  const role = useAuthStore((state) => state.role);
+
+  const { task, loadingTask, updateTaskStatus, updateTask, loadingUpdateTask } = useTaskDetail(
+    id as string
+  );
+
+  const getAssignedName = () => {
+    if (task?.assignedToId) {
+      const employee = getEmployeeById(task.assignedToId);
+      return `${employee?.user.name}`;
+    }
+    return "General";
+  };
 
   if (loadingTask) {
     return (
@@ -83,34 +96,39 @@ export default function TaskDetail() {
   };
 
   return (
-    <ScrollView 
+    <ScrollView
       className="flex-1 p-4"
       contentContainerStyle={{ paddingBottom: 40 }}
       showsVerticalScrollIndicator={false}
     >
       {/* Encabezado */}
       <View className="mb-6">
-        <Text 
-          style={{ color: colors.text }} 
-          className="text-2xl font-bold mb-1"
-          numberOfLines={2}
-        >
-          {task.title}
-        </Text>
+        <View className="flex-row justify-between items-center mb-2">
+          <Text style={{ color: colors.text }} className="text-2xl font-bold" numberOfLines={2}>
+            {task.title}
+          </Text>
+          {role === ERole.ADMIN ||
+            (role === ERole.OWNER && (
+              <Pressable
+                onPress={() => setEditModalVisible(true)}
+                className="p-2 rounded-full"
+                style={{ backgroundColor: `${colors.primary}20` }}
+              >
+                <Feather name="edit-2" size={18} color={colors.primary} />
+              </Pressable>
+            ))}
+        </View>
         <View className="flex-row items-center">
-          <View 
-            className="py-1 px-3 rounded-full flex-row items-center" 
+          <View
+            className="py-1 px-3 rounded-full flex-row items-center"
             style={{ backgroundColor: `${currentStatus.color}20` }}
           >
-            <MaterialCommunityIcons 
-              name={currentStatus.icon as any} 
-              size={16} 
-              color={currentStatus.color} 
+            <MaterialCommunityIcons
+              name={currentStatus.icon as any}
+              size={16}
+              color={currentStatus.color}
             />
-            <Text 
-              style={{ color: currentStatus.color }} 
-              className="ml-1 font-medium"
-            >
+            <Text style={{ color: currentStatus.color }} className="ml-1 font-medium">
               {currentStatus.label}
             </Text>
           </View>
@@ -138,7 +156,9 @@ export default function TaskDetail() {
         <View className="flex-row items-center">
           <MaterialCommunityIcons name="calendar-clock" size={20} color={colors.primary} />
           <Text style={{ color: colors.text }} className="ml-2">
-            {task.dateLimit ? format(new Date(task.dateLimit), "d 'de' MMMM, yyyy", { locale: es }) : "Sin fecha límite"}
+            {task.dateLimit
+              ? format(new Date(task.dateLimit), "d 'de' MMMM, yyyy", { locale: es })
+              : "Sin fecha límite"}
           </Text>
         </View>
       </View>
@@ -153,23 +173,18 @@ export default function TaskDetail() {
             <Pressable
               key={status}
               onPress={() => handleStatusChange(status as ETaskStatus)}
-              className={`py-3 mb-3 rounded-lg items-center justify-center ${task.status === status ? 'border-2' : ''}`}
+              className={`py-3 mb-3 rounded-lg items-center justify-center ${
+                task.status === status ? "border-2" : ""
+              }`}
               style={{
-                width: '48%',
+                width: "48%",
                 backgroundColor: `${config.color}15`,
-                borderColor: task.status === status ? config.color : 'transparent'
+                borderColor: task.status === status ? config.color : "transparent"
               }}
               disabled={loadingUpdateTask}
             >
-              <MaterialCommunityIcons 
-                name={config.icon as any} 
-                size={24} 
-                color={config.color} 
-              />
-              <Text 
-                style={{ color: config.color }} 
-                className="mt-1 font-medium"
-              >
+              <MaterialCommunityIcons name={config.icon as any} size={24} color={config.color} />
+              <Text style={{ color: config.color }} className="mt-1 font-medium">
                 {config.label}
               </Text>
             </Pressable>
@@ -184,21 +199,9 @@ export default function TaskDetail() {
         </Text>
         <View className="mb-3">
           <Text style={{ color: colors.textSecondary }} className="mb-1">
-            ID de la tarea
-          </Text>
-          <Text style={{ color: colors.text }}>{task.id}</Text>
-        </View>
-        <View className="mb-3">
-          <Text style={{ color: colors.textSecondary }} className="mb-1">
-            ID del negocio
-          </Text>
-          <Text style={{ color: colors.text }}>{task.businessId}</Text>
-        </View>
-        <View className="mb-3">
-          <Text style={{ color: colors.textSecondary }} className="mb-1">
             Asignado a
           </Text>
-          <Text style={{ color: colors.text }}>{task.assignedToId || "No asignado"}</Text>
+          <Text style={{ color: colors.text }}>{getAssignedName() || "No asignado"}</Text>
         </View>
         <View>
           <Text style={{ color: colors.textSecondary }} className="mb-1">
@@ -214,10 +217,31 @@ export default function TaskDetail() {
         <View className="mt-4 items-center">
           <ActivityIndicator size="small" color={colors.primary} />
           <Text style={{ color: colors.textSecondary }} className="mt-2">
-            Actualizando estado...
+            Actualizando tarea...
           </Text>
         </View>
       )}
+
+      {/* Modal de edición */}
+      <MyModal
+        title="Editar Tarea"
+        isVisible={editModalVisible}
+        onClose={() => setEditModalVisible(false)}
+      >
+        {task && (
+          <FormEditTask
+            task={task}
+            setModalVisible={setEditModalVisible}
+            onTaskUpdate={(updatedTaskData) => {
+              const updatedTask: TaskModel = {
+                ...task,
+                ...updatedTaskData
+              };
+              updateTask(updatedTask);
+            }}
+          />
+        )}
+      </MyModal>
     </ScrollView>
   );
 }

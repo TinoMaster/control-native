@@ -115,7 +115,7 @@ export function TaskItem({ item }: TaskItemProps) {
             className="text-sm mt-1"
             numberOfLines={2}
           >
-            {item.description.slice(0, 15) + (item.description.length > 15 ? "..." : "")}
+            {item.description.slice(0, 48) + (item.description.length > 48 ? "..." : "")}
           </Text>
 
           <View className="flex-row justify-between items-center mt-3">
