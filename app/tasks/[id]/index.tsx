@@ -107,16 +107,15 @@ export default function TaskDetail() {
           <Text style={{ color: colors.text }} className="text-2xl font-bold" numberOfLines={2}>
             {task.title}
           </Text>
-          {role === ERole.ADMIN ||
-            (role === ERole.OWNER && (
-              <Pressable
-                onPress={() => setEditModalVisible(true)}
-                className="p-2 rounded-full"
-                style={{ backgroundColor: `${colors.primary}20` }}
-              >
-                <Feather name="edit-2" size={18} color={colors.primary} />
-              </Pressable>
-            ))}
+          {(role === ERole.ADMIN || role === ERole.OWNER) && (
+            <Pressable
+              onPress={() => setEditModalVisible(true)}
+              className="p-2 rounded-full"
+              style={{ backgroundColor: `${colors.primary}20` }}
+            >
+              <Feather name="edit-2" size={18} color={colors.primary} />
+            </Pressable>
+          )}
         </View>
         <View className="flex-row items-center">
           <View
