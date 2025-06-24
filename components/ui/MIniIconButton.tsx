@@ -16,7 +16,7 @@ export function MiniIconButton({ icon, onPress, style, iconSize = 12, iconColor,
 
   return (
     <TouchableOpacity
-      style={[{ backgroundColor: defaultColors.background, borderRadius: 8 }, style]}
+      style={[{ borderRadius: 8 }, style]}
       onPress={onPress}
       className="p-2 shadow-sm flex-row items-center justify-center gap-2"
     >

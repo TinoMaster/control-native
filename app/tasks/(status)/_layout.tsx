@@ -1,6 +1,14 @@
 import { Feather } from "@expo/vector-icons";
+import { ContentWrapper } from "components/ContentWrapper";
+import { FloatingActionButton } from "components/floating-action-button";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { CategorySelector } from "components/ui/CategorySelector";
+import LoadingPage from "components/ui/loaders/LoadingPage";
+import { MyModal } from "components/ui/modals/myModal";
+import { MyScrollView } from "components/ui/MyScrollView";
 import { Href, Slot, useRouter } from "expo-router";
+import { FormAddTask } from "features/tasks/components/FormAddTask";
+import { useTasks } from "hooks/api/useTasks";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -24,6 +32,8 @@ export default function TasksLayout() {
   const router = useRouter();
   const history = navigationStore((state) => state.history);
   const [prevPathState, setPrevPathState] = useState<Href | null>(null);
+  const { loadingTasks, fetchNextPage, hasNextPage, isFetchingNextPage } = useTasks({});
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   const [activeCategory, setActiveCategory] = useState("all");
 
@@ -38,10 +48,8 @@ export default function TasksLayout() {
   };
 
   const handleGoBack = () => {
-    if (prevPathState) {
-      router.navigate(prevPathState ?? "/");
-      setPrevPathState(null);
-    }
+    router.navigate(prevPathState ?? "/");
+    setPrevPathState(null);
   };
 
   return (
@@ -72,7 +80,39 @@ export default function TasksLayout() {
 
       {/* Contenido de la página actual */}
       <View style={styles.content}>
-        <Slot />
+        <GradientBackground>
+          {/* Contenido con SafeAreaView para los bordes inferiores */}
+          <SafeAreaView edges={["bottom"]} style={styles.contentContainer}>
+            <MyScrollView
+              onEndReached={() => {
+                if (hasNextPage && !isFetchingNextPage) {
+                  fetchNextPage();
+                }
+              }}
+              onEndReachedThreshold={0.5}
+            >
+              <ContentWrapper withHeader={false}>
+                {loadingTasks ? <LoadingPage /> : <Slot />}
+              </ContentWrapper>
+            </MyScrollView>
+
+            <FloatingActionButton
+              style={{ position: "absolute", bottom: 30, right: 20 }}
+              onPress={() => setIsFormVisible(true)}
+              iconName="add"
+              iconSize={24}
+            />
+          </SafeAreaView>
+
+          {/* Modal para agregar tareas */}
+          <MyModal
+            isVisible={isFormVisible}
+            onClose={() => setIsFormVisible(false)}
+            title="Agregar Tarea"
+          >
+            <FormAddTask onClose={() => setIsFormVisible(false)} />
+          </MyModal>
+        </GradientBackground>
       </View>
     </View>
   );
@@ -80,6 +120,9 @@ export default function TasksLayout() {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1
+  },
+  contentContainer: {
     flex: 1
   },
   headerContainer: {

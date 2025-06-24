@@ -35,11 +35,15 @@ export function FloatingActionButton({
   const finalIconColor = iconColorProp ?? "#FFFFFF";
 
   // Colores para el gradiente - usando ColorValue compatible con LinearGradient
-  const gradientColors = [colors.background.dark.secondary, adjustBrightness(colors.background.dark.secondary, 20)] as const;
+  const gradientColors = [
+    colors.background.dark.secondary,
+    adjustBrightness(colors.background.dark.secondary, 20)
+  ] as const;
 
   // Color de fondo para cuando no hay gradiente
   const baseBackgroundColor =
-    backgroundColorProp ?? (isDarkMode ? colors.background.dark.secondary : colors.background.dark.primary);
+    backgroundColorProp ??
+    (isDarkMode ? colors.background.dark.secondary : colors.background.dark.primary);
 
   // Sombra adaptada al tema
   const shadowStyle = {
@@ -66,8 +70,17 @@ export function FloatingActionButton({
         accessibilityLabel="Add new item"
         accessibilityRole="button"
       >
-        <BlurView intensity={intensity} tint={isDarkMode ? "dark" : "light"} style={styles.blurView}>
-          <LinearGradient colors={gradientColors} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradient}>
+        <BlurView
+          intensity={intensity}
+          tint={isDarkMode ? "dark" : "light"}
+          style={styles.blurView}
+        >
+          <LinearGradient
+            colors={gradientColors}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.gradient}
+          >
             {renderButtonContent()}
           </LinearGradient>
         </BlurView>
@@ -84,8 +97,14 @@ export function FloatingActionButton({
         accessibilityLabel="Add new item"
         accessibilityRole="button"
       >
-        <BlurView intensity={intensity} tint={isDarkMode ? "dark" : "light"} style={styles.blurView}>
-          <View style={[styles.gradient, { backgroundColor: baseBackgroundColor }]}>{renderButtonContent()}</View>
+        <BlurView
+          intensity={intensity}
+          tint={isDarkMode ? "dark" : "light"}
+          style={styles.blurView}
+        >
+          <View style={[styles.gradient, { backgroundColor: baseBackgroundColor }]}>
+            {renderButtonContent()}
+          </View>
         </BlurView>
       </TouchableOpacity>
     );
@@ -133,7 +152,9 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    overflow: "hidden"
+    overflow: "hidden",
+    borderColor: colors.primary.dark,
+    borderWidth: 1
   },
   blurView: {
     flex: 1,

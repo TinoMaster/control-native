@@ -9,6 +9,8 @@ export default function useColors() {
     secondary: isDarkMode ? colors.secondary.light : colors.secondary.dark,
     background: isDarkMode ? colors.background.dark.secondary : colors.background.light.secondary,
     text: isDarkMode ? colors.darkMode.text.dark : colors.lightMode.text.light,
-    textSecondary: isDarkMode ? colors.darkMode.textSecondary.light : colors.lightMode.textSecondary.light
+    textSecondary: isDarkMode ? colors.darkMode.textSecondary.light : colors.lightMode.textSecondary.light,
+    error: "#E74C3C",
+    card: isDarkMode ? "#2A2A2A" : "#FFFFFF"
   };
 }

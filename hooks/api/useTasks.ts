@@ -27,7 +27,7 @@ export function useTasks({ status }: { status?: ETaskStatus }) {
     hasNextPage,
     isFetchingNextPage
   } = useInfiniteQuery<PaginationRequest<TaskModel>>({
-    queryKey: ["tasks", "byBusinessAndStatus", businessId],
+    queryKey: ["tasks", "byBusinessAndStatus", businessId, status],
     initialPageParam: 0,
     queryFn: async ({ pageParam = 1 }) => {
       if (!businessId) {

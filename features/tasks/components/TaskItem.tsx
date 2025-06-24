@@ -1,19 +1,21 @@
 import { Feather } from "@expo/vector-icons";
 import { MiniCard } from "components/ui/cards/MiniCard";
+import { MiniIconButton } from "components/ui/MIniIconButton";
 import { format } from "date-fns";
+import { useRouter } from "expo-router";
 import { useEmployees } from "hooks/api/useEmployees";
 import useColors from "hooks/useColors";
 import { ETaskStatus, TaskModel } from "models/api";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import colors from "styles/colors";
 
 interface TaskItemProps {
   readonly item: TaskModel;
-  readonly onPress?: (task: TaskModel) => void;
 }
 
-export function TaskItem({ item, onPress }: TaskItemProps) {
+export function TaskItem({ item }: TaskItemProps) {
   const defaultColors = useColors();
+  const router = useRouter();
   const { getEmployeeById } = useEmployees();
 
   const employee = getEmployeeById(item.assignedToId);
@@ -76,57 +78,70 @@ export function TaskItem({ item, onPress }: TaskItemProps) {
   };
 
   return (
-    <MiniCard accentColor={getStatusColor(item.status)}>
-      <View className="p-4">
-        <View className="flex-row justify-between items-start">
-          <Text
-            style={{ color: defaultColors.text }}
-            className="text-base font-semibold flex-1 mr-2"
-            numberOfLines={1}
-          >
-            {item.title}
-          </Text>
-          <View
-            className="px-2 py-1 rounded-md"
-            style={{ backgroundColor: `${getStatusColor(item.status)}20` }}
-          >
-            <Text style={{ color: getStatusColor(item.status) }} className="text-xs font-medium">
-              {getStatusText(item.status)}
-            </Text>
-          </View>
-        </View>
-
-        <Text
-          style={{ color: defaultColors.textSecondary }}
-          className="text-sm mt-1"
-          numberOfLines={2}
-        >
-          {item.description}
-        </Text>
-
-        <View className="flex-row justify-between items-center mt-3">
-          <View className="flex-row items-center">
-            <Feather
-              name="calendar"
-              size={14}
-              color={getDateColorText(item.dateLimit, item.status)}
-            />
+    <Pressable onPress={() => router.push(`/tasks/${item.id}`)}>
+      <MiniCard accentColor={getStatusColor(item.status)}>
+        <View className="p-4">
+          <View className="flex-row justify-between items-start">
             <Text
-              style={{ color: getDateColorText(item.dateLimit, item.status) }}
-              className="text-xs ml-1"
+              style={{ color: defaultColors.text }}
+              className="text-base font-semibold flex-1 mr-2"
+              numberOfLines={1}
             >
-              Límite: {formatDate(item.dateLimit)}
+              {item.title}
             </Text>
+            <View className="flex-row gap-2">
+              <View
+                className="justify-center items-center p-2 rounded-md"
+                style={{ backgroundColor: `${getStatusColor(item.status)}20` }}
+              >
+                <Text
+                  style={{ color: getStatusColor(item.status) }}
+                  className="text-xs font-medium"
+                >
+                  {getStatusText(item.status)}
+                </Text>
+              </View>
+              <MiniIconButton
+                icon="chevron-forward"
+                onPress={() => router.push(`/tasks/${item.id}`)}
+                iconSize={16}
+                style={{ borderRadius: 10 }}
+              />
+            </View>
           </View>
 
-          <View className="flex-row items-center">
-            <Feather name="user" size={14} color={defaultColors.textSecondary} />
-            <Text style={{ color: defaultColors.textSecondary }} className="text-xs ml-1">
-              {getAssignedName()}
-            </Text>
+          <Text
+            style={{ color: defaultColors.textSecondary }}
+            className="text-sm mt-1"
+            numberOfLines={2}
+          >
+            {item.description.slice(0, 15) + (item.description.length > 15 ? "..." : "")}
+          </Text>
+
+          <View className="flex-row justify-between items-center mt-3">
+            <View className="flex-row items-center">
+              <Feather
+                name="calendar"
+                size={14}
+                color={getDateColorText(item.dateLimit, item.status)}
+              />
+              <Text
+                style={{ color: getDateColorText(item.dateLimit, item.status) }}
+                className="text-xs ml-1"
+              >
+                Límite: {formatDate(item.dateLimit)}
+              </Text>
+            </View>
+
+            <View className="flex-row items-center">
+              <Feather name="user" size={14} color={defaultColors.textSecondary} />
+              <Text style={{ color: defaultColors.textSecondary }} className="text-xs ml-1">
+                {getAssignedName()}
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
-    </MiniCard>
+      </MiniCard>
+    </Pressable>
   );
 }
