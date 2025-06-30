@@ -25,7 +25,8 @@ const taskCategories: TaskCategory[] = [
   { id: "all", label: "Todas", route: "/tasks" },
   { id: "pending", label: "Pendientes", route: "/tasks/pending" },
   { id: "in-progress", label: "En Progreso", route: "/tasks/in_progress" },
-  { id: "completed", label: "Completadas", route: "/tasks/completed" }
+  { id: "completed", label: "Completadas", route: "/tasks/completed" },
+  { id: "deleted", label: "Eliminadas", route: "/tasks/deleted" }
 ];
 
 export default function TasksLayout() {

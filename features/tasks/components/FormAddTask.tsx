@@ -34,7 +34,7 @@ export function FormAddTask({ onClose }: FormAddTaskProps) {
   const { employees } = useEmployees();
   const defaultColors = useColors();
   const businessId = useBusinessStore((state) => state.businessId);
-  const { saveTask, loadingSaveTask } = useTasks();
+  const { saveTask, loadingSaveTask } = useTasks({});
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   // Verificar si el usuario puede editar la asignación de tareas

@@ -1,6 +1,6 @@
 import { Href } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface CategorySelectorProps<T> {
   categories: T[];
@@ -14,36 +14,50 @@ export const CategorySelector = <T extends { id: string; label: string; route: H
   handleCategoryPress
 }: CategorySelectorProps<T>) => {
   return (
-    <View style={styles.categorySelector}>
-      {categories.map((category) => (
-        <TouchableOpacity
-          key={category.id}
-          style={[
-            styles.categoryButton,
-            activeCategory === category.id && styles.activeCategoryButton
-          ]}
-          onPress={() => handleCategoryPress(category)}
-        >
-          <Text
+    <View style={styles.container}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+        style={styles.categorySelector}
+      >
+        {categories.map((category) => (
+          <TouchableOpacity
+            key={category.id}
             style={[
-              styles.categoryText,
-              activeCategory === category.id && styles.activeCategoryText
+              styles.categoryButton,
+              activeCategory === category.id && styles.activeCategoryButton
             ]}
+            onPress={() => handleCategoryPress(category)}
           >
-            {category.label}
-          </Text>
-        </TouchableOpacity>
-      ))}
+            <Text
+              style={[
+                styles.categoryText,
+                activeCategory === category.id && styles.activeCategoryText
+              ]}
+            >
+              {category.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    width: "100%"
+  },
   categorySelector: {
     flexDirection: "row",
     paddingHorizontal: 12,
-    paddingBottom: 12,
-    justifyContent: "space-between"
+    paddingBottom: 12
+  },
+  scrollContent: {
+    flexGrow: 1,
+    gap: 2,
+    paddingRight: 20
   },
   categoryButton: {
     paddingHorizontal: 12,
