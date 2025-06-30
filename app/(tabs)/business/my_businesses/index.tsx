@@ -10,7 +10,6 @@ import useColors from "hooks/useColors";
 import { Text } from "react-native";
 import { useBusinessStore } from "store/business.store";
 
-// TODO: implementar la funcionalidad de creación de negocios
 export default function MyBusinesses() {
   const defaultColors = useColors();
   const { businessList } = useBusinessStore();
