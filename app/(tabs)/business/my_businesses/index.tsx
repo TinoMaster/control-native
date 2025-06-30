@@ -1,4 +1,5 @@
 import { ContentWrapper } from "components/ContentWrapper";
+import { FloatingActionButton } from "components/floating-action-button";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { CustomHeader } from "components/ui/CustomHeader";
 import { MyScrollView } from "components/ui/MyScrollView";
@@ -17,6 +18,7 @@ export default function MyBusinesses() {
   return (
     <GradientBackground>
       <CustomHeader title="Gestión de Negocios" showBackButton />
+
       <MyScrollView>
         <ContentWrapper>
           <Text className="mb-4" style={{ color: defaultColors.textSecondary }}>
@@ -24,7 +26,6 @@ export default function MyBusinesses() {
             sección.
           </Text>
 
-          {/* Lista de negocios */}
           {businessList.map((business) => (
             <BusinessCard
               key={business.id}
@@ -33,10 +34,11 @@ export default function MyBusinesses() {
             />
           ))}
 
-          {/* Resumen de los negocios */}
           <BusinessesResume />
         </ContentWrapper>
       </MyScrollView>
+
+      <FloatingActionButton onPress={() => router.push("/(tabs)/business/my_businesses/create")} />
     </GradientBackground>
   );
 }

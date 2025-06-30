@@ -1,8 +1,7 @@
 import { MyCard } from "components/ui/cards/MyCard";
 import { CustomInput } from "components/ui/inputs/CustomInput";
 import { Controller } from "react-hook-form";
-import { Text, View } from "react-native";
-import { businessFormStyles } from "../styles/businessFormStyles";
+import { View } from "react-native";
 
 interface BusinessInfoProps {
   control: any;
@@ -12,13 +11,13 @@ interface BusinessInfoProps {
 export const BusinessInfo = ({ control, errors }: BusinessInfoProps) => {
   return (
     <MyCard title="Información del Negocio">
-      <View className="mb-4">
-        <Text style={businessFormStyles.label}>Nombre del Negocio</Text>
+      <View>
         <Controller
           control={control}
           name="businessName"
           render={({ field: { onChange, value } }) => (
             <CustomInput
+              label="Nombre del Negocio"
               placeholder="Nombre del Negocio"
               icon="🏢"
               value={value}
@@ -29,13 +28,13 @@ export const BusinessInfo = ({ control, errors }: BusinessInfoProps) => {
         />
       </View>
 
-      <View className="mb-4">
-        <Text style={businessFormStyles.label}>Teléfono del Negocio</Text>
+      <View>
         <Controller
           control={control}
           name="businessPhone"
           render={({ field: { onChange, value } }) => (
             <CustomInput
+              label="Teléfono del Negocio"
               value={value}
               icon="☎️"
               onChangeText={onChange}
@@ -46,14 +45,15 @@ export const BusinessInfo = ({ control, errors }: BusinessInfoProps) => {
         />
       </View>
 
-      <View className="mb-4">
-        <Text style={businessFormStyles.label}>Descripción del Negocio</Text>
+      <View>
         <Controller
           control={control}
           name="businessDescription"
           render={({ field: { onChange, value } }) => (
             <CustomInput
+              label="Descripción del Negocio"
               value={value}
+              icon="📝"
               onChangeText={onChange}
               placeholder="Describe brevemente tu negocio"
               multiline
