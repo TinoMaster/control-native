@@ -4,13 +4,12 @@ import LoadingPage from "components/ui/loaders/LoadingPage";
 import { CreateDebtForm } from "features/sales/debts/components/CreateDebtForm";
 import { useDebts } from "hooks/api/useDebts";
 
-export default function CreateDebtScreen() {
+export default function CreateDebt() {
   const { loadingSave } = useDebts();
 
   if (loadingSave) {
     return <LoadingPage />;
   }
-
   return (
     <GradientBackground>
       <CustomHeader title="Crear Deuda" showBackButton />

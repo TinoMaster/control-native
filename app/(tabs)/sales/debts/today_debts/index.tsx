@@ -30,7 +30,7 @@ export default function TodayDebts() {
       />
 
       <FloatingActionButton
-        onPress={() => router.push("/(tabs)/sales/debts/create_debt" as any)}
+        onPress={() => router.push("/(tabs)/sales/debts/today_debts/create" as any)}
         backgroundColor={defaultColors.primary}
         iconColor={colors.darkMode.text.light}
       />
