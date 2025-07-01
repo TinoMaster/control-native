@@ -24,7 +24,7 @@ export default function NavigationMenu({ items }: NavigationMenuProps) {
   const pathname = usePathname();
   const { width } = useWindowDimensions();
 
-  const activePath = pathname.split("/").pop() ?? "";
+  const activePath = pathname.split("/")[2] ?? "";
   const hasFewItems = items.length < 6;
 
   return (
