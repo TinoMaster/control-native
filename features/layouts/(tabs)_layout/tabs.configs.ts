@@ -1,6 +1,7 @@
 import { EntryIcon, GridIcon, ProfileIcon, WalletIcon } from "components/Icons";
+import { ITabsItem } from "types/global.types";
 
-export const tabsConfig = [
+export const tabsConfig: ITabsItem[] = [
   {
     name: "index",
     title: "Inicio",

@@ -4,13 +4,10 @@ import { usePathname, useRouter } from "expo-router";
 import useColors from "hooks/useColors";
 import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import colors from "styles/colors";
+import { IMenuItem } from "types/global.types";
 
 interface NavigationMenuProps {
-  readonly items: {
-    label: string;
-    path: string;
-    icon: keyof typeof Ionicons.glyphMap;
-  }[];
+  readonly items: IMenuItem[];
 }
 
 // Función auxiliar para determinar el estilo del botón basado en estado activo y número de elementos

@@ -2,8 +2,8 @@ import { Feather } from "@expo/vector-icons";
 import { ContentWrapper } from "components/ContentWrapper";
 import { FloatingActionButton } from "components/floating-action-button";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
-import { CategorySelector } from "components/ui/CategorySelector";
 import LoadingPage from "components/ui/loaders/LoadingPage";
+import { CategorySelector } from "components/ui/menus/CategorySelector";
 import { MyModal } from "components/ui/modals/myModal";
 import { MyScrollView } from "components/ui/MyScrollView";
 import { Href, Slot, useRouter } from "expo-router";
@@ -14,14 +14,9 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { navigationStore } from "store/navigation.store";
 import colors from "styles/colors";
+import { ICategoryItem } from "types/global.types";
 
-interface TaskCategory {
-  id: string;
-  label: string;
-  route: Href;
-}
-
-const taskCategories: TaskCategory[] = [
+const taskCategories: ICategoryItem[] = [
   { id: "all", label: "Todas", route: "/tasks" },
   { id: "pending", label: "Pendientes", route: "/tasks/pending" },
   { id: "in-progress", label: "En Progreso", route: "/tasks/in_progress" },
@@ -43,7 +38,7 @@ export default function TasksLayout() {
     setPrevPathState(history[history.length - 1]);
   }, []);
 
-  const handleCategoryPress = (category: TaskCategory) => {
+  const handleCategoryPress = (category: ICategoryItem) => {
     setActiveCategory(category.id);
     router.push(category.route);
   };

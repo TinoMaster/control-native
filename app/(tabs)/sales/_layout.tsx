@@ -1,25 +1,21 @@
-import { Ionicons } from "@expo/vector-icons";
-import NavigationMenu from "components/NavigationMenu";
+import NavigationMenu from "components/ui/menus/NavigationMenu";
 import { Stack } from "expo-router";
 import { View } from "react-native";
+import { IMenuItem } from "types/global.types";
 
-const menuItems: {
-  label: string;
-  path: string;
-  icon: keyof typeof Ionicons.glyphMap;
-}[] = [
+const menuItems: IMenuItem[] = [
   { label: "Servicios", path: "/(tabs)/sales/sale_services", icon: "clipboard" },
   { label: "Cuadre", path: "/(tabs)/sales/current_day", icon: "clipboard" },
   {
     label: "Reportes",
     path: "/(tabs)/sales/list",
-    icon: "calendar",
+    icon: "calendar"
   },
   {
     label: "Deudas",
     path: "/(tabs)/sales/debts",
-    icon: "cash-outline",
-  },
+    icon: "cash-outline"
+  }
 ];
 
 export default function SalesLayout() {
@@ -28,7 +24,7 @@ export default function SalesLayout() {
       <NavigationMenu items={menuItems} />
       <Stack
         screenOptions={{
-          headerShown: false,
+          headerShown: false
         }}
       />
     </View>

@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import NavigationMenu from "components/NavigationMenu";
+import NavigationMenu from "components/ui/menus/NavigationMenu";
 import { Stack } from "expo-router";
 import { View } from "react-native";
 

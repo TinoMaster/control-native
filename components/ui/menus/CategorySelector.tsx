@@ -1,6 +1,7 @@
 import { Href } from "expo-router";
 import React from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import colors from "styles/colors";
 
 interface CategorySelectorProps<T> {
   categories: T[];
@@ -47,7 +48,8 @@ export const CategorySelector = <T extends { id: string; label: string; route: H
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%"
+    width: "100%",
+    backgroundColor: colors.background.dark.primary
   },
   categorySelector: {
     flexDirection: "row",
@@ -65,15 +67,15 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   activeCategoryButton: {
-    backgroundColor: "rgba(255, 255, 255, 0.2)"
+    backgroundColor: colors.primary.dark
   },
   categoryText: {
-    color: "rgba(255, 255, 255, 0.7)",
+    color: colors.darkMode.text.light,
     fontSize: 14,
     fontWeight: "500"
   },
   activeCategoryText: {
-    color: "#FFFFFF",
+    color: colors.darkMode.text.light,
     fontWeight: "700"
   }
 });
