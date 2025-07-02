@@ -1,9 +1,13 @@
-import { Text, View } from "react-native";
+import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
+import { useDebts } from "hooks/api/useDebts";
+import { Text } from "react-native";
 
 export default function AllDebts() {
+  const { debts } = useDebts();
+
   return (
-    <View>
-      <Text>Todas las deudas</Text>
-    </View>
+    <GradientBackground>
+      <Text style={{ color: "white" }}>{debts?.length}</Text>
+    </GradientBackground>
   );
 }
