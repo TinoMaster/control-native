@@ -108,6 +108,14 @@ export const useDebts = () => {
     });
   };
 
+  const getPayedDebts = () => {
+    return debts.filter((debt) => debt.paid - debt.total === 0);
+  };
+
+  const getUnpaidDebts = () => {
+    return debts.filter((debt) => debt.paid - debt.total !== 0);
+  };
+
   const isDebtInActualDay = (debt: DebtModel): boolean => {
     return debts.some((d) => d.id === debt.id);
   };
@@ -124,6 +132,8 @@ export const useDebts = () => {
     deleteDebt,
     loadingDelete,
     getDebtsInActualDay,
+    getPayedDebts,
+    getUnpaidDebts,
     isDebtInActualDay
   };
 };
