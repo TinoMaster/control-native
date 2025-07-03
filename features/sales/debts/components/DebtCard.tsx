@@ -72,14 +72,14 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
             {!debt.businessFinalSale ? (
               <>
                 <TouchableOpacity disabled={loadingDelete} className="mx-1">
-                  <MiniIconButton icon="pencil" onPress={handleEdit} />
+                  <MiniIconButton iconColor={colors.darkMode.text.light} style={{ backgroundColor: colors.background.dark.secondary }} icon="pencil" onPress={handleEdit} />
                 </TouchableOpacity>
                 <TouchableOpacity disabled={loadingDelete} className="mx-1">
-                  <MiniIconButton icon="trash-outline" onPress={handleDelete} />
+                  <MiniIconButton iconColor={colors.darkMode.text.light} style={{ backgroundColor: colors.background.dark.secondary }} icon="trash-outline" onPress={handleDelete} />
                 </TouchableOpacity>
               </>
             ) : (
-              <MiniIconButton icon="lock-closed" onPress={handleLock} />
+              <MiniIconButton iconColor={colors.darkMode.text.light} style={{ backgroundColor: colors.background.dark.secondary }} icon="lock-closed" onPress={handleLock} />
             )}
             {onPress && <Ionicons name="chevron-forward" size={24} color={defaultColors.textSecondary} />}
           </View>
