@@ -56,13 +56,12 @@ export default function AllDebts() {
 const styles = StyleSheet.create({
   listContent: {
     flexGrow: 1,
-    paddingTop: 16,
-    paddingBottom: 100,
+    paddingBottom: 40,
     paddingHorizontal: 16,
     gap: 10
   },
   sectionHeader: {
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    backgroundColor: colors.background.dark.secondary,
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 8,

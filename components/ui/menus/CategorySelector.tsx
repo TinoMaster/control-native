@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   activeCategoryButton: {
-    backgroundColor: colors.primary.dark
+    backgroundColor: colors.background.dark.secondary
   },
   categoryText: {
     color: colors.darkMode.text.light,

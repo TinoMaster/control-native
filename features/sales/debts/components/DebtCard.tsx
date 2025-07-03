@@ -21,6 +21,7 @@ interface DebtCardProps {
   readonly allDetails?: boolean;
 }
 
+// TODO: hacer que los botones solo sean disponibles en los casos correctos, ademas de agregar un botón que me permita agregar pagos
 export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
   const defaultColors = useColors();
   const { deleteDebt, loadingDelete } = useDebts();
