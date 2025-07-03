@@ -46,7 +46,10 @@ export const useDebts = () => {
       }
     },
     onError: () => {
-      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+      showNotification(
+        "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
+        "error"
+      );
     }
   });
 
@@ -56,7 +59,6 @@ export const useDebts = () => {
       if (response.status === 200 && response.data) {
         showNotification("Deuda actualizada correctamente", "success");
         queryClient.invalidateQueries({ queryKey: ["debts", businessId] });
-        router.replace("/(tabs)/sales/debts");
       } else {
         showNotification(
           "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
@@ -65,7 +67,10 @@ export const useDebts = () => {
       }
     },
     onError: () => {
-      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+      showNotification(
+        "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
+        "error"
+      );
     }
   });
 
@@ -84,7 +89,10 @@ export const useDebts = () => {
       }
     },
     onError: () => {
-      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+      showNotification(
+        "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
+        "error"
+      );
     }
   });
 
