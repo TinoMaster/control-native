@@ -112,66 +112,6 @@ export function FormEditDebt({ debt, setModalVisible }: FormEditDebtProps) {
         />
       </View>
 
-      <View className="mb-4">
-        <Text className="mb-1 font-medium" style={{ color: defaultColors.text }}>
-          Total
-        </Text>
-        <Controller
-          control={control}
-          name="total"
-          render={({ field: { onChange, value } }) => (
-            <TextInput
-              className="border rounded-md p-2"
-              style={{
-                borderColor: defaultColors.primary,
-                color: defaultColors.text,
-                backgroundColor: defaultColors.background
-              }}
-              placeholder="Total de la deuda"
-              placeholderTextColor={defaultColors.textSecondary}
-              value={value.toString()}
-              onChangeText={(text) => onChange(parseFloat(text) || 0)}
-              keyboardType="numeric"
-            />
-          )}
-        />
-        {errors.total && (
-          <Text className="text-sm mt-1" style={{ color: colors.error.dark }}>
-            {errors.total.message}
-          </Text>
-        )}
-      </View>
-
-      <View className="mb-4">
-        <Text className="mb-1 font-medium" style={{ color: defaultColors.text }}>
-          Pagado
-        </Text>
-        <Controller
-          control={control}
-          name="paid"
-          render={({ field: { onChange, value } }) => (
-            <TextInput
-              className="border rounded-md p-2"
-              style={{
-                borderColor: defaultColors.primary,
-                color: defaultColors.text,
-                backgroundColor: defaultColors.background
-              }}
-              placeholder="Monto pagado"
-              placeholderTextColor={defaultColors.textSecondary}
-              value={value.toString()}
-              onChangeText={(text) => onChange(parseFloat(text) || 0)}
-              keyboardType="numeric"
-            />
-          )}
-        />
-        {errors.paid && (
-          <Text className="text-sm mt-1" style={{ color: colors.error.dark }}>
-            {errors.paid.message}
-          </Text>
-        )}
-      </View>
-
       <View className="flex-row justify-end mt-4">
         <TouchableOpacity
           className="px-4 py-2 rounded-md mr-2"

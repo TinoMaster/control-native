@@ -2,6 +2,7 @@ import { ETimeRange } from "data/global.data";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
 import { GroupedSale } from "features/sales/list/components/SalesGroupByDay";
+import { ERole } from "models/api";
 import { BusinessFinalSaleModelResponse } from "models/api/businessFinalSale.model";
 import { EmployeeModel } from "models/api/employee.model";
 import { MachineStateModel } from "models/api/machineState.model";
@@ -57,7 +58,10 @@ export const differenceBetweenFunds = (
   todayMachineStates: MachineStateModel[],
   lastMachineState: MachineStateModel[]
 ) => {
-  const totalTodayFunds = todayMachineStates.reduce((acc, machineState) => acc + machineState.fund, 0);
+  const totalTodayFunds = todayMachineStates.reduce(
+    (acc, machineState) => acc + machineState.fund,
+    0
+  );
   const totalLastFunds = getTotalFundFromLastMachineState(todayMachineStates, lastMachineState);
 
   if (totalLastFunds === 0) {
@@ -148,3 +152,7 @@ export function getTimeRange(timeRange: ETimeRange): DatePeriod {
     endDate
   };
 }
+
+export const isAdminOrHasId = (employee: EmployeeModel, madeById?: number) => {
+  return employee.user.role === ERole.ADMIN || employee.id === madeById;
+};

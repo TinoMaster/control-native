@@ -13,6 +13,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { useModalStore } from "store/modal.store";
 import colors from "styles/colors";
 import { formatCurrency } from "utilities/formatters";
+import { isAdminOrHasId } from "utilities/helpers/globals.helpers";
 import { FormEditDebt } from "./FormEditDebt";
 
 interface DebtCardProps {
@@ -21,7 +22,7 @@ interface DebtCardProps {
   readonly allDetails?: boolean;
 }
 
-// TODO: hacer que los botones solo sean disponibles en los casos correctos, ademas de agregar un botón que me permita agregar pagos
+// TODO: Crear el hook para manejar los pagos de las deudas y agregar el modal para manejar estos pagos
 export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
   const defaultColors = useColors();
   const { deleteDebt, loadingDelete } = useDebts();
@@ -61,6 +62,10 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
     );
   };
 
+  const handleAddPayment = () => {
+    console.log("handleAddPayment");
+  };
+
   return (
     <MiniCard>
       <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
@@ -97,25 +102,35 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
             </View>
           </View>
           <View className="flex-row items-center gap-1">
+            <TouchableOpacity disabled={loadingDelete} className="mx-1">
+              <MiniIconButton
+                iconColor={colors.darkMode.text.light}
+                style={{ backgroundColor: colors.background.dark.secondary }}
+                icon="add"
+                onPress={handleAddPayment}
+              />
+            </TouchableOpacity>
             {!debt.businessFinalSale ? (
-              <>
-                <TouchableOpacity disabled={loadingDelete} className="mx-1">
-                  <MiniIconButton
-                    iconColor={colors.darkMode.text.light}
-                    style={{ backgroundColor: colors.background.dark.secondary }}
-                    icon="pencil"
-                    onPress={handleEdit}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity disabled={loadingDelete} className="mx-1">
-                  <MiniIconButton
-                    iconColor={colors.darkMode.text.light}
-                    style={{ backgroundColor: colors.background.dark.secondary }}
-                    icon="trash-outline"
-                    onPress={handleDelete}
-                  />
-                </TouchableOpacity>
-              </>
+              isAdminOrHasId(debt.employee, Number(debt.employee?.id ?? 0)) && (
+                <>
+                  <TouchableOpacity disabled={loadingDelete} className="mx-1">
+                    <MiniIconButton
+                      iconColor={colors.darkMode.text.light}
+                      style={{ backgroundColor: colors.background.dark.secondary }}
+                      icon="pencil"
+                      onPress={handleEdit}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity disabled={loadingDelete} className="mx-1">
+                    <MiniIconButton
+                      iconColor={colors.darkMode.text.light}
+                      style={{ backgroundColor: colors.background.dark.secondary }}
+                      icon="trash-outline"
+                      onPress={handleDelete}
+                    />
+                  </TouchableOpacity>
+                </>
+              )
             ) : (
               <MiniIconButton
                 iconColor={colors.darkMode.text.light}

@@ -101,6 +101,7 @@ class RequestService {
 
     // Si el token ha expirado y no se pudo renovar
     if (response.status === 401) {
+      await this.redirectToLogin();
       throw new Error("Token expired. User must log in.");
     }
 
