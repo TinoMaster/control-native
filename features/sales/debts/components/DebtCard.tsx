@@ -4,6 +4,7 @@ import { MiniIconButton } from "components/ui/MIniIconButton";
 import { MyModal } from "components/ui/modals/myModal";
 import { useNotification } from "contexts/NotificationContext";
 import { format } from "date-fns";
+import { useRouter } from "expo-router";
 import { useDebts } from "hooks/api/useDebts";
 import { useEmployees } from "hooks/api/useEmployees";
 import useColors from "hooks/useColors";
@@ -14,6 +15,7 @@ import { useModalStore } from "store/modal.store";
 import colors from "styles/colors";
 import { formatCurrency } from "utilities/formatters";
 import { isAdminOrHasId } from "utilities/helpers/globals.helpers";
+import { FormAddDebtPayment } from "./FormAddDebtPayment";
 import { FormEditDebt } from "./FormEditDebt";
 
 interface DebtCardProps {
@@ -22,22 +24,19 @@ interface DebtCardProps {
   readonly allDetails?: boolean;
 }
 
-// TODO: Crear el hook para manejar los pagos de las deudas y agregar el modal para manejar estos pagos
 export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
   const defaultColors = useColors();
   const { deleteDebt, loadingDelete } = useDebts();
   const { showConfirm, showAlert } = useModalStore();
   const { showNotification } = useNotification();
   const { getEmployeeById } = useEmployees();
+  const router = useRouter();
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [addPaymentModalVisible, setAddPaymentModalVisible] = useState(false);
 
   const createdAt = debt.createdAt ? new Date(debt.createdAt) : null;
   const remainingAmount = debt.total - debt.paid;
   const isPaid = remainingAmount <= 0;
-
-  const handleEdit = () => {
-    setEditModalVisible(true);
-  };
 
   const employeeName = getEmployeeById(Number(debt.employee?.id ?? 0))?.user.name ?? "No asignado";
 
@@ -55,15 +54,23 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
     });
   };
 
+  const handleAddPayment = () => {
+    setAddPaymentModalVisible(true);
+  };
+
+  const handleEdit = () => {
+    setEditModalVisible(true);
+  };
+
+  const handleView = () => {
+    router.push(`/sales/debts/${debt.id}`);
+  };
+
   const handleLock = () => {
     showAlert(
       "Acción no permitida",
       "No es posible ejecutar ninguna acción sobre estas deudas porque ya pertenecen a un reporte guardado."
     );
-  };
-
-  const handleAddPayment = () => {
-    console.log("handleAddPayment");
   };
 
   return (
@@ -101,6 +108,7 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
               </Text>
             </View>
           </View>
+          {/* acciones */}
           <View className="flex-row items-center gap-1">
             <TouchableOpacity disabled={loadingDelete} className="mx-1">
               <MiniIconButton
@@ -108,6 +116,14 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
                 style={{ backgroundColor: colors.background.dark.secondary }}
                 icon="add"
                 onPress={handleAddPayment}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity disabled={loadingDelete} className="mx-1">
+              <MiniIconButton
+                iconColor={colors.darkMode.text.light}
+                style={{ backgroundColor: colors.background.dark.secondary }}
+                icon="eye"
+                onPress={handleView}
               />
             </TouchableOpacity>
             {!debt.businessFinalSale ? (
@@ -193,6 +209,20 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
         title="Editar Deuda"
       >
         <FormEditDebt debt={debt} setModalVisible={setEditModalVisible} />
+      </MyModal>
+
+      {/* Add Payment Modal */}
+      <MyModal
+        isVisible={addPaymentModalVisible}
+        onClose={() => setAddPaymentModalVisible(false)}
+        title="Agregar Pago"
+      >
+        <FormAddDebtPayment
+          debtId={Number(debt.id)}
+          onSave={handleAddPayment}
+          onClose={() => setAddPaymentModalVisible(false)}
+          remainingAmount={remainingAmount}
+        />
       </MyModal>
     </MiniCard>
   );
