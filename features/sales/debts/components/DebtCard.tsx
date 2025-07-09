@@ -54,7 +54,7 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
     });
   };
 
-  const handleAddPayment = () => {
+  const handleClickAddPaymentButton = () => {
     setAddPaymentModalVisible(true);
   };
 
@@ -115,7 +115,7 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
                 iconColor={colors.darkMode.text.light}
                 style={{ backgroundColor: colors.background.dark.secondary }}
                 icon="add"
-                onPress={handleAddPayment}
+                onPress={handleClickAddPaymentButton}
               />
             </TouchableOpacity>
             <TouchableOpacity disabled={loadingDelete} className="mx-1">
@@ -219,7 +219,6 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
       >
         <FormAddDebtPayment
           debtId={Number(debt.id)}
-          onSave={handleAddPayment}
           onClose={() => setAddPaymentModalVisible(false)}
           remainingAmount={remainingAmount}
         />

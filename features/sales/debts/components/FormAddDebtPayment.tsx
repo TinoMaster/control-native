@@ -1,90 +1,92 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CustomInput } from "components/ui/inputs/CustomInput";
+import { useDebtPayments } from "hooks/api/useDebtPayments";
 import useColors from "hooks/useColors";
 import { DebtPaymentModel } from "models/api/debtPayment.model";
-import { useState } from "react";
-import { Alert, Pressable, Text, TextInput, View } from "react-native";
+import { Controller, useForm } from "react-hook-form";
+import { Pressable, Text, View } from "react-native";
 import { useAuthStore } from "store/auth.store";
 import { formatCurrency } from "utilities/formatters";
+import { formatNumericInput } from "utilities/helpers/globals.helpers";
+import { z } from "zod";
+
+const debtPaymentSchema = z.object({
+  amount: z.number().min(1, "El monto debe ser mayor a cero"),
+  comment: z.string().optional()
+});
+
+type DebtPaymentFormData = z.infer<typeof debtPaymentSchema>;
 
 interface Props {
   debtId: number;
   remainingAmount: number;
-  onSave: (payment: DebtPaymentModel) => void;
   onClose: () => void;
 }
 
-export const FormAddDebtPayment = ({ debtId, remainingAmount, onSave, onClose }: Props) => {
+export const FormAddDebtPayment = ({ debtId, remainingAmount, onClose }: Props) => {
   const defaultColors = useColors();
-  const [amount, setAmount] = useState<string>("");
-  const [comment, setComment] = useState<string>("");
+  const { saveDebtPayment } = useDebtPayments({ debtId });
   const employeeId = useAuthStore((state) => state.employee?.id);
 
-  const handleSave = () => {
-    if (!amount || parseFloat(amount) <= 0) {
-      Alert.alert("Error", "El monto debe ser mayor a cero");
-      return;
+  const {
+    control,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<DebtPaymentFormData>({
+    resolver: zodResolver(debtPaymentSchema),
+    defaultValues: {
+      amount: 0,
+      comment: ""
     }
+  });
 
-    if (parseFloat(amount) > remainingAmount) {
-      Alert.alert("Error", "El monto no puede ser mayor al saldo pendiente");
-      return;
-    }
-
+  const onSubmit = (data: DebtPaymentFormData) => {
+    console.log(data);
     const payment: DebtPaymentModel = {
       debtId,
-      amount: parseFloat(amount),
+      amount: Number(data.amount),
       employeeId: Number(employeeId),
-      comment: comment || undefined
+      comment: data.comment || undefined
     };
 
-    onSave(payment);
+    saveDebtPayment(payment);
+    onClose();
   };
 
   return (
     <View className="p-4">
-      <View className="mb-4">
-        <Text style={{ color: defaultColors.text }} className="mb-1 font-medium">
-          Monto del pago
-        </Text>
-        <View
-          className="flex-row items-center p-3 rounded-lg border"
-          style={{ borderColor: defaultColors.primary }}
-        >
-          <Text style={{ color: defaultColors.text }} className="mr-2">
-            $
-          </Text>
-          <TextInput
-            value={amount}
-            onChangeText={setAmount}
+      <Controller
+        control={control}
+        name="amount"
+        render={({ field: { onChange, value } }) => (
+          <CustomInput
+            placeholder="Monto"
+            icon="$"
+            value={value.toString()}
+            onChangeText={(text) => {
+              const formattedValue = formatNumericInput(text, remainingAmount);
+              onChange(Number(formattedValue));
+            }}
+            error={errors.amount?.message}
             keyboardType="numeric"
-            placeholder="0.00"
-            placeholderTextColor={defaultColors.textSecondary}
-            style={{ color: defaultColors.text, flex: 1 }}
+            comment={`Saldo pendiente: ${formatCurrency(remainingAmount)}`}
           />
-        </View>
-        <Text style={{ color: defaultColors.textSecondary }} className="mt-1 text-xs">
-          Saldo pendiente: {formatCurrency(remainingAmount)}
-        </Text>
-      </View>
+        )}
+      />
 
-      <View className="mb-6">
-        <Text style={{ color: defaultColors.text }} className="mb-1 font-medium">
-          Comentario (opcional)
-        </Text>
-        <TextInput
-          value={comment}
-          onChangeText={setComment}
-          placeholder="Agregar un comentario"
-          placeholderTextColor={defaultColors.textSecondary}
-          multiline
-          numberOfLines={3}
-          className="p-3 rounded-lg border"
-          style={{
-            borderColor: defaultColors.primary,
-            color: defaultColors.text,
-            textAlignVertical: "top"
-          }}
-        />
-      </View>
+      <Controller
+        control={control}
+        name="comment"
+        render={({ field: { onChange, value } }) => (
+          <CustomInput
+            placeholder="Comentario (opcional)"
+            icon="📝"
+            value={value}
+            onChangeText={onChange}
+            error={errors.comment?.message}
+          />
+        )}
+      />
 
       <View className="flex-row justify-end">
         <Pressable
@@ -95,7 +97,7 @@ export const FormAddDebtPayment = ({ debtId, remainingAmount, onSave, onClose }:
           <Text style={{ color: defaultColors.text }}>Cancelar</Text>
         </Pressable>
         <Pressable
-          onPress={handleSave}
+          onPress={handleSubmit(onSubmit)}
           className="py-2 px-4 rounded-lg"
           style={{ backgroundColor: defaultColors.primary }}
         >

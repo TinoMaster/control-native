@@ -12,6 +12,7 @@ interface CustomInputProps extends TextInputProps {
   readonly disabled?: boolean;
   readonly darkMode?: boolean;
   readonly whiteBackground?: boolean;
+  readonly comment?: string;
 }
 
 export function CustomInput({
@@ -26,6 +27,7 @@ export function CustomInput({
   value,
   onChangeText,
   placeholder,
+  comment,
   ...rest
 }: CustomInputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -97,6 +99,11 @@ export function CustomInput({
           </Pressable>
         )}
       </View>
+      {comment && !error && (
+        <Text style={{ color: defaultColors.textSecondary }} className="text-xs ml-2 mt-1">
+          {comment}
+        </Text>
+      )}
       {error && <Text className="text-red-500 text-xs ml-2 mt-1">{error}</Text>}
     </View>
   );

@@ -12,11 +12,11 @@ import { es } from "date-fns/locale";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { FormAddDebtPayment } from "features/sales/debts/components/FormAddDebtPayment";
 import { FormEditDebt } from "features/sales/debts/components/FormEditDebt";
+import { ViewDebtPaymentDetails } from "features/sales/debts/components/ViewDebtPaymentDetails";
 import { useDebtPayments } from "hooks/api/useDebtPayments";
 import { useDebts } from "hooks/api/useDebts";
 import { useEmployees } from "hooks/api/useEmployees";
 import useColors from "hooks/useColors";
-import { DebtPaymentModel } from "models/api/debtPayment.model";
 import { useState } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { useModalStore } from "store/modal.store";
@@ -38,6 +38,8 @@ export default function DebtDetails() {
 
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [addPaymentModalVisible, setAddPaymentModalVisible] = useState(false);
+  const [viewPaymentModalVisible, setViewPaymentModalVisible] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState<any>(null);
 
   const debt = getDebtById(Number(id));
   const remainingAmount = debt ? debt.total - debt.paid : 0;
@@ -71,11 +73,6 @@ export default function DebtDetails() {
     setAddPaymentModalVisible(true);
   };
 
-  //TODO: Implementar la funcionalidad de agregar un pago y crear un hook para no repetir código en esta pagina y la externa
-  const handleAddPaymentSave = (payment: DebtPaymentModel) => {
-    console.log(payment);
-  };
-
   const handleEdit = () => {
     setEditModalVisible(true);
   };
@@ -85,6 +82,11 @@ export default function DebtDetails() {
       "Acción no permitida",
       "No es posible ejecutar ninguna acción sobre estas deudas porque ya pertenecen a un reporte guardado."
     );
+  };
+
+  const handleViewPayment = (payment: any) => {
+    setSelectedPayment(payment);
+    setViewPaymentModalVisible(true);
   };
 
   const employeeName = getEmployeeById(Number(debt.employee?.id ?? 0))?.user.name ?? "No asignado";
@@ -232,26 +234,27 @@ export default function DebtDetails() {
               </View>
             ) : debtPayments.length > 0 ? (
               debtPayments.map((payment, index) => (
-                <View
-                  key={payment.id ?? index}
-                  className="mb-3 p-3 rounded-lg border"
-                  style={{ borderColor: defaultColors.primary }}
-                >
+                <View key={payment.id ?? index} className="mt-2">
                   <View className="flex-row justify-between items-center mb-1">
                     <Text style={{ color: defaultColors.text }} className="font-medium">
                       {formatCurrency(payment.amount)}
                     </Text>
-                    <Text style={{ color: defaultColors.textSecondary }} className="text-xs">
-                      {payment.createdAt
-                        ? format(new Date(payment.createdAt), "d MMM yyyy, HH:mm", { locale: es })
-                        : "Fecha no disponible"}
-                    </Text>
+                    <View className="flex-row items-center">
+                      <Text style={{ color: defaultColors.textSecondary }} className="text-xs">
+                        {payment.createdAt
+                          ? format(new Date(payment.createdAt), "d MMM yyyy, HH:mm", { locale: es })
+                          : "Fecha no disponible"}
+                      </Text>
+                      <TouchableOpacity disabled={loadingDelete} className="mx-1">
+                        <MiniIconButton
+                          iconColor={colors.darkMode.text.light}
+                          style={{ backgroundColor: colors.background.dark.secondary }}
+                          icon="eye-outline"
+                          onPress={() => handleViewPayment(payment)}
+                        />
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                  {payment.comment && (
-                    <Text style={{ color: defaultColors.textSecondary }} className="text-sm mt-1">
-                      {payment.comment}
-                    </Text>
-                  )}
                 </View>
               ))
             ) : (
@@ -311,10 +314,23 @@ export default function DebtDetails() {
         >
           <FormAddDebtPayment
             debtId={Number(id)}
-            onSave={handleAddPaymentSave}
             onClose={() => setAddPaymentModalVisible(false)}
             remainingAmount={remainingAmount}
           />
+        </MyModal>
+
+        {/* Modal para ver detalles del pago */}
+        <MyModal
+          title="Detalles del Pago"
+          isVisible={viewPaymentModalVisible}
+          onClose={() => setViewPaymentModalVisible(false)}
+        >
+          {selectedPayment && (
+            <ViewDebtPaymentDetails
+              payment={selectedPayment}
+              onClose={() => setViewPaymentModalVisible(false)}
+            />
+          )}
         </MyModal>
       </MyScrollView>
     </GradientBackground>

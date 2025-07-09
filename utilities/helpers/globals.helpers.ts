@@ -8,12 +8,17 @@ import { EmployeeModel } from "models/api/employee.model";
 import { MachineStateModel } from "models/api/machineState.model";
 import { DatePeriod } from "models/api/requests/datePeriod.model";
 
-export const formatNumericInput = (text: string) => {
+export const formatNumericInput = (text: string, limit?: number) => {
   // Solo permitir números y un punto decimal
   const numericValue = text.replace(/[^0-9.]/g, "");
   // Evitar múltiples puntos decimales
   const parts = numericValue.split(".");
   const formattedValue = parts.length > 1 ? `${parts[0]}.${parts.slice(1).join("")}` : numericValue;
+
+  if (limit && Number(formattedValue) > limit) {
+    return limit.toString();
+  }
+
   return formattedValue;
 };
 
