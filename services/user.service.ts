@@ -4,6 +4,7 @@ import { SuperAdminModel } from "models/api/superadmin.model";
 import { IResponse } from "types/request.types";
 import { handleFetchError } from "utilities/helpers/errorManager";
 import { requestService } from "./request.service";
+import { ChangePasswordRequest } from "models/api/requests/changePassword.model";
 
 class UserService {
   private readonly privateUrl = apiConfig.privateUrl;
@@ -54,6 +55,23 @@ class UserService {
     } catch (error: any) {
       console.log(error);
       return handleFetchError<string>(error);
+    }
+  }
+
+  async changePassword(changePasswordRequest: ChangePasswordRequest): Promise<IResponse<UserModel>> {
+    try {
+      const response: Response = await fetch(`${this.privateUrl}/users/change-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(changePasswordRequest)
+      });
+      const data: IResponse<UserModel> = await response.json();
+      return data;
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError<UserModel>(error);
     }
   }
 }

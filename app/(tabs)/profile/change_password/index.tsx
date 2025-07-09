@@ -3,6 +3,7 @@ import { GradientBackground } from "components/ui/backgrounds/GradientBackground
 import { CustomHeader } from "components/ui/CustomHeader";
 import { Text, View } from "react-native";
 
+//TODO: implementar la logica de cambio de contraseña
 const ChangePasswordScreen = () => {
   return (
     <GradientBackground>
