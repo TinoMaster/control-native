@@ -12,6 +12,17 @@ class BusinessFinalSaleService {
   private readonly adminUrl = apiConfig.adminUrl;
   private readonly privateUrl = apiConfig.privateUrl;
 
+  async getBusinessFinalSaleById(id: number): Promise<IResponse<BusinessFinalSaleModelResponse>> {
+    try {
+      return await requestService.fetch<BusinessFinalSaleModelResponse>(
+        `${this.privateUrl}/business-final-sale/${id}`
+      );
+    } catch (error: any) {
+      console.log(error);
+      return handleFetchError(error);
+    }
+  }
+
   async getBusinessFinalSalesByBusinessIdAndDate(
     requestType: ByBusinessAndDateRequestModel
   ): Promise<IResponse<BusinessFinalSaleModelResponse[]>> {

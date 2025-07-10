@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ContentWrapper } from "components/ContentWrapper";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import { CustomHeader } from "components/ui/CustomHeader";
@@ -13,6 +12,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { FormAddDebtPayment } from "features/sales/debts/components/FormAddDebtPayment";
 import { FormEditDebt } from "features/sales/debts/components/FormEditDebt";
 import { ViewDebtPaymentDetails } from "features/sales/debts/components/ViewDebtPaymentDetails";
+import { useDailySale } from "hooks/api/useDailySales";
 import { useDebtPayments } from "hooks/api/useDebtPayments";
 import { useDebts } from "hooks/api/useDebts";
 import { useEmployees } from "hooks/api/useEmployees";
@@ -46,6 +46,10 @@ export default function DebtDetails() {
   const debt = getDebtById(Number(id));
   const remainingAmount = debt ? debt.total - debt.paid : 0;
   const isPaid = remainingAmount <= 0;
+
+  const { data: businessFinalSale, isLoading: loadingBusinessFinalSale } = useDailySale(
+    debt?.businessFinalSale ?? 0
+  );
 
   if (!debt) {
     return (
@@ -260,13 +264,8 @@ export default function DebtDetails() {
                 </View>
               ))
             ) : (
-              <View className="items-center py-4">
-                <MaterialCommunityIcons
-                  name="cash-remove"
-                  size={32}
-                  color={defaultColors.textSecondary}
-                />
-                <Text style={{ color: defaultColors.textSecondary }} className="mt-2 text-center">
+              <View>
+                <Text style={{ color: defaultColors.textSecondary }} className="mt-2 text-sm">
                   No hay pagos registrados
                 </Text>
               </View>
@@ -285,7 +284,7 @@ export default function DebtDetails() {
               <Text style={{ color: defaultColors.text }}>{employeeName}</Text>
             </View>
             {debt.updatedAt && (
-              <View>
+              <View className="mb-3">
                 <Text style={{ color: defaultColors.textSecondary }} className="mb-1">
                   Última actualización
                 </Text>
@@ -296,6 +295,25 @@ export default function DebtDetails() {
                 </Text>
               </View>
             )}
+            <View>
+              <Text style={{ color: defaultColors.textSecondary }} className="mb-1">
+                Reporte asociado
+              </Text>
+              {loadingBusinessFinalSale ? (
+                <View className="flex-row items-center">
+                  <ActivityIndicator size="small" color={defaultColors.primary} />
+                  <Text style={{ color: defaultColors.text }} className="ml-2">
+                    Cargando información del reporte...
+                  </Text>
+                </View>
+              ) : businessFinalSale ? (
+                <Text style={{ color: defaultColors.text }}>{businessFinalSale.name}</Text>
+              ) : (
+                <Text style={{ color: defaultColors.textSecondary }}>
+                  No está asociada a ningún reporte
+                </Text>
+              )}
+            </View>
           </View>
         </ContentWrapper>
 

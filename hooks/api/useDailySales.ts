@@ -1,10 +1,24 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNotification } from "contexts/NotificationContext";
-import { BusinessFinalSaleModelResponse, BusinessFinalSaleModelToCreate } from "models/api/businessFinalSale.model";
+import {
+  BusinessFinalSaleModelResponse,
+  BusinessFinalSaleModelToCreate
+} from "models/api/businessFinalSale.model";
 import { ByBusinessAndDateRequestModel } from "models/api/requests/byBusinessAndDateRequest.model";
 import { useState } from "react";
 import { businessFinalSaleService } from "services/businessFinalSale.service";
 import { useBusinessStore } from "store/business.store";
+
+export const useDailySale = (id: number) => {
+  return useQuery({
+    queryKey: ["report", "daily", id],
+    queryFn: async () => {
+      const response = await businessFinalSaleService.getBusinessFinalSaleById(id);
+      return response.data || null;
+    },
+    enabled: !!id
+  });
+};
 
 /**
  * Hook for managing daily sales or sales within a specific date range
@@ -33,7 +47,9 @@ export const useDailySales = () => {
         startDate,
         endDate
       };
-      const response = await businessFinalSaleService.getBusinessFinalSalesByBusinessIdAndDate(request);
+      const response = await businessFinalSaleService.getBusinessFinalSalesByBusinessIdAndDate(
+        request
+      );
       return response.data || [];
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
