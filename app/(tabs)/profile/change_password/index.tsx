@@ -5,11 +5,10 @@ import { CustomHeader } from "components/ui/CustomHeader";
 import { CustomInput } from "components/ui/inputs/CustomInput";
 import MyButton from "components/ui/MyButton";
 import { router } from "expo-router";
-import useColors from "hooks/useColors";
 import { ChangePasswordRequest } from "models/api/requests/changePassword.model";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Alert, Text, View } from "react-native";
+import { Alert, View } from "react-native";
 import { userService } from "services/user.service";
 import { useAuthStore } from "store/auth.store";
 import { z } from "zod";
@@ -30,7 +29,6 @@ type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
 
 const ChangePasswordScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const defaultColors = useColors();
   const userId = useAuthStore((state) => state.user?.id);
 
   const {
@@ -80,13 +78,6 @@ const ChangePasswordScreen = () => {
       <CustomHeader title="Cambiar contraseña" showBackButton />
       <ContentWrapper>
         <View className="p-4">
-          <Text
-            style={{ color: defaultColors.text }}
-            className="text-2xl font-bold mb-6 text-center"
-          >
-            Actualiza tu contraseña
-          </Text>
-
           <View>
             <Controller
               control={control}
