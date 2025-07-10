@@ -11,6 +11,7 @@ import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import { useAuthStore } from "store/auth.store";
 import { useModalStore } from "store/modal.store";
 import colors from "styles/colors";
 import { formatCurrency } from "utilities/formatters";
@@ -27,6 +28,7 @@ interface DebtCardProps {
 export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
   const defaultColors = useColors();
   const { deleteDebt, loadingDelete } = useDebts();
+  const employee = useAuthStore((state) => state.employee);
   const { showConfirm, showAlert } = useModalStore();
   const { showNotification } = useNotification();
   const { getEmployeeById } = useEmployees();
@@ -127,7 +129,7 @@ export function DebtCard({ debt, onPress, allDetails = true }: DebtCardProps) {
               />
             </TouchableOpacity>
             {!debt.businessFinalSale ? (
-              isAdminOrHasId(debt.employee, Number(debt.employee?.id ?? 0)) && (
+              isAdminOrHasId(employee!, Number(debt.employee?.id ?? 0)) && (
                 <>
                   <TouchableOpacity disabled={loadingDelete} className="mx-1">
                     <MiniIconButton

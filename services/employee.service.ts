@@ -38,7 +38,7 @@ class EmployeeService {
 
   async getEmployeesByBusinessId(id: number): Promise<IResponse<EmployeeModel[]>> {
     try {
-      return await requestService.fetch<EmployeeModel[]>(`${this.urlAdmin}/employees/byBusiness/${id}`);
+      return await requestService.fetch<EmployeeModel[]>(`${this.urlPrivate}/employees/byBusiness/${id}`);
     } catch (error: any) {
       console.log(error);
       return handleFetchError(error);

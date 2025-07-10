@@ -50,7 +50,10 @@ export const useEmployees = () => {
       }
     },
     onError: () => {
-      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+      showNotification(
+        "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
+        "error"
+      );
     }
   });
 
@@ -61,7 +64,10 @@ export const useEmployees = () => {
       queryClient.invalidateQueries({ queryKey: ["employees"] });
     },
     onError: () => {
-      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+      showNotification(
+        "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
+        "error"
+      );
     }
   });
 
@@ -72,7 +78,10 @@ export const useEmployees = () => {
       queryClient.invalidateQueries({ queryKey: ["employees"] });
     },
     onError: () => {
-      showNotification("Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.", "error");
+      showNotification(
+        "Ha ocurrido un error inesperado, revise su conexión a internet e intente nuevamente.",
+        "error"
+      );
     }
   });
 
