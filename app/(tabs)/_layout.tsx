@@ -32,18 +32,16 @@ export default function TabsLayout() {
 
   const localTabsConfig = [...tabsConfig];
 
-  if (hasAdminAccess) {
-    localTabsConfig.push({
-      name: "personal",
-      title: "Personal",
-      icon: StatsIcon
-    });
-    localTabsConfig.push({
-      name: "business",
-      title: "Gestión",
-      icon: BusinessIcon
-    });
-  }
+  localTabsConfig.push({
+    name: "personal",
+    title: "Personal",
+    icon: StatsIcon
+  });
+  localTabsConfig.push({
+    name: "business",
+    title: "Gestión",
+    icon: BusinessIcon
+  });
 
   return (
     <ProtectedRoute>
