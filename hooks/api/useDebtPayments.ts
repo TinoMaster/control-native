@@ -28,6 +28,7 @@ export const useDebtPayments = ({ debtId }: UseDebtPaymentsProps) => {
         showNotification("Pago guardado correctamente", "success");
 
         queryClient.invalidateQueries({ queryKey: ["debtPayments", debtId] });
+        queryClient.invalidateQueries({ queryKey: ["reports"] });
 
         queryClient.setQueryData(["debts", businessId], (oldData: any) => {
           if (!oldData) return oldData;

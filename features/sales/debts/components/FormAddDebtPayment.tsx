@@ -41,7 +41,6 @@ export const FormAddDebtPayment = ({ debtId, remainingAmount, onClose }: Props) 
   });
 
   const onSubmit = (data: DebtPaymentFormData) => {
-    console.log(data);
     const payment: DebtPaymentModel = {
       debtId,
       amount: Number(data.amount),

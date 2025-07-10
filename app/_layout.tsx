@@ -13,6 +13,8 @@ import { useAuthStore } from "store/auth.store";
 import "./globals.css";
 import { navigationStore } from "store/navigation.store";
 
+//TODO: Hacer que en el detalle de la deuda que pertenezca a un reporte, muestre al reporte al que pertenece
+
 function RootLayoutNav() {
   const colors = useColors();
   const initializeAuth = useAuthStore((state) => state.initializeAuth);
