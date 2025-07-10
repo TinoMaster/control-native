@@ -16,8 +16,8 @@ export function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
-export const formatPercentToNumber = (percent: number): number => {
-  return percent * 100;
+export const formatPercentToNumber = (percent: number): string => {
+  return (percent * 100).toFixed(2);
 };
 
 export const formatNumberToPercent = (number: number): number => {

@@ -35,17 +35,17 @@ export default function BusinessScreen() {
             <SettingButton
               onPress={() => router.push("/(tabs)/business/my_businesses")}
               icon="business"
-              title="Mis Negocios"
+              title="Mis Locales"
               accessibilityRole="button"
-              accessibilityLabel="Ver mis negocios"
+              accessibilityLabel="Ver mis locales"
               iconRight
             />
             <SettingButton
               onPress={() => router.push("/(tabs)/business/my_businesses")}
               icon="bar-chart"
-              title="Estadísticas de Negocios"
+              title="Estadísticas"
               accessibilityRole="button"
-              accessibilityLabel="Ver estadísticas de negocios"
+              accessibilityLabel="Ver estadísticas"
               iconRight
             />
           </View>

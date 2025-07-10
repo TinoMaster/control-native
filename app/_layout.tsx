@@ -13,6 +13,8 @@ import { useAuthStore } from "store/auth.store";
 import "./globals.css";
 import { navigationStore } from "store/navigation.store";
 
+//TODO: Iniciar a crear la estructura de inventario
+
 function RootLayoutNav() {
   const colors = useColors();
   const initializeAuth = useAuthStore((state) => state.initializeAuth);

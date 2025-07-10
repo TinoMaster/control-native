@@ -16,12 +16,12 @@ export default function MyBusinesses() {
   const router = useRouter();
   return (
     <GradientBackground>
-      <CustomHeader title="Gestión de Negocios" showBackButton />
+      <CustomHeader title="Gestión de Locales" showBackButton />
 
       <MyScrollView>
         <ContentWrapper>
           <Text className="mb-4" style={{ color: defaultColors.textSecondary }}>
-            Administra tus negocios. Puedes crear, editar y gestionar todos los negocios desde esta
+            Administra tus locales. Puedes crear, editar y gestionar todos los locales desde esta
             sección.
           </Text>
 
