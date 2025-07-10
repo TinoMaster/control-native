@@ -58,17 +58,14 @@ class UserService {
     }
   }
 
-  async changePassword(changePasswordRequest: ChangePasswordRequest): Promise<IResponse<UserModel>> {
+  async changePassword(
+    changePasswordRequest: ChangePasswordRequest
+  ): Promise<IResponse<UserModel>> {
     try {
-      const response: Response = await fetch(`${this.privateUrl}/users/change-password`, {
+      return await requestService.fetch<UserModel>(`${this.privateUrl}/users/change-password`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
         body: JSON.stringify(changePasswordRequest)
       });
-      const data: IResponse<UserModel> = await response.json();
-      return data;
     } catch (error: any) {
       console.log(error);
       return handleFetchError<UserModel>(error);

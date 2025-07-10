@@ -65,7 +65,7 @@ export default function LoginScreen() {
 
               {error ? (
                 <View className="mb-4 p-3 rounded-lg bg-opacity-20 bg-red-500">
-                  <Text className="text-red-500 text-center">{error}</Text>
+                  <Text className="text-white text-center">{error}</Text>
                 </View>
               ) : null}
 

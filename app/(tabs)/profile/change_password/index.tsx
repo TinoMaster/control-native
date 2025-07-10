@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Alert, Text, View } from "react-native";
 import { userService } from "services/user.service";
+import { useAuthStore } from "store/auth.store";
 import { z } from "zod";
 
 // Schema for password validation
@@ -30,6 +31,7 @@ type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
 const ChangePasswordScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const defaultColors = useColors();
+  const userId = useAuthStore((state) => state.user?.id);
 
   const {
     control,
@@ -50,6 +52,7 @@ const ChangePasswordScreen = () => {
       setIsLoading(true);
 
       const changePasswordRequest: ChangePasswordRequest = {
+        userId: userId!,
         oldPassword: data.oldPassword,
         newPassword: data.newPassword
       };

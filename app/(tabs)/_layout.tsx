@@ -9,6 +9,16 @@ import useColors from "hooks/useColors";
 import { ERole } from "models/api";
 import { useAuthStore } from "store/auth.store";
 import colors from "styles/colors";
+import { ITabsItem } from "types/global.types";
+
+// TabIcon component extracted from the parent component
+function TabIcon({
+  icon: Icon,
+  color,
+  size
+}: Readonly<{ icon: ITabsItem["icon"]; color: string; size: number }>) {
+  return <Icon color={color} size={size} />;
+}
 
 export default function TabsLayout() {
   const defaultColors = useColors();
@@ -70,7 +80,9 @@ export default function TabsLayout() {
             name={tab.name}
             options={{
               title: tab.title,
-              tabBarIcon: ({ color, size }) => tab.icon({ color, size }),
+              tabBarIcon: ({ color, size }) => (
+                <TabIcon icon={tab.icon} color={color} size={size} />
+              ),
               href:
                 !hasAdminAccess && (tab.name === "personal" || tab.name === "business")
                   ? null
