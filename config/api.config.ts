@@ -1,4 +1,4 @@
-const urlBase = "http://192.168.200.172:5000/api/v1";
+const urlBase = "http://192.168.0.25:5000/api/v1";
 
 export const apiConfig = {
   baseUrl: urlBase,
