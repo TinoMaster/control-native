@@ -1,11 +1,13 @@
 import { FloatingActionButton } from "components/floating-action-button";
 import { GradientBackground } from "components/ui/backgrounds/GradientBackground";
 import LoadingPage from "components/ui/loaders/LoadingPage";
+import { SearchFilter } from "components/ui/SearchFilter";
 import { useRouter } from "expo-router";
 import { DebtCard } from "features/sales/debts/components/DebtCard";
 import { useDebts } from "hooks/api/useDebts";
 import useColors from "hooks/useColors";
 import { DebtModel } from "models/api/debt.model";
+import { useState } from "react";
 import { SectionList, StyleSheet, Text, View } from "react-native";
 import colors from "styles/colors";
 import { organizeSectionedDebts } from "utilities/formatters";
@@ -14,6 +16,7 @@ export default function AllDebts() {
   const defaultColors = useColors();
   const router = useRouter();
   const { debts, loadingDebts } = useDebts();
+  const [filteredDebts, setFilteredDebts] = useState<DebtModel[]>(debts);
 
   const renderDebt = (debt: DebtModel) => <DebtCard debt={debt} />;
 
@@ -23,8 +26,17 @@ export default function AllDebts() {
 
   return (
     <GradientBackground>
+      <SearchFilter
+        data={debts}
+        searchFields={["name", "description"]}
+        placeholder="Buscar deuda"
+        onFilteredDataChange={(filteredData) => {
+          setFilteredDebts(filteredData);
+        }}
+        containerStyle={{ paddingHorizontal: 16 }}
+      />
       <SectionList
-        sections={organizeSectionedDebts(debts)}
+        sections={organizeSectionedDebts(filteredDebts)}
         keyExtractor={(item) => item.id?.toString() ?? ""}
         renderItem={({ item }) => renderDebt(item)}
         renderSectionHeader={({ section: { title } }) => (
