@@ -14,7 +14,6 @@ import "./globals.css";
 import { navigationStore } from "store/navigation.store";
 
 //TODO: Iniciar a crear la estructura de inventario
-//TODO: Crear un buscador sea para las tareas que para las deudas
 
 function RootLayoutNav() {
   const colors = useColors();
